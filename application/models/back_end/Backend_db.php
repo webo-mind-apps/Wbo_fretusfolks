@@ -880,5 +880,23 @@ class Backend_db extends CI_Model
 		return $count;
 		
 	}
+
+	// excel import
+	public function importEmployee($data = null)
+	{
+
+		$query = $this->db->where('ffi_emp_id', $data['ffi_emp_id'])->get('backend_management');
+		if($query->num_rows() > 0):
+			$this->db->where('ffi_emp_id', $data['ffi_emp_id'])->update('backend_management', $data);
+			return true;
+		else:
+			$this->db->insert('backend_management', $data);
+			if($this->db->affected_rows() > 0):
+				return true;
+			else:
+				return false;
+			endif;
+		endif;
+	}
 }  
 ?>

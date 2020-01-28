@@ -69,6 +69,9 @@
 				   width : 100%;
 				   height : 100%;
 				}
+		.right{
+			float:right;
+		}
 	</style>
 	<script>
 		function view_backend_team_details(id)
@@ -141,9 +144,18 @@
 						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Back End Management</span></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
+					
 
 					<div class="header-elements d-none">
 						<!--	<a href="<?php //echo site_url('backend_team/new_backend_team');?>" class="btn btn-labeled btn-labeled-right bg-primary">New Back End <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>-->
+					</div>
+					<div class="right text-center">
+						<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+						</br>
+						<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a>
+						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-doc-import" id="import_form" style="display:none">
+							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+						</form>
 					</div>
 				</div>
 
@@ -261,6 +273,17 @@
 					</div>
 				</div>
 
-			
+<script>
+	$(document).ready(function () {
+		$('#import_file').click(function (e) { 
+			e.preventDefault();
+			$('#import').trigger('click');
+		});
+
+		$('#import').change(function (e) { 
+			$('#import_form').submit()
+		});
+	});
+</script>
 </body>
 </html>

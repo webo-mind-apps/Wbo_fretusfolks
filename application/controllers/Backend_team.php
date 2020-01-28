@@ -1,15 +1,21 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 class Backend_team extends CI_Controller 
 {
-		public function __construct()
-        {
-                parent::__construct();
-					$this->load->helper('url');
-					$this->load->model('back_end/Backend_db','back_end');
-					$this->load->library("pagination");
-        }
+
+	
+	public function __construct()
+    {
+        parent::__construct();
+			$this->load->helper('url');
+			$this->load->model('back_end/Backend_db','back_end');
+			$this->load->library("pagination");
+					
+    }
 	public function index()
 	{
 		if($this->session->userdata('admin_login'))
@@ -692,5 +698,134 @@ class Backend_team extends CI_Controller
 	{
 		$this->session->unset_userdata('admin_login');
 		redirect('home/index');
+	}
+	
+
+	// excel Import for ADMS DOC 
+	public function adms_doc_import()
+	{
+		
+		$data = array();
+         // Load form validation library
+        if(!empty($_FILES['import']['name'])) { 
+			// get file extension
+			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+			$valid = false;
+			foreach ($valid_extentions as $key => $value) {
+				if($extension == $value){
+					$valid = true;
+				}
+			}
+			
+			if($valid){
+				if($extension == 'csv'):
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+				elseif($extension == 'xlsx'):
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+				else:
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+				endif;
+			
+				// file path
+				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
+				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+				
+				for ($i=2; $i < count($allDataInSheet); $i++) { 
+					
+					$data=array(
+						"entity_name"			=>	(empty($allDataInSheet[$i]['A'])? 'null' : $allDataInSheet[$i]['A'] ),
+						"client_id"				=>	(empty($allDataInSheet[$i]['C'])? 'null' : $allDataInSheet[$i]['B'] ),
+						"ffi_emp_id"			=>	(empty($allDataInSheet[$i]['B'])? 'null' : $allDataInSheet[$i]['C'] ),
+						"console_id"			=>	(empty($allDataInSheet[$i]['D'])? 'null' : $allDataInSheet[$i]['D'] ),
+						"client_emp_id"			=>	(empty($allDataInSheet[$i]['E'])? 'null' : $allDataInSheet[$i]['E'] ), 
+						"grade"					=>	(empty($allDataInSheet[$i]['F'])? 'null' : $allDataInSheet[$i]['F'] ),
+						"emp_name"				=>	(empty($allDataInSheet[$i]['G'])? 'null' : $allDataInSheet[$i]['G'] ), 
+						"middle_name"			=>	(empty($allDataInSheet[$i]['H'])? 'null' : $allDataInSheet[$i]['H'] ),
+						"last_name"				=>	(empty($allDataInSheet[$i]['I'])? 'null' : $allDataInSheet[$i]['I'] ),
+						"interview_date"		=>	(empty($allDataInSheet[$i]['J'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['J']))),
+						"joining_date"			=>	(empty($allDataInSheet[$i]['K'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['K']))),
+						"contract_date"			=>	(empty($allDataInSheet[$i]['L'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['L']))), 
+						"designation"			=>	(empty($allDataInSheet[$i]['M'])? 'null' : $allDataInSheet[$i]['M'] ), 
+						"department"			=>	(empty($allDataInSheet[$i]['N'])? 'null' : $allDataInSheet[$i]['N'] ), 
+						"state"					=>	(empty($allDataInSheet[$i]['O'])? 'null' : $allDataInSheet[$i]['O'] ), 
+						"location"				=>	(empty($allDataInSheet[$i]['P'])? 'null' : $allDataInSheet[$i]['P'] ), 
+						"branch"				=>	(empty($allDataInSheet[$i]['Q'])? 'null' : $allDataInSheet[$i]['Q'] ),
+						"dob"					=>	(empty($allDataInSheet[$i]['R'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['R']))), 
+						"gender"				=>	(empty($allDataInSheet[$i]['S'])? 'null' : $allDataInSheet[$i]['S'] ), 
+						"father_name"			=>	(empty($allDataInSheet[$i]['T'])? 'null' : $allDataInSheet[$i]['T'] ), 
+						"mother_name"			=>	(empty($allDataInSheet[$i]['U'])? 'null' : $allDataInSheet[$i]['U'] ),
+						"religion"				=>	(empty($allDataInSheet[$i]['V'])? 'null' : $allDataInSheet[$i]['V'] ),
+						"languages"				=>	(empty($allDataInSheet[$i]['W'])? 'null' : $allDataInSheet[$i]['W'] ),
+						"mother_tongue"			=>	(empty($allDataInSheet[$i]['X'])? 'null' : $allDataInSheet[$i]['X'] ),
+						"maritial_status"		=>	(empty($allDataInSheet[$i]['Y'])? 'null' : $allDataInSheet[$i]['Y'] ),
+						"emer_contact_no"		=>	(empty($allDataInSheet[$i]['Z'])? 'null' : $allDataInSheet[$i]['Z'] ),
+						"spouse_name"			=>	(empty($allDataInSheet[$i]['AA'])? 'null' : $allDataInSheet[$i]['AA'] ),
+						"no_of_childrens"		=>	(empty($allDataInSheet[$i]['AB'])? 'null' : $allDataInSheet[$i]['AB'] ),
+						"blood_group"			=>	(empty($allDataInSheet[$i]['AC'])? 'null' : $allDataInSheet[$i]['AC'] ), 
+						"qualification"			=>	(empty($allDataInSheet[$i]['AD'])? 'null' : $allDataInSheet[$i]['AD'] ), 
+						"phone1"				=>	(empty($allDataInSheet[$i]['AE'])? 'null' : $allDataInSheet[$i]['AE'] ), 
+						"phone2"				=>	(empty($allDataInSheet[$i]['AF'])? 'null' : $allDataInSheet[$i]['AF'] ), 
+						"email"					=>	(empty($allDataInSheet[$i]['AG'])? 'null' : $allDataInSheet[$i]['AG'] ), 
+						"official_mail_id"		=>	(empty($allDataInSheet[$i]['AH'])? 'null' : $allDataInSheet[$i]['AH'] ),
+						"permanent_address"		=>	(empty($allDataInSheet[$i]['AI'])? 'null' : $allDataInSheet[$i]['AI'] ), 
+						"present_address"		=>	(empty($allDataInSheet[$i]['AJ'])? 'null' : $allDataInSheet[$i]['AJ'] ), 
+						"pan_no"				=>	(empty($allDataInSheet[$i]['AK'])? 'null' : $allDataInSheet[$i]['AK'] ), 
+						"pan_path"				=>	(empty($allDataInSheet[$i]['AL'])? 'null' : $allDataInSheet[$i]['AL'] ), 
+						"aadhar_no"				=>	(empty($allDataInSheet[$i]['AM'])? 'null' : $allDataInSheet[$i]['AM'] ), 
+						"aadhar_path"			=>	(empty($allDataInSheet[$i]['AN'])? 'null' : $allDataInSheet[$i]['AN'] ), 
+						"driving_license_no"	=>	(empty($allDataInSheet[$i]['AO'])? 'null' : $allDataInSheet[$i]['AO'] ), 
+						"driving_license_path"	=>	(empty($allDataInSheet[$i]['AP'])? 'null' : $allDataInSheet[$i]['AP'] ),
+						"photo"					=>	(empty($allDataInSheet[$i]['AQ'])? 'null' : $allDataInSheet[$i]['AQ'] ),
+						"resume"				=>	(empty($allDataInSheet[$i]['AR'])? 'null' : $allDataInSheet[$i]['AR'] ),
+						"bank_name"				=>	(empty($allDataInSheet[$i]['AS'])? 'null' : $allDataInSheet[$i]['AS'] ), 
+						"bank_document"			=>	(empty($allDataInSheet[$i]['AT'])? 'null' : $allDataInSheet[$i]['AT'] ),
+						"bank_account_no"		=>	(empty($allDataInSheet[$i]['AU'])? 'null' : $allDataInSheet[$i]['AU'] ), 
+						"bank_ifsc_code"		=>	(empty($allDataInSheet[$i]['AV'])? 'null' : $allDataInSheet[$i]['AV'] ),
+						"uan_no"				=>	(empty($allDataInSheet[$i]['AW'])? 'null' : $allDataInSheet[$i]['AW'] ),
+						"esic_no"				=>	(empty($allDataInSheet[$i]['AX'])? 'null' : $allDataInSheet[$i]['AX'] ), 
+						"status"				=>	(empty($allDataInSheet[$i]['AY'])? 'null' : $allDataInSheet[$i]['AY'] ), 
+						"basic_salary"			=>	(empty($allDataInSheet[$i]['AZ'])? 'null' : $allDataInSheet[$i]['AZ'] ),
+						"hra"					=>	(empty($allDataInSheet[$i]['BA'])? 'null' : $allDataInSheet[$i]['BA'] ),
+						"conveyance"			=>	(empty($allDataInSheet[$i]['BB'])? 'null' : $allDataInSheet[$i]['BB'] ),
+						"medical_reimbursement"	=>	(empty($allDataInSheet[$i]['BC'])? 'null' : $allDataInSheet[$i]['BC'] ),
+						"special_allowance"		=>	(empty($allDataInSheet[$i]['BD'])? 'null' : $allDataInSheet[$i]['BD'] ),
+						"st_bonus"				=>	(empty($allDataInSheet[$i]['BE'])? 'null' : $allDataInSheet[$i]['BE'] ),
+						"gross_salary"			=>	(empty($allDataInSheet[$i]['BF'])? 'null' : $allDataInSheet[$i]['BF'] ),
+						"emp_pf"				=>	(empty($allDataInSheet[$i]['BG'])? 'null' : $allDataInSheet[$i]['BG'] ),
+						"emp_esic"				=>	(empty($allDataInSheet[$i]['BH'])? 'null' : $allDataInSheet[$i]['BH'] ),
+						"pt"					=>	(empty($allDataInSheet[$i]['BI'])? 'null' : $allDataInSheet[$i]['BI'] ),
+						"total_deduction"		=>	(empty($allDataInSheet[$i]['BJ'])? 'null' : $allDataInSheet[$i]['BJ'] ),
+						"take_home"				=>	(empty($allDataInSheet[$i]['BK'])? 'null' : $allDataInSheet[$i]['BK'] ),
+						"employer_pf"			=>	(empty($allDataInSheet[$i]['BL'])? 'null' : $allDataInSheet[$i]['BL'] ),
+						"employer_esic"			=>	(empty($allDataInSheet[$i]['BM'])? 'null' : $allDataInSheet[$i]['BM'] ),
+						"mediclaim"				=>	(empty($allDataInSheet[$i]['BN'])? 'null' : $allDataInSheet[$i]['BN'] ),
+						"ctc"					=>	(empty($allDataInSheet[$i]['BO'])? 'null' : $allDataInSheet[$i]['BO'] ),
+						"voter_id"				=>	(empty($allDataInSheet[$i]['BP'])? 'null' : $allDataInSheet[$i]['BP'] ),
+						"emp_form"				=>	(empty($allDataInSheet[$i]['BQ'])? 'null' : $allDataInSheet[$i]['BQ'] ),
+						"pf_esic_form"			=>	(empty($allDataInSheet[$i]['BS'])? 'null' : $allDataInSheet[$i]['BS'] ),
+						"other_allowance"		=>	(empty($allDataInSheet[$i]['BT'])? 'null' : $allDataInSheet[$i]['BT'] ),
+						"payslip"				=>	(empty($allDataInSheet[$i]['BU'])? 'null' : $allDataInSheet[$i]['BU'] ),
+						"exp_letter"			=>	(empty($allDataInSheet[$i]['BV'])? 'null' : $allDataInSheet[$i]['BV'] ),
+						"password"				=>	(empty($allDataInSheet[$i]['BW'])? 'null' : $allDataInSheet[$i]['BW'] ),
+						"psd"					=>	md5($allDataInSheet[$i]['BW']),
+						"active_status"			=>	(empty($allDataInSheet[$i]['BX'])? 'null' : $allDataInSheet[$i]['BX'] ),
+						'modified_date'			=>	date('Y-m-d H:i:s')
+					);
+					
+					$this->back_end->importEmployee($data);
+
+				}
+
+				$this->session->set_flashdata('success', 'Import successfully');
+				redirect('backend_team','refresh');
+				
+			}
+			else{
+				
+				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+				
+			}
+		}	
 	}
 }
