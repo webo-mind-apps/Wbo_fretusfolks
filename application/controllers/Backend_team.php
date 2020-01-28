@@ -731,7 +731,7 @@ class Backend_team extends CI_Controller
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 				
-				for ($i=2; $i < count($allDataInSheet); $i++) { 
+				for ($i=2; $i <= count($allDataInSheet); $i++) { 
 					
 					$data=array(
 						"entity_name"			=>	(empty($allDataInSheet[$i]['A'])? 'null' : $allDataInSheet[$i]['A'] ),
