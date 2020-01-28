@@ -74,12 +74,13 @@ class Offer_letter_db extends CI_Model
 		$ctc=$this->input->post('ctc');
 		
 		$date=date("Y-m-d");
-		$data=array("company_id"=>$client,"employee_id"=>$emp_id,"date"=>$date,"offer_letter_type"=>$letter_format,"basic_salary"=>$basic_salary,"hra"=>$hra,"conveyance"=>$conveyance,"medical_reimbursement"=>$medical,"special_allowance"=>$special_allowance,"other_allowance"=>$other_allowance,"gross_salary"=>$gross_salary,"emp_pf"=>$emp_pf,"emp_esic"=>$emp_esic,"pt"=>$pt,"total_deduction"=>$total_deduction,"take_home"=>$take_home,"employer_pf"=>$employer_pf,"employer_esic"=>$employer_esic,"mediclaim"=>$mediclaim,"ctc"=>$ctc,"tenure_date"=>$tenure_date_db);
+		$data=array("company_id"=>$client,"employee_id"=>$emp_id,"date"=>$date,"offer_letter_type"=>$letter_format,"basic_salary"=>$basic_salary,"hra"=>$hra,"conveyance"=>$conveyance,"medical_reimbursement"=>$medical,"special_allowance"=>$special_allowance,"other_allowance"=>$other_allowance,"gross_salary"=>$gross_salary,"emp_pf"=>$emp_pf,"emp_esic"=>$emp_esic,"pt"=>$pt,"total_deduction"=>$total_deduction,"take_home"=>$take_home,"employer_pf"=>$employer_pf,"employer_esic"=>$employer_esic,"mediclaim"=>$mediclaim,"ctc"=>$ctc);
 		$this->db->where('employee_id',$emp_id);
 		$this->db->where('company_id',$client);
 		$query=$this->db->get("offer_letter");
 		if(!$query->num_rows())
 		{
+			
 			$this->db->insert('offer_letter',$data);
 		}
 		/*$this->db->select('a.*,b.client_name');
@@ -145,6 +146,22 @@ class Offer_letter_db extends CI_Model
 		$id=$this->input->post('id');
 		$this->db->where('id',$id);
 		$this->db->delete('offer_letter');
+	}
+
+	// excel import
+	public function importEmployee_offer_letter($data = null)
+	{
+
+		$this->db->where('employee_id',$data['employee_id']);
+		
+		$query=$this->db->get("offer_letter");
+		if(!$query->num_rows())
+		{
+			
+			$this->db->insert('offer_letter',$data);
+		}
+
+		
 	}
 }  
 ?>

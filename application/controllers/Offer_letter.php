@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-error_reporting(0);
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Offer_letter extends CI_Controller 
 {
 		public function __construct()
@@ -150,4 +152,110 @@ class Offer_letter extends CI_Controller
 		$this->session->unset_userdata('admin_login');
 		redirect('home/index');
 	}
+
+// excel Import for ADMS OFFER LETTER 
+public function adms_offer_letter_import()
+{
+	
+	$data = array();
+	 // Load form validation library
+	if(!empty($_FILES['import']['name'])) { 
+		// get file extension
+		$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+		$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+		$valid = false;
+		foreach ($valid_extentions as $key => $value) {
+			if($extension == $value){
+				$valid = true;
+			}
+		}
+		
+		if($valid){
+			if($extension == 'csv'):
+				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+			elseif($extension == 'xlsx'):
+				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+			else:
+				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+			endif;
+		
+			// file path
+			$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
+			$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+			
+			for ($i=2; $i <= count($allDataInSheet); $i++) { 
+
+				$client=empty($allDataInSheet[$i]['B'])? 'null' : $allDataInSheet[$i]['B'];
+				$this->db->where("client_name",$client);
+				$query=$this->db->get("client_management");
+				$q=$query->result_array();
+				// print_r($q);
+				// exit;
+				$client_id=$q[0]['id'];
+				
+				$date=date("Y-m-d");
+
+				$offer_letter=empty($allDataInSheet[$i]['C'])? 'null' : $allDataInSheet[$i]['C'];
+				$offer_letter_type="";
+				if($offer_letter=="Format 1")
+				{
+					$offer_letter_type=1;
+				}
+				elseif($offer_letter=="Format 2")
+				{
+					$offer_letter_type=2;
+				}
+				elseif($offer_letter=="Format 3")
+				{
+					$offer_letter_type=3;
+				}
+				elseif($offer_letter=="Udaan")
+				{
+					$offer_letter_type=4;
+				}
+
+				
+				$data=array(
+					"employee_id"			=>	(empty($allDataInSheet[$i]['A'])? 'null' : $allDataInSheet[$i]['A'] ),
+					"company_id"			=>	$client_id,
+					"date"					=>	$date,
+					"offer_letter_type"		=>	$offer_letter_type,
+					"basic_salary"			=>	(empty($allDataInSheet[$i]['D'])? 'null' :$allDataInSheet[$i]['D']),
+					"hra"					=>	(empty($allDataInSheet[$i]['E'])? 'null' :$allDataInSheet[$i]['E']), 
+					"conveyance"			=>	(empty($allDataInSheet[$i]['F'])? 'null' : $allDataInSheet[$i]['F'] ), 
+					"medical_reimbursement"	=>	(empty($allDataInSheet[$i]['G'])? 'null' : $allDataInSheet[$i]['G'] ), 
+					"special_allowance"		=>	(empty($allDataInSheet[$i]['H'])? 'null' : $allDataInSheet[$i]['H'] ),
+					"st_bonus"				=>	(empty($allDataInSheet[$i]['I'])? 'null' : $allDataInSheet[$i]['I'] ), 
+					"other_allowance"		=>	(empty($allDataInSheet[$i]['J'])? 'null' : $allDataInSheet[$i]['J'] ), 
+					"gross_salary"			=>	(empty($allDataInSheet[$i]['K'])? 'null' : $allDataInSheet[$i]['K'] ),
+					"emp_pf"				=>	(empty($allDataInSheet[$i]['L'])? 'null' :$allDataInSheet[$i]['L']),
+					"emp_esic"				=>	(empty($allDataInSheet[$i]['M'])? 'null' : $allDataInSheet[$i]['M'] ), 
+					"pt"					=>	(empty($allDataInSheet[$i]['N'])? 'null' : $allDataInSheet[$i]['N'] ), 
+					"total_deduction"		=>	(empty($allDataInSheet[$i]['O'])? 'null' : $allDataInSheet[$i]['O'] ),
+					"take_home"				=>	(empty($allDataInSheet[$i]['P'])? 'null' : $allDataInSheet[$i]['P'] ),
+					"employer_pf"			=>	(empty($allDataInSheet[$i]['Q'])? 'null' : $allDataInSheet[$i]['Q'] ),
+					"employer_esic"			=>	(empty($allDataInSheet[$i]['R'])? 'null' : $allDataInSheet[$i]['R'] ),
+					"mediclaim"				=>	(empty($allDataInSheet[$i]['S'])? 'null' : $allDataInSheet[$i]['S'] ),
+					"ctc"					=>	(empty($allDataInSheet[$i]['T'])? 'null' : $allDataInSheet[$i]['T'] ),
+					
+				);
+				
+				
+				
+				$this->letter->importEmployee_offer_letter($data);
+
+			}
+
+			$this->session->set_flashdata('success', 'Import successfully');
+			redirect('offer_letter','refresh');
+			
+		}
+		else{
+			
+			$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+			
+		}
+	}	
+}
+
 }
