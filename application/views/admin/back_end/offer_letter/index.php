@@ -187,6 +187,18 @@ $active_menu="index";
 				}
 				?>	
 
+				<?php
+
+				if($this->session->flashdata('error','Please Choose Valid file formate ')){
+				?> 
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text-semibold">Please Choose Valid file formate ..!</span>
+				</div>
+				<?php 
+				}
+				?>	
+
 			<!-- Content area -->
 			<div class="content">
 
@@ -203,6 +215,7 @@ $active_menu="index";
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Offer Letters Details</h5>
+						
 						<div class="header-elements">
 							<div class="list-icons">
 		                		<a class="list-icons-item" data-action="reload"></a>
@@ -211,7 +224,9 @@ $active_menu="index";
 					</div>
 					
 					<table class="table datatable-basic table-bordered table-striped table-hover">
+					
 						<thead>
+						<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx">Sample excel file</a>
 							<tr>
 								<th>Si No</th>
 								<th>Employee ID</th>

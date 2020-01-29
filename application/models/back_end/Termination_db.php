@@ -116,5 +116,25 @@ class Termination_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+// excel import
+public function importEmployee_termination_letter($data = null)
+{
+
+	$this->db->where('emp_id',$data['employee_id']);
+	
+	$query=$this->db->get("termination_letter");
+	if(!$query->num_rows())
+	{
+		$this->db->insert('termination_letter',$data);
+	}
+	else
+	{
+		$this->db->where('emp_id',$data['employee_id']);
+		$this->db->update('termination_letter',$data);
+	}
+
+	
+}
+
 }  
 ?>

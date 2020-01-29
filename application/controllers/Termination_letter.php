@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 error_reporting(0);
 class Termination_letter extends CI_Controller 
 {
@@ -148,4 +150,69 @@ class Termination_letter extends CI_Controller
 		$this->session->unset_userdata('admin_login');
 		redirect('home/index');
 	}
+
+	// excel Import for ADMS OFFER LETTER 
+public function adms_termination_letter_import()
+{
+	
+	$data = array();
+	 // Load form validation library
+	if(!empty($_FILES['import']['name'])) { 
+		// get file extension
+		$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+		$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+		$valid = false;
+		foreach ($valid_extentions as $key => $value) {
+			if($extension == $value){
+				$valid = true;
+			}
+		}
+		
+		if($valid){
+			if($extension == 'csv'):
+				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+			elseif($extension == 'xlsx'):
+				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+			else:
+				$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+			endif;
+
+			$date=date("Y-m-d");
+		
+			// file path
+			$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
+			$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+			
+			
+			
+			for ($i=2; $i <= count($allDataInSheet); $i++) { 
+
+				$data=array(
+					"emp_id"				=>	(empty($allDataInSheet[$i]['A'])? 'null' : $allDataInSheet[$i]['A'] ),
+					"date"					=>	(empty($allDataInSheet[$i]['B'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['B']))),
+					"absent_date"			=>	(empty($allDataInSheet[$i]['C'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['C']))),
+					"show_cause_date"		=>	(empty($allDataInSheet[$i]['D'])? 'null' :date('Y-m-d', strtotime($allDataInSheet[$i]['D']))), 
+					"termination_date"		=>	(empty($allDataInSheet[$i]['E'])? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['E']))), 
+					"content"				=>	(empty($allDataInSheet[$i]['F'])? 'null' : $allDataInSheet[$i]['F'] ), 
+					"date_of_update"		=>   $date,
+				);
+				
+				
+				
+				$this->termination->importEmployee_termination_letter($data);
+
+			}
+
+			$this->session->set_flashdata('success', 'Import successfully');
+			redirect('termination_letter','refresh');
+			
+		}
+		else{
+			
+			$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+			
+		}
+	}	
+}
+
 }

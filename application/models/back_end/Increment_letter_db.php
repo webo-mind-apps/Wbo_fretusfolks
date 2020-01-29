@@ -112,5 +112,24 @@ class Increment_letter_db extends CI_Model
 		$this->db->where('id',$id);
 		$this->db->delete('increment_letter');
 	}
+	// excel import
+	public function importEmployee_increment_letter($data = null)
+	{
+
+		$this->db->where('employee_id',$data['employee_id']);
+		
+		$query=$this->db->get("increment_letter");
+		if(!$query->num_rows())
+		{
+			$this->db->insert('increment_letter',$data);
+		}
+		else
+		{
+			$this->db->where('employee_id',$data['employee_id']);
+			$this->db->update('increment_letter',$data);
+		}
+
+		
+	}
 }  
 ?>

@@ -114,11 +114,30 @@
 						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Termination Letter</span></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
+					<div class="right text-center ">
+						<div class="row">
+						<div class="col-md-5">
+						<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+						</br>
+						
+						<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_TERMINATION_LETTER.xlsx" download >Download Format</a>
+						
+						
+						<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-termination-letter-import');?>" id="import_form" style="display:none">
+							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+						</form>
+						</div>
+						<div class="col-md-5">
 
 					<div class="header-elements d-none">
 							<a href="<?php echo site_url('termination_letter/new_termination_letter');?>" class="btn btn-labeled btn-labeled-right bg-primary">New Termination Letter<b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
+							</div>	
 					</div>
+					</div>
+					</div>
+					
 				</div>
+				
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -131,7 +150,29 @@
 				</div>
 			</div>
 			<!-- /page header -->
+			<?php
 
+				if($this->session->flashdata('success','Import successfully')){
+				?> 
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text-semibold">Import successfully..!</span>
+				</div>
+				<?php 
+				}
+				?>	
+
+				<?php
+
+				if($this->session->flashdata('error','Please Choose Valid file formate ')){
+				?> 
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text-semibold">Please Choose Valid file formate ..!</span>
+				</div>
+				<?php 
+				}
+				?>	
 
 			<!-- Content area -->
 			<div class="content">
@@ -216,6 +257,18 @@
 					</div>
 				</div>
 
-			
+				<script>
+	$(document).ready(function () {
+		$('#import_file').click(function (e) { 
+			e.preventDefault();
+			$('#import').trigger('click');
+		});
+
+		$('#import').change(function (e) { 
+		
+			$('#import_form').submit()
+		});
+	});
+</script>
 </body>
 </html>
