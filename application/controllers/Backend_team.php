@@ -830,5 +830,20 @@ class Backend_team extends CI_Controller
 	}
 
 	
+	public function test()
+	{
+		$this->load->library('zip');
+		
+		$path = 'payslip/payslip_'.date('Ymdhis');
+		if(!is_dir($path)) mkdir($path, 0777, TRUE);
+
+		for ($i = 0; $i < 10; $i++) {
+			$mpdf = new \Mpdf\Mpdf();
+			$mpdf->WriteHTML('<p>Only test'.$i.'</p>');
+			$pdfData = $mpdf->Output($path.'/'.$i.'.pdf', 'F');
+		}
+		$this->zip->read_dir($path);
+		$download = $this->zip->download($path.'.zip');
+	}
 
 }
