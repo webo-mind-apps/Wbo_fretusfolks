@@ -111,7 +111,7 @@
             </tr>
          </tbody>
       </table>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="padding-top: 8%;>
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top: 12%;>
       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
       <tr>
@@ -154,13 +154,13 @@
       </ol>	  
       </div>	 
       </td></tr></tbody></table></br></br></br></br>	
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:6%">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:16.95%">
       <br><br>
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
       <tr>
       <td style="padding-left:5%;padding-right:5%;">
-      <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
+      <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-top:-4%">
       <img src="<?php echo base_url()?>admin_assets/ffi_header.jpg">
       <br><br>
       <ol type="1" start="15" style="font-size:12px;line-height:1.8;">
@@ -202,12 +202,12 @@
       </tr>
       </tbody></table>
       </tbody></table>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:3%;">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:8.5%;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
       <tr>
       <td style="padding-left:5%;padding-right:5%;">
-      <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5;text-align: justify; padding-left: 0%;">
+      <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5;text-align: justify; padding-left: 0%;margin-top:-2%"">
       <img src="<?php echo base_url()?>admin_assets/ffi_header.jpg">
       <br>
       <h1 style="font-size:17px;text-align:center;text-decoration: underline;">Annexure - 1</h1>
@@ -314,6 +314,6 @@
       </tr>
       </tbody>
       </table><br><br>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:30%">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:34%">
    </body>
 </html>

@@ -165,7 +165,7 @@
             </tr>
          </tbody>
       </table>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:3%;">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:3.94%;">
       <br><br>
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
@@ -227,7 +227,7 @@
 	    
       </div>	 
       </td></tr></tbody></table>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:4%;">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:6.38%;">
       <br><br>
 	    
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -309,7 +309,7 @@
 	   
       </div>	 
       </td></tr></tbody></table>
-        <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:4%;">
+        <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:7.75%;">
       <br><br>
 	  
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -361,7 +361,7 @@
 	  <br><br><br><br>
 	  <br><br><br> 
 	  
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:1%;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
       <tr>
@@ -495,7 +495,7 @@
       </tbody>
       </table>
 	  <br><br>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:2%;">
 	  <br> 
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
@@ -573,7 +573,7 @@
 	  <br/><br/><br/><br/><br/><br/>
 	  <br/><br/><br/><br/><br/><br/>
 	  
-	<img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="">  
+	<img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:5%;">  
 	  
    </body>
 </html>

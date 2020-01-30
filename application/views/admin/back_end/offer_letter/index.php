@@ -218,6 +218,7 @@ $active_menu="index";
 						
 						<div class="header-elements">
 							<div class="list-icons">
+							<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_OFFER_LETTER.xlsx">Sample excel file</a>
 		                		<a class="list-icons-item" data-action="reload"></a>
 		                	</div>
 	                	</div>
@@ -226,7 +227,7 @@ $active_menu="index";
 					<table class="table datatable-basic table-bordered table-striped table-hover">
 					
 						<thead>
-						<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx">Sample excel file</a>
+						
 							<tr>
 								<th>Si No</th>
 								<th>Employee ID</th>

@@ -131,7 +131,7 @@
             </tr>
          </tbody>
       </table><br/><br/>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="padding-top: 6%;>
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:55%;>
       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
       <tr>
@@ -373,6 +373,6 @@
       </tbody></table>
 	  <br/><br/><br/><br/>
 	     
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:25%">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:24.2%">
    </body>
 </html>

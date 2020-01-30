@@ -16,6 +16,25 @@ class Payslips_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+	public function get_all_client()
+	{
+		$query=$this->db->get('client_management');
+		$q=$query->result_array();
+		return $q;
+	}
+
+	public function download_payslips()
+	{
+		$month=$this->input->post('payslip_download_month');
+		$year=$this->input->post('payslip_download_year');
+		$client_name=$this->input->post('payslip_download_client');
+		$this->db->where('month',$month);
+		$this->db->where('year',$year);
+		$this->db->where('client_name',$client_name);  
+		$query=$this->db->get('payslips');
+		$q=$query->result_array();
+		return $q;
+	}
 	public function upload_payslips()
 	{
 		$month=$this->input->post('payslip_month');

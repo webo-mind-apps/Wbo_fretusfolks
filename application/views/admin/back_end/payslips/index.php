@@ -197,19 +197,28 @@ $active_menu="index";
 				<!-- Floating labels -->
 				<div class="row">
 					<div class="col-md-12">
-						 <form class="form-horizontal" id="my_form" action="<?php echo site_url('payslips/upload_payslips');?>" method="POST" enctype="multipart/form-data">
+						
 							<div class="card">
-								<div class="card-header header-elements-inline">
+
+								<ul class="nav nav-tabs" id="myTab" role="tablist">
+									  <li class="nav-item">
+										<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Upload Payslips</a>
+									  </li>
+									  <li class="nav-item">
+										<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Download Payslips</a>
+									  </li>
+									  
+									</ul>
+									<div class="tab-content" id="myTabContent">
+									  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+									  <div class="card-header header-elements-inline">
 									<h5 class="card-title">Upload Excel Sheet :[<a href="<?php echo base_url()."downloads/salary_slip.xlsx";?>" target="_blank">Sample Format</a>]</h5>
-									<div class="header-elements">
-										<div class="list-icons">
-											<a class="list-icons-item" data-action="collapse"></a>
-											<a class="list-icons-item" data-action="reload"></a>
-											</div>
-									</div>
+									
 								</div>
+								<form class="form-horizontal" id="my_form" action="<?php  echo site_url('payslips/upload_payslips');?>" method="POST" enctype="multipart/form-data">
 
 								<div class="card-body">
+								
 									<div class="row">
 										<div class="col-md-5">
 											<div class="form-group">
@@ -251,13 +260,79 @@ $active_menu="index";
 										<button type="submit" class="btn btn-primary" name="upload_now" id="upload_now">Upload</button>
 									</div>
 								</div>
+									  </div>
+									  </form>
+
+
+									  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+									  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+									  <div class="card-header header-elements-inline">
+									<h5 class="card-title">Download Excel Sheet:</h5>
+									
+								</div>
+											
+								<div class="card-body">
+
+								<form class="form-horizontal" id="my_form" action="<?php  echo site_url('payslips/download_payslips');?>" method="POST" enctype="multipart/form-data">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label>Month <span class="text-danger">*</span></label>
+												<select name="payslip_download_month" id="payslip_month" class="form-control" required>
+														<option value="">Select Month</option>
+														<?php
+															for($i=1;$i<=12;$i++)
+															{
+																echo '<option value="'.$i.'">'.date("F",strtotime("12-$i-2017")).'</option>';
+															}
+														?>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<label>Year: <span class="text-danger">*</span></label>
+												<select name="payslip_download_year" id="payslip_year" class="form-control" required>
+													<option value="">Select Year</option>
+													<?php
+														for($i=2018;$i<=date("Y");$i++)
+														{
+															echo '<option value="'.$i.'">'.$i.'</option>';
+														}
+													?>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<label>Clinent Name<span class="text-danger">*</span></label>
+												<select name="payslip_download_client" id="payslip_client" class="form-control" required>
+														<option value="">Select Name</option>
+														<?php
+															foreach($client_management as $row)
+															{
+																echo '<option value="'.$row['client_name'].'">'.$row['client_name'].'</option>';
+															}
+														?>
+												</select>
+											</div>
+										</div>
+									
+									</div>
+
+									
+									<div>
+										<button type="submit" class="btn btn-primary" name="download_now" id="download_now">Download</button>
+									</div>
+								</div>
 							</div>
 							<!-- /other inputs -->
 						</form>
 					</div>
 				</div>
-				
-				
+				</div>
+					
 				<div class="row">
 					<div class="col-md-12">
 					 <form class="form-horizontal" id="my_form" action="" method="POST" enctype="multipart/form-data">
@@ -317,6 +392,8 @@ $active_menu="index";
 					</form>
 					</div>
 				</div>
+				
+				
 				<div class="card" id="payslip_table" style="display:none">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Payslip Details</h5>

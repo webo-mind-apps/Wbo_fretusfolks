@@ -188,7 +188,7 @@
 						<h5 class="card-title">Termination Letter Details</h5>
 						<div class="header-elements">
 							<div class="list-icons">
-		                		
+							<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_TERMINATION_LETTER.xlsx">Sample excel file</a>
 		                		<a class="list-icons-item" data-action="reload"></a>
 		                	</div>
 	                	</div>
