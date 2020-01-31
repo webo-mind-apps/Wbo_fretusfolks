@@ -699,8 +699,6 @@ class Backend_team extends CI_Controller
 		$this->session->unset_userdata('admin_login');
 		redirect('home/index');
 	}
-	
-
 	// excel Import for ADMS DOC 
 	public function adms_doc_import()
 	{
@@ -829,7 +827,7 @@ class Backend_team extends CI_Controller
 		}	
 	}
 
-	
+	// zip Generate testing
 	public function test()
 	{
 		$this->load->library('zip');
