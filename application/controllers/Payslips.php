@@ -51,27 +51,28 @@ class Payslips extends CI_Controller
 	}
 	public function download_payslips()
 	{
+	
 		if($this->session->userdata('admin_login'))
 		{
+		
 			if($data=$this->payslips->download_payslips())
 			{
 				$this->load->library('zip');
-        
 				$path = 'payslip/payslip_'.date('Ymdhis');
 				if(!is_dir($path)) mkdir($path, 0777, TRUE);
 
 			foreach($data as $row)	
 			{
-			$mpdf = new \Mpdf\Mpdf();
-			$datas['payslip']=$row;
-            $html = $this->load->view('admin/back_end/payslips/pdf_payslips',$datas,true);
-			$mpdf->WriteHTML($html);
-			$mpdf->Output($path.'/'.$row['emp_id']."_".$row['emp_name'].".pdf", 'F');
+				$mpdf = new \Mpdf\Mpdf();
+				$datas['payslip']=$row;
+				$html = $this->load->view('admin/back_end/payslips/pdf_payslips',$datas,true);
+				$mpdf->WriteHTML($html);
+				$mpdf->Output($path.'/'.$row['emp_id']."_".$row['emp_name'].".pdf", 'F');
 			}
 
 			$this->zip->read_dir($path,false);
 			$download = $this->zip->download($path.'.zip');
-			exit;
+			
 			}
 		}
 		else
