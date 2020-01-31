@@ -73,8 +73,6 @@ class Payslips extends CI_Controller
 					$this->zip->read_dir($path,false);
 					$download = $this->zip->download($path.'.zip');
 			}
-			
-
 			else
 			{
 				$this->session->set_flashdata('error', 'No datas found');

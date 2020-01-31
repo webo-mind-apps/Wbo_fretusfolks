@@ -49,6 +49,10 @@ $active_menu="index";
 	
 	<!-- /theme JS files -->
 	<style>
+
+	.down{
+		float: left;
+	}
 				#divLoading
 				{
 					display : none;
@@ -140,7 +144,48 @@ $active_menu="index";
 
 					<div class="right text-center ">
 						<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-3">
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+						</div>
+						<div class="modal fade" role="dialog" id="fetchData">
+						<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+						<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="content">
+						<div class="modal-body">
+						<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment');?>"  >
+						<label class="down">Clinent Name<span class="text-danger">*</span></label>
+						<div class="form-group">
+						
+												<select name="increment_download_client"  class="form-control"  required>
+														<option value="">Select Name</option>
+														<?php
+															foreach($client_management as $row)
+															{
+																echo '<option value="'.$row['id'].'">'.$row['client_name'].'</option>';
+															}
+														?>
+												</select>
+												</div>
+						<div class="form-group">
+						<label class="down">Date<span class="text-danger"></span></label>
+								<input type="date" name="increment_download_date" class="form-control" >
+								</div>
+												
+								</div>
+								<div class="modal-footer down">
+								<button type="submit" name="download" class="btn btn-success">Download</button>
+								</div>
+								</div>
+								</form>	
+								</div>
+								</div>
+								</div>
+
+
+						<div class="col-md-4">
 						<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 						</br>
 						
@@ -160,6 +205,18 @@ $active_menu="index";
 					</div>
 					
 				</div>
+				<?php
+
+									if($this->session->flashdata('error', 'No datas found')){
+									?> 
+									<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<span class="text-semibold">No datas found..!</span>
+									</div>
+									<?php 
+									}
+								?>	
+
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
@@ -285,6 +342,11 @@ $active_menu="index";
 				</div>
 	<script>
 	$(document).ready(function () {
+		$('#import_file').click(function (e) { 
+			e.preventDefault();
+			$('#import').trigger('click');
+		});
+
 		$('#import_file').click(function (e) { 
 			e.preventDefault();
 			$('#import').trigger('click');

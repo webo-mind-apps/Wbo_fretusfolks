@@ -19,6 +19,7 @@ class Increment_letter extends CI_Controller
 		{
 			$data['active_menu']="adms";
 			$data['offer_letter']=$this->increment->get_all_increment_letters();
+			$data['client_management']=$this->increment->get_all_client();
 			$this->load->view('admin/back_end/increment_letter/index',$data);
 		}
 		else
@@ -118,6 +119,46 @@ class Increment_letter extends CI_Controller
 			$i++;
 		}
 	}
+
+	public function download_increment()
+	{
+		if($this->session->userdata('admin_login'))
+		{
+			
+			if($data=$this->increment->download_increment())
+			{
+				
+					$this->load->library('zip');
+			
+					$path = 'increment_letter/increment_'.date('Ymdhis');
+					if(!is_dir($path)) mkdir($path, 0777, TRUE);
+
+					foreach($data as $row)	
+					{
+						$mpdf = new \Mpdf\Mpdf();
+						$datas['letter_details']=$row;
+						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment',$datas,true);
+						$mpdf->WriteHTML($html);
+						$mpdf->Output($path.'/'.$row['ffi_emp_id']."_".$row['emp_name'].".pdf", 'F');
+					}
+					$this->zip->read_dir($path,false);
+					$download = $this->zip->download($path.'.zip');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'No datas found');
+				redirect('increment_letter');
+			}
+					
+		}		
+		
+		else
+		{
+			redirect('home/index');
+		}
+	}
+		
+
 	function logout()
 	{
 		$this->session->unset_userdata('admin_login');
