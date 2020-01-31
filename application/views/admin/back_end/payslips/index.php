@@ -237,6 +237,22 @@ $active_menu="index";
 									<h5 class="card-title">Upload Excel Sheet :[<a href="<?php echo base_url()."downloads/salary_slip.xlsx";?>" target="_blank">Sample Format</a>]</h5>
 									
 								</div>
+
+								<?php
+
+									if($this->session->flashdata('error', 'No datas found')){
+									?> 
+									<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<span class="text-semibold">No datas found..!</span>
+									</div>
+									<?php 
+									}
+								?>	
+
+								
+
+
 								<form class="form-horizontal" id="my_form" action="<?php  echo site_url('payslips/upload_payslips');?>" method="POST" enctype="multipart/form-data">
 
 								<div class="card-body">
