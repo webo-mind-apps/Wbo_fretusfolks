@@ -126,6 +126,18 @@ class Offer_letter_db extends CI_Model
 		
 		
 	}
+	function get_offer_letter_pdf()
+	{
+		// $id=$this->uri->segment(3);
+		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.branch,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+		$this->db->from('offer_letter a');
+		$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
+		$this->db->join('client_management c','a.company_id=c.id','left');
+		// $this->db->where('a.id',$id);
+		$query=$this->db->get();
+		$q=$query->result_array();
+		return $q;
+	}
 	function get_all_states()
 	{
 		$this->db->order_by('state_name','ASC');
@@ -167,5 +179,4 @@ class Offer_letter_db extends CI_Model
 
 		
 	}
-}  
-?>
+}
