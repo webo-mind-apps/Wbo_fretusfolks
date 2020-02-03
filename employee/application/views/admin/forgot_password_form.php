@@ -53,7 +53,7 @@
 							<div class="tab-pane fade show active" id="login-tab1">
 								<div class="text-center mb-3">
 									<img src="<?php echo base_url(); ?>admin_assets/assets/images/logo.png" style="margin-bottom: 5%;border: solid #e6e2e2 1px;padding: 5%;" />
-									<h5 class="mb-0">Reset Password</h5>
+									<h5 class="mb-0">Forgot Password</h5>
 									<span class="d-block text-muted">Your credentials</span>
 								</div>
 								<?php
