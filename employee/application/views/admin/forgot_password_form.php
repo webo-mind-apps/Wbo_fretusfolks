@@ -45,7 +45,7 @@
 			<div class="content d-flex justify-content-center align-items-center">
 
 				<!-- Login form -->
-				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/process_login'); ?>" method="POST">
+				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/process_reset_password'); ?>" method="POST">
 					<div class="card mb-0">
 
 
@@ -53,15 +53,31 @@
 							<div class="tab-pane fade show active" id="login-tab1">
 								<div class="text-center mb-3">
 									<img src="<?php echo base_url(); ?>admin_assets/assets/images/logo.png" style="margin-bottom: 5%;border: solid #e6e2e2 1px;padding: 5%;" />
-									<h5 class="mb-0">Login to your account</h5>
+									<h5 class="mb-0">Reset Password</h5>
 									<span class="d-block text-muted">Your credentials</span>
 								</div>
 								<?php
-								if ($this->session->flashdata('abc', 'error')) {
+								if ($this->session->flashdata('emp_id_err', 'error')) {
 								?>
 									<div class="alert bg-danger alert-styled-left">
 										<button type="button" class="close" data-dismiss="alert"></button>
-										<span class="text-semibold">Opps!</span> Try agin!
+										<span class="text-semibold">Invalid</span> Employee ID!
+									</div>
+								<?php
+								} 
+								if ($this->session->flashdata('mail_sent', 'sent')) {
+								?>
+									<div class="alert bg-success alert-styled-left">
+										<button type="button" class="close" data-dismiss="alert"></button>
+										<span class="text-semibold">Mail</span> Sent
+									</div>
+								<?php
+								} 
+								if ($this->session->flashdata('mail_not_sent', 'not_sent')) {
+								?>
+									<div class="alert bg-danger alert-styled-left">
+										<button type="button" class="close" data-dismiss="alert"></button>
+										<span class="text-semibold">Invalid</span> Mail!
 									</div>
 								<?php
 								}
@@ -73,20 +89,10 @@
 									</div>
 								</div>
 
-								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="password" class="form-control" placeholder="Password" name="password" id="password" required>
-									<div class="form-control-feedback">
-										<i class="icon-lock2 text-muted"></i>
-									</div>
-								</div>
-
-
 								<div class="form-group">
-									<button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>
+									<button type="submit" name="forgot_password_form_submit" class="btn btn-primary btn-block">Submit</button>
 								</div>
-								<div style="text-align:center;">
-									<a href="<?php echo site_url('home/forgot_password'); ?>">Forgot Password</a>
-								</div>
+
 
 								<span class="form-text text-center text-muted">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
 							</div>
