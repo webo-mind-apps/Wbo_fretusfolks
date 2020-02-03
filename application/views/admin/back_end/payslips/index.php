@@ -38,28 +38,6 @@ $active_menu="index";
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/form_floating_labels.js"></script>
 	
 	<style>
-
-.loader {
-  border: 4px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 4px solid red;
-  border-bottom: 4px solid red;
-  border-left: 4px solid blue;
-  width: 28px;
-  height: 28px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 				#divLoading
 				{
 					display : none;
@@ -237,6 +215,22 @@ $active_menu="index";
 									<h5 class="card-title">Upload Excel Sheet :[<a href="<?php echo base_url()."downloads/salary_slip.xlsx";?>" target="_blank">Sample Format</a>]</h5>
 									
 								</div>
+
+								<?php
+
+									if($this->session->flashdata('error', 'No datas found')){
+									?> 
+									<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<span class="text-semibold">No datas found..!</span>
+									</div>
+									<?php 
+									}
+								?>	
+
+								
+
+
 								<form class="form-horizontal" id="my_form" action="<?php  echo site_url('payslips/upload_payslips');?>" method="POST" enctype="multipart/form-data">
 
 								<div class="card-body">
@@ -289,7 +283,7 @@ $active_menu="index";
 									  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 									  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 									  <div class="card-header header-elements-inline">
-									<h5 class="card-title">Download Excel Sheet:<div class="loader" style="display:none"></div></h5>
+									<h5 class="card-title">Download Excel Sheet:</h5>
 									
 									
 									
@@ -460,18 +454,7 @@ $active_menu="index";
 						</div>
 					</div>
 				</div>
-				<script >
-	jQuery(document).ready(function() {
-	
-  $("#download_now").click(function(){
-
-	$(".loader").css("display","block");
-	
-        
-    });
-  });
-    
-</script>
+				
 			
 </body>
 </html>
