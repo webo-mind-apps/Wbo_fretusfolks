@@ -37,14 +37,21 @@ class Offer_letter extends CI_Controller
 
 	function pdf_offer_letter($id = NULL)
 	{
-		$data['letter_details'] = $this->letter->get_offer_letter_pdf();
-		$mpdf = new \Mpdf\Mpdf(); 
+		$this->load->library('zip'); 
+		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); 
+		$path = 'offer_letters/offer_letter_'.date('Ymdhis');
+		if(!is_dir($path)) mkdir($path, 0777, TRUE); 
 		foreach ($data['letter_details'] as $key => $value) {
+			$mpdf = new \Mpdf\Mpdf(); 
 			$data['letter_details'][0] = $value;
 			$html = $this->load->view('admin/back_end/offer_letter/format2', $data, true); 
-			$mpdf->WriteHTML($html);  
-			// $mpdf->Output();
-		}
+			$mpdf->WriteHTML($html);   
+			$file = $data['letter_details'][0]['employee_id'];
+			$file = $file.'-'.$data['letter_details'][0]['emp_name'];
+			$pdfData = $mpdf->Output($path.'/'.$file.'.pdf', 'F'); 
+		} 
+		$this->zip->read_dir($path,false);
+		$download = $this->zip->download($path.'.zip');
 	}
 
 	function get_employee_detail()

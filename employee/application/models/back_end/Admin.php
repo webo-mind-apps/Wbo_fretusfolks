@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');  
-  
+//MODEL  
 class Admin extends CI_Model {  
   
     function __construct()  
@@ -8,7 +8,42 @@ class Admin extends CI_Model {
         parent::__construct();
 		$this->load->database();
 		$this->load->library("session");
-    }
+	}
+	
+	function check_employee_data()
+	{
+		$name=$this->input->post('username'); 
+		$this->db->where("ffi_emp_id",$name); 
+		$query=$this->db->get('backend_management');
+		$res=$query->result_array();
+	
+		if($query->num_rows()==1){ 
+			$this->session->set_userdata('input_emp_id',$name);
+			return $res; 
+		}
+		else{
+			return 0;
+			$this->session->unset_userdata('input_emp_id');
+		}
+	}
+
+	function update_emp_password()
+	{   
+		$employee_id = $this->session->userdata('input_emp_id');
+		$new_password = $this->input->post('abc_new_password');
+		$confirm_password = $this->input->post('abc_confirm_password');
+		if($new_password==$confirm_password){
+			$field = array("password"=>md5($new_password));
+			$this->db->where('ffi_emp_id',$employee_id);
+			if($this->db->update("backend_management",$field)){
+				echo "<script>alert('not working')</script>";
+				return true;
+			}else{
+				echo "<script>alert('not working')</script>";
+			}
+		}
+	}
+
 	function check_login()
 	{
 		$name=$this->input->post('username');

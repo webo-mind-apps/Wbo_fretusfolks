@@ -131,7 +131,7 @@
             </tr>
          </tbody>
       </table><br/><br/>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:55%;>
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:12%;>
       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
       <tr>
@@ -189,9 +189,9 @@
 	  
       </ol>	  
       </div>	 
-      </td></tr></tbody></table></br> </br>  
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:2%">
-      <br><br>
+      </td></tr></tbody></table>  
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:15.3%">
+    
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
       <tr>
@@ -244,7 +244,7 @@
 	  <br><br><br>
 	  <br> <br>   
 	   
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:7%;">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:8%;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
       <tr>

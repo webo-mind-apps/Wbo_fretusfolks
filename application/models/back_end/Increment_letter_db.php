@@ -75,6 +75,32 @@ class Increment_letter_db extends CI_Model
 		
 		return $q;
 	}
+	public function get_all_client()
+	{
+		$query=$this->db->get('client_management');
+		$q=$query->result_array();
+		return $q;
+	}
+
+	public function download_increment()
+	{
+		$input_date="";
+		$client=$this->input->post('increment_download_client');
+		$input_date=$this->input->post('increment_download_date');
+		$date=date("Y-m-d",strtotime($input_date));
+		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+		$this->db->from('increment_letter a');
+		$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
+		$this->db->join('client_management c','a.company_id=c.id','left');
+		$this->db->where('a.company_id',$client);
+		if(!empty($input_date))
+		{
+			$this->db->where('a.date',$date);
+		}
+		$query=$this->db->get();
+		$q=$query->result_array();
+		return $q;
+	}
 	function get_employee_detail()
 	{
 		$emp_id=$this->input->post('emp_id');
