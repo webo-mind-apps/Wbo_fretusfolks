@@ -844,4 +844,31 @@ class Backend_team extends CI_Controller
 		$download = $this->zip->download($path.'.zip');
 	}
 
+	// Document Sample formate generate
+	public function doc_formate()
+	{
+		ini_set('memory_limit', '1024M');
+		$editFile = 'admin_assets\exel-formate\ADMS_DOC.xlsx';
+		// $sSheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($editFile);
+
+		// //working on something with the spreadsheet/worksheet
+		// $worksheet = $sSheet->getSheetByName('Sheet2');
+		// $spreadsheet->getActiveSheet()->setCellValueByColumnAndRow($colLine, $rowLine, $value);
+
+		// //this is how to write directly using loaded spreadsheet data
+		// $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($sSheet);
+		// $writer->save($editFile);
+
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($editFile);
+
+		//change it
+		$sheet = $spreadsheet->getActiveSheet();
+		$spreadsheet->getActiveSheet()->setCellValueByColumnAndRow('A', '1', 'Test');
+
+		//write it again to Filesystem with the same name (=replace)
+		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+		$writer->save($editFile);
+
+	}
+
 }

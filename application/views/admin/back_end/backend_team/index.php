@@ -152,7 +152,8 @@
 					<div class="right text-center">
 						<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 						</br>
-						<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a>
+						<!-- <a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->
+						<a href="<?php echo base_url() ?>doc-formate" download >Download Format</a>
 						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-doc-import" id="import_form" style="display:none">
 							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 						</form>
