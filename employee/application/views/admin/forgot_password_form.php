@@ -46,9 +46,7 @@
 
 				<!-- Login form -->
 				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/process_reset_password'); ?>" method="POST">
-					<div class="card mb-0">
-
-
+					<div class="card mb-0"> 
 						<div class="tab-content card-body">
 							<div class="tab-pane fade show active" id="login-tab1">
 								<div class="text-center mb-3">
@@ -69,7 +67,7 @@
 								?>
 									<div class="alert bg-success alert-styled-left">
 										<button type="button" class="close" data-dismiss="alert"></button>
-										<span class="text-semibold">Mail</span> Sent
+										<span class="text-semibold">Password Reset Link</span> Sent To Your Mail
 									</div>
 								<?php
 								} 
@@ -80,7 +78,15 @@
 										<span class="text-semibold">Invalid</span> Mail!
 									</div>
 								<?php
-								}
+								} 
+								if ($this->session->flashdata('link_expired', 'expired')) {
+								?>
+									<div class="alert bg-danger alert-styled-left">
+										<button type="button" class="close" data-dismiss="alert"></button>
+										<span class="text-semibold">Your Link Has Been Expired</span>
+									</div>
+								<?php
+								} 
 								?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
 									<input type="text" class="form-control" placeholder="EMP ID" name="username" id="username" required>

@@ -66,6 +66,16 @@
 								<?php
 								}
 								?>
+								<?php
+								if ($this->session->flashdata('password_modifed', 'updated')) {
+								?>
+									<div class="alert bg-success alert-styled-left">
+										<button type="button" class="close" data-dismiss="alert"></button>
+										<span class="text-semibold">Password Reset Successfully, </span>Login With New Password
+									</div>
+								<?php 
+								} 
+								?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
 									<input type="text" class="form-control" placeholder="EMP ID" name="username" id="username" required>
 									<div class="form-control-feedback">
