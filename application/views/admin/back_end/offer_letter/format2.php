@@ -567,13 +567,13 @@
       </tbody>
    </table>
    <br><br>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:25%;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:-2.5%;">
    <br>
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5px;text-align: justify; padding-left: 0%;">
+               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5px;text-align: justify; padding-left:0%;">
                   <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
                   <br />
 
@@ -645,7 +645,7 @@
    <br /><br /><br /><br /><br /><br />
    <br /><br /><br /><br /><br /><br />
 
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:246px;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:5.8%;">
 
 </body>
 
