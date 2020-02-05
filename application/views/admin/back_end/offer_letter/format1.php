@@ -20,6 +20,9 @@
          {
          border: 1px solid black;
          }
+
+
+
       </style>
       <style>
          @media print 
@@ -55,6 +58,8 @@
          width: 100%;
          }
          }
+        
+
       </style>
       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
    </head>
@@ -111,7 +116,7 @@
             </tr>
          </tbody>
       </table>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top: 12%;>
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top: 12.5%;>
       <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
       <tr>
@@ -153,9 +158,9 @@
       <li>You shall carry out the job of <b><?php echo $letter_details[0]['designation'];?></b> and such other jobs connected with or incidental to which is necessary for business of the Company.  You shall do any other work assigned to you, which you are capable of doing or work at any other post which has been temporarily assigned to you.</li>
       </ol>	  
       </div>	 
-      </td></tr></tbody></table></br></br></br></br>	
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:16.95%">
-      <br><br>
+      </td></tr></tbody></table>
+      <img class="abc"  src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:28.6%">
+    
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
       <tr>
@@ -314,6 +319,6 @@
       </tr>
       </tbody>
       </table><br><br>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:34%">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:34.2%">
    </body>
 </html>

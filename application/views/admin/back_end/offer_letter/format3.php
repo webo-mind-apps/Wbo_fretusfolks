@@ -173,7 +173,7 @@
          </tbody>
       </table>
       <br>  <br>  
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:5.5%;">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:3.5%;">
     
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
          <tbody>
@@ -354,7 +354,7 @@
 	  </br> </br> </br> 
 	   </br> </br> </br> 
 	  </br> </br> </br> </br>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:1%;">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:1.2%;">
     
        
    </body>

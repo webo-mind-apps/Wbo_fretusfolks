@@ -243,8 +243,8 @@
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:278px;">
-   <br><br>
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:6%;">
+  
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
@@ -294,8 +294,21 @@
                      <span style="margin-left:0%;">
                         <b style="text-decoration: underline;">CODE OF CONDUCT:</b> You shall not engage in any act subversive of discipline in the course of your duty/ies for the Client either within the Client's organization or outside it, and if you were at any time found indulging in such act/s, the Company shall reserve the right to initiate disciplinary action as is deemed fit against you.
                      </span>
-                  </p><br>
-
+                  </p>
+               </div>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:20.8%;margin-bottom:0;padding-bottom:0">
+  
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+         <tr>
+            <td style="padding-left:5%;padding-right:5%;">
+               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-left: 0%;">
+                  <img style="padding-left: 0%;" src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
+                  <br><br> 
 
                   <p style="font-size:12px;line-height:1.8;">
                      <span style="margin-left:0%;">
@@ -313,21 +326,6 @@
                      </span>
                   </p><br>
 
-               </div>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:200px;margin-bottom:0;padding-bottom:0">
-   <br><br>
-
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-         <tr>
-            <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-left: 0%;">
-                  <img style="padding-left: 0%;" src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
-                  <br><br> 
                   <p style="font-size:12px;line-height:1.8;">
                      <span style="margin-left:0%;">
                         <b style="text-decoration: underline;">ABSENTEEISM:</b> You should be regular and punctual in your attendance. If you remain absent for 3 consecutive working days or more without sanction of leave or prior permission or if you over stay sanctioned leave beyond 3
@@ -357,8 +355,22 @@
                      <span style="margin-left:0%;">
                         <b style="text-decoration: underline;">DEEMED CANCELLATION OF CONTRACT:</b> The Contract stands cancelled and revoked if you do not report to duty within 3 days from the date of joining & your act will be construed as deemed and implied rejection of the offer of employment from your side; hence no obligation would arise on the part of the company in lieu of such Employment Contract issued.
                      </span>
-                  </p><br>
+                  </p>
+                  </td>
+         </tr>
+      </tbody>
+   </table>
+                  
+                  <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg?>" style="margin-top:34%;">
 
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                     <tbody>
+                        <tr>
+                        <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-left: 0%;">
+                  <img style="padding-left: 4.5%;" src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
+                           <td colspan="3" style="font-size:12px;text-align:left;padding-left:40px;pading-top:-20px">
+                           
+                  <br><br> 
                   <p style="font-size:12px;line-height:1.8;">
                      <span style="margin-left:0%;">
                         <b>You are requested to bring the following documents at the time of joining:</b><br />
@@ -415,8 +427,9 @@
                         </tr>
                      </tbody>
                   </table>
-               </div>
                   
+               </div>
+               
                   
                   <br />
                   <br>
@@ -427,8 +440,8 @@
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg?>" style="margin-top:103px;">
-   <br><br>
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:29.2%;">
+   
 
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
@@ -554,13 +567,13 @@
       </tbody>
    </table>
    <br><br>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:184px;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:-2.5%;">
    <br>
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5px;text-align: justify; padding-left: 0%;">
+               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5px;text-align: justify; padding-left:0%;">
                   <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
                   <br />
 
@@ -632,7 +645,7 @@
    <br /><br /><br /><br /><br /><br />
    <br /><br /><br /><br /><br /><br />
 
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:246px;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:5.8%;">
 
 </body>
 
