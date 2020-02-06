@@ -32,7 +32,7 @@ class Backend_team extends CI_Controller
 			$i = 1;
 			foreach ($fetch_data as $row) { 
 				$sub_array   = array();
-				$sub_array[] = $i;
+				$sub_array[] = $row->id;
 				$sub_array[] = $row->client_name;
 				$sub_array[] = $row->ffi_emp_id;
 				$sub_array[] = $row->emp_name;
