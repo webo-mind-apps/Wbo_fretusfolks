@@ -22,17 +22,17 @@ class Backend_team extends CI_Controller
 			$this->load->view('admin/back_end/backend_team/index', $data);
 			//get_all_data();
 		}
-	}
-	public function get_all_data($var = null)
+	} 
+	public function get_all_data($var = null)//created for implementing data tables
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->back_end->make_datatables();
 			$data = array();
 			$status = '<span class="badge bg-blue">Completed</span>';
-			$i = 0;
-			foreach ($fetch_data as $row) {
+			$i = 1;
+			foreach ($fetch_data as $row) { 
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i;
 				$sub_array[] = $row->client_name;
 				$sub_array[] = $row->ffi_emp_id;
 				$sub_array[] = $row->emp_name;
@@ -60,6 +60,7 @@ class Backend_team extends CI_Controller
 				 </div>
 					 ';
 				$data[] = $sub_array;
+				$i=++$i;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
@@ -614,43 +615,46 @@ class Backend_team extends CI_Controller
 	}
 	function delete_backend_team()
 	{
-		$data1 = $this->back_end->delete_backend_team();
-		$backend_team = $this->back_end->get_all_backend_team();
-
-		$i = 1;
-		foreach ($backend_team as $row) {
-			$status = "";
-			if ($row['data_status'] == 1) {
-				$status = '<span class="badge bg-blue">Completed</span>';
-			} else if ($row['data_status'] == 0) {
-				$status = '<span class="badge bg-danger">Pending</span>';
-			}
-			echo '
-					<tr>
-						<td>' . $i . '</td>
-						<td>' . $row['client_name'] . '</td>
-						<td>' . $row['ffi_emp_id'] . '</td>
-						<td>' . $row['emp_name'] . '</td>
-						<td style="width:15%">' . date("d-m-Y", strtotime($row['joining_date'])) . '</td>
-						<td>' . $row['phone1'] . '</td>
-						<td>' . $status . '</td>
-						<td class="text-center">
-							<div class="list-icons">
-								<div class="dropdown">
-									<a href="#" class="list-icons-item" data-toggle="dropdown">
-										<i class="icon-menu9"></i>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right">
-										<a href="javascript:void(0)" id=' . $row['id'] . ' onclick="view_backend_team_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
-										<a href="' . site_url('backend_team/edit_backend/' . $row['id']) . '" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
-										<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_backend_team(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
-									</div>
-								</div>
-							</div>
-						</td>
-					</tr>';
-			$i++;
+		if($this->back_end->delete_backend_team()){
+			echo "deleted"; 
 		}
+
+		// $backend_team = $this->back_end->get_all_backend_team();
+        // redirect('backend_team/');
+		// $i = 1;
+		// foreach ($backend_team as $row) {
+		// 	$status = "";
+		// 	if ($row['data_status'] == 1) {
+		// 		$status = '<span class="badge bg-blue">Completed</span>';
+		// 	} else if ($row['data_status'] == 0) {
+		// 		$status = '<span class="badge bg-danger">Pending</span>';
+		// 	}
+		// 	echo '
+		// 			<tr>
+		// 				<td>' . $i . '</td>
+		// 				<td>' . $row['client_name'] . '</td>
+		// 				<td>' . $row['ffi_emp_id'] . '</td>
+		// 				<td>' . $row['emp_name'] . '</td>
+		// 				<td style="width:15%">' . date("d-m-Y", strtotime($row['joining_date'])) . '</td>
+		// 				<td>' . $row['phone1'] . '</td>
+		// 				<td>' . $status . '</td>
+		// 				<td class="text-center">
+		// 					<div class="list-icons">
+		// 						<div class="dropdown">
+		// 							<a href="#" class="list-icons-item" data-toggle="dropdown">
+		// 								<i class="icon-menu9"></i>
+		// 							</a>
+		// 							<div class="dropdown-menu dropdown-menu-right">
+		// 								<a href="javascript:void(0)" id=' . $row['id'] . ' onclick="view_backend_team_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+		// 								<a href="' . site_url('backend_team/edit_backend/' . $row['id']) . '" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
+		// 								<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_backend_team(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+		// 							</div>
+		// 						</div>
+		// 					</div>
+		// 				</td>
+		// 			</tr>';
+		// 	$i++;
+		// }
 	}
 	function delete_education_certificate()
 	{

@@ -906,11 +906,15 @@ class Backend_db extends CI_Model
 	}
 	function delete_backend_team()
 	{
-		$id=$this->input->post('id');
-		
-		$data=array("status"=>"1");
+		$id=$this->input->post('id'); 
+		// $data=array("status"=>"1");
 		$this->db->where("id",$id);
-		$this->db->update("backend_management",$data);
+		if($this->db->delete("backend_management")){
+			return True; 
+		}
+		// redirect("Backend_team/get_all_data");
+		// redirect("Backend_team/");
+		// $this->db->update("backend_management",$data);
 		
 	}
 	function get_all_states()
