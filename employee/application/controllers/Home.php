@@ -74,7 +74,7 @@ class Home extends CI_Controller
 			}else{
 				$this->admin->update_emp_password();
 				$this->session->set_flashdata('password_modifed', 'updated');
-				redirect('home/create_new_password_form');
+				redirect('home/');
 			}
 		}
 	}
@@ -87,13 +87,15 @@ class Home extends CI_Controller
 				//this is userdata getting md5 id
 				redirect('home/create_new_password_form');
 			}
+			else {
+				$this->session->set_flashdata('link_expired', 'expired');
+				redirect('home/forgot_password');
+			}
 		} //from create_new_user_form
-		else if (isset($_POST['create_new_password_submit'])) {
-			if ($this->admin->update_emp_password()) {
-				$this->session->set_flashdata('password_modifed', 'updated');
-				redirect('home/create_new_password_form');
-			}  
-		} else {
+		else if (isset($_POST['create_new_password_submit'])) { 
+				redirect('home/create_new_password_form'); 
+		}else {
+			$this->session->set_flashdata('link_expired', 'expired'); 
 			redirect('home/forgot_password');
 		}
 	}
