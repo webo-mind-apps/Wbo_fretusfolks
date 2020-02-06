@@ -42,6 +42,38 @@ class Payslips extends CI_Controller
 		if($this->session->userdata('admin_login'))
 		{
 			$data=$this->payslips->upload_payslips();
+			$result['payslip']=$this->payslips->upload_payslips();
+			if(!empty($data))
+			{
+				foreach($data as $r)
+				{
+					$result['result']=$r;
+					$result['payslip']=$this->payslips->get_all_payslips_for_email($r['ffi_emp_id']);
+					
+					$message=$this->load->view('admin/back_end/payslips/payslips_email',$result,true);
+
+					$mpdf = new \Mpdf\Mpdf();
+					$html = $this->load->view('admin/back_end/payslips/pdf_payslips',$result,true);
+					$mpdf->WriteHTML($html);
+					$content = $mpdf->Output('', 'S');
+					$filename = date('d/m/Y')."_pay-slips.pdf";
+
+					$subject="welcome";
+					$this->load->config('email');
+					$this->load->library('email');
+					$from = $this->config->item('smtp_user');
+					$to=$r['email'];
+					$this->email->set_newline("\r\n");
+					$this->email->from($from, 'Fretus folks india');
+					$this->email->to($to);
+					$this->email->subject($subject);
+					$this->email->message($message);
+					$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+					$this->email->send();
+					
+				}
+			}
+			
 			redirect('payslips/');
 		}
 		else
@@ -54,7 +86,6 @@ class Payslips extends CI_Controller
 	
 		if($this->session->userdata('admin_login'))
 		{
-<<<<<<< HEAD
 			
 			if($data=$this->payslips->download_payslips())
 			{
@@ -79,27 +110,6 @@ class Payslips extends CI_Controller
 			{
 				$this->session->set_flashdata('error', 'No datas found');
 				redirect('payslips');
-=======
-		
-			if($data=$this->payslips->download_payslips())
-			{
-				$this->load->library('zip');
-				$path = 'payslip/payslip_'.date('Ymdhis');
-				if(!is_dir($path)) mkdir($path, 0777, TRUE);
-
-			foreach($data as $row)	
-			{
-				$mpdf = new \Mpdf\Mpdf();
-				$datas['payslip']=$row;
-				$html = $this->load->view('admin/back_end/payslips/pdf_payslips',$datas,true);
-				$mpdf->WriteHTML($html);
-				$mpdf->Output($path.'/'.$row['emp_id']."_".$row['emp_name'].".pdf", 'F');
-			}
-
-			$this->zip->read_dir($path,false);
-			$download = $this->zip->download($path.'.zip');
-			
->>>>>>> 2af510de817c6e776c408cc0eaf9433d93826d7b
 			}
 					
 		}		

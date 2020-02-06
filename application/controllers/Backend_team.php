@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 class Backend_team extends CI_Controller 
@@ -849,10 +850,11 @@ class Backend_team extends CI_Controller
 	public function doc_formate()
 	{
 		if($this->session->userdata('admin_login'))
-		{		  
-		$result=$this->back_end->get_all_clients();
+		{
+		$client=$this->back_end->get_all_clients();
+		$states=$this->back_end->get_all_states();
 		
-        $alpha = array('A', 'B', 'C');
+        // $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
         $i = 2;
 		$spreadsheet = new Spreadsheet();
 		$spreadsheet->createSheet();
@@ -860,30 +862,77 @@ class Backend_team extends CI_Controller
 		$spreadsheet->getActiveSheet()->setTitle('sheet1');
 		$sheet1 = $spreadsheet->getActiveSheet();
         $sheet1->setCellValue('A1', 'SL No');
-        $sheet1->setCellValue('B1', 'EMPLOYEE ID');
-		$sheet1->setCellValue('C1', 'COMPANY NAME');
-		$sheet1->getStyle("A1:C1")->applyFromArray(array("font" => array("bold" => true)));
-		foreach(range('A','C') as $columnID) {
+        $sheet1->setCellValue('B1', 'CLIENT ID');
+		$sheet1->setCellValue('C1', 'CLIENT NAME');
+
+		$sheet1->setCellValue('E1', 'STATES ID');
+		$sheet1->setCellValue('F1', 'STATES');
+
+		$sheet1->setCellValue('H1', 'GENDER VALUE');
+		$sheet1->setCellValue('I1', 'GENDER');
+
+		$sheet1->setCellValue('K1', 'MARITAL STATUS');
+
+		$sheet1->setCellValue('M1', 'BLOOD GROUP');
+
+		$sheet1->setCellValue('O1', 'STATUS VALUE');
+		$sheet1->setCellValue('P1', 'STATUS');
+
+		$sheet1->setCellValue('R1', 'VALUE');
+		$sheet1->setCellValue('S1', 'ACTIVE STATUS');
+		
+		$sheet1->getStyle("A1:S1")->applyFromArray(array("font" => array("bold" => true)));
+		foreach(range('A','S') as $columnID) {
 			$sheet1->getColumnDimension($columnID)
 				->setAutoSize(true);
 		}
 		
-        foreach ($result as $key => $value) {
+        foreach ($client as $key => $value) {
 
             $sheet1->setCellValue('A'.$i, $key + 1);
-            $sheet1->setCellValue('B'.$i, $value['client_code']);
+            $sheet1->setCellValue('B'.$i, $value['id']);
             $sheet1->setCellValue('C'.$i, $value['client_name']);
             $i += 1;
 		}   
+		$j = 2;
+		foreach ($states as $key => $value) {
+			$sheet1->setCellValue('E'.$j, $value['id']);
+            $sheet1->setCellValue('F'.$j, $value['state_name']);
+            $j += 1;
+		}   
+
+		$sheet1->setCellValue('H2','1');
+		$sheet1->setCellValue('H3','2');
+		$sheet1->setCellValue('I2','Male');
+		$sheet1->setCellValue('I3','Female');
+		
+		$sheet1->setCellValue('K2','Single');
+		$sheet1->setCellValue('K3','Married');
+		
+		$sheet1->setCellValue('M2','O+');
+		$sheet1->setCellValue('M3','O-');
+		$sheet1->setCellValue('M4','A+');
+		$sheet1->setCellValue('M5','A-');
+		$sheet1->setCellValue('M6','B+');
+		$sheet1->setCellValue('M7','B-');
+		$sheet1->setCellValue('M8','AB+');
+		$sheet1->setCellValue('M9','AB-');
+		
+		$sheet1->setCellValue('O2','0');
+		$sheet1->setCellValue('O3','1');
+		$sheet1->setCellValue('P2','Active');
+		$sheet1->setCellValue('P3','Inactive');
+
+		$sheet1->setCellValue('R2','0');
+		$sheet1->setCellValue('R3','1');
+		$sheet1->setCellValue('S2','Active');
+		$sheet1->setCellValue('S3','Deactive');
+
+
 		
 		$spreadsheet->setActiveSheetIndex(0);
 		$spreadsheet->getActiveSheet()->setTitle('Back end details');
 		$sheet = $spreadsheet->getActiveSheet();
-
-		foreach(range('A','BZ') as $columnID) {
-			$sheet->getColumnDimension($columnID)
-				->setAutoSize(true);
-		}
 		$sheet->getStyle("A1:BZ1")->applyFromArray(array("font" => array("bold" => true)));
         $sheet->setCellValue('A1', 'Entity Name: *');
         $sheet->setCellValue('B1', 'Enter Client Name: *');
@@ -963,6 +1012,12 @@ class Backend_team extends CI_Controller
 		$sheet->setCellValue('BX1', 'Exp Letter:');
         $sheet->setCellValue('BY1', 'Password: *');
 		$sheet->setCellValue('BZ1', 'Active Status: *');
+
+		foreach(range('A','BZ') as $columnID) {
+			$sheet->getColumnDimension($columnID)
+				->setAutoSize(true);
+		}
+		
         $writer = new Xlsx($spreadsheet);
         $filename = 'DOC_FORMAT';
         header('Content-Type: application/vnd.ms-excel');
@@ -975,7 +1030,6 @@ class Backend_team extends CI_Controller
 		{
 			redirect('home/index');
 		}
-
 	}
 
 }
