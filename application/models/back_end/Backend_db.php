@@ -82,6 +82,19 @@ class Backend_db extends CI_Model
 		return $query->result();  
     }
 	
+	function delete_backend_team()
+	{
+		$id=$this->input->post('id'); 
+		// $data=array("status"=>"1");
+		$this->db->where("id",$id);
+		if($this->db->delete("backend_management")){
+			return True; 
+		}
+		// redirect("Backend_team/get_all_data");
+		// redirect("Backend_team/");
+		// $this->db->update("backend_management",$data); 
+	}
+
 	function get_backend_team_details($id)
 	{
 		$this->db->select('a.*,b.client_name,c.state_name');
@@ -904,19 +917,7 @@ class Backend_db extends CI_Model
 		$this->db->where('id',$id);
 		$this->db->update('backend_management',$data);
 	}
-	function delete_backend_team()
-	{
-		$id=$this->input->post('id'); 
-		// $data=array("status"=>"1");
-		$this->db->where("id",$id);
-		if($this->db->delete("backend_management")){
-			return True; 
-		}
-		// redirect("Backend_team/get_all_data");
-		// redirect("Backend_team/");
-		// $this->db->update("backend_management",$data);
-		
-	}
+	
 	function get_all_states()
 	{
 		$this->db->order_by('state_name','ASC');
