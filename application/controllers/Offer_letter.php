@@ -17,12 +17,59 @@ class Offer_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "backend";
-			$data['offer_letter'] = $this->letter->get_all_offer_letters();
+			//$data['offer_letter'] = $this->letter->get_all_offer_letters();
 			$this->load->view('admin/back_end/offer_letter/index', $data);
 		} else {
 			redirect('home/index');
 		}
 	}
+
+	public function get_all_data($var = null) //created for implementing data tables
+	{
+		if ($this->session->userdata('admin_login')) {
+			$fetch_data = $this->letter->make_datatables();
+			$data = array();
+			// $status = '<span class="badge bg-blue">Completed</span>';
+			$i = 1;
+			foreach ($fetch_data as $row) {
+				$sub_array   = array();
+				$sub_array[] = $row->id;
+				$sub_array[] = $row->employee_id;
+				$sub_array[] = $row->client_name; 
+				$sub_array[] = $row->emp_name;
+				$sub_array[] = date('d M, Y', strtotime($row->date));
+				$sub_array[] = $row->phone1;
+				$sub_array[] = $row->email; 
+				$status = ""; 
+				$sub_array[] = '
+				<td class="text-center">
+				<div class="list-icons">
+					<div class="dropdown">
+						<a href="#" class="list-icons-item" data-toggle="dropdown">
+							<i class="icon-menu9"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a href="' . site_url('offer_letter/view_offer_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+							<a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+						</div>
+					</div>
+				</div>
+			</td>
+					 ';
+				$data[] = $sub_array; 
+			}
+			$output = array(
+				"draw"                =>     intval($_POST["draw"]),
+				"recordsTotal"        =>     $this->letter->get_all_data(),
+				"recordsFiltered"     =>     $this->letter->get_filtered_data(),
+				"data" => $data
+			);
+			echo json_encode($output);  
+		} else {
+			redirect('home/index');
+		}
+	}
+	
 	function new_offer_letter()
 	{
 		if ($this->session->userdata('admin_login')) {
@@ -112,37 +159,41 @@ class Offer_letter extends CI_Controller
 	}
 	function delete_offer_letter()
 	{
-		$data1 = $this->letter->delete_offer_letter();
-		$data = $this->letter->get_all_offer_letters();
 
-		$i = 1;
-		foreach ($data as $row) {
-			$status = "";
-			echo '
-			<tr>
-				<td>' . $i . '</td>
-				<td>' . $row['employee_id'] . '</td>
-				<td>' . $row['client_name'] . '</td>
-				<td>' . $row['emp_name'] . '</td>
-				<td style="width:15%">' . date("d-m-Y", strtotime($row['date'])) . '</td>
-				<td>' . $row['phone1'] . '</td>
-				<td>' . $row['email'] . '</td>
-				<td class="text-center">
-					<div class="list-icons">
-						<div class="dropdown">
-							<a href="#" class="list-icons-item" data-toggle="dropdown">
-								<i class="icon-menu9"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a href="' . site_url('offer_letter/view_offer_letter/' . $row['id']) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
-								<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>';
-			$i++;
-		}
+		if($this->letter->delete_offer_letter()){
+			echo "deleted"; 
+		} 
+		// $data1 = $this->letter->delete_offer_letter();
+		// $data = $this->letter->get_all_offer_letters();
+
+		// $i = 1;
+		// foreach ($data as $row) {
+		// 	$status = "";
+		// 	echo '
+		// 	<tr>
+		// 		<td>' . $i . '</td>
+		// 		<td>' . $row['employee_id'] . '</td>
+		// 		<td>' . $row['client_name'] . '</td>
+		// 		<td>' . $row['emp_name'] . '</td>
+		// 		<td style="width:15%">' . date("d-m-Y", strtotime($row['date'])) . '</td>
+		// 		<td>' . $row['phone1'] . '</td>
+		// 		<td>' . $row['email'] . '</td>
+		// 		<td class="text-center">
+		// 			<div class="list-icons">
+		// 				<div class="dropdown">
+		// 					<a href="#" class="list-icons-item" data-toggle="dropdown">
+		// 						<i class="icon-menu9"></i>
+		// 					</a>
+		// 					<div class="dropdown-menu dropdown-menu-right">
+		// 						<a href="' . site_url('offer_letter/view_offer_letter/' . $row['id']) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+		// 						<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+		// 					</div>
+		// 				</div>
+		// 			</div>
+		// 		</td>
+		// 	</tr>';
+		// 	$i++;
+		// }
 	}
 	function logout()
 	{
@@ -151,7 +202,7 @@ class Offer_letter extends CI_Controller
 	}
 
 	// excel Import for ADMS OFFER LETTER 
-	public function adms_offer_letter_import()
+	function adms_offer_letter_import()
 	{
 
 		$data = array();
