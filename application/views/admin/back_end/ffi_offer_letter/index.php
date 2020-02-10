@@ -29,7 +29,7 @@
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 		
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>
+	<!--	<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>-->
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		
@@ -99,6 +99,7 @@
 						$('#get_details').empty();
 						$('#get_details').append(response);
 						$("div#divLoading").removeClass('show');
+						$("#dtable").DataTable().ajax.reload();
 					},
 					error:function (xhr, ajaxOptions, thrownError){}
 					});
@@ -177,7 +178,7 @@
 	                	</div>
 					</div>
 					
-					<table class="table datatable-basic table-bordered table-striped table-hover">
+					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
 								<th>Si No</th>
@@ -188,40 +189,7 @@
 								<th class="text-center">Actions</th>
 							</tr>
 						</thead>
-						<tbody id="get_details">
-							<?php 
-								
-								$i=1;
-								foreach($offer_letter as $row)
-								{
-									$status="";
-									
-									echo '
-											<tr>
-												<td>'.$i.'</td>
-												<td>'.$row['emp_name'].'</td>
-												<td style="width:15%">'.date("d-m-Y",strtotime($row['date'])).'</td>
-												<td>'.$row['phone1'].'</td>
-												<td>'.$row['email'].'</td>
-												<td class="text-center">
-													<div class="list-icons">
-														<div class="dropdown">
-															<a href="#" class="list-icons-item" data-toggle="dropdown">
-																<i class="icon-menu9"></i>
-															</a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a href="'.site_url('fhrms/view_offer_letter/'.$row['id']).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
-																<a href="javascript:void(0);" id="'.$row['id'].'" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
-															</div>
-														</div>
-													</div>
-												</td>
-											</tr>';
-									$i++;
-								}
-								
-							?>
-						</tbody>
+						
 					</table>
 					
 				</div>
@@ -244,6 +212,125 @@
 						</div>
 					</div>
 				</div>
+				<script>
+					$(document).ready(function() { 
+						$('#import_file').click(function(e) {
+							e.preventDefault();
+							$('#import').trigger('click');
+						});
+
+						$('#import').change(function(e) {
+							$('#import_form').submit()
+						}); 
+					});
+			
+					var DatatableAdvanced = function() {
+
+						// Basic Datatable examples
+						var _componentDatatableAdvanced = function() {
+							if (!$().DataTable) {
+								console.warn('Warning - datatables.min.js is not loaded.');
+								return;
+							}
+
+							// Setting datatable defaults
+							$.extend($.fn.dataTable.defaults, {
+								autoWidth: false,
+								columnDefs: [{
+									orderable: false,
+									width: 100,
+									targets: [5]
+								}],
+								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+								language: {
+									search: '<span>Filter:</span> _INPUT_',
+									searchPlaceholder: 'Type to filter...',
+									lengthMenu: '<span>Show:</span> _MENU_',
+									paginate: {
+										'first': 'First',
+										'last': 'Last',
+										'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
+										'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
+									}
+								}
+							});
+
+							var dataTable = $('#dtable').DataTable({
+								'processing': true,
+								'serverSide': true,
+								'order': [], 
+								'ajax': {
+									'url': "<?php echo base_url() . 'fhrms/get_all_datas' ?>",
+									'type': 'POST'
+								},
+								'columnDefs': [{
+									"targets": [5],
+									"orderable": false,
+								}],
+
+							})
+                           
+							// Datatable 'length' options
+							$('.datatable-show-all').DataTable({
+								lengthMenu: [
+									[10, 25, 50, -1],
+									[10, 25, 50, "All"]
+								]
+							});
+
+							// DOM positioning
+							$('.datatable-dom-position').DataTable({
+								dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
+							});
+
+							// Highlighting rows and columns on mouseover
+							var lastIdx = null;
+							var table = $('.datatable-highlight').DataTable();
+
+							$('.datatable-highlight tbody').on('mouseover', 'td', function() {
+								var colIdx = table.cell(this).index().column;
+
+								if (colIdx !== lastIdx) {
+									$(table.cells().nodes()).removeClass('active');
+									$(table.column(colIdx).nodes()).addClass('active');
+								}
+							}).on('mouseleave', function() {
+								$(table.cells().nodes()).removeClass('active');
+							});
+
+							// Columns rendering
+							$('.datatable-columns').dataTable({
+								columnDefs: [{
+										// The `data` parameter refers to the data for the cell (defined by the
+										// `data` option, which defaults to the column being worked with, in
+										// this case `data: 0`.
+										render: function(data, type, row) {
+											return data + ' (' + row[3] + ')';
+										},
+										targets: 0
+									},
+									{
+										visible: false,
+										targets: [3]
+									}
+								]
+							});
+
+						};
+						//
+						// Return objects assigned to module
+						//
+						return {
+							init: function() {
+								_componentDatatableAdvanced();
+							}
+						}
+					}();
+
+					document.addEventListener('DOMContentLoaded', function() {
+						DatatableAdvanced.init()
+					});
+				</script>
 
 			
 </body>

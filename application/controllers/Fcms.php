@@ -15,7 +15,7 @@ class Fcms extends CI_Controller
 		if(($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type')==0 || $this->session->userdata('admin_type')==1))
 		{
 			$data['active_menu']="fcms";
-			$data['invoice']=$this->fcms->get_all_invoice();
+			// $data['invoice']=$this->fcms->get_all_invoice();
 			$this->load->view('admin/back_end/invoice/index',$data);
 		}
 		else
@@ -332,4 +332,57 @@ class Fcms extends CI_Controller
 		redirect('home/index');
 	}
 
+
+	// data table fetch data from table
+	public function get_all_data()
+	{
+		if ($this->session->userdata('admin_login')) {
+			$fetch_data = $this->fcms->make_datatables();
+
+			$data = array();
+			// $status = '<span class="badge bg-blue">Completed</span>';
+			foreach ($fetch_data as $row) { 
+				$sub_array   = array();
+				$btn = '';
+				if($this->session->userdata('admin_type')==0)
+				{
+					$btn = '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_invoice(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>';
+				}
+				$action = '<div class="list-icons">
+					<div class="dropdown">
+						<a href="#" class="list-icons-item" data-toggle="dropdown">
+							<i class="icon-menu9"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a href="javascript:void(0);" class="dropdown-item" id="'.$row->id.'" onclick="view_invoice_details(this.id)"><i class="fa fa-eye"></i> View Details</a>
+							<a href="'.site_url('fcms/edit_invoice/'.$row->id).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
+							'.$btn.'
+						</div>
+					</div>
+				</div>';
+
+				$sub_array[] = $row->id;
+				$sub_array[] = $row->client_name;
+				$sub_array[] = $row->invoice_no;
+				$sub_array[] = $row->state_name;
+				$sub_array[] = $row->gst_no;
+				$sub_array[] = $row->grand_total;
+				$sub_array[] = $row->date;
+				$sub_array[] = $action;
+				
+			 	
+				$data[] = $sub_array;
+			// 	
+			}
+			$output = array(
+				"draw"                =>     intval($_POST["draw"]),
+				"recordsTotal"        =>     $this->fcms->get_all_data(),
+				"recordsFiltered"     =>     $this->fcms->get_filtered_data(),
+				"data" => $data
+			);
+			echo json_encode($output);
+		} else {
+			redirect('home/index');
+		}
+	}
 }
