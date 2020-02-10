@@ -57,13 +57,15 @@ class Increment_letter_db extends CI_Model
 		$date=date("Y-m-d");
 		$data1=array("company_id"=>$client,"employee_id"=>$emp_id,"date"=>$date,"basic_salary"=>$basic_salary,"hra"=>$hra,"conveyance"=>$conveyance,"medical_reimbursement"=>$medical,"special_allowance"=>$special_allowance,"other_allowance"=>$other_allowance,"gross_salary"=>$gross_salary,"emp_pf"=>$emp_pf,"emp_esic"=>$emp_esic,"pt"=>$pt,"total_deduction"=>$total_deduction,"take_home"=>$take_home,"employer_pf"=>$employer_pf,"employer_esic"=>$employer_esic,"mediclaim"=>$mediclaim,"ctc"=>$ctc,"content"=>$content);
 		
-		$this->db->insert("increment_letter",$data1);
+		if($this->db->insert("increment_letter",$data1))
+		{
+			return true;
+		}
 		
 	}
 	function get_increment_letter_details()
 	{
 		$id=$this->uri->segment(3);
-		
 		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
 		$this->db->from('increment_letter a');
 		$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
@@ -71,8 +73,6 @@ class Increment_letter_db extends CI_Model
 		$this->db->where('a.id',$id);
 		$query=$this->db->get();
 		$q=$query->result_array();
-		
-		
 		return $q;
 	}
 	public function get_all_client()
@@ -148,11 +148,19 @@ class Increment_letter_db extends CI_Model
 		if(!$query->num_rows())
 		{
 			$this->db->insert('increment_letter',$data);
+			if($this->db->affected_rows() > 0)
+			{
+				return true;
+			}
 		}
 		else
 		{
 			$this->db->where('employee_id',$data['employee_id']);
 			$this->db->update('increment_letter',$data);
+			if($this->db->affected_rows() > 0)
+			{
+				return true;
+			}
 		}
 
 		

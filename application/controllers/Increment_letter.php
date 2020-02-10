@@ -75,7 +75,49 @@ class Increment_letter extends CI_Controller
 	
 	function save_increment_letter()
 	{
-		$data=$this->increment->save_increment_letter();
+		$emp_id=$this->input->post('ffi_emp_id');
+		if($data=$this->increment->save_increment_letter())
+		{	
+			$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
+			$this->db->from('increment_letter a');
+			$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
+			$this->db->join('client_management c','a.company_id=c.id','left');
+			$this->db->where('b.ffi_emp_id',$emp_id);
+			$query=$this->db->get();
+			$result['letter_details']=$query->row_array();
+			// echo "<pre>";
+			// print_r($result);
+			// exit;
+			$message=$this->load->view('admin/back_end/increment_letter/increment_email',$result,true);
+			$mpdf=new \Mpdf\Mpdf();
+			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+			   $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			   $mpdf->AddPage('', // L - landscape, P - portrait 
+				'', '', '', '',
+				5, // margin_left
+				5, // margin right
+				60, // margin top
+				30, // margin bottom
+				0, // margin header
+							0); // margin footer
+			$html = $this->load->view('admin/back_end/increment_letter/pdf_increment',$result,true);
+			$mpdf->WriteHTML($html);
+			$content = $mpdf->Output('', 'S');
+			$filename = date('d/m/Y')."_increments.pdf";
+			$subject="welcome";
+			$this->load->config('email');
+			$this->load->library('email');
+			$from = $this->config->item('smtp_user');
+			$to=$result['letter_details']['email'];
+			$this->email->set_newline("\r\n");
+			$this->email->from($from, 'Fretus folks india');
+			$this->email->to($to);
+			$this->email->subject($subject);
+			$this->email->message($message);
+			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+			$this->email->send();
+		}
+		
 		redirect('increment_letter/');
 	}
 	function view_increment_letter()
@@ -135,9 +177,19 @@ class Increment_letter extends CI_Controller
 
 					foreach($data as $row)	
 					{
-						$mpdf = new \Mpdf\Mpdf();
+						$mpdf=new \Mpdf\Mpdf();
 						$datas['letter_details']=$row;
 						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment',$datas,true);
+						$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+						   $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+						   $mpdf->AddPage('', // L - landscape, P - portrait 
+							'', '', '', '',
+							5, // margin_left
+							5, // margin right
+							60, // margin top
+							30, // margin bottom
+							0, // margin header
+							0); // margin footer
 						$mpdf->WriteHTML($html);
 						$mpdf->Output($path.'/'.$row['ffi_emp_id']."_".$row['emp_name'].".pdf", 'F');
 					}
@@ -195,16 +247,21 @@ public function adms_increment_letter_import()
 			$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 			$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 			
-			for ($i=2; $i <= count($allDataInSheet); $i++) { 
-
+			for ($i=2; $i <= count($allDataInSheet); $i++) 
+			{ 
 				$client=empty($allDataInSheet[$i]['B'])? 'null' : $allDataInSheet[$i]['B'];
-				$this->db->where("client_name",$client);
-				$query=$this->db->get("client_management");
-				$q=$query->result_array();
+				$this->db->where("client_name", $client);
+				$query = $this->db->get("client_management");
+				$q = $query->row_array();
+				// echo "<pre>";
 				// print_r($q);
-				// exit;
-				$client_id=$q[0]['id'];
+				// echo $client;
+				// // print_r($q);
+				// // exit;
 				
+				// echo $client_id;
+				// exit;
+				$client_id=$q['id'];
 				$date=date("Y-m-d");
 
 				$offer_letter=empty($allDataInSheet[$i]['C'])? 'null' : $allDataInSheet[$i]['C'];
@@ -235,7 +292,7 @@ public function adms_increment_letter_import()
 				$content=$content1.$content2.$content3;
 
 
-				
+				$emp_id=(empty($allDataInSheet[$i]['A'])? 'null' : $allDataInSheet[$i]['A'] );
 				$data=array(
 					"employee_id"			=>	(empty($allDataInSheet[$i]['A'])? 'null' : $allDataInSheet[$i]['A'] ),
 					"company_id"			=>	$client_id,
@@ -260,21 +317,63 @@ public function adms_increment_letter_import()
 					"ctc"					=>	(empty($allDataInSheet[$i]['T'])? 'null' : $allDataInSheet[$i]['T'] ),
 					"content"				=>  $content,
 				);
-				
-				
-				
-				$this->increment->importEmployee_increment_letter($data);
+				if($insert=$this->increment->importEmployee_increment_letter($data))
+				{
+					$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
+					$this->db->from('increment_letter a');
+					$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
+					$this->db->join('client_management c','a.company_id=c.id','left');
+					$this->db->where('b.ffi_emp_id',$emp_id);
+					$query=$this->db->get();
+					$result['letter_details']=$query->row_array();
+					// echo "<pre>";
+					// print_r($result);
+					// exit;
+					$message=$this->load->view('admin/back_end/increment_letter/increment_email',$result,true);
+					$mpdf=new \Mpdf\Mpdf();
+					$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+						   $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+						   $mpdf->AddPage('', // L - landscape, P - portrait 
+							'', '', '', '',
+							5, // margin_left
+							5, // margin right
+							60, // margin top
+							30, // margin bottom
+							0, // margin header
+							0); // margin footer
+					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment',$result,true);
+					$mpdf->WriteHTML($html);
+					$content = $mpdf->Output('', 'S');
+					$filename = date('d/m/Y')."_increment.pdf";
+					$subject="welcome";
+					$this->load->config('email');
+					$this->load->library('email');
+					$from = $this->config->item('smtp_user');
+					$to=$result['letter_details']['email'];
+					$this->email->set_newline("\r\n");
+					$this->email->from($from, 'Fretus folks india');
+					$this->email->to($to);
+					$this->email->subject($subject);
+					$this->email->message($message);
+					$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+					$this->email->send();
+				}
 
 			}
-
+			if($insert){
 			$this->session->set_flashdata('success', 'Import successfully');
 			redirect('increment_letter','refresh');
-			
+			}
+			else
+				{
+					$this->session->set_flashdata('nochange', 'No changes');
+					redirect('offer_letter', 'refresh');
+				}
 		}
 		else{
 			
 			$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
-			
+			redirect('increment_letter','refresh');
 		}
 	}	
 }

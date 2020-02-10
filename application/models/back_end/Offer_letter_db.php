@@ -80,25 +80,17 @@ class Offer_letter_db extends CI_Model
 		$query=$this->db->get("offer_letter");
 		if(!$query->num_rows())
 		{
-			
 			$this->db->insert('offer_letter',$data);
+			$this->db->select('a.*,b.branch,b.emp_name,b.last_name,b.middle_name,b.ffi_emp_id,b.email,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+			$this->db->from('offer_letter a');
+			$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
+			$this->db->join('client_management c','a.company_id=c.id','left');
+			$this->db->where('a.employee_id',$emp_id);
+			$query=$this->db->get();
+			$q=$query->result_array();
+			return $q;
 		}
-		/*$this->db->select('a.*,b.client_name');
-		$this->db->from('backend_management a');
-		$this->db->join('client_management b','a.client_id=b.id','left');
-		$this->db->where('a.ffi_emp_id',$emp_id);
-		$query=$this->db->get();
-		$q=$query->result_array();
-		return $q;
-		*/
-		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
-		$this->db->from('offer_letter a');
-		$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
-		$this->db->join('client_management c','a.company_id=c.id','left');
-		$this->db->where('a.employee_id',$emp_id);
-		$query=$this->db->get();
-		$q=$query->result_array();
-		return $q;
+		
 	}
 	function get_offer_letter()
 	{
@@ -138,8 +130,7 @@ class Offer_letter_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
-	function get_all_states()
-	{
+	function get_all_states(){
 		$this->db->order_by('state_name','ASC');
 		$query=$this->db->get("states");
 		$q=$query->result_array();
@@ -161,8 +152,7 @@ class Offer_letter_db extends CI_Model
 	}
 
 	// excel import
-	public function importEmployee_offer_letter($data = null)
-	{
+	public function importEmployee_offer_letter($data = null)	{
 
 		$this->db->where('employee_id',$data['employee_id']);
 		
@@ -170,11 +160,20 @@ class Offer_letter_db extends CI_Model
 		if(!$query->num_rows())
 		{
 			$this->db->insert('offer_letter',$data);
+			if($this->db->affected_rows() > 0)
+			{
+				return true;
+				
+			}
 		}
 		else
 		{
 			$this->db->where('employee_id',$data['employee_id']);
 			$this->db->update('offer_letter',$data);
+			if($this->db->affected_rows() > 0)
+			{
+				return true;
+			}
 		}
 
 		
