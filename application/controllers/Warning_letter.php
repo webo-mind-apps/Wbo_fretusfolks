@@ -15,7 +15,7 @@ class Warning_letter extends CI_Controller
 		if($this->session->userdata('admin_login'))
 		{
 			$data['active_menu']="adms";
-			$data['pip_letter']=$this->warning_letter->get_all_termination_letter();
+			//$data['pip_letter']=$this->warning_letter->get_all_termination_letter();
 			$this->load->view('admin/back_end/warning_letter/index',$data);
 		}
 		else
@@ -23,6 +23,51 @@ class Warning_letter extends CI_Controller
 			redirect('home/index');
 		}
 	}
+
+	public function get_all_data($var = null) //created for implementing data tables
+	{
+		if ($this->session->userdata('admin_login')) {
+			$fetch_data = $this->warning_letter->make_datatables();
+			$data = array();
+			// $status = '<span class="badge bg-blue">Completed</span>';
+			
+			foreach ($fetch_data as $row) {
+				$sub_array   = array();
+				$sub_array[] = $row->id; 
+				$sub_array[] = $row->emp_id; 
+				$sub_array[] = $row->emp_name;
+				$sub_array[] = date('d M, Y', strtotime($row->date));
+				$sub_array[] = $row->phone1;
+				$sub_array[] = $row->designation;
+				$sub_array[] = '
+					 <div class="list-icons">
+					 <div class="dropdown">
+						 <a href="#" class="list-icons-item" data-toggle="dropdown">
+							 <i class="icon-menu9"></i>
+						 </a>
+						 <div class="dropdown-menu dropdown-menu-right">
+						 <a href="'.site_url('warning_letter/view_warning_letter/'.$row->id).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+						 <a href="'.site_url('warning_letter/edit_warning_letter/'.$row->id).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
+						 <a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_warning_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+						 </div>
+					 </div>
+				 </div>
+					 ';
+				$data[] = $sub_array;
+				
+			}
+			$output = array(
+				"draw"                =>     intval($_POST["draw"]),
+				"recordsTotal"        =>     $this->warning_letter->get_all_data(),
+				"recordsFiltered"     =>     $this->warning_letter->get_filtered_data(),
+				"data" => $data
+			);
+			echo json_encode($output);  
+		} else {
+			redirect('home/index');
+		}
+	}
+
 	function new_warning_letter()
 	{
 		if($this->session->userdata('admin_login'))
