@@ -23,8 +23,7 @@
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
-	<!-- <script src="<?php //echo base_url(); 
-						?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
 		#divLoading {
@@ -88,7 +87,7 @@
 				$("div#divLoading").addClass('show');
 				jQuery.ajax({
 					type: "POST",
-					url: "<?php echo base_url(); ?>" + "index.php/candidate_system/delete_backend_team",
+					url: "<?php echo base_url(); ?>" + "index.php/candidate_system/delete_candidate",
 					datatype: "text",
 					data: {
 						id: id
@@ -97,7 +96,6 @@
 						$('#get_details').empty();
 						$('#get_details').append(response);
 						$("div#divLoading").removeClass('show');
-						$("#candidate_info_d_table").DataTable().ajax.reload(); 
 					},
 					error: function(xhr, ajaxOptions, thrownError) {}
 				});
@@ -173,7 +171,7 @@
 								</div>
 							</div>
 
-							<table id="candidate_info_d_table" class="table datatable-basic table-bordered table-striped table-hover">
+							<table class="table datatable-basic table-bordered table-striped table-hover">
 								<thead>
 									<tr>
 										<th>Si No</th>
@@ -181,11 +179,55 @@
 										<th>Employee Name</th>
 										<th style="width:15%">Joining Date</th>
 										<th>Phone</th>
-										<th>Approval Status</th> 
+										<th>Approval Status</th>
 										<th>Status</th>
 										<th class="text-center">Actions</th>
 									</tr>
-								</thead> 
+								</thead>
+								<tbody id="get_details">
+									<?php
+									$i = 1;
+									foreach ($candidate_info as $row) {
+										$status = "";
+										$approval = "";
+										if ($row['data_status'] == 1) {
+											$status = '<span class="badge bg-blue">Completed</span>';
+										} else if ($row['data_status'] == 0) {
+											$status = '<span class="badge bg-danger">Pending</span>';
+										}
+										if ($row['dcs_approval'] == 1) {
+											$approval = '<span class="badge bg-blue">Approved</span>';
+										} else if ($row['dcs_approval'] == 2) {
+											$approval = '<span class="badge bg-danger">Disapproved</span>';
+										}
+										echo '
+											<tr>
+												<td>' . $i . '</td>
+												<td>' . $row['client_name'] . '</td>
+												<td>' . $row['emp_name'] . '</td>
+												<td style="width:15%">' . date("d-m-Y", strtotime($row['joining_date'])) . '</td>
+												<td>' . $row['phone1'] . '</td>
+												<td>' . $approval . '</td>
+												<td>' . $status . '</td>
+												<td class="text-center">
+													<div class="list-icons">
+														<div class="dropdown">
+															<a href="#" class="list-icons-item" data-toggle="dropdown">
+																<i class="icon-menu9"></i>
+															</a>
+															<div class="dropdown-menu dropdown-menu-right">
+																<a href="javascript:void(0)" id=' . $row['id'] . ' onclick="view_backend_team_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+																<a href="' . site_url('candidate_system/edit_candidate/' . $row['id']) . '" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
+																<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_candidate(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>';
+										$i++;
+									}
+									?>
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -204,116 +246,7 @@
 					</div>
 				</div>
 
-				<!-- ----- -->
-				<script>
-					var DatatableAdvanced = function() {
 
-						// Basic Datatable examples
-						var _componentDatatableAdvanced = function() {
-							if (!$().DataTable) {
-								console.warn('Warning - datatables.min.js is not loaded.');
-								return;
-							}
-
-							// Setting datatable defaults
-							$.extend($.fn.dataTable.defaults, {
-								autoWidth: false,
-								columnDefs: [{
-									orderable: false,
-									width: 100,
-									targets: [5]
-								}],
-								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-								language: {
-									search: '<span>Filter:</span> _INPUT_',
-									searchPlaceholder: 'Type to filter...',
-									lengthMenu: '<span>Show:</span> _MENU_',
-									paginate: {
-										'first': 'First',
-										'last': 'Last',
-										'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
-										'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
-									}
-								}
-							});
-
-							var dataTable = $('#candidate_info_d_table').DataTable({
-								'processing': true,
-								'serverSide': true,
-								'order': [],
-								'ajax': {
-									'url': "<?php echo base_url() . 'Candidate_system/get_all_data' ?>",
-									'type': 'POST'
-								},
-								'columnDefs': [{
-									"targets": [7],
-									"orderable": false,
-								}],
-
-							})
-
-							// Datatable 'length' options
-							$('.datatable-show-all').DataTable({
-								lengthMenu: [
-									[10, 25, 50, -1],
-									[10, 25, 50, "All"]
-								]
-							});
-
-							// DOM positioning
-							$('.datatable-dom-position').DataTable({
-								dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
-							});
-
-							// Highlighting rows and columns on mouseover
-							var lastIdx = null;
-							var table = $('.datatable-highlight').DataTable();
-
-							$('.datatable-highlight tbody').on('mouseover', 'td', function() {
-								var colIdx = table.cell(this).index().column;
-
-								if (colIdx !== lastIdx) {
-									$(table.cells().nodes()).removeClass('active');
-									$(table.column(colIdx).nodes()).addClass('active');
-								}
-							}).on('mouseleave', function() {
-								$(table.cells().nodes()).removeClass('active');
-							});
-
-							// Columns rendering
-							$('.datatable-columns').dataTable({
-								columnDefs: [{
-										// The `data` parameter refers to the data for the cell (defined by the
-										// `data` option, which defaults to the column being worked with, in
-										// this case `data: 0`.
-										render: function(data, type, row) {
-											return data + ' (' + row[3] + ')';
-										},
-										targets: 0
-									},
-									{
-										visible: false,
-										targets: [3]
-									}
-								]
-							});
-
-						};
-						//
-						// Return objects assigned to module
-						//
-						return {
-							init: function() {
-								_componentDatatableAdvanced();
-							}
-						}
-					}();
-
-					document.addEventListener('DOMContentLoaded', function() {
-						DatatableAdvanced.init()
-					});
-				</script>
-				<!-- ----- -->
 </body>
 
 </html>
