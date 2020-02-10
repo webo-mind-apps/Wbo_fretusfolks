@@ -112,5 +112,65 @@ class Ffi_increment_letter_db extends CI_Model
 		$this->db->where('id',$id);
 		$this->db->delete('ffi_increment_letter');
 	}
+	// get data
+	public function make_datatables()
+	{
+		$this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();
+	}
+
+	// make query 
+	public function make_query()
+	{
+	 
+		$order_column = array("a.id", "emp_name", "email", "a.status"); 
+		
+		$this->db->select('a.*,c.emp_name,c.email,c.phone1');
+		$this->db->from('ffi_increment_letter a');
+		$this->db->join('fhrms c','a.employee_id=c.ffi_emp_id','left');
+		$this->db->where("a.status","0");
+		
+
+		
+
+
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("a.id", $_POST["search"]["value"]);  
+                $this->db->or_like("emp_name", $_POST["search"]["value"]);  
+                $this->db->or_like("date", $_POST["search"]["value"]);  
+                $this->db->or_like("phone1", $_POST["search"]["value"]);  
+                $this->db->or_like("email", $_POST["search"]["value"]);  
+                 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('a.id', 'DESC');  
+        }  	
+	}
+
+	
+	public function get_all_data()
+	{
+		$this->db->select("*");
+        $this->db->from('ffi_increment_letter');  
+        return $this->db->count_all_results(); 
+	}
+
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	}
 }  
 ?>
