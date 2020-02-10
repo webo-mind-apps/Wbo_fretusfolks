@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
   <head>
@@ -350,7 +351,7 @@
                     <tr>
                       <td>
                         <center>
-                          <img src="<?php  echo site_url('admin_assets/images/logo.png');?>" style="max-width:100%; height:70px"  alt="">
+                          <img src="admin_assets/images/logo.png" style="max-width:100%; height:70px"  alt="">
                         </center>
                         
                       </td>
@@ -358,7 +359,7 @@
                     <tr>
                       <td>
                         <br>
-                        <p>Dear <?php echo $result['emp_name'].' '.$result['middle_name'].' '.$result['last_name'] ?>,</p>
+                        <p>Dear <?php echo $letter_details[0]['emp_name'].' '.$letter_details[0]['middle_name'].' '.$letter_details[0]['last_name'] ?>,</p>
                         <p>Find the attachment</p>
                         
                         

@@ -61,7 +61,7 @@
    </head>
    <body onload="window.print()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none">
 	<div>
-	<img src="<?php echo base_url()?>admin_assets/ffi_header.jpg" style="padding-left:5%;padding-right:5%;">					
+	<!-- <img src="admin_assets/ffi_header.jpg" style="padding-left:5%;padding-right:5%;">					 -->
       <br><br>
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
          <tbody>
@@ -108,7 +108,7 @@
                                        <p style="line-height:1.8;font-size:14px">	
                                           <br>
                                           <b>For : Fretus Folks India Pvt Ltd.</b>  <br>
-                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?php echo base_url();?>admin_assets/seal.png" width="100">
+                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" width="100">
                                           <br>
                                           <b>&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
                                        </p>
@@ -130,9 +130,9 @@
 	      <br>
       <br>
       <br>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="padding-top: 8%;">	
+      <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="padding-top: 8%;">	 -->
 	  </div>
-		<img src="<?php echo base_url()?>admin_assets/ffi_header.jpg" style="padding-left:5%;padding-right:5%;">
+		<!-- <img src="admin_assets/ffi_header.jpg" style="padding-left:5%;padding-right:5%;"> -->
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tbody>
 			<tr>
@@ -236,7 +236,7 @@
 											<td colspan="3" style="font-size:12px;text-align:left;padding:7px">
 												<p style="line-height:1.8;font-size:14px">	
 												<br><b>For : Fretus Folks India Pvt Ltd.</b>  <br>
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?php echo base_url();?>admin_assets/seal.png" width="100">
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" width="100">
 												<br><b>&nbsp;&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br></p>
 											</td>
 											<td style="font-size:12px;text-align:left;padding:7px;width:40%">
@@ -255,7 +255,7 @@
 			</tr>
 		</tbody>
 	</table>
-	 <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="padding-top: 8%;">	
+	 <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="padding-top: 8%;">	 -->
 </body>
      
 </html>

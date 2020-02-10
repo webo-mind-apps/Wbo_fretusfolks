@@ -11,11 +11,10 @@ class Candidate_system extends CI_Controller
 		$this->load->library("pagination");
 	}
 	public function index()
-	{
-
+	{ 
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
-			$data['candidate_info'] = $this->candidate->get_all_candidate_info();
+			//$data['candidate_info'] = $this->candidate->get_all_candidate_info();
 			$this->load->view('admin/back_end/candidate_info/index', $data);
 		} else {
 			redirect('home/index');

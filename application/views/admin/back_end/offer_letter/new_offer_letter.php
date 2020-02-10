@@ -137,6 +137,7 @@ $active_menu="Backendteam";
 					data:{emp_id:emp_id},
 					success:function(response)
 					{
+						
 						if(response =="0")
 						{
 							alert("Employee Details Not Updated");
