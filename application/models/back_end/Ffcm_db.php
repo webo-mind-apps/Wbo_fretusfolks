@@ -20,6 +20,54 @@ class Ffcm_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+
+	public function make_query()
+	{ 
+        $order_column = array("id","date","month","nature_expenses","amount");  
+		$this->db->select('*');
+		$this->db->from('expenses');
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("id", $_POST["search"]["value"]);  
+                $this->db->or_like("date", $_POST["search"]["value"]);   
+                $this->db->or_like("month", $_POST["search"]["value"]);
+				$this->db->or_like("nature_expenses", $_POST["search"]["value"]);
+				$this->db->or_like("amount", $_POST["search"]["value"]); 
+				
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('id', 'DESC');  
+        }  	
+	}
+
+	function get_all_data()  
+    {  
+           $this->db->select("*");
+           $this->db->from('backend_management');  
+           return $this->db->count_all_results();  
+	}
+	
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+	function make_datatables(){  
+        $this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+	}
 	function search_expenses()
 	{
 		$month=$this->input->post('month');;

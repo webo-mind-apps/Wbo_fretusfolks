@@ -25,8 +25,21 @@ $active_menu="index";
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 		<script src="<?php echo base_url();?>admin_assets/assets/js/app.js"></script>
-		<!-- <script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/date/jquery-ui.js"></script>
+		<script>
+		   $( function() 
+		   {
+				var d = new Date();
+				d.setFullYear(d.getFullYear()+10);
+		   
+				var date = $('.datepicker').datepicker({dateFormat: 'dd-mm-yy',changeMonth: true,
+				changeYear: true,yearRange: '1970:' + d.getFullYear(),maxDate:0}).val();
+		   } );
+		</script>
+		
 	<style>
 				#divLoading
 				{
@@ -64,20 +77,18 @@ $active_menu="index";
 				}
 	</style>
 	<script>
-		function search_expenses(id)
+		function search_assets(id)
 		{
-			month=$("#month").val();
-			year=$("#year").val();
+			from_date=$("#from_date").val();
+			to_date=$("#to_date").val();
 			 $("div#divLoading").addClass('show');	
 				jQuery.ajax({
 				type:"POST",
-				url:"<?php echo base_url(); ?>" + "index.php/ffcm/search_expenses",
+				url:"<?php echo base_url(); ?>" + "index.php/ffi_assets/search_assets",
 				datatype:"text",
-				data:{month:month,year:year},
+				data:{from_date:from_date,to_date:to_date},
 				success:function(response)
 				{
-					$("#datatable-header").css("display","none");
-					$("#datatable-footer").css("display","none");
 					$('#get_details').empty();
 					$('#get_details').append(response);
 					$("div#divLoading").removeClass('show');
@@ -85,144 +96,26 @@ $active_menu="index";
 				error:function (xhr, ajaxOptions, thrownError){}
 				});
 		}
-		function delete_expenses(id)
+		function delete_assets(id)
 		{
 			var r=confirm("Are you sure to Delete ?");
 			if(r==true)
 			{
-				month=$("#month").val();
-				year=$("#year").val();
 				$("div#divLoading").addClass('show');	
 					jQuery.ajax({
 					type:"POST",
-					url:"<?php echo base_url(); ?>" + "index.php/ffcm/delete_expenses",
+					url:"<?php echo base_url(); ?>" + "index.php/ffi_assets/delete_assets",
 					datatype:"text",
-					data:{id:id,month:month,year:year},
+					data:{id:id},
 					success:function(response)
 					{
-						$('#get_details').empty();
-						$('#get_details').append(response);
-						$("div#divLoading").removeClass('show');
-						$("#ffcm_d_table").DataTable().ajax.reload(); 
-
-
-
+						location.reload();
 					},
 					error:function (xhr, ajaxOptions, thrownError){}
 					});
 			}
 		}
 	</script>
-
-<script>
-					var DatatableAdvanced = function() {
-
-						// Basic Datatable examples
-						var _componentDatatableAdvanced = function() {
-							if (!$().DataTable) {
-								console.warn('Warning - datatables.min.js is not loaded.');
-								return;
-							}
-
-							// Setting datatable defaults
-							$.extend($.fn.dataTable.defaults, {
-								autoWidth: false,
-								columnDefs: [{
-									orderable: false,
-									width: 100,
-									targets: [5]
-								}],
-								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-								language: {
-									search: '<span>Filter:</span> _INPUT_',
-									searchPlaceholder: 'Type to filter...',
-									lengthMenu: '<span>Show:</span> _MENU_',
-									paginate: {
-										'first': 'First',
-										'last': 'Last',
-										'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
-										'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
-									}
-								}
-							});
-
-							var dataTable = $('#ffcm_d_table').DataTable({
-								'processing': true,
-								'serverSide': true,
-								'order': [],
-								'ajax': {
-									'url': "<?php echo base_url() . 'Ffcm/get_all_data' ?>",
-									'type': 'POST'
-								},
-								'columnDefs': [{
-									"targets": [5],
-									"orderable": false,
-								}],
-
-							})
-
-							// Datatable 'length' options
-							$('.datatable-show-all').DataTable({
-								lengthMenu: [
-									[10, 25, 50, -1],
-									[10, 25, 50, "All"]
-								]
-							});
-
-							// DOM positioning
-							$('.datatable-dom-position').DataTable({
-								dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
-							});
-
-							// Highlighting rows and columns on mouseover
-							var lastIdx = null;
-							var table = $('.datatable-highlight').DataTable();
-
-							$('.datatable-highlight tbody').on('mouseover', 'td', function() {
-								var colIdx = table.cell(this).index().column;
-
-								if (colIdx !== lastIdx) {
-									$(table.cells().nodes()).removeClass('active');
-									$(table.column(colIdx).nodes()).addClass('active');
-								}
-							}).on('mouseleave', function() {
-								$(table.cells().nodes()).removeClass('active');
-							});
-
-							// Columns rendering
-							$('.datatable-columns').dataTable({
-								columnDefs: [{
-										// The `data` parameter refers to the data for the cell (defined by the
-										// `data` option, which defaults to the column being worked with, in
-										// this case `data: 0`.
-										render: function(data, type, row) {
-											return data + ' (' + row[3] + ')';
-										},
-										targets: 0
-									},
-									{
-										visible: false,
-										targets: [3]
-									}
-								]
-							});
-
-						};
-						//
-						// Return objects assigned to module
-						//
-						return {
-							init: function() {
-								_componentDatatableAdvanced();
-							}
-						}
-					}();
-
-					document.addEventListener('DOMContentLoaded', function() {
-						DatatableAdvanced.init()
-					});
-				</script>
-
 </head>
 
 <body>
@@ -250,12 +143,12 @@ $active_menu="index";
 			<div class="page-header page-header-light">
 				<div class="page-header-content header-elements-md-inline">
 					<div class="page-title d-flex">
-						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Fretus Folks Cost Management</span></h4>
+						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">FFI Assets Management</span></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
 
 					<div class="header-elements d-none">
-							<a href="<?php echo site_url('ffcm/new_expenses');?>" class="btn btn-labeled btn-labeled-right bg-primary">New Expenses<b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
+							<a href="<?php echo site_url('ffi_assets/new_entry');?>" class="btn btn-labeled btn-labeled-right bg-primary">New Entry<b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
 					</div>
 				</div>
 
@@ -263,7 +156,7 @@ $active_menu="index";
 					<div class="d-flex">
 						<div class="breadcrumb">
 							<a href="<?php echo site_url('home/dashboard');?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-							<span class="breadcrumb-item active">FFI Cost Management</span>
+							<span class="breadcrumb-item active">FFI Assets Management</span>
 						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
@@ -276,10 +169,10 @@ $active_menu="index";
 			<div class="content">
 								<div class="row">
 					<div class="col-md-12">
-					 <form class="form-horizontal" id="my_form" action="<?php echo site_url('ffcm/download_expenses');?>" method="POST" enctype="multipart/form-data">
+					 <form class="form-horizontal" id="my_form" action="<?php echo site_url('ffi_assets/download_assets');?>" method="POST" enctype="multipart/form-data">
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h5 class="card-title">Search Expenses</h5>
+								<h5 class="card-title">Search By Issued Date</h5>
 								<div class="header-elements">
 									<div class="list-icons">
 				                		<a class="list-icons-item" data-action="collapse"></a>
@@ -289,50 +182,19 @@ $active_menu="index";
 							</div>
 							<div class="card-body">
 								<div class="row">
-										
-										<label class="control-label col-lg-1" style="padding-top:1%">Month</label>
+										<label class="control-label col-lg-1" style="padding-top:1%">From Date</label>
 										<div class="col-md-3">
-											<select name="month" id="month" class="form-control" required>
-												<option value="">Select Month</option>
-												<?php
-													for($i=1;$i<=12;$i++)
-													{
-														if(date('m')==$i)
-														{
-															echo '<option value="'.$i.'" selected>'.date("F",strtotime("12-$i-2017")).'</option>';
-														}
-														else
-														{
-															echo '<option value="'.$i.'">'.date("F",strtotime("12-$i-2017")).'</option>';
-														}
-													}
-												?>
-											</select>
+											<input type="textbox" name="from_date" id="from_date" class="form-control datepicker" placeholder="DD-MM-YYYY" autocomplete="off" required>
 										</div>	
-										<label class="control-label col-lg-1" style="padding-top:1%">Year</label>
-											<div class="col-md-3">
-													<select name="year" id="year" class="form-control" required>
-														<option value="">Select Year</option>
-														<?php
-															for($i=2018;$i<=date("Y");$i++)
-															{
-																if(date('Y')==$i)
-																{
-																	echo '<option value="'.$i.'" selected>'.$i.'</option>';
-																}
-																else
-																{
-																	echo '<option value="'.$i.'">'.$i.'</option>';	
-																}
-															}
-														?>
-													</select>
-											</div>
+										<label class="control-label col-lg-1" style="padding-top:1%">To Date</label>
+										<div class="col-md-3">
+											<input type="textbox" name="to_date" id="to_date" class="form-control datepicker" placeholder="DD-MM-YYYY" autocomplete="off">
+										</div>
 								</div>
 								<div class="row">
 									<div class="col-md-3" style="margin-top:2%">
 										<div class="form-group">
-											<button type="button" class="btn btn-primary btn-labeled btn-labeled-left" onclick="search_expenses();"><b><i class="fa fa-search" aria-hidden="true" style="font-size: 16px;"></i></b> Search</button>
+											<button type="button" class="btn btn-primary btn-labeled btn-labeled-left" onclick="search_assets();"><b><i class="fa fa-search" aria-hidden="true" style="font-size: 16px;"></i></b> Search</button>
 											<button type="submit" class="btn btn-primary btn-labeled btn-labeled-left"><b><i class="fa fa-download" aria-hidden="true" style="font-size: 16px;"></i></b> Download</button>
 										</div>
 									</div>
@@ -352,7 +214,7 @@ $active_menu="index";
 										<!-- Style combinations -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Expenses Details</h5>
+						<h5 class="card-title">Assets Management</h5>
 						<div class="header-elements">
 							<div class="list-icons">
 		                		<a class="list-icons-item" data-action="reload"></a>
@@ -360,19 +222,75 @@ $active_menu="index";
 	                	</div>
 					</div>
 					
-					<table id="ffcm_d_table" class="table datatable-basic table-bordered table-striped table-hover">
+					<table class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
 								<th>Si No</th>
-								<th>Date</th>
-								<th>Month</th>
-								<th>Nature of Expenses</th>
-								<th style="width:15%">Amount</th>
+								<th style="width:15%">Emp Name</th>
+								<th style="width:15%">Asset Name</th>
+								<th style="width:15%">Asset Code</th>
+								<th style="width:15%">Issued On</th>
+								<th style="width:15%">Returned On</th>
+								<th style="width:15%">Status</th>
 								<th class="text-center">Actions</th>
 							</tr>
 							
 						</thead>
-						
+						<tbody id="get_details">
+							
+							<?php 
+								$i=1;
+								foreach($ffi_assets as $row)
+								{
+									$db_date1="";
+									$db_date2="";
+									$status="";
+										if($row['issued_date'] !="0000-00-00")
+										{
+											$db_date1=date("d-m-Y",strtotime($row['issued_date']));
+										}
+										if($row['returned_date'] !="0000-00-00")
+										{
+											$db_date2=date("d-m-Y",strtotime($row['returned_date']));
+										}
+										if($row['status']==0)
+										{
+											$status="Issued";
+										}
+										if($row['status']==1)
+										{
+											$status="Returned";
+										}
+									echo '
+											<tr>
+												<td>'.$i.'</td>
+												<td>'.$row['emp_name'].'</td>
+												<td>'.$row['asset_name'].'</td>
+												<td>'.$row['asset_code'].'</td>
+												<td style="width:15%">'.$db_date1.'</td>
+												<td style="width:15%">'.$db_date2.'</td>
+												<td style="width:15%">'.$status.'</td>
+												<td class="text-center">
+													<div class="list-icons">
+														<div class="dropdown">
+															<a href="#" class="list-icons-item" data-toggle="dropdown">
+																<i class="icon-menu9"></i>
+															</a>
+															<div class="dropdown-menu dropdown-menu-right">
+																<a href="'.site_url('ffi_assets/edit_assets_details/'.$row['id']).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>';
+																if($this->session->userdata('admin_type')==0)
+																{
+																	echo '<a href="javascript:void(0);" id="'.$row['id'].'" onclick="delete_assets(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>';
+																}
+												echo '		</div>
+														</div>
+													</div>
+												</td>
+											</tr>';
+									$i++;
+								}
+							?>
+						</tbody>
 					</table>
 				</div>
 					</div>

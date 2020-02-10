@@ -16,7 +16,7 @@ class Client_management extends CI_Controller
 		if($this->session->userdata('admin_login'))
 		{
 			$data['active_menu']="client";
-			$data['clients']=$this->client->get_all_clients();
+			//$data['clients']=$this->client->get_all_clients();
 			$this->load->view('admin/back_end/client_management/index',$data);
 		}
 		else
@@ -24,6 +24,51 @@ class Client_management extends CI_Controller
 			redirect('home/index');
 		}
 	}
+
+	public function get_all_data($var = null) //created for implementing data tables
+	{
+		if ($this->session->userdata('admin_login')) {
+			$fetch_data = $this->client->make_datatables();
+			$data = array();
+			// $status = '<span class="badge bg-blue">Completed</span>';
+			
+			foreach ($fetch_data as $row) {
+				$sub_array   = array();
+				$sub_array[] = $row->id;
+				$sub_array[] = $row->client_name; 
+				$sub_array[] = $row->contact_person;
+				$sub_array[] = $row->contact_person_phone;
+				$sub_array[] = $row->contact_person_email;
+				
+				$sub_array[] = '
+					 <div class="list-icons">
+					 <div class="dropdown">
+						 <a href="#" class="list-icons-item" data-toggle="dropdown">
+							 <i class="icon-menu9"></i>
+						 </a>
+						 <div class="dropdown-menu dropdown-menu-right">
+						 <a href="javascript:void(0)" id='.$row->id.' onclick="view_client_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+						 <a href="'.site_url('client_management/edit_clients/'.$row->id).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
+						 <a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_clients(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+						 </div>
+					 </div>
+				 </div>
+					 ';
+				$data[] = $sub_array;
+				
+			}
+			$output = array(
+				"draw"                =>     intval($_POST["draw"]),
+				"recordsTotal"        =>     $this->client->get_all_data(),
+				"recordsFiltered"     =>     $this->client->get_filtered_data(),
+				"data" => $data
+			);
+			echo json_encode($output);  
+		} else {
+			redirect('home/index');
+		}
+	}
+
 	function new_client()
 	{
 		if($this->session->userdata('admin_login'))
