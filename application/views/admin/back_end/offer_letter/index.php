@@ -194,6 +194,18 @@ ob_start();
 			<?php
 			}
 			?>
+			<?php
+
+				if ($this->session->flashdata('nochange', 'No changes')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold">No changes..!</span>
+					</div>
+				<?php
+				}
+				?>
+
 
 			<?php
 

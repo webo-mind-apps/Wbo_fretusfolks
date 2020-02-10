@@ -207,15 +207,26 @@ $active_menu="index";
 				</div>
 				<?php
 
-									if($this->session->flashdata('error', 'No datas found')){
-									?> 
-									<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
-									<button type="button" class="close" data-dismiss="alert">&times;</button>
-									<span class="text-semibold">No datas found..!</span>
-									</div>
-									<?php 
-									}
-								?>	
+						if($this->session->flashdata('error', 'No datas found')){
+						?> 
+						<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold">No datas found..!</span>
+						</div>
+						<?php 
+						}
+					?>	
+					<?php
+
+					if ($this->session->flashdata('nochange', 'No changes')) {
+					?>
+						<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<span class="text-semibold">No changes..!</span>
+						</div>
+					<?php
+					}
+					?>
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -347,10 +358,6 @@ $active_menu="index";
 			$('#import').trigger('click');
 		});
 
-		$('#import_file').click(function (e) { 
-			e.preventDefault();
-			$('#import').trigger('click');
-		});
 
 		$('#import').change(function (e) { 
 		

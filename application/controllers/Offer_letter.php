@@ -86,13 +86,40 @@ class Offer_letter extends CI_Controller
 	{
 		$this->load->library('zip'); 
 		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); 
+		
 		$path = 'offer_letters/offer_letter_'.date('Ymdhis');
 		if(!is_dir($path)) mkdir($path, 0777, TRUE); 
 		foreach ($data['letter_details'] as $key => $value) {
-			$mpdf = new \Mpdf\Mpdf(); 
+			$mpdf=new \Mpdf\Mpdf(); 
+			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+			   $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			   $mpdf->AddPage('', // L - landscape, P - portrait 
+				'', '', '', '',
+				5, // margin_left
+				5, // margin right
+				60, // margin top
+				30, // margin bottom
+				0, // margin header
+				0); // margin footer
 			$data['letter_details'][0] = $value;
-			$html = $this->load->view('admin/back_end/offer_letter/format2', $data, true); 
-			$mpdf->WriteHTML($html);   
+			if($value['client_id']==1)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true); 
+			}  
+			if($value['client_id']==2)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			}  
+			if($value['client_id']==3)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true); 
+			}  
+			if($value['client_id']==4)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true); 
+			}  
+			
+			$mpdf->WriteHTML($html); 
 			$file = $data['letter_details'][0]['employee_id'];
 			$file = $file.'-'.$data['letter_details'][0]['emp_name'];
 			$pdfData = $mpdf->Output($path.'/'.$file.'.pdf', 'F'); 
@@ -113,6 +140,8 @@ class Offer_letter extends CI_Controller
 			if ($data[0]['contract_date'] != "0000-00-00") {
 				$contract_date = date("d-m-Y", strtotime($data[0]['contract_date']));
 			}
+			
+			
 			if ($data[0]['data_status'] == 1) {
 				echo $data[0]['client_id'] . "****" . $data[0]['emp_name'] . "****" . $joining_date . "****" . $contract_date . "****" . $data[0]['designation'] . "****" . $data[0]['location'] . "****" . $data[0]['department'] . "****" . $data[0]['basic_salary'] . "****" . $data[0]['hra'] . "****" . $data[0]['conveyance'] . "****" . $data[0]['medical_reimbursement'] . "****" . $data[0]['special_allowance'] . "****" . $data[0]['other_allowance'] . "****" . $data[0]['st_bonus'] . "****" . $data[0]['gross_salary'] . "****" . $data[0]['emp_pf'] . "****" . $data[0]['emp_esic'] . "****" . $data[0]['pt'] . "****" . $data[0]['total_deduction'] . "****" . $data[0]['take_home'] . "****" . $data[0]['employer_pf'] . "****" . $data[0]['employer_esic'] . "****" . $data[0]['mediclaim'] . "****" . $data[0]['ctc'];
 			} else {
@@ -127,18 +156,72 @@ class Offer_letter extends CI_Controller
 		$letter_type = $this->input->post('letter_format');
 
 		$data['letter_details'] = $this->letter->save_offer_letter();
+		// echo '<pre>';
+		// print_r($data['letter_details'][0]['email']);
+		// exit;
+		
+		if(!empty($data))
+		{
+		$mpdf=new \Mpdf\Mpdf();
+		$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+		   $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+		   $mpdf->AddPage('', // L - landscape, P - portrait 
+			'', '', '', '',
+			5, // margin_left
+			5, // margin right
+			60, // margin top
+			30, // margin bottom
+			0, // margin header
+			0); // margin footer
 		if ($letter_type == 1) {
-			$this->load->view('admin/back_end/offer_letter/format1', $data);
+			
+			$html=$this->load->view('admin/back_end/offer_letter/pdf-format1', $data,true);
 		}
-		if ($letter_type == 2) {
-			$this->load->view('admin/back_end/offer_letter/format2', $data);
+		else if ($letter_type == 2) {
+			
+			$html =$this->load->view('admin/back_end/offer_letter/pdf-format2', $data,true);
 		}
-		if ($letter_type == 3) {
-			$this->load->view('admin/back_end/offer_letter/format3', $data);
+		else if ($letter_type == 3) {
+			
+			$html=$this->load->view('admin/back_end/offer_letter/pdf-format3', $data,true);
 		}
-		if ($letter_type == 4) {
-			$this->load->view('admin/back_end/offer_letter/format4', $data);
+		else if ($letter_type == 4)
+		{
+			
+			$html=$this->load->view('admin/back_end/offer_letter/pdf-format4', $data,true);
 		}
+		$mpdf->WriteHTML($html);
+		$content = $mpdf->Output('', 'S');
+		$filename = date('d/m/Y')."_offer-letter.pdf";
+		$this->load->config('email');
+		$this->load->library('email');
+		$message=$this->load->view('admin/back_end/offer_letter/offer_letter_email',$data,true);
+		$subject="welcome";
+		$from = $this->config->item('smtp_user');
+		$to=$data['letter_details'][0]['email'];
+		$this->email->set_newline("\r\n");
+		$this->email->from($from, 'Fretus folks india');
+		$this->email->to($to);
+		$this->email->subject($subject);
+		$this->email->message($message);
+		$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+		if($this->email->send())
+		{
+			
+			if ($letter_type == 1) {
+				$html1=$this->load->view('admin/back_end/offer_letter/format1', $data);
+			}
+			if ($letter_type == 2) {
+				$html2=$this->load->view('admin/back_end/offer_letter/format2', $data);
+			}
+			if ($letter_type == 3) {
+				$html3=$this->load->view('admin/back_end/offer_letter/format3', $data);
+			}
+			if ($letter_type == 4) {
+				$html4=$this->load->view('admin/back_end/offer_letter/format4', $data);
+			}
+		}		
+	}
 	}
 	function view_offer_letter()
 	{
@@ -236,11 +319,12 @@ class Offer_letter extends CI_Controller
 					$client = empty($allDataInSheet[$i]['B']) ? 'null' : $allDataInSheet[$i]['B'];
 					$this->db->where("client_name", $client);
 					$query = $this->db->get("client_management");
-					$q = $query->result_array();
-					// print_r($q);
-					// exit;
-					$client_id = $q[0]['id'];
-
+					$q = $query->row_array();
+				// 	echo "<pre>";
+				//  print_r($q);
+				// 	exit;
+					$client_id = $q['id'];
+					
 					$date = date("Y-m-d");
 
 					$offer_letter = empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C'];
@@ -254,11 +338,10 @@ class Offer_letter extends CI_Controller
 					} elseif ($offer_letter == "Udaan") {
 						$offer_letter_type = 4;
 					}
-
-
+					$emp_id=(empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 					$data = array(
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
-						"company_id"			=>	$client_id,
+						"company_id"			=>  $client_id,
 						"date"					=>	$date,
 						"offer_letter_type"		=>	$offer_letter_type,
 						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
@@ -280,17 +363,91 @@ class Offer_letter extends CI_Controller
 						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
 
 					);
-
-
-
-					$this->letter->importEmployee_offer_letter($data);
+					
+					$this->db->where('ffi_emp_id',$emp_id);
+					
+					$query=$this->db->get("backend_management");
+					if($query->num_rows())
+					{
+						if($insert=$this->letter->importEmployee_offer_letter($data))
+						{
+							
+							$this->db->select('a.*,b.branch,b.emp_name,b.last_name,b.middle_name,b.ffi_emp_id,b.email,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+							$this->db->from('offer_letter a');
+							$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
+							$this->db->join('client_management c','a.company_id=c.id','left');
+							$this->db->where('a.employee_id',$emp_id);
+							$query=$this->db->get();
+							$data['letter_details']=$query->result_array();
+							
+							$mpdf=new \Mpdf\Mpdf();
+							$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+						   $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+						   $mpdf->AddPage('', // L - landscape, P - portrait 
+							'', '', '', '',
+							5, // margin_left
+							5, // margin right
+							60, // margin top
+							30, // margin bottom
+							0, // margin header
+							0); // margin footer
+							if ($offer_letter_type == 1) {
+								
+								$html=$this->load->view('admin/back_end/offer_letter/pdf-format1', $data,true);
+								
+							}
+							else if ($offer_letter_type == 2) {
+							
+								$html =$this->load->view('admin/back_end/offer_letter/pdf-format2', $data,true);
+								
+							}
+							else if ($offer_letter_type == 3) {
+								
+								$html=$this->load->view('admin/back_end/offer_letter/pdf-format3', $data,true);
+								
+							}
+							else if ($offer_letter_type == 4)
+							{
+								
+								$html=$this->load->view('admin/back_end/offer_letter/pdf-format4', $data,true);
+							}
+							$mpdf->WriteHTML($html);
+							$content = $mpdf->Output('', 'S');
+							$filename = date('d/m/Y')."_offer-letter.pdf";
+							$this->load->config('email');
+							$this->load->library('email');
+							$message=$this->load->view('admin/back_end/offer_letter/offer_letter_email',$data,true);
+							$subject="welcome";
+							$from = $this->config->item('smtp_user');
+							$to=$data['letter_details'][0]['email'];
+							$this->email->set_newline("\r\n");
+							$this->email->from($from, 'Fretus folks india');
+							$this->email->to($to);
+							$this->email->subject($subject);
+							$this->email->message($message);
+							$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+							$this->email->send();
+						}
+					
 				}
-
-				$this->session->set_flashdata('success', 'Import successfully');
-				redirect('offer_letter', 'refresh');
+					
+				}
+				
+				if($insert){
+					$this->session->set_flashdata('success', 'Import successfully');
+					redirect('offer_letter', 'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('nochange', 'No changes');
+					redirect('offer_letter', 'refresh');
+				}
+				
+				
 			} else {
 
 				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+				redirect('offer_letter', 'refresh');
 			}
 		}
 	}
