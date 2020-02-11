@@ -1541,20 +1541,23 @@ class Fhrms_db extends CI_Model
 	public function make_quer()
 	{
 	 
-		$order_column = array("a.id", "emp_name","phone","email","a.status","date"); 
+		$order_column = array("a.id"); 
 		
 		$this->db->select('a.*,b.state_name');
 		$this->db->from('fhrms a');
 		$this->db->join('states b','a.state=b.id','left');
-		$this->db->where("a.status","0"); 
+		$this->db->where("a.status","0");
+		$this->db->where("a.dob",date("Y-m-d"));
+		//$this->db->where('EXTRACT(month FROM `dob`)','MONTH(NOW())');
 		$this->db->order_by('a.id','DESC');
 
 		if(isset($_POST["search"]["value"])){
             $this->db->group_start();
 				$this->db->like("a.id", $_POST["search"]["value"]); 
-				$this->db->like("emp_id", $_POST["search"]["value"]);  
+				$this->db->like("ffi_emp_id", $_POST["search"]["value"]);  
                 $this->db->or_like("emp_name", $_POST["search"]["value"]);  
-                $this->db->or_like("joining_date", $_POST["search"]["value"]);  
+				$this->db->or_like("joining_date", $_POST["search"]["value"]);  
+				$this->db->or_like("dob", $_POST["search"]["value"]);  
                 $this->db->or_like("phone1", $_POST["search"]["value"]);  
                 $this->db->or_like("email", $_POST["search"]["value"]);  
                
@@ -1581,7 +1584,7 @@ class Fhrms_db extends CI_Model
 	}
 
 	function get_filter_datas(){  
-		$this->make_queries();  
+		$this->make_quer();  
 		$query = $this->db->get();  
 		return $query->num_rows();  
 	} 
