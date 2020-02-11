@@ -23,10 +23,65 @@ class Payments_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+
+	public function make_query()
+	{ 
+        $order_column = array("a.id", "b.client_name","d.invoice_no", "a.total_amt_gst", "a.payment_received_date","a.amount_received","a.balance_amount","a.month");  
+		$this->db->select("a.*,d.invoice_no,d.service_location,b.client_name,c.state_name");
+		$this->db->from("payments a");
+		$this->db->join("invoice d","d.id=a.invoice_id","left");
+		$this->db->join("client_management b","a.client_id=b.id","left");
+		$this->db->join("states c","d.service_location=c.id","left");
+		$this->db->where("a.payment_received","1");
+		$this->db->where("a.status","0");
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("a.id", $_POST["search"]["value"]);  
+                $this->db->or_like("b.client_name", $_POST["search"]["value"]);   
+                $this->db->or_like("d.invoice_no", $_POST["search"]["value"]);
+				$this->db->or_like("a.total_amt_gst", $_POST["search"]["value"]);
+				$this->db->or_like("a.payment_received_date", $_POST["search"]["value"]); 
+				$this->db->or_like("a.amount_received", $_POST["search"]["value"]); 
+                $this->db->or_like("a.balance_amount", $_POST["search"]["value"]); 
+                $this->db->or_like("a.month", $_POST["search"]["value"]); 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('a.id', 'DESC');  
+        }  	
+	}
+
+	function get_all_data()  
+    {  
+           $this->db->select("*");
+           $this->db->from('payments');  
+           return $this->db->count_all_results();  
+	}
+	
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+	function make_datatables(){  
+        $this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+	}
+
 	function get_payment_details()
 	{
-		$id=$this->uri->segment(3);
-		
+		$id=$this->uri->segment(3); 
 		$this->db->select("a.*,d.invoice_no,d.service_location,b.client_name,c.state_name");
 		$this->db->from("payments a");
 		$this->db->join("invoice d","d.id=a.invoice_id","left");
@@ -220,5 +275,4 @@ class Payments_db extends CI_Model
 			$this->db->update('invoice',$data);
 		}
 	}
-}  
-?>
+}
