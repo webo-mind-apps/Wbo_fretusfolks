@@ -137,6 +137,21 @@ class Offer_letter extends CI_Controller
 		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 		foreach ($data['letter_details'] as $key => $value) {
 			$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
+			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			$mpdf->AddPage(
+				'', // L - landscape, P - portrait 
+				'',
+				'',
+				'',
+				'',
+				5, // margin_left
+				5, // margin right
+				60, // margin top
+				30, // margin bottom
+				0, // margin header
+				0
+			); // margin footer
 			$data['letter_details'][0] = $value; //4.using record id fetch html pages 
 			$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
 			$mpdf->WriteHTML($html);
