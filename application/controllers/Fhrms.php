@@ -795,11 +795,11 @@ class Fhrms extends CI_Controller
 														<i class="icon-menu9"></i>
 													</a>
 													<div class="dropdown-menu dropdown-menu-right">
-														<a href="javascript:void(0)" id='.$row['id'].' onclick="view_employee_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
-														<a href="'.site_url('fhrms/edit_fhrms/'.$row['id']).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>';
+														<a href="javascript:void(0)" id='.$row->id.' onclick="view_employee_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+														<a href="'.site_url('fhrms/edit_fhrms/'.$row->id).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>';
 													if($this->session->userdata('admin_type')==0)
 															{
-																echo '<a href="javascript:void(0);" id="'.$row['id'].'" onclick="delete_fhrms(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>';
+																echo '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_fhrms(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>';
 															}
 														
 															echo '	</div>
@@ -811,6 +811,7 @@ class Fhrms extends CI_Controller
 								}
 	}
 
+	
 // data table fetch data from table
 public function get_all_data()
 {
@@ -827,6 +828,13 @@ public function get_all_data()
 				$btn = '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_fhrms(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 ';
 			}
+			$status="";
+			if ($row->status == 1) {
+				$status = '<span class="badge bg-blue">Completed</span>';
+			} else if ($row->status == 0) {
+				$status = '<span class="badge bg-danger">Pending</span>';
+			}
+			
 			$action = '<div class="list-icons">
 			<div class="dropdown">
 				<a href="#" class="list-icons-item" data-toggle="dropdown">
@@ -845,7 +853,7 @@ public function get_all_data()
 			$sub_array[] = $row->joining_date;
 			$sub_array[] = $row->phone1;
 			$sub_array[] = $row->email;
-			$sub_array[] = $row->status;
+			$sub_array[] = $status;
 			$sub_array[] = $action;
 			
 			 
@@ -885,7 +893,7 @@ public function get_all_datas()
 					<i class="icon-menu9"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a href="'.site_url('fhrms/view_offer_letter/'.$row['id']).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+					<a href="'.site_url('fhrms/view_offer_letter/'.$row->id).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
 					'.$btn.'
 				</div>
 			</div>

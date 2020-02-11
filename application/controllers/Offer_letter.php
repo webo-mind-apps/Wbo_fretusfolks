@@ -153,6 +153,7 @@ class Offer_letter extends CI_Controller
 				0
 			); // margin footer
 			$data['letter_details'][0] = $value; //4.using record id fetch html pages 
+<<<<<<< HEAD
 			if($value['offer_letter_type']==1)
 			{
 			$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true); 
@@ -169,6 +170,20 @@ class Offer_letter extends CI_Controller
 			{
 			$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true); 
 			}  
+=======
+			if ($value['offer_letter_type'] == 1) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
+			}
+			if ($value['offer_letter_type'] == 2) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			}
+			if ($value['offer_letter_type'] == 3) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
+			}
+			if ($value['offer_letter_type'] == 4) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+			}
+>>>>>>> 49c5e259ac764112d8da387eea6789069786dd9e
 			// $html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
 			
 			$mpdf->WriteHTML($html);
