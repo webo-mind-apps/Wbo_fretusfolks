@@ -98,12 +98,12 @@ class Offer_letter_db extends CI_Model
 		$emp_id = $this->input->post('ffi_emp_id');
 		$client = $this->input->post('client');
 		$letter_format = $this->input->post('letter_format');
-		$tenure_date = $this->input->post('tenure_date');
+		// $tenure_date = $this->input->post('tenure_date');
 
-		$tenure_date_db = "";
-		if ($tenure_date != "") {
-			$tenure_date_db = date("Y-m-d", strtotime($tenure_date));
-		}
+		// $tenure_date_db = "";
+		// if ($tenure_date != "") {
+		// 	$tenure_date_db = date("Y-m-d", strtotime($tenure_date));
+		// }
 
 		$basic_salary = $this->input->post('basic_salary');
 		$hra = $this->input->post('hra');
