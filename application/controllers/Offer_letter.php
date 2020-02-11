@@ -153,6 +153,24 @@ class Offer_letter extends CI_Controller
 				0
 			); // margin footer
 			$data['letter_details'][0] = $value; //4.using record id fetch html pages 
+ 
+			if($value['offer_letter_type']==1)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true); 
+			}  
+			else if($value['offer_letter_type']==2)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			}  
+			else if($value['offer_letter_type']==3)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true); 
+			}  
+			else if($value['offer_letter_type']==4)
+			{
+			$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true); 
+			}  
+
 			if ($value['offer_letter_type'] == 1) {
 				$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
 			}
@@ -165,11 +183,14 @@ class Offer_letter extends CI_Controller
 			if ($value['offer_letter_type'] == 4) {
 				$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
 			}
+
 			// $html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			
 			$mpdf->WriteHTML($html);
 			$file = $data['letter_details'][0]['employee_id'];
 			$file = $file . '-' . $data['letter_details'][0]['emp_name'];
 			$pdfData = $mpdf->Output($path . '/' . $file . '.pdf', 'F');
+				
 		}
 		$this->zip->read_dir($path, false); //5.make it as zip 
 		$download = $this->zip->download($path . '.zip');

@@ -140,7 +140,7 @@ class Offer_letter_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 		*/
-		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name, b.email');
 		$this->db->from('offer_letter a');
 		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
