@@ -811,6 +811,10 @@ class Fhrms extends CI_Controller
 								}
 	}
 
+	/* function delete_fhrms()
+	{
+		$this->fhrms->delete_fhrms();
+	} */
 // data table fetch data from table
 public function get_all_data()
 {
@@ -885,7 +889,7 @@ public function get_all_datas()
 					<i class="icon-menu9"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a href="'.site_url('fhrms/view_offer_letter/'.$row['id']).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+					<a href="'.site_url('fhrms/view_offer_letter/'.$row->id).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
 					'.$btn.'
 				</div>
 			</div>

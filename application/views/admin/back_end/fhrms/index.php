@@ -92,6 +92,7 @@ $active_menu="index";
 				error:function (xhr, ajaxOptions, thrownError){}
 				});
 		}
+		
 		function delete_fhrms(id)
 		{
 			r=confirm("Are you sure to delete ?");
