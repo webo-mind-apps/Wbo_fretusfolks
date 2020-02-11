@@ -8,7 +8,65 @@ class Client_db extends CI_Model
         parent::__construct();
 		$this->load->database();
 		$this->load->library("session");
-    }
+	}
+	function get_all_clients()
+	{
+		$this->db->where("status",0);
+		$this->db->order_by('id','DESC');
+		$query=$this->db->get("client_management");
+		$q=$query->result_array();
+		return $q;
+	}
+	
+	public function make_query()
+	{ 
+		$order_column = array("id", "client_name","contact_person", "contact_person_phone", "contact_person_email"); 
+		$this->db->select("*");
+		$this->db->from("client_management"); 
+		$this->db->where("status",0);
+		
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("id", $_POST["search"]["value"]);  
+                $this->db->or_like("client_name", $_POST["search"]["value"]);   
+				$this->db->or_like("contact_person", $_POST["search"]["value"]);
+				$this->db->or_like("contact_person_phone", $_POST["search"]["value"]);
+				$this->db->or_like("contact_person_email", $_POST["search"]["value"]);
+				
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('id', 'DESC');  
+        }  	
+	}
+
+	function get_all_data()  
+    {  
+           $this->db->select("*");
+           $this->db->from('client_management');  
+           return $this->db->count_all_results();  
+	}
+	
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+	function make_datatables(){  
+        $this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+	}
 	public function save_client()
 	{
 		$client=$this->input->post('client');
@@ -248,14 +306,7 @@ class Client_db extends CI_Model
 		$this->db->where('id',$id);
 		$this->db->update("client_management",$data);	
 	}
-	function get_all_clients()
-	{
-		$this->db->where("status","0");
-		$this->db->order_by('id','DESC');
-		$query=$this->db->get("client_management");
-		$q=$query->result_array();
-		return $q;
-	}
+	
 	function get_client_details($id)
 	{
 		$this->db->select("a.*,b.state_name,c.name as username");

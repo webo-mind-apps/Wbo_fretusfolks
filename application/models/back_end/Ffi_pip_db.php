@@ -20,6 +20,59 @@ class Ffi_pip_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+
+	public function make_query()
+	{ 
+		
+        $order_column = array("e.id", "e.from_name","e.emp_id", "d.emp_name", "e.date","d.phone1","d.designation");  
+		$this->db->select('e.*,d.emp_name,d.phone1,d.designation');
+		$this->db->from('ffi_pip_letter e');
+		$this->db->join('fhrms d','e.emp_id=d.ffi_emp_id','left');
+		$this->db->where('e.status',0);
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("e.id", $_POST["search"]["value"]);  
+                $this->db->or_like("e.from_name", $_POST["search"]["value"]);   
+                $this->db->or_like("e.emp_id", $_POST["search"]["value"]);
+				$this->db->or_like("d.emp_name", $_POST["search"]["value"]);
+				$this->db->or_like("e.date", $_POST["search"]["value"]); 
+				$this->db->or_like("d.phone1", $_POST["search"]["value"]); 
+                $this->db->or_like("d.designation", $_POST["search"]["value"]); 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('e.id', 'DESC');  
+        }  	
+	}
+
+	function get_all_data()  
+    {  
+           $this->db->select("*");
+           $this->db->from('backend_management');  
+           return $this->db->count_all_results();  
+	}
+	
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+	function make_datatables(){  
+        $this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+	}
+
 	function get_all_employee()
 	{
 		$this->db->where("data_status","1");
