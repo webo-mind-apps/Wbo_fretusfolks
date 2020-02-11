@@ -166,49 +166,53 @@
                      </div>
                   </div>
                </div>
-                  <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 15px;text-align: justify; padding-left: 0%;">
+               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 15px;text-align: justify; padding-left: 0%;">
 
-                     <br><br>
-                     <p style="font-size:12px;line-height:1.5;"><b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br>
-                        <span style="margin-left:0%;">
-                           Further to your interview , we are pleased to inform you that you are hereby appointed as <b><?php echo $letter_details[0]['designation']; ?></b> in the <b><?php echo $letter_details[0]['department']; ?></b> Department of our associate company <b><?php echo $letter_details[0]['client_name']; ?></b>. You are assigned to work at Bangalore as per terms and conditions discussed and agreed upon as <br>under :-</span>
-                     </p>
-                     <br>
-                     <p style="font-size:12px;line-height:1.5;margin-left:3% !important;margin-top: 1% !important;">
-                        <ol type="1" style="font-size:12px;line-height:1.5;">
-                           <li>This appointment is effective from <b><?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?></b> the date of your joining our Organization.</li>
-                           <li>Your salary and other allowances shall be as per <b>Annexure-1</b>.</li>
+                  <br><br>
+                  <p style="font-size:12px;line-height:1.5;"><b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br>
+                     <span style="margin-left:0%;">
+                        Further to your interview , we are pleased to inform you that you are hereby appointed as <b><?php echo $letter_details[0]['designation']; ?></b> in the <b><?php echo $letter_details[0]['department']; ?></b> Department of our associate company <b><?php echo $letter_details[0]['client_name']; ?></b>. You are assigned to work at Bangalore as per terms and conditions discussed and agreed upon as <br>under :-</span>
+                  </p>
+                  <br>
+                  <p style="font-size:12px;line-height:1.5;margin-left:3% !important;margin-top: 1% !important;">
+                     <ol type="1" style="font-size:12px;line-height:1.5;">
+                        <li>This appointment is effective from <b><?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?></b> the date of your joining our Organization.</li>
+                        <li>Your salary and other allowances shall be as per <b>Annexure-1</b>.</li>
 
-                           <li>You will agree to work with us for the period of client’s agreement, during which period of engagement can be terminated by either side by giving 15 Days pay in lieu thereof at company’s direction. In case of notice pay take over, the same will be recovered if you leave the company before completion of your tenure dated <b> <?php if ($letter_details[0]['tenure_date'] != "0000-00-00") {
-                                                                                                                                                                                                                                                                                                                                                                        echo date("d-m-Y", strtotime($letter_details[0]['tenure_date']));
-                                                                                                                                                                                                                                                                                                                                                                     } ?></b>.</li>
+                        <li>You will agree to work with us for the period of client’s agreement, during which period of engagement can be terminated by either side by giving 15 Days pay in lieu thereof at company’s direction. In case of notice pay take over, the same will be recovered if you leave the company before completion of your tenure dated
+                           <b> <?php
+                                 // if ($letter_details[0]['tenure_date'] != "0000-00-00") {
+                                 //    echo date("d-m-Y", strtotime($letter_details[0]['tenure_date']));
+                                 // }
+                               ?>
+                           </b>.</li>
 
-                           <li>Your future increments or promotion or any other salary increase shall be based on merit considering your periodic and consistent overall performance, business conditions and other parameters fixed from time to time at the discretion of the management and shall not be considered merely as a matter of right.</li>
+                        <li>Your future increments or promotion or any other salary increase shall be based on merit considering your periodic and consistent overall performance, business conditions and other parameters fixed from time to time at the discretion of the management and shall not be considered merely as a matter of right.</li>
 
-                           <li>During the period of service with the company, you shall not indulge and/ or take part in any activity of formation of council and / or association or become a member being part of management staff which are found to be detrimental in the interest of the company in any way. Such an action shall be deemed as infringement to service conditions of the company and amount to causing damage to its interest and shall call for disciplinary action being taken against you, as it may deem fit and appropriate.</li>
+                        <li>During the period of service with the company, you shall not indulge and/ or take part in any activity of formation of council and / or association or become a member being part of management staff which are found to be detrimental in the interest of the company in any way. Such an action shall be deemed as infringement to service conditions of the company and amount to causing damage to its interest and shall call for disciplinary action being taken against you, as it may deem fit and appropriate.</li>
 
-                           <li>During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.</li>
-
-
-                           <li>
-                              <ol type="i">
-                                 <li>Your services are liable to be transferred or loaned or assigned with / without transfer, wholly or partially, from one department to another or to office/ branch and vice-versa or office/ branch to another office/ branch of an associate company, existing or to come into existence in future or any of the Company’s branch office or locations anywhere in India or abroad or any other concern where this Company has any interest. In such case, you will abide by responsibilities expressly vested or implied or communicated and shall follow rules and regulations of the department / office, establishment, jointly or separately, without any compensation or extra remuneration or provision of accommodation. You, thereupon, may be governed by service conditions and other terms of the said concern as may be applicable.</li>
-
-                                 <li>The aforesaid Clause (i) will not give you any right to claim employment in any associate or / sister concern or ask for a common seniority with the employee of sister / associate concern.
-                                 </li>
-                              </ol>
-                           </li>
+                        <li>During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.</li>
 
 
-                           <li>In the event you are absent from duty without information or permission of leave or you overstay your sanctioned leave, the Management will treat you as having voluntarily abandoned the services of the Company.</li>
+                        <li>
+                           <ol type="i">
+                              <li>Your services are liable to be transferred or loaned or assigned with / without transfer, wholly or partially, from one department to another or to office/ branch and vice-versa or office/ branch to another office/ branch of an associate company, existing or to come into existence in future or any of the Company’s branch office or locations anywhere in India or abroad or any other concern where this Company has any interest. In such case, you will abide by responsibilities expressly vested or implied or communicated and shall follow rules and regulations of the department / office, establishment, jointly or separately, without any compensation or extra remuneration or provision of accommodation. You, thereupon, may be governed by service conditions and other terms of the said concern as may be applicable.</li>
+
+                              <li>The aforesaid Clause (i) will not give you any right to claim employment in any associate or / sister concern or ask for a common seniority with the employee of sister / associate concern.
+                              </li>
+                           </ol>
+                        </li>
 
 
-                           <li>You will keep the Company informed of any change in your residential address that may happen during the course of employment of your service with the company.</li>
+                        <li>In the event you are absent from duty without information or permission of leave or you overstay your sanctioned leave, the Management will treat you as having voluntarily abandoned the services of the Company.</li>
 
 
-                     </p>
-                     </ol>
-                  </div>
+                        <li>You will keep the Company informed of any change in your residential address that may happen during the course of employment of your service with the company.</li>
+
+
+                  </p>
+                  </ol>
+               </div>
             </td>
          </tr>
       </tbody>
