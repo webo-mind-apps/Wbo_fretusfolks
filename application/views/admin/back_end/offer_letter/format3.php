@@ -243,7 +243,7 @@
 		  </br></br> </br></br> </br> 
 		</br></br> </br></br> </br> 
 </br></br>  		
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="">
+      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-bottom:2.5%;">
      
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
          <tbody>

@@ -217,7 +217,7 @@
          </tr>
       </tbody>
    </table><br /><br />
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:12%;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:12%;margin-bottom:3%;">
    <table width=" 100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
          <tr>

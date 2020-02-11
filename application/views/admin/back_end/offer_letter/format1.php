@@ -189,7 +189,7 @@
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top: 12.5%;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top: 12.5%;margin-bottom:3.5%;">
    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
          <tr>
@@ -203,7 +203,7 @@
       </tbody>
    </table>
 
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="display:none;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="display:none;margin-bottom:3%;">
 
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
@@ -238,7 +238,7 @@
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:28.6%">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:28.6%;margin-bottom:3%;">
 
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
@@ -291,7 +291,7 @@
    </table>
    <!-- </tbody>
    </table> -->
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:8.5%;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:8.5%;margin-bottom:1.5%;">
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
