@@ -215,9 +215,11 @@ class Offer_letter_db extends CI_Model
 		$query = $this->db->get("offer_letter");
 		if (!$query->num_rows()) {
 			$this->db->insert('offer_letter', $data);
+			return true;
 		} else {
 			$this->db->where('employee_id', $data['employee_id']);
 			$this->db->update('offer_letter', $data);
+			return true;
 		}
 	}
 }

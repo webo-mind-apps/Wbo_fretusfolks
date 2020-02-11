@@ -369,8 +369,6 @@ class Fcms extends CI_Controller
 				$sub_array[] = $row->grand_total;
 				$sub_array[] = $row->date;
 				$sub_array[] = $action;
-				
-			 	
 				$data[] = $sub_array;
 			// 	
 			}
