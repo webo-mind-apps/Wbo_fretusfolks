@@ -143,7 +143,7 @@
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
                <!-- <img src="admin_assets/ffi_header.jpg"> -->
-               <div style="color:#000;font-size: 21px;margin-top: 0%;margin-bottom: 5%;">
+               <div style="color:#000;font-size: 21px;">
                   <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
                      <div>
                         <br>
@@ -271,14 +271,14 @@
          </tr>
       </tbody>
    </table>
-   <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-left: 5%;">
+   <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="">
       <tbody>
          <tr st>
             <td colspan="3" style="font-size:12px;text-align:left;padding:7px">
                <p style="line-height:1.8;font-size:14px">
                   Yours faithfully,<br>
                   <b>For : Fretus Folks India Pvt Ltd.</b> <br>
-                  &nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100"><br>
+                  &nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style=""><br>
                   <b>&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
                </p>
             </td>

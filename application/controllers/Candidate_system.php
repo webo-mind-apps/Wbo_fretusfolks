@@ -39,7 +39,7 @@ class Candidate_system extends CI_Controller
 				$status = "";
 				if ($row->dcs_approval == 1) {
 					$approval = '<span class="badge bg-blue">Approved</span>';
-				} else if ($row['dcs_approval'] == 2) {
+				} else if ($row->dcs_approval == 2) {
 					$approval = '<span class="badge bg-danger">Disapproved</span>';
 				}
 				if ($row->data_status == 1) {

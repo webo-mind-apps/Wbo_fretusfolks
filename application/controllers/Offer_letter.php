@@ -133,6 +133,9 @@ class Offer_letter extends CI_Controller
 	{
 		$this->load->library('zip');
 		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); //2.select records in model
+		
+		if(!empty($data['letter_details']))
+		{
 		$path = 'offer_letters/offer_letter_' . date('Ymdhis');
 		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 		foreach ($data['letter_details'] as $key => $value) {
@@ -147,8 +150,8 @@ class Offer_letter extends CI_Controller
 				'',
 				5, // margin_left
 				5, // margin right
-				60, // margin top
-				30, // margin bottom
+				35, // margin top
+				35, // margin bottom
 				0, // margin header
 				0
 			); // margin footer
@@ -189,11 +192,19 @@ class Offer_letter extends CI_Controller
 			$mpdf->WriteHTML($html);
 			$file = $data['letter_details'][0]['employee_id'];
 			$file = $file . '-' . $data['letter_details'][0]['emp_name'];
-			$pdfData = $mpdf->Output($path . '/' . $file . '.pdf', 'F');
+			$pdfData = $mpdf->Output();
+exit;
+			//$path . '/' . $file . '.pdf', 'F'
 				
 		}
 		$this->zip->read_dir($path, false); //5.make it as zip 
 		$download = $this->zip->download($path . '.zip');
+		}
+		else 
+		{
+			$this->session->set_flashdata('noData', 'Datas not available');
+			redirect('offer_letter', 'refresh');
+		}
 	}
 
 	function get_employee_detail()
