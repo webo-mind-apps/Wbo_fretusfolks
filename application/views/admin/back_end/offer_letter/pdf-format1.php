@@ -17,7 +17,7 @@
    </style>
 </head>
 
-<body>
+<body onload="window.print();">
 
    <div style="position: absolute;
                   top: 153px;
