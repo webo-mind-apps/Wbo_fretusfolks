@@ -137,8 +137,9 @@ class Offer_letter extends CI_Controller
 		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 		foreach ($data['letter_details'] as $key => $value) {
 			$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
-			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			// $this->jSWord = 0.4;  // Percentage(/100) of spacing to allocate to Word vs. Character
+			// $this->jSmaxChar = 2; // Maximum spacing to allocate to character spacing. (0 = no maximum)
 			$mpdf->AddPage(
 				'', // L - landscape, P - portrait 
 				'',
@@ -147,29 +148,22 @@ class Offer_letter extends CI_Controller
 				'',
 				5, // margin_left
 				5, // margin right
-				60, // margin top
+				45, // margin top
 				30, // margin bottom
 				0, // margin header
 				0
 			); // margin footer
 			$data['letter_details'][0] = $value; //4.using record id fetch html pages 
- 
-			if($value['offer_letter_type']==1)
-			{
-			$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true); 
-			}  
-			else if($value['offer_letter_type']==2)
-			{
-			$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-			}  
-			else if($value['offer_letter_type']==3)
-			{
-			$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true); 
-			}  
-			else if($value['offer_letter_type']==4)
-			{
-			$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true); 
-			}  
+
+			if ($value['offer_letter_type'] == 1) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
+			} else if ($value['offer_letter_type'] == 2) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			} else if ($value['offer_letter_type'] == 3) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
+			} else if ($value['offer_letter_type'] == 4) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+			}
 
 			if ($value['offer_letter_type'] == 1) {
 				$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
@@ -185,12 +179,13 @@ class Offer_letter extends CI_Controller
 			}
 
 			// $html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-			
+
 			$mpdf->WriteHTML($html);
 			$file = $data['letter_details'][0]['employee_id'];
 			$file = $file . '-' . $data['letter_details'][0]['emp_name'];
-			$pdfData = $mpdf->Output($path . '/' . $file . '.pdf', 'F');
-				
+			$pdfData = $mpdf->Output();
+			// $path . '/' . $file . '.pdf', 'F'
+			exit();
 		}
 		$this->zip->read_dir($path, false); //5.make it as zip 
 		$download = $this->zip->download($path . '.zip');
