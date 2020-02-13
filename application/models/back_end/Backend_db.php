@@ -35,7 +35,6 @@ class Backend_db extends CI_Model
 		$this->db->join('client_management b','a.client_id=b.id','left');
 		$this->db->join('states c','a.state=c.id','left');
 		$this->db->where('emp_name!=','');
-		$this->db->where("a.status","0");
 		$this->db->where("a.dcs_approval","1");
 		$this->db->where('a.active_status',0);
 		if(isset($_POST["search"]["value"])){
