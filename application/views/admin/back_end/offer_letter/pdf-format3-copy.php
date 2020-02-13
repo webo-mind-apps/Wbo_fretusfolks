@@ -65,7 +65,7 @@
          <tbody>
             <tr>
                <td style="padding-left:5%;padding-right:5%;">
-                  <img src="<?php echo base_url()?>admin_assets/ffi_header.jpg">
+                  <!-- <img src="admin_assets/ffi_header.jpg"> -->
                   <div style="color:#000;font-size: 21px;margin-top: 1%;margin-bottom: 1%;">
                      <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
                         <br>
@@ -76,7 +76,7 @@
                                     <p style="line-height:1.8;font-size:12px !important;">	
                                        
                                  </td>
-                                 <td style="font-size:12px;text-align:left;padding:7px;width:30%">
+                                 <td style="font-size:12px;text-align:left;padding:7px;">
                                     <p style="line-height:1.8;font-size:12px">
                                        <b>Date :  <?php echo date("d-m-Y",strtotime($letter_details[0]['joining_date']));?>
                                        <b>
@@ -88,7 +88,7 @@
                         </table>
                      </div>
                   </div>
-                  <h1 style="font-size:18px;text-align:center;text-decoration:underline;">Appointment  letter</h1>
+                 <h1 style="font-size:18px;text-decoration:underline;float:center;">Appointment  letter</h1></center>
                   <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
                      <p style="font-size:12px;line-height:1.8;"><b>To,<br/>
                         Mr. /Mrs. /Ms. <?php echo $letter_details[0]['emp_name'];?></br>
@@ -173,14 +173,14 @@
          </tbody>
       </table>
       <br>  <br>  
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:3.5%;">
+      <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:3.5%;"> -->
     
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
          <tbody>
             <tr>
                <td style="padding-left:5%;padding-right:5%;">
                   <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
-                  <img src="<?php echo base_url()?>admin_assets/ffi_header.jpg">                 
+                  <!-- <img src="admin_assets/ffi_header.jpg">                  -->
                  <br><br>
                   
 				  <ol type="1" start="11" style="font-size:12px;line-height:1.8;">
@@ -229,7 +229,7 @@
                                  <p style="line-height:1.8;font-size:14px">	
                                   
                                     <b>For Fretus Folks India Pvt Ltd</b> <br>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?php echo base_url()?>admin_assets/seal.png" style="margin-top:2%;" width="100">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100">
 									<br>
                                     <b>&nbsp;&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
                                  </p>
@@ -243,14 +243,14 @@
 		  </br></br> </br></br> </br> 
 		</br></br> </br></br> </br> 
 </br></br>  		
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-bottom:2.5%;">
+      <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style=""> -->
      
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
          <tbody>
             <tr>
                <td style="padding-left:5%;padding-right:5%;">
                   <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-top:-4%">
-                <img src="<?php echo base_url()?>admin_assets/ffi_header.jpg">
+                <!-- <img src="admin_assets/ffi_header.jpg"> -->
                   <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 1.5;text-align: justify; padding-left: 0%;">
                      <h1 style="font-size:14px;text-align:center;text-decoration: underline;">Annexure Salary Break Up</h1>
                      
@@ -335,7 +335,7 @@
                                  <p style="line-height:1.8;font-size:14px">	
                                   
                                     <b>For Fretus Folks India Pvt Ltd</b> <br>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="<?php echo base_url()?>admin_assets/seal.png" style="margin-top:2%;" width="100">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100">
 									<br>
                                     <b>&nbsp;&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
                                  </p>
@@ -354,7 +354,7 @@
 	  </br> </br> </br> 
 	   </br> </br> </br> 
 	  </br> </br> </br> </br>
-      <img class="abc" src="<?php echo base_url()?>admin_assets/ffi_footer.jpg" style="margin-top:1.2%;">
+      <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:1.2%;"> -->
     
        
    </body>

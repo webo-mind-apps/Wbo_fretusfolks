@@ -87,6 +87,9 @@ ob_start();
 			width: 100%;
 			height: 100%;
 		}
+		.down {
+			float: left;
+		}
 	</style>
 	<script>
 		function delete_offer_letter(id) {
@@ -147,8 +150,32 @@ ob_start();
 
 							</div>
 							<div class="col-md-3">
-								<a href="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">Export <b><i class="fa fa-download" aria-hidden="true"></i></b></a>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 							</div>
+							<div class="modal fade" role="dialog" id="fetchData">
+								<div class="modal-dialog modal-sm">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="content">
+											<div class="modal-body">
+												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
+													<div class="form-group">
+														<label class="down"><b>Date</b><span class="text-danger"></span></label>
+														<input type="date" name="offer_download_date" class="form-control" required>
+													</div>
+
+											</div>
+											<div class="modal-footer down">
+												<button type="submit" name="download" class="btn btn-success">Download</button>
+											</div>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+
 							<div class="col-md-3">
 								<button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br>
 
@@ -214,6 +241,18 @@ ob_start();
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">Please Choose Valid file formate ..!</span>
+				</div>
+			<?php
+			}
+			?>
+
+			<?php
+
+			if ($this->session->flashdata('noData', 'Datas not available')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Datas not available...!</span>
 				</div>
 			<?php
 			}

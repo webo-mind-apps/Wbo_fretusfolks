@@ -19,7 +19,7 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
 			// $data['offer_letter'] = $this->increment->get_all_increment_letters();
-			// $data['client_management'] = $this->increment->get_all_client();
+			 $data['client_management'] = $this->increment->get_all_client();
 			$this->load->view('admin/back_end/increment_letter/index', $data);
 		} else {
 			redirect('home/index');

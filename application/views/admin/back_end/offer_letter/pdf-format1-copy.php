@@ -5,6 +5,7 @@
    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
    <meta content="telephone=no" name="format-detection" />
    <title>Fretus Folks</title>
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
    <style type="text/css" media="screen">
       /* Linked Styles */
       body {
@@ -136,12 +137,12 @@
    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body onload="window.print()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none">
+<body onload="window.print()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none;">
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
-               <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
+               <!-- <img src="admin_assets/ffi_header.jpg"> -->
                <div style="color:#000;font-size: 21px;margin-top: 0%;margin-bottom: 5%;">
                   <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
                      <div>
@@ -153,49 +154,51 @@
                                     <p style="line-height:1.8;font-size:14px">
                                        <b>Mr. /Mrs. /Ms. : <?php echo $letter_details[0]['emp_name']; ?></b> <br>
                                        <b>Employee ID : <?php echo $letter_details[0]['ffi_emp_id']; ?></b> <br>
-                                       <b>Place : <?php echo $letter_details[0]['location']; ?></b> <br>
+                                       <b>Place : <?php echo $letter_details[0]['location']; ?></b> <br></p>
                                  </td>
                                  <td style="font-size:12px;text-align:left;padding:7px;width:30%">
                                     <p style="line-height:1.8;font-size:14px">
                                        <b>Date : <?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?><b></a>
                                     </p>
+                                 </td>
                               </tr>
                            </tbody>
                         </table>
                      </div>
                   </div>
-                  <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 15px;text-align: justify; padding-left: 0%;">
-                     <h1 style="font-size:18px;text-align:center;text-decoration: underline;">Appointment Letter</h1>
-                     <br><br>
-                     <p style="font-size:12px;line-height:1.5;"><b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br>
-                        <span style="margin-left:0%;">
-                           Further to your interview , we are pleased to inform you that you are hereby appointed as <b><?php echo $letter_details[0]['designation']; ?></b> in the <b><?php echo $letter_details[0]['department']; ?></b> Department of our company <b><?php echo $letter_details[0]['client_name']; ?></b>. You are assigned to work at Bangalore as per terms and conditions discussed and agreed upon as <br>under :-</span>
-                     </p>
-                     <br>
-                     <p style="font-size:12px;line-height:1.5;margin-left:3% !important;margin-top: 1% !important;">
-                        <ol type="1" style="font-size:12px;line-height:1.5;">
-                           <li>This appointment is effective from <b><?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?></b> the date of your joining our Organization.</li>
-                           <li>Your salary and other allowances shall be as per <b>Annexure-1</b>.</li>
-                           <li>You will be placed on probation for a period of six months and the said period can be extended by another three months and on the expiry of the period of probation or extended period of probation, if you are not confirmed in writing, your services shall be deemed to be automatically terminated. However, unless you are confirmed in writing, you shall not be deemed to be permanent.</li>
-                           <li>During probation, the notice period for termination / resignation will be 24 hours from either side. After confirmation, the notice period required from either side is one month.</li>
-                           <li>After successful completion of your probation , you will be confirmed in writing as a permanent employee of the Company. You will be entitled to statutory and service benefits and be governed by discipline and other rules existing or may come into existence from time to time , as and when applicable as per rules of the Company and such other benefits as applicable to employees in force from time to time to the location / place wherever you are working.The company depending upon need shall take suitable cover of GPA to take care of liability under Workmen Compensation Act provided you are not covered under ESI Scheme.</li>
-                           <li>Your future increments or promotion or any other salary increase shall be based on merit considering your periodic and consistent overall performance, business conditions and other parameters fixed from time to time at the discretion of the management and shall not be considered merely as a matter of right.</li>
-                           <li>During the period of service with the company, you shall not indulge and/ or take part in any activity of formation of council and / or association or become a member being part of management staff which are found to be detrimental in the interest of the company in any way. Such an action shall be deemed as infringement to service conditions of the company and amount to causing damage to its interest and shall call for disciplinary action being taken against you, as it may deem fit and appropriate.</li>
-                           <li>During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.</li>
-                     </p>
-                     </ol>
-                  </div>
+               </div>
+               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 15px;text-align: justify !important;letter-spacing: 0; padding-left: 0%;">
+                  <h1 style="font-size:18px;text-align:center;text-decoration: underline;">Appointment Letter</h1>
+                  <br><br>
+                  <p style="font-size:12px;line-height:1.5;"><b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br>
+                     <span style="margin-left:0%;">
+                        Further to your interview , we are pleased to inform you that you are hereby appointed as <b><?php echo $letter_details[0]['designation']; ?></b> in the <b><?php echo $letter_details[0]['department']; ?></b> Department of our company <b><?php echo $letter_details[0]['client_name']; ?></b>. You are assigned to work at Bangalore as per terms and conditions discussed and agreed upon as <br>under :-</span>
+                  </p>
+                  <br>
+                  <p style="font-size:12px;line-height:1.5;margin-left:3% !important;margin-top: 1% !important;">
+                     <ol type="1" style="font-size:12px;line-height:1.5;">
+                        <li>This appointment is effective from <b><?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?></b> the date of your joining our Organization.</li>
+                        <li>Your salary and other allowances shall be as per <b>Annexure-1</b>.</li>
+                        <li style="font-size:20px;text-align:justify;">You will be placed on probation for a period of six months and the said period can be extended by another three months and on the expiry of the period of probation or extended period of probation, if you are not confirmed in writing, your services shall be deemed to be automatically terminated. However, unless you are confirmed in writing, you shall not be deemed to be permanent.</li>
+                        <li>During probation, the notice period for termination / resignation will be 24 hours from either side. After confirmation, the notice period required from either side is one month.</li>
+                        <li>After successful completion of your probation , you will be confirmed in writing as a permanent employee of the Company. You will be entitled to statutory and service benefits and be governed by discipline and other rules existing or may come into existence from time to time , as and when applicable as per rules of the Company and such other benefits as applicable to employees in force from time to time to the location / place wherever you are working.The company depending upon need shall take suitable cover of GPA to take care of liability under Workmen Compensation Act provided you are not covered under ESI Scheme.</li>
+                        <li>Your future increments or promotion or any other salary increase shall be based on merit considering your periodic and consistent overall performance, business conditions and other parameters fixed from time to time at the discretion of the management and shall not be considered merely as a matter of right.</li>
+                        <li>During the period of service with the company, you shall not indulge and/ or take part in any activity of formation of council and / or association or become a member being part of management staff which are found to be detrimental in the interest of the company in any way. Such an action shall be deemed as infringement to service conditions of the company and amount to causing damage to its interest and shall call for disciplinary action being taken against you, as it may deem fit and appropriate.</li>
+                        <li>During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.</li>
+                  </p>
+                  </ol>
+               </div>
             </td>
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top: 12.5%;margin-bottom:3.5%;">
+   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top: 12.5%;"> -->
    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
                <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
-                  <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg" style="display:none;">
+                  <!-- <img src="admin_assets/ffi_header.jpg" style="display:none;"> -->
                   <br><br>
                </div>
             </td>
@@ -203,14 +206,14 @@
       </tbody>
    </table>
 
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="display:none;margin-bottom:3%;">
+   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="display:none;"> -->
 
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
                <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-top:-5%">
-                  <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
+                  <!-- <img src="admin_assets/ffi_header.jpg"> -->
                   <br><br>
                   <ol type="1" start="9" style="font-size:12px;line-height:1.8;">
                      <li>
@@ -238,14 +241,14 @@
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:28.6%;margin-bottom:3%;">
+   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:28.6%"> -->
 
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
                <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-top:-4%">
-                  <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
+                  <!-- <img src="admin_assets/ffi_header.jpg"> -->
                   <br><br>
                   <ol type="1" start="15" style="font-size:12px;line-height:1.8;">
                      <li>You shall faithfully and to the best of your ability perform your duties that may be entrusted to you from time to time by the management. You will be bound by rules, regulations and orders promulgated by the management in relation to conduct, discipline and policy matters.<br>
@@ -275,7 +278,7 @@
                <p style="line-height:1.8;font-size:14px">
                   Yours faithfully,<br>
                   <b>For : Fretus Folks India Pvt Ltd.</b> <br>
-                  &nbsp;&nbsp;&nbsp;<img src="<?php echo base_url() ?>admin_assets/seal.png" style="margin-top:2%;" width="100"><br>
+                  &nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100"><br>
                   <b>&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
                </p>
             </td>
@@ -291,13 +294,13 @@
    </table>
    <!-- </tbody>
    </table> -->
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:8.5%;margin-bottom:1.5%;">
+   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:8.5%;"> -->
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5;text-align: justify; padding-left: 0%;margin-top:-2%"">
-      <img src=" <?php echo base_url() ?>admin_assets/ffi_header.jpg"> <br>
+               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5;text-align: justify; padding-left: 0%;margin-top:-2%">
+                  <!-- <img src=" admin_assets/ffi_header.jpg"> <br> -->
                   <h1 style="font-size:17px;text-align:center;text-decoration: underline;">Annexure - 1</h1>
                   <center>
                      <table class="table table1" border="1" style="border-collapse:collapse;width:80%;margin-bottom:5px;">
@@ -397,12 +400,12 @@
                      </table>
                   </center>
                </div>
-               </div>
+               <!-- </div> -->
             </td>
          </tr>
       </tbody>
    </table><br><br>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:34.2%">
+   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:34.2%"> -->
 </body>
 
 </html>

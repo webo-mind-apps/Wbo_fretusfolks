@@ -161,7 +161,7 @@ $active_menu = "index";
 													<div class="form-group">
 
 														<select name="increment_download_client" class="form-control" required>
-															<option value="">Select Name</option>
+															<option value=""><b>Select Name</b></option>
 															<?php
 															foreach ($client_management as $row) {
 																echo '<option value="' . $row['id'] . '">' . $row['client_name'] . '</option>';
@@ -170,7 +170,7 @@ $active_menu = "index";
 														</select>
 													</div>
 													<div class="form-group">
-														<label class="down">Date<span class="text-danger"></span></label>
+														<label class="down"><b>Date</b><span class="text-danger"></span></label>
 														<input type="date" name="increment_download_date" class="form-control">
 													</div>
 
@@ -185,8 +185,8 @@ $active_menu = "index";
 							</div>
 
 
-							<div class="col-md-4">
-								<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+							<div class="col-md-4" style="margin-right:-3.5%;">
+								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 								</br>
 
 								<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx" download>Download Format</a>
@@ -196,8 +196,8 @@ $active_menu = "index";
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 								</form>
 							</div>
-							<div class="col-md-5">
-								<div class="header-elements d-none">
+							<div class="col-md-4" style="margin-right:5%;">
+								<div class="header-elements d-none" >
 									<a href="<?php echo site_url('increment_letter/new_increment'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">New Increment Letter <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
 								</div>
 							</div>

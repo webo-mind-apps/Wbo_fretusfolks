@@ -113,10 +113,10 @@ class Ffi_show_cause_db extends CI_Model
 	 
 		$order_column = array("a.id", "b.emp_name", "a.status"); 
 		
-		$this->db->select('a.*,b.emp_name,phone1,designation');
+		$this->db->select('a.*,b.emp_name,b.phone1,b.designation');
 		$this->db->from('ffi_show_cause a');
 		$this->db->join('fhrms b','a.emp_id=b.ffi_emp_id','left');
-		$this->db->order_by('a.id','DESC');
+		
 		$this->db->where('a.status','0');
 
 		if(isset($_POST["search"]["value"])){
@@ -124,9 +124,9 @@ class Ffi_show_cause_db extends CI_Model
                 $this->db->like("a.id", $_POST["search"]["value"]);  
                 $this->db->or_like("a.emp_id", $_POST["search"]["value"]);  
                 $this->db->or_like("b.emp_name", $_POST["search"]["value"]);  
-                $this->db->or_like("date", $_POST["search"]["value"]);  
-                $this->db->or_like("phone1", $_POST["search"]["value"]);  
-                $this->db->or_like("designation", $_POST["search"]["value"]);  
+                $this->db->or_like("a.date", $_POST["search"]["value"]);  
+                $this->db->or_like("b.phone1", $_POST["search"]["value"]);  
+                $this->db->or_like("b.designation", $_POST["search"]["value"]);  
                 
                  
             $this->db->group_end();
