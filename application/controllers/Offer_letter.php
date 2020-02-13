@@ -140,9 +140,7 @@ class Offer_letter extends CI_Controller
 			foreach ($data['letter_details'] as $key => $value) {
 				$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
 				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-				// $this->jSWord = 0.4;  // Percentage(/100) of spacing to allocate to Word vs. Character
-				// $this->jSmaxChar = 2; // Maximum spacing to allocate to character spacing. (0 = no maximum)
+				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>'); 
 				$mpdf->AddPage(
 					'', // L - landscape, P - portrait 
 					'',
