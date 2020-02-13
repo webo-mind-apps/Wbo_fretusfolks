@@ -388,7 +388,7 @@
                   <tr>
                     <td>
                       <center>
-                        <img src="https://lh3.googleusercontent.com/proxy/1t0fQRLBcFldh35TaAEXyNVE1_RL6g-a3mpPJiRR_qoM0ircMrH4uu1ma3pVlKGSRfHaRyM8VxLSe7pTvts" style="border: solid #e6e2e2 1px;padding: 5%;">
+                      <img src="<?php echo base_url('admin_assets/ffi_header.jpg')?>"/>
                       </center>
 
                     </td>
@@ -400,14 +400,7 @@
                           <b>Dear <?php echo $first_name . ' ' . $last_name ?>,</b>
                           <p style="margin-top:15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You recently requested to reset your password for your account.click the button below to reset it</p>
                           <center>
-                            <form action="<?php echo base_url() ?>index.php/Home/create_new_password/" method="post">
-                              <?php
-                              $flash_id = md5(rand());
-                              $this->session->set_userdata($flash_id, 'encrypted_flash_id');
-                              ?>
-                              <input type="hidden" name="flash_id_create_new_pass" value="<?php echo $flash_id; ?>">
-
-
+                            <form action="<?php echo base_url() ?>index.php/Home/create_new_password?code_id=<?php echo $code ?>" method="post"> 
                               <center>
                                 <button type="submit" name="mail_link_submit" class="button">
                                   Reset Your Password
