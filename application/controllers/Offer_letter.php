@@ -137,7 +137,8 @@ class Offer_letter extends CI_Controller
 		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 		foreach ($data['letter_details'] as $key => $value) {
 			$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
-			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
 			// $this->jSWord = 0.4;  // Percentage(/100) of spacing to allocate to Word vs. Character
 			// $this->jSmaxChar = 2; // Maximum spacing to allocate to character spacing. (0 = no maximum)
 			$mpdf->AddPage(
@@ -183,9 +184,9 @@ class Offer_letter extends CI_Controller
 			$mpdf->WriteHTML($html);
 			$file = $data['letter_details'][0]['employee_id'];
 			$file = $file . '-' . $data['letter_details'][0]['emp_name'];
-			$pdfData = $mpdf->Output();
+			$pdfData = $mpdf->Output($path . '/' . $file . '.pdf', 'F');
 			// $path . '/' . $file . '.pdf', 'F'
-			exit();
+			// exit(); 
 		}
 		$this->zip->read_dir($path, false); //5.make it as zip 
 		$download = $this->zip->download($path . '.zip');
