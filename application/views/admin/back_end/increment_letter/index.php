@@ -194,14 +194,13 @@ $active_menu = "index";
 
 
 							<div class="col-md-4" style="margin-right:-3.5%;">
+
+								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form" >
 								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 								</br>
 
 								<a href="<?php echo base_url() ?>increment_letter/doc_formate">Download Format</a>
-
-
-								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form" style="display:none">
-									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw" style="display:none">
 								</form>
 							</div>
 							<div class="col-md-4" style="margin-right:5%;">
@@ -213,9 +212,9 @@ $active_menu = "index";
 					</div>
 
 				</div>
-				<?php
+				<!-- <?php
 
-				if ($this->session->flashdata('error', 'No datas found')) {
+				if ($this->session->flashdata('no_data', 'No datas found')) {
 				?>
 					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -234,7 +233,7 @@ $active_menu = "index";
 					</div>
 				<?php
 				}
-				?>
+				?> -->
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -248,14 +247,26 @@ $active_menu = "index";
 				</div>
 			</div>
 			<!-- /page header -->
-
+			
 			<?php
 
-			if ($this->session->flashdata('success', 'Import successfully')) {
+			if ($this->session->flashdata('success')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Import successfully..!</span>
+					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+				</div>
+			<?php
+			}
+			?>
+
+			<!-- <?php
+
+			if ($this->session->flashdata('not_exist', 'Employee not found')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Some employee id not founded..!</span>
 				</div>
 			<?php
 			}
@@ -263,7 +274,7 @@ $active_menu = "index";
 
 			<?php
 
-			if ($this->session->flashdata('error', 'Please Choose Valid file formate ')) {
+			if ($this->session->flashdata('no_file', 'Please Choose Valid file formate ')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -271,7 +282,7 @@ $active_menu = "index";
 				</div>
 			<?php
 			}
-			?>
+			?> -->
 			<!-- Content area -->
 			<div class="content">
 				<div class="row">
@@ -284,7 +295,7 @@ $active_menu = "index";
 								<h5 class="card-title">Increment Letters Details</h5>
 								<div class="header-elements">
 									<div class="list-icons">
-										<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a>
+										<!-- <a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
 										<a class="list-icons-item" data-action="reload"></a>
 									</div>
 								</div>

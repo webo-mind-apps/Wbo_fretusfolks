@@ -204,13 +204,13 @@ class Increment_letter_db extends CI_Model
 		{
 
 			$this->db->where('employee_id',$data['employee_id']);
-			$query=$this->db->get("increment_letter");
-			if(!$query->num_rows())
+			$query1=$this->db->get("increment_letter");
+			if(!$query1->num_rows())
 			{
 				$this->db->insert('increment_letter',$data);
 				if($this->db->affected_rows() > 0)
 				{
-					return true;
+					return "insert";
 				}
 			}
 			else
@@ -219,11 +219,16 @@ class Increment_letter_db extends CI_Model
 				$this->db->update('increment_letter',$data);
 				if($this->db->affected_rows() > 0)
 				{
-					return true;
+					return "update";
 				}
 			}
+			
 		}
-
-		
+		else
+			{
+				return "not_exist";
+			}
+			return "nochanges";
+			
 	}
 }

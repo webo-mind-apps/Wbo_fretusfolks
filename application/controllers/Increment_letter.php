@@ -48,7 +48,7 @@ class Increment_letter extends CI_Controller
 							<i class="icon-menu9"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
-							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> Download Offer Letter</a>
 							<a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_increment_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 						</div>
 					</div>
@@ -156,9 +156,46 @@ class Increment_letter extends CI_Controller
 	}
 	function view_increment_letter()
 	{
-		$data['letter_details'] = $this->increment->get_increment_letter_details();
+		// $data['letter_details'] = $this->increment->get_increment_letter_details();
 
-		$this->load->view('admin/back_end/increment_letter/print_letter', $data);
+		// $this->load->view('admin/back_end/increment_letter/print_letter', $data);
+		
+			if ($this->session->userdata('admin_login')) {
+	
+				if ($data = $this->increment->get_increment_letter_details()) {
+					// echo "<pre>";
+					// print_r($data);
+					// exit;
+						$mpdf = new \Mpdf\Mpdf();
+						$datas['letter_details'] = $data;
+						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+						$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+						$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+						$mpdf->AddPage(
+							'', // L - landscape, P - portrait 
+							'',
+							'',
+							'',
+							'',
+							5, // margin_left
+							5, // margin right
+							35, // margin top
+							35, // margin bottom
+							0, // margin header
+							0
+						); // margin footer
+						$mpdf->WriteHTML($html);
+						$mpdf->Output($data[0]['ffi_emp_id'] . "_" . $data[0]['emp_name'] . ".pdf", 'D');
+						redirect('increment_letter');
+			
+				} 
+			} else {
+				redirect('home/index');
+			}
+		
+
+
+
 	}
 	function delete_increment_letter()
 	{
@@ -233,7 +270,7 @@ class Increment_letter extends CI_Controller
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
 			} else {
-				$this->session->set_flashdata('error', 'No datas found');
+				$this->session->set_flashdata('no_data', 'No datas found');
 				redirect('increment_letter');
 			}
 		} else {
@@ -277,7 +314,10 @@ class Increment_letter extends CI_Controller
 				// file path
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-
+				$insert=0;
+				$update=0;
+				$not_exist=0;
+				$nochanges=0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 					
 					$date = date("Y-m-d");
@@ -315,8 +355,12 @@ class Increment_letter extends CI_Controller
 						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
 						"content"				=>  $content,
 					);
-					if ($insert = $this->increment->importEmployee_increment_letter($data)) {
-						$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
+					if ($import_status=$this->increment->importEmployee_increment_letter($data)) {
+						
+						if($import_status=="insert")
+						{
+							$insert=$insert+1;
+							$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
 						$this->db->from('increment_letter a');
 						$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 						$this->db->join('client_management c', 'a.company_id=c.id', 'left');
@@ -361,20 +405,36 @@ class Increment_letter extends CI_Controller
 						$this->email->message($message);
 						$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 						$this->email->send();
+						}
+						else if($import_status=="update")
+						{
+							$update=$update+1;
+						}
+						else if($import_status=="not_exist")
+						{
+							$not_exist=$not_exist+1;
+						}
+						else if($import_status=="nochanges")
+						{
+							$nochanges=$nochanges+1;
+						}
+
+						
+						
 					}
 				}
-				if ($insert) {
-					$this->session->set_flashdata('success', 'Import successfully');
+				// echo "insert".$insert."<br>update".$update."<br>not exsist".$not_exist."<br>nochanges".$nochanges;
+				// 		exit;
+				$msg = $insert .' rows inserted <br>'.$update .' rows updated <br>'.$nochanges .' rows no changes <br>'.$not_exist .' rows not founded <br>';
+					$this->session->set_flashdata('success', $msg);
 					redirect('increment_letter', 'refresh');
-				} else {
-					$this->session->set_flashdata('nochange', 'No changes');
-					redirect('increment_letter', 'refresh');
-				}
-			} else {
-
-				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+				
+			} 
+			else {
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
 				redirect('increment_letter', 'refresh');
 			}
+			redirect('increment_letter', 'refresh');
 		}
 	}
 	public function doc_formate()
@@ -431,7 +491,7 @@ class Increment_letter extends CI_Controller
 		$cellB2->setShowDropDown(true);
 		$rowCount = $sheet1->getHighestRow();
 		$cellB2->setFormula1('list1!$B$2:$B$'.$rowCount);
-		$sheet->setCellValue('V2', '=vlookup(B2,list1!B2:C'.$rowCount.',2,false)');
+		$sheet->setCellValue('V2', '=vlookup(B2,list1!B:C,2,false)');
 
 		$cellO2 = $sheet->getCell('C2')->getDataValidation();
 		$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -440,7 +500,7 @@ class Increment_letter extends CI_Controller
 		$cellO2->setShowErrorMessage(true);
 		$cellO2->setShowDropDown(true);
 		$cellO2->setFormula1('list1!$E$2:$E$5');
-		$sheet->setCellValue('W2', '=vlookup(C2,list1!E1:F5,2,false)');
+		$sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
 
         $writer = new Xlsx($spreadsheet);
         $filename = 'ADMS_INCREMENT_LETTER_NEW';
