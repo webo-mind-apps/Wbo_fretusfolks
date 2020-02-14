@@ -140,7 +140,7 @@
 								$('.select').prop('checked', false);
 								}
 								});
-							   
+
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [
@@ -273,7 +273,7 @@
 					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
-							<th><span style=" float:left!important;"><input  id="selectAll" type="checkbox" style="width:20px !important; height:20px !important; "/></span>Select All</th>
+							<th><span style=" float:left!important;"><input  id="selectAll" type="checkbox" style="width:20px !important; height:20px !important; " /></span>Select All</th>
 								<th>Si No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
