@@ -19,7 +19,7 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
 			// $data['offer_letter'] = $this->increment->get_all_increment_letters();
-			 $data['client_management'] = $this->increment->get_all_client();
+			$data['client_management'] = $this->increment->get_all_client();
 			$this->load->view('admin/back_end/increment_letter/index', $data);
 		} else {
 			redirect('home/index');
@@ -30,7 +30,7 @@ class Increment_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->increment->make_datatables();
-			$data = array(); 
+			$data = array();
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $row->id;
@@ -55,7 +55,7 @@ class Increment_letter extends CI_Controller
 				</div>
 			</td>
 					 ';
-				$data[] = $sub_array; 
+				$data[] = $sub_array;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
@@ -162,7 +162,7 @@ class Increment_letter extends CI_Controller
 	}
 	function delete_increment_letter()
 	{
-		if($this->increment->delete_increment_letter()){
+		if ($this->increment->delete_increment_letter()) {
 			echo "deleted";
 		}
 		// $data = $this->increment->get_all_increment_letters();
@@ -279,7 +279,7 @@ class Increment_letter extends CI_Controller
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
-					
+
 					$date = date("Y-m-d");
 					$content1 = "After reviewing you performance, management has decided to give increment, effective from 01-Sep-2018 & your new CTC will be Rs. 322584/- (PA). This letter serves as your final increment and the copy of the same is being sent to the payroll department for further proceedings.\n";
 
@@ -379,79 +379,76 @@ class Increment_letter extends CI_Controller
 	}
 	public function doc_formate()
 	{
-		if($this->session->userdata('admin_login'))
-		{
-		$client=$this->increment->get_all_clients();
-		// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+		if ($this->session->userdata('admin_login')) {
+			$client = $this->increment->get_all_clients();
+			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
 
 			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx");
-	
-		$spreadsheet->setActiveSheetIndex(1);
-		$spreadsheet->getActiveSheet()->setTitle('list1');
-		$sheet1 = $spreadsheet->getActiveSheet();
-        $sheet1->setCellValue('A1', 'SL No');
-        $sheet1->setCellValue('C1', 'CLIENT ID');
-		$sheet1->setCellValue('B1', 'CLIENT NAME');
 
-		$sheet1->setCellValue('E1', 'Letter format');
-		$sheet1->setCellValue('F1', 'Format Id');
-		
-		
-		$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
-		foreach(range('A','G') as $columnID) {
-			$sheet1->getColumnDimension($columnID)
-				->setAutoSize(true);
-		}
-		$i = 2;
-        foreach ($client as $key => $value) {
+			$spreadsheet->setActiveSheetIndex(1);
+			$spreadsheet->getActiveSheet()->setTitle('list1');
+			$sheet1 = $spreadsheet->getActiveSheet();
+			$sheet1->setCellValue('A1', 'SL No');
+			$sheet1->setCellValue('C1', 'CLIENT ID');
+			$sheet1->setCellValue('B1', 'CLIENT NAME');
 
-            $sheet1->setCellValue('A'.$i, $key + 1);
-            $sheet1->setCellValue('C'.$i, $value['id']);
-            $sheet1->setCellValue('B'.$i, $value['client_name']);
-            $i += 1;
-		}   
-		
-		$sheet1->setCellValue('E2','Format 1');
-		$sheet1->setCellValue('E3','Format 2');
-		$sheet1->setCellValue('E4','Format 3');
-		$sheet1->setCellValue('E5','Udaan');
+			$sheet1->setCellValue('E1', 'Letter format');
+			$sheet1->setCellValue('F1', 'Format Id');
 
-		$sheet1->setCellValue('F2','1');
-		$sheet1->setCellValue('F3','2');
-		$sheet1->setCellValue('F4','3');
-		$sheet1->setCellValue('F5','4');
-		
-		$spreadsheet->setActiveSheetIndex(0);
-		$sheet = $spreadsheet->getActiveSheet();
-		$cellB2 = $sheet->getCell('B2')->getDataValidation();
-		$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellB2->setAllowBlank(false);
-		$cellB2->setShowInputMessage(true);
-		$cellB2->setShowErrorMessage(true);
-		$cellB2->setShowDropDown(true);
-		$rowCount = $sheet1->getHighestRow();
-		$cellB2->setFormula1('list1!$B$2:$B$'.$rowCount);
-		$sheet->setCellValue('V2', '=vlookup(B2,list1!B2:C'.$rowCount.',2,false)');
 
-		$cellO2 = $sheet->getCell('C2')->getDataValidation();
-		$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellO2->setAllowBlank(false);
-		$cellO2->setShowInputMessage(true);
-		$cellO2->setShowErrorMessage(true);
-		$cellO2->setShowDropDown(true);
-		$cellO2->setFormula1('list1!$E$2:$E$5');
-		$sheet->setCellValue('W2', '=vlookup(C2,list1!E1:F5,2,false)');
+			$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
+			foreach (range('A', 'G') as $columnID) {
+				$sheet1->getColumnDimension($columnID)
+					->setAutoSize(true);
+			}
+			$i = 2;
+			foreach ($client as $key => $value) {
 
-        $writer = new Xlsx($spreadsheet);
-        $filename = 'ADMS_INCREMENT_LETTER_NEW';
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output'); // download file 
-			
-		}
-		else
-		{
+				$sheet1->setCellValue('A' . $i, $key + 1);
+				$sheet1->setCellValue('C' . $i, $value['id']);
+				$sheet1->setCellValue('B' . $i, $value['client_name']);
+				$i += 1;
+			}
+
+			$sheet1->setCellValue('E2', 'Format 1');
+			$sheet1->setCellValue('E3', 'Format 2');
+			$sheet1->setCellValue('E4', 'Format 3');
+			$sheet1->setCellValue('E5', 'Udaan');
+
+			$sheet1->setCellValue('F2', '1');
+			$sheet1->setCellValue('F3', '2');
+			$sheet1->setCellValue('F4', '3');
+			$sheet1->setCellValue('F5', '4');
+
+			$spreadsheet->setActiveSheetIndex(0);
+			$sheet = $spreadsheet->getActiveSheet();
+			$cellB2 = $sheet->getCell('B2')->getDataValidation();
+			$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellB2->setAllowBlank(false);
+			$cellB2->setShowInputMessage(true);
+			$cellB2->setShowErrorMessage(true);
+			$cellB2->setShowDropDown(true);
+			$rowCount = $sheet1->getHighestRow();
+			$cellB2->setFormula1('list1!$B$2:$B$' . $rowCount);
+			$sheet->setCellValue('V2', '=vlookup(B2,list1!B2:C' . $rowCount . ',2,false)');
+
+			$cellO2 = $sheet->getCell('C2')->getDataValidation();
+			$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellO2->setAllowBlank(false);
+			$cellO2->setShowInputMessage(true);
+			$cellO2->setShowErrorMessage(true);
+			$cellO2->setShowDropDown(true);
+			$cellO2->setFormula1('list1!$E$2:$E$5');
+			$sheet->setCellValue('W2', '=vlookup(C2,list1!E1:F5,2,false)');
+
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'ADMS_INCREMENT_LETTER_NEW';
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output'); // download file 
+
+		} else {
 			redirect('home/index');
 		}
 	}
