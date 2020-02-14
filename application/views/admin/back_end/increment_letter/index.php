@@ -157,7 +157,7 @@ $active_menu = "index";
 										<div class="content">
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>">
-													<label class="down">Clinent Name<span class="text-danger">*</span></label>
+													<label class="down"><b>Clinent Name</b><span class="text-danger">*</span></label>
 													<div class="form-group">
 
 														<select name="increment_download_client" class="form-control" required>
@@ -170,8 +170,16 @@ $active_menu = "index";
 														</select>
 													</div>
 													<div class="form-group">
-														<label class="down"><b>Date</b><span class="text-danger"></span></label>
-														<input type="date" name="increment_download_date" class="form-control">
+														<label class="down"><b>Date</b>
+														<span class="text-danger">*</span></label><br>
+														<div style="display: flex;width:100%" >
+															<span style="margin-right:5px;padding-top:9px;">From:</span>
+															<input type="date" name="increment_download_date" class="form-control"><br> 
+														</div><br> 
+														<div style="display:flex;">
+															<span style="margin-right:21px;padding-top:9px">To:  </span>
+															<input type="date" name="increment_download_date2" class="form-control"><br> 
+														</div>
 													</div>
 
 											</div>

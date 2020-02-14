@@ -487,8 +487,7 @@ class Offer_letter extends CI_Controller
 							$subject = "welcome";
 							$from = $this->config->item('smtp_user');
 							$to = $data['letter_details'][0]['email'];
-							// echo $to;
-							// exit();
+							
 							$this->email->set_newline("\r\n");
 							$this->email->from($from, 'Fretus folks india');
 							$this->email->to($to);

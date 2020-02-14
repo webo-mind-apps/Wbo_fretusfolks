@@ -141,7 +141,9 @@ class Increment_letter_db extends CI_Model
 		$input_date="";
 		$client=$this->input->post('increment_download_client');
 		$input_date=$this->input->post('increment_download_date');
+		$input_date2=$this->input->post('increment_download_date2');
 		$date=date("Y-m-d",strtotime($input_date));
+		$date2=date("Y-m-d",strtotime($input_date2));
 		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
 		$this->db->from('increment_letter a');
 		$this->db->join('backend_management b','a.employee_id=b.ffi_emp_id','left');
@@ -149,7 +151,8 @@ class Increment_letter_db extends CI_Model
 		$this->db->where('a.company_id',$client);
 		if(!empty($input_date))
 		{
-			$this->db->where('a.date',$date);
+			$this->db->where('a.date >=', $date);
+			$this->db->where('a.date <=', $date2);
 		}
 		$query=$this->db->get();
 		$q=$query->result_array();

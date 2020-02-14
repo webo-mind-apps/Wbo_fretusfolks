@@ -93,7 +93,7 @@
          <span>8. During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.</span><br>
       </p>
 
-      <p style="font-size:12px;line-height:1.5;text-align:justify;margin-bottom:10px;">
+      <p style="font-size:12px;line-height:1.5;text-align:justify;">
          <span>9. </span><br>&nbsp;&nbsp;
          <span>1. services are liable to be transferred or loaned or assigned with / without transfer, wholly or partially, from one department to another or to office/ branch and vice-versa or office/ branch to another office/ branch of an associate company, existing or to come into existence in future or any of the Company’s branch office or locations anywhere in India or abroad or any other concern where this Company has any interest. In such case, you will abide by responsibilities expressly vested or implied or communicated and shall follow rules and regulations of the department / office, establishment, jointly or separately, without any compensation or extra remuneration or provision of accommodation. You, thereupon, may be governed by service conditions and other terms of the said concern as may be applicable.</span><br>&nbsp;&nbsp;
          <span>2. The aforesaid Clause (i) will not give you any right to claim employment in any associate or / sister concern or ask for a common seniority with the employee of sister / associate concern.
