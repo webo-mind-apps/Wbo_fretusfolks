@@ -197,7 +197,7 @@ $active_menu = "index";
 								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 								</br>
 
-								<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx" download>Download Format</a>
+								<a href="<?php echo base_url() ?>increment_letter/doc_formate">Download Format</a>
 
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form" style="display:none">

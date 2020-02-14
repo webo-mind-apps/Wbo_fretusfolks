@@ -222,8 +222,8 @@ class Increment_letter extends CI_Controller
 						'',
 						5, // margin_left
 						5, // margin right
-						60, // margin top
-						30, // margin bottom
+						35, // margin top
+						35, // margin bottom
 						0, // margin header
 						0
 					); // margin footer
@@ -279,33 +279,8 @@ class Increment_letter extends CI_Controller
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
-					$client = empty($allDataInSheet[$i]['B']) ? 'null' : $allDataInSheet[$i]['B'];
-					$this->db->where("client_name", $client);
-					$query = $this->db->get("client_management");
-					$q = $query->row_array();
-					// echo "<pre>";
-					// print_r($q);
-					// echo $client;
-					// // print_r($q);
-					// // exit;
-
-					// echo $client_id;
-					// exit;
-					$client_id = $q['id'];
+					
 					$date = date("Y-m-d");
-
-					$offer_letter = empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C'];
-					$offer_letter_type = "";
-					if ($offer_letter == "Format 1") {
-						$offer_letter_type = 1;
-					} elseif ($offer_letter == "Format 2") {
-						$offer_letter_type = 2;
-					} elseif ($offer_letter == "Format 3") {
-						$offer_letter_type = 3;
-					} elseif ($offer_letter == "Udaan") {
-						$offer_letter_type = 4;
-					}
-
 					$content1 = "After reviewing you performance, management has decided to give increment, effective from 01-Sep-2018 & your new CTC will be Rs. 322584/- (PA). This letter serves as your final increment and the copy of the same is being sent to the payroll department for further proceedings.\n";
 
 					$content2 = "It is a pride for us to have an employee like to you who have taken organization’s success to greater heights. We wish that you will continue to work with the same dedication in future also.";
@@ -318,9 +293,9 @@ class Increment_letter extends CI_Controller
 					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 					$data = array(
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
-						"company_id"			=>	$client_id,
+						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
 						"date"					=>	$date,
-						"offer_letter_type"		=>	$offer_letter_type,
+						"offer_letter_type"		=> (empty($allDataInSheet[$i]['W']) ? 'null' : $allDataInSheet[$i]['W']),
 						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
 						"hra"					=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
 						"conveyance"			=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
@@ -350,6 +325,7 @@ class Increment_letter extends CI_Controller
 						$result['letter_details'] = $query->row_array();
 						// echo "<pre>";
 						// print_r($result);
+						// echo $result['letter_details']['email'];
 						// exit;
 						$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
 						$mpdf = new \Mpdf\Mpdf();
@@ -376,6 +352,7 @@ class Increment_letter extends CI_Controller
 						$this->load->config('email');
 						$this->load->library('email');
 						$from = $this->config->item('smtp_user');
+
 						$to = $result['letter_details']['email'];
 						$this->email->set_newline("\r\n");
 						$this->email->from($from, 'Fretus folks india');
@@ -391,13 +368,91 @@ class Increment_letter extends CI_Controller
 					redirect('increment_letter', 'refresh');
 				} else {
 					$this->session->set_flashdata('nochange', 'No changes');
-					redirect('offer_letter', 'refresh');
+					redirect('increment_letter', 'refresh');
 				}
 			} else {
 
 				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
 				redirect('increment_letter', 'refresh');
 			}
+		}
+	}
+	public function doc_formate()
+	{
+		if($this->session->userdata('admin_login'))
+		{
+		$client=$this->increment->get_all_clients();
+		// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx");
+	
+		$spreadsheet->setActiveSheetIndex(1);
+		$spreadsheet->getActiveSheet()->setTitle('list1');
+		$sheet1 = $spreadsheet->getActiveSheet();
+        $sheet1->setCellValue('A1', 'SL No');
+        $sheet1->setCellValue('C1', 'CLIENT ID');
+		$sheet1->setCellValue('B1', 'CLIENT NAME');
+
+		$sheet1->setCellValue('E1', 'Letter format');
+		$sheet1->setCellValue('F1', 'Format Id');
+		
+		
+		$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
+		foreach(range('A','G') as $columnID) {
+			$sheet1->getColumnDimension($columnID)
+				->setAutoSize(true);
+		}
+		$i = 2;
+        foreach ($client as $key => $value) {
+
+            $sheet1->setCellValue('A'.$i, $key + 1);
+            $sheet1->setCellValue('C'.$i, $value['id']);
+            $sheet1->setCellValue('B'.$i, $value['client_name']);
+            $i += 1;
+		}   
+		
+		$sheet1->setCellValue('E2','Format 1');
+		$sheet1->setCellValue('E3','Format 2');
+		$sheet1->setCellValue('E4','Format 3');
+		$sheet1->setCellValue('E5','Udaan');
+
+		$sheet1->setCellValue('F2','1');
+		$sheet1->setCellValue('F3','2');
+		$sheet1->setCellValue('F4','3');
+		$sheet1->setCellValue('F5','4');
+		
+		$spreadsheet->setActiveSheetIndex(0);
+		$sheet = $spreadsheet->getActiveSheet();
+		$cellB2 = $sheet->getCell('B2')->getDataValidation();
+		$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellB2->setAllowBlank(false);
+		$cellB2->setShowInputMessage(true);
+		$cellB2->setShowErrorMessage(true);
+		$cellB2->setShowDropDown(true);
+		$rowCount = $sheet1->getHighestRow();
+		$cellB2->setFormula1('list1!$B$2:$B$'.$rowCount);
+		$sheet->setCellValue('V2', '=vlookup(B2,list1!B2:C'.$rowCount.',2,false)');
+
+		$cellO2 = $sheet->getCell('C2')->getDataValidation();
+		$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellO2->setAllowBlank(false);
+		$cellO2->setShowInputMessage(true);
+		$cellO2->setShowErrorMessage(true);
+		$cellO2->setShowDropDown(true);
+		$cellO2->setFormula1('list1!$E$2:$E$5');
+		$sheet->setCellValue('W2', '=vlookup(C2,list1!E1:F5,2,false)');
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'ADMS_INCREMENT_LETTER_NEW';
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output'); // download file 
+			
+		}
+		else
+		{
+			redirect('home/index');
 		}
 	}
 }

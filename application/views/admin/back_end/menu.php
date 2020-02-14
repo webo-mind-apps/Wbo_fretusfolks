@@ -148,6 +148,9 @@
 									<li class="nav-item">
 										<a href="<?php echo site_url('warning_letter/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Warning Letter</a>
 									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('bulk_update/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Bulk Update</a>
+									</li>
 									<?php
 										}
 									?>

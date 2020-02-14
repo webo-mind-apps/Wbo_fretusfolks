@@ -133,62 +133,68 @@ class Offer_letter extends CI_Controller
 	{
 		$this->load->library('zip');
 		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); //2.select records in model
+		
+		if(!empty($data['letter_details']))
+		{
+		$path = 'offer_letters/offer_letter_' . date('Ymdhis');
+		if (!is_dir($path)) mkdir($path, 0777, TRUE);
+		foreach ($data['letter_details'] as $key => $value) {
+			$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
+			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');	
+					
+			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+			// $this->jSWord = 0.4;  // Percentage(/100) of spacing to allocate to Word vs. Character
+			// $this->jSmaxChar = 2; // Maximum spacing to allocate to character spacing. (0 = no maximum)
+			$mpdf->AddPage(
+				'', // L - landscape, P - portrait 
+				'',
+				'',
+				'',
+				'',
+				5, // margin_left
+				5, // margin right
+				35, // margin top
+				35, // margin bottom
+				0, // margin header
+				0
+			); // margin footer
+			$data['letter_details'][0] = $value; //4.using record id fetch html pages 
 
-		if (!empty($data['letter_details'])) {
-			$path = 'offer_letters/offer_letter_' . date('Ymdhis');
-			if (!is_dir($path)) mkdir($path, 0777, TRUE);
-			foreach ($data['letter_details'] as $key => $value) {
-				$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
-				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>'); 
-				$mpdf->AddPage(
-					'', // L - landscape, P - portrait 
-					'',
-					'',
-					'',
-					'',
-					5, // margin_left
-					5, // margin right
-					35, // margin top
-					35, // margin bottom
-					0, // margin header
-					0
-				); // margin footer
-				$data['letter_details'][0] = $value; //4.using record id fetch html pages 
-
-				if ($value['offer_letter_type'] == 1) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
-				} else if ($value['offer_letter_type'] == 2) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-				} else if ($value['offer_letter_type'] == 3) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
-				} else if ($value['offer_letter_type'] == 4) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
-				}
-
-				if ($value['offer_letter_type'] == 1) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
-				}
-				if ($value['offer_letter_type'] == 2) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-				}
-				if ($value['offer_letter_type'] == 3) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
-				}
-				if ($value['offer_letter_type'] == 4) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
-				}
-
-				// $html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-
-				$mpdf->WriteHTML($html);
-				$file = $data['letter_details'][0]['employee_id'];
-				$file = $file . '-' . $data['letter_details'][0]['emp_name'];
-				$pdfData = $mpdf->Output($path . '/' . $file . '.pdf', 'F');
+			if ($value['offer_letter_type'] == 1) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
+			} else if ($value['offer_letter_type'] == 2) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			} else if ($value['offer_letter_type'] == 3) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
+			} else if ($value['offer_letter_type'] == 4) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
 			}
-			$this->zip->read_dir($path, false); //5.make it as zip 
-			$download = $this->zip->download($path . '.zip');
-		} else {
+
+			// if ($value['offer_letter_type'] == 1) {
+			// 	$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
+			// }
+			// if ($value['offer_letter_type'] == 2) {
+			// 	$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+			// }
+			// if ($value['offer_letter_type'] == 3) {
+			// 	$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
+			// }
+			// if ($value['offer_letter_type'] == 4) {
+			// 	$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+			// }
+
+			// // $html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+
+			$mpdf->WriteHTML($html);
+			$file = $data['letter_details'][0]['employee_id'];
+			$file = $file . '-' . $data['letter_details'][0]['emp_name'];
+			$pdfData = $mpdf->Output($path . '/' . $file . '.pdf', 'F');
+		}
+		$this->zip->read_dir($path, false); //5.make it as zip 
+		$download = $this->zip->download($path . '.zip');
+		}
+		else 
+		{
 			$this->session->set_flashdata('noData', 'Datas not available');
 			redirect('offer_letter', 'refresh');
 		}
@@ -481,8 +487,7 @@ class Offer_letter extends CI_Controller
 							$subject = "welcome";
 							$from = $this->config->item('smtp_user');
 							$to = $data['letter_details'][0]['email'];
-							// echo $to;
-							// exit();
+							
 							$this->email->set_newline("\r\n");
 							$this->email->from($from, 'Fretus folks india');
 							$this->email->to($to);
@@ -506,6 +511,41 @@ class Offer_letter extends CI_Controller
 				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
 				redirect('offer_letter', 'refresh');
 			}
+		}
+	}
+
+	public function doc_formate()
+	{
+		if($this->session->userdata('admin_login'))
+		{
+		$client=$this->letter->get_all_clients();
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx");
+
+		//change it
+		$sheet1 = $spreadsheet->setActiveSheetIndex(1);
+		$i = 2;
+        foreach ($client as $key => $value) {
+
+            $sheet1->setCellValue('A'.$i, $value['id']);
+            $sheet1->setCellValue('B'.$i, $value['client_name']);
+            $i += 1;
+		}  
+
+		//write it again to Filesystem with the same name (=replace)
+		$writer = new Xlsx($spreadsheet);
+
+        $filename = 'ADMS_OFFER_LETTER_NEW';
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+		$writer->save('php://output'); // download file
+		
+
+       
+		}
+		else
+		{
+			redirect('home/index');
 		}
 	}
 }
