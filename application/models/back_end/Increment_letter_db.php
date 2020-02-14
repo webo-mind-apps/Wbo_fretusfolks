@@ -197,24 +197,37 @@ class Increment_letter_db extends CI_Model
 	// excel import
 	public function importEmployee_increment_letter($data = null)
 	{
-		$this->db->where('ffi_emp_id', $data['employee_id']);
-		$query = $this->db->get("backend_management");
-		if ($query->num_rows()) {
+		$this->db->where('ffi_emp_id',$data['employee_id']);
+		$query=$this->db->get("backend_management");
+		if($query->num_rows())
+		{
 
-			$this->db->where('employee_id', $data['employee_id']);
-			$query = $this->db->get("increment_letter");
-			if (!$query->num_rows()) {
-				$this->db->insert('increment_letter', $data);
-				if ($this->db->affected_rows() > 0) {
-					return true;
-				}
-			} else {
-				$this->db->where('employee_id', $data['employee_id']);
-				$this->db->update('increment_letter', $data);
-				if ($this->db->affected_rows() > 0) {
-					return true;
+			$this->db->where('employee_id',$data['employee_id']);
+			$query1=$this->db->get("increment_letter");
+			if(!$query1->num_rows())
+			{
+				$this->db->insert('increment_letter',$data);
+				if($this->db->affected_rows() > 0)
+				{
+					return "insert";
 				}
 			}
+			else
+			{
+				$this->db->where('employee_id',$data['employee_id']);
+				$this->db->update('increment_letter',$data);
+				if($this->db->affected_rows() > 0)
+				{
+					return "update";
+				}
+			}
+			
 		}
+		else
+			{
+				return "not_exist";
+			}
+			return "nochanges";
+			
 	}
 }
