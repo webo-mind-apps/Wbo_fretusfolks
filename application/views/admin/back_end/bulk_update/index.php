@@ -115,21 +115,34 @@
 								}
 							});
 
+							//For datatables
 							var dataTable = $('#dtable').DataTable({
 								'processing': true,
 								'serverSide': true,
-								'order': [],
+								'orderable':false,
+								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
 									'type': 'POST'
 								},
 								'columnDefs': [{
-									"targets": [3],
-									"orderable": false,
+									"targets": [0],
+									"orderable": false
 								}],
 
-							})
-
+							});
+							
+							//For selecting all the datas
+							$(document).on('change', '#selectAll', function(){
+								if($(this).prop('checked')){
+								$('.select').prop('checked', true);
+								}else{
+								$('.select').prop('checked', false);
+								}
+								});
+							   
+						
+						 
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [
@@ -190,6 +203,8 @@
 					document.addEventListener('DOMContentLoaded', function() {
 						DatatableAdvanced.init()
 					});
+					
+					
 				</script>
 
 </head>
@@ -260,6 +275,7 @@
 					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
+							<th><span style=" float:left!important;"><input  id="selectAll" type="checkbox" style="width:20px !important; height:20px !important; "/></span>Select All</th>
 								<th>Si No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
@@ -284,7 +300,10 @@
 						</div>
 					</div>
 				</div>
-
-			
+ <!-- <script type="text/javascript">
+$("#selectAll").click(function() {
+$("input[type=checkbox]").prop("checked", $(this).prop("checked"));
+}); -->
+</script>		
 </body>
 </html>

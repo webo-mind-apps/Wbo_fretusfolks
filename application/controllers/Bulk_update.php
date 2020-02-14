@@ -29,7 +29,9 @@ class Bulk_update extends CI_Controller
 			$data = array();
 			$i = 1;
 			foreach ($fetch_data as $row) { 
-				$sub_array   = array();
+				$checkbox ='<center><input type="checkbox" name="select" style="height: 25px; width: 20px; " class="select"></center>';
+				$sub_array = array();
+				$sub_array[]= $checkbox;
 				$sub_array[] = $row->id;
 				$sub_array[] = $row->ffi_emp_id;
 				$sub_array[] = $row->emp_name;
