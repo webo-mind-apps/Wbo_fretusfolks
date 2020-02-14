@@ -9,7 +9,29 @@ $active_menu = "index";
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Fretus Folks India Pvt Ltd </title>
+	<style>
+		.ui-datepicker-prev {
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
 
+		.ui-datepicker-next{
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
+	</style>
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
@@ -18,6 +40,9 @@ $active_menu = "index";
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -28,11 +53,15 @@ $active_menu = "index";
 
 	<!-- /core JS files -->
 	<!-- Theme JS files -->
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/jquery-ui.min.js"></script>
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<!-- main for datatables -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 
-	<!-- <script src="<?php //echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -41,12 +70,10 @@ $active_menu = "index";
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/ui/moment/moment.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script>
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/dashboard.js"></script>
-
-
-
 
 	<!-- /theme JS files -->
 	<style>
@@ -105,12 +132,36 @@ $active_menu = "index";
 						$('#get_details').empty();
 						$('#get_details').append(response);
 						$("div#divLoading").removeClass('show');
-						$("#increment_letter_d_table").DataTable().ajax.reload();   
+						$("#increment_letter_d_table").DataTable().ajax.reload();
 					},
 					error: function(xhr, ajaxOptions, thrownError) {}
 				});
 			}
 		}
+	</script>
+	<script>
+		$(function() {
+			$("#From").datepicker({
+				dateFormat: 'dd-mm-yy',
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				yearRange: '1947:2100', 
+				onClose: function(selectedDate) {
+					$("#To").datepicker("option", "minDate", selectedDate);
+				}
+			});
+			$("#To").datepicker({
+				dateFormat: 'dd-mm-yy',
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				yearRange: '1947:2100', 
+				onClose: function(selectedDate) {
+					$("#From").datepicker("option", "maxDate", selectedDate);
+				}
+			});
+		});
 	</script>
 </head>
 
@@ -157,7 +208,7 @@ $active_menu = "index";
 										<div class="content">
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>">
-													<label class="down"><b>Clinent Name</b><span class="text-danger">*</span></label>
+													<label class="down"><b>Clinent Name</b><span class="text-danger"> *</span></label>
 													<div class="form-group">
 
 														<select name="increment_download_client" class="form-control" required>
@@ -171,14 +222,14 @@ $active_menu = "index";
 													</div>
 													<div class="form-group">
 														<label class="down"><b>Date</b>
-														<span class="text-danger">*</span></label><br>
-														<div style="display: flex;width:100%" >
+															<span class="text-danger">*</span></label><br>
+														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input type="date" name="increment_download_date" class="form-control"><br> 
-														</div><br> 
+															<input id="From" type="text" name="increment_download_date" class="form-control" autocomplete="off"><br>
+														</div><br>
 														<div style="display:flex;">
-															<span style="margin-right:21px;padding-top:9px">To:  </span>
-															<input type="date" name="increment_download_date2" class="form-control"><br> 
+															<span style="margin-right:21px;padding-top:9px">To: </span>
+															<input id="To" type="text" name="increment_download_date2" class="form-control" autocomplete="off"><br>
 														</div>
 													</div>
 
@@ -204,7 +255,7 @@ $active_menu = "index";
 								</form>
 							</div>
 							<div class="col-md-4" style="margin-right:5%;">
-								<div class="header-elements d-none" >
+								<div class="header-elements d-none">
 									<a href="<?php echo site_url('increment_letter/new_increment'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">New Increment Letter <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
 								</div>
 							</div>
@@ -313,7 +364,7 @@ $active_menu = "index";
 										<th>Email</th>
 										<th class="text-center">Actions</th>
 									</tr>
-								</thead> 
+								</thead>
 							</table>
 
 						</div>

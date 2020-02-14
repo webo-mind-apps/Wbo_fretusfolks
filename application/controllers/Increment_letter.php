@@ -19,7 +19,7 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
 			// $data['offer_letter'] = $this->increment->get_all_increment_letters();
-			 $data['client_management'] = $this->increment->get_all_client();
+			$data['client_management'] = $this->increment->get_all_client();
 			$this->load->view('admin/back_end/increment_letter/index', $data);
 		} else {
 			redirect('home/index');
@@ -30,7 +30,7 @@ class Increment_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->increment->make_datatables();
-			$data = array(); 
+			$data = array();
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $row->id;
@@ -55,7 +55,7 @@ class Increment_letter extends CI_Controller
 				</div>
 			</td>
 					 ';
-				$data[] = $sub_array; 
+				$data[] = $sub_array;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
@@ -199,7 +199,7 @@ class Increment_letter extends CI_Controller
 	}
 	function delete_increment_letter()
 	{
-		if($this->increment->delete_increment_letter()){
+		if ($this->increment->delete_increment_letter()) {
 			echo "deleted";
 		}
 		// $data = $this->increment->get_all_increment_letters();
@@ -319,7 +319,7 @@ class Increment_letter extends CI_Controller
 				$not_exist=0;
 				$nochanges=0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
-					
+
 					$date = date("Y-m-d");
 					$content1 = "After reviewing you performance, management has decided to give increment, effective from 01-Sep-2018 & your new CTC will be Rs. 322584/- (PA). This letter serves as your final increment and the copy of the same is being sent to the payroll department for further proceedings.\n";
 
@@ -439,10 +439,9 @@ class Increment_letter extends CI_Controller
 	}
 	public function doc_formate()
 	{
-		if($this->session->userdata('admin_login'))
-		{
-		$client=$this->increment->get_all_clients();
-		// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+		if ($this->session->userdata('admin_login')) {
+			$client = $this->increment->get_all_clients();
+			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
 
 			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx");
 	
