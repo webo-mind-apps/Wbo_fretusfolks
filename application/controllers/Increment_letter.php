@@ -185,7 +185,7 @@ class Increment_letter extends CI_Controller
 					0
 				); // margin footer
 				$mpdf->WriteHTML($html);
-				$mpdf->Output($data[0]['ffi_emp_id'] . "_" . $data[0]['emp_name'] . ".pdf", 'D');
+				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . ".pdf", 'D');
 				redirect('increment_letter');
 			}
 		} else {

@@ -123,7 +123,7 @@ class Increment_letter_db extends CI_Model
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
 		$this->db->where('a.id', $id);
 		$query = $this->db->get();
-		$q = $query->result_array();
+		$q = $query->row_array();
 		return $q;
 	}
 	public function get_all_client()
@@ -156,7 +156,7 @@ class Increment_letter_db extends CI_Model
 		$q = $query->result_array();
 		return $q;
 	}
-	
+
 	function get_employee_detail()
 	{
 		$emp_id = $this->input->post('emp_id');
@@ -197,37 +197,27 @@ class Increment_letter_db extends CI_Model
 	// excel import
 	public function importEmployee_increment_letter($data = null)
 	{
-		$this->db->where('ffi_emp_id',$data['employee_id']);
-		$query=$this->db->get("backend_management");
-		if($query->num_rows())
-		{
+		$this->db->where('ffi_emp_id', $data['employee_id']);
+		$query = $this->db->get("backend_management");
+		if ($query->num_rows()) {
 
-			$this->db->where('employee_id',$data['employee_id']);
-			$query1=$this->db->get("increment_letter");
-			if(!$query1->num_rows())
-			{
-				$this->db->insert('increment_letter',$data);
-				if($this->db->affected_rows() > 0)
-				{
+			$this->db->where('employee_id', $data['employee_id']);
+			$query1 = $this->db->get("increment_letter");
+			if (!$query1->num_rows()) {
+				$this->db->insert('increment_letter', $data);
+				if ($this->db->affected_rows() > 0) {
 					return "insert";
 				}
-			}
-			else
-			{
-				$this->db->where('employee_id',$data['employee_id']);
-				$this->db->update('increment_letter',$data);
-				if($this->db->affected_rows() > 0)
-				{
+			} else {
+				$this->db->where('employee_id', $data['employee_id']);
+				$this->db->update('increment_letter', $data);
+				if ($this->db->affected_rows() > 0) {
 					return "update";
 				}
 			}
-			
+		} else {
+			return "not_exist";
 		}
-		else
-			{
-				return "not_exist";
-			}
-			return "nochanges";
-			
+		return "nochanges";
 	}
 }
