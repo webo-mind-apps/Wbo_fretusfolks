@@ -48,7 +48,7 @@ class Increment_letter extends CI_Controller
 							<i class="icon-menu9"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
-							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-download"></i>Download Increment Letter</a>
 							<a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_increment_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 						</div>
 					</div>
@@ -228,7 +228,9 @@ class Increment_letter extends CI_Controller
 						0
 					); // margin footer
 					$mpdf->WriteHTML($html);
-					$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . ".pdf", 'F');
+					$mpdf->Output();
+					// $path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . ".pdf", 'F'
+					exit();
 				}
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');

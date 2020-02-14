@@ -156,6 +156,7 @@ class Increment_letter_db extends CI_Model
 		$q = $query->result_array();
 		return $q;
 	}
+	
 	function get_employee_detail()
 	{
 		$emp_id = $this->input->post('emp_id');
