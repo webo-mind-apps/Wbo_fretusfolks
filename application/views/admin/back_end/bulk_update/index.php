@@ -124,7 +124,7 @@
 									'type': 'POST'
 								},
 								'columnDefs': [{
-									"targets": [6],
+									"targets": [3],
 									"orderable": false,
 								}],
 

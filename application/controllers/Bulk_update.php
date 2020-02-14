@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 error_reporting(0);
-class bulk_update extends CI_Controller 
+class Bulk_update extends CI_Controller 
 {
 		public function __construct()
         {
@@ -22,4 +22,37 @@ class bulk_update extends CI_Controller
 			redirect('home/index');
 		}
 	}
+	public function get_all_data($var = null)//created for implementing data tables
+	{
+		if ($this->session->userdata('admin_login')) {
+			$fetch_data = $this->bulk_update->make_datatables();
+			$data = array();
+			$i = 1;
+			foreach ($fetch_data as $row) { 
+				$sub_array   = array();
+				$sub_array[] = $row->id;
+				$sub_array[] = $row->ffi_emp_id;
+				$sub_array[] = $row->emp_name;
+				$status = "";
+				if ($row->status == 1) {
+					$status = '<center><span class="badge bg-blue">Active</span></center>';
+				} else if ($row->status == 0) {
+					$status = '<center><span class="badge bg-danger">Inactive</span></center>';
+				}
+				$sub_array[] = $status;
+				$data[] = $sub_array;
+				$i=++$i;
+			}
+			$output = array(
+				"draw"                =>     intval($_POST["draw"]),
+				"recordsTotal"        =>     $this->bulk_update->get_all_data(),
+				"recordsFiltered"     =>     $this->bulk_update->get_filtered_data(),
+				"data" => $data
+			);
+			echo json_encode($output);
+		} else {
+			redirect('home/index');
+		}
+	}
+
 }
