@@ -24,6 +24,7 @@
 		<script src="<?php echo base_url();?>admin_assets/assets/js/app.js"></script>
 		<!-- <script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
 	<style>
 				#divLoading
 				{
@@ -119,7 +120,6 @@
 							var dataTable = $('#dtable').DataTable({
 								'processing': true,
 								'serverSide': true,
-								'orderable':false,
 								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
@@ -141,8 +141,6 @@
 								}
 								});
 							   
-						
-						 
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [
