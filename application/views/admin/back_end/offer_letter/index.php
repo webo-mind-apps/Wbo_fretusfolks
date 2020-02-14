@@ -178,8 +178,8 @@ ob_start();
 
 							<div class="col-md-3">
 								<button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br>
-
-								<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx" download>Sample Format</a>
+							
+								<a href="<?php echo base_url() ?>offer_letter/doc_formate">Sample Format</a>
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-offer-letter-import'); ?>" id="import_form" style="display:none">
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">

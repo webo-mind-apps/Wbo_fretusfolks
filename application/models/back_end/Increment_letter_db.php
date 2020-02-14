@@ -195,9 +195,9 @@ class Increment_letter_db extends CI_Model
 	// excel import
 	public function importEmployee_increment_letter($data = null)
 	{
+		
 
 		$this->db->where('employee_id',$data['employee_id']);
-		
 		$query=$this->db->get("increment_letter");
 		if(!$query->num_rows())
 		{
