@@ -157,7 +157,7 @@ $active_menu = "index";
 										<div class="content">
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>">
-													<label class="down"><b>Clinent Name</b><span class="text-danger">*</span></label>
+													<label class="down"><b>Clinent Name</b><span class="text-danger"> *</span></label>
 													<div class="form-group">
 
 														<select name="increment_download_client" class="form-control" required>
