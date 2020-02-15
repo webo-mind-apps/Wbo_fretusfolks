@@ -9,11 +9,21 @@
        .table1 td {
           font-size: 12px;
        }
+       th{
+         padding:5px 0px 5px 0px;
+       }
 
        td:nth-child(2),
        td:nth-child(3) {
           text-align: right;
+          padding:4px 0px 4px 0px;
        }
+       td:nth-child(1)
+       {
+         text-align: left;
+         padding:4px 0px 4px 0px;
+       }
+
     </style>
  </head>
 
@@ -23,7 +33,7 @@
                   right: 20px;
                   font-size: 18px;margin:0 35px">
        <p style="line-height:1.8;font-size:14px;font-family:times; ">
-          <span>Date :<b><?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?></b> </span> <br>
+          <span>Date :<b><?php echo date("d-m-Y", strtotime($letter_details['date'])); ?></b> </span> <br>
        </p>
     </div>
 
@@ -44,16 +54,18 @@
     <div class="content" style="margin:0 35px;line-height:2;font-size:14px">
        <p style="line-height:1.8;font-size:14px"><b>Dear <?php echo $letter_details['emp_name']; ?>,</b></p>
     </div>
-    
+    <?php $content=str_replace("{{emp_effectivedate}}","<b>".date('d-M-Y',strtotime($letter_details['effective_date']))."</b>",$letter_details['content']);  
+     $content=str_replace("Rs. {{emp_ctc}}","<b>Rs. ".$letter_details['ctc']."</b>",$content);
+    ?>
     <div class="content1" style="margin:0 35px;line-height:1.8;font-size:14px;overflow:wrap">
-       <?php echo $letter_details['content']; ?>
+      <div style="text-align:justify;"> <?php echo $content; ?></div>
     </div>
     <br>
     <br>
     <table style="border-collapse:collapse;width:100%;margin:0 35px 160px;">
        <tbody>
           <tr>
-             <td colspan="3" style="font-size:12px;text-align:left;padding:7px">
+             <td colspan="3" style="font-size:12px;text-align:left;">
                 <p style="line-height:1.8;font-size:14px">
                    <br>
                    <b>For : Fretus Folks India Pvt Ltd.</b> <br>
@@ -84,13 +96,13 @@
                       <table cellpadding="10px" class="table table1" border="1" style="border-collapse:collapse; width:80%;margin-bottom:0px;font-size: 10px;">
                          <tbody>
                             <tr>
-                               <th style="font-size:13px;text-align:left;padding:7px;border-top: 1px solid #000;">
+                               <th style="font-size:13px;text-align:left;border-top: 1px solid #000;">
                                   Components
                                </th>
-                               <th style="font-size:13px;text-align:left;padding:7px;width:30%;border-top: 1px solid #000;">
+                               <th style="font-size:13px;text-align:left;width:30%;border-top: 1px solid #000;">
                                   Monthly salary
                                </th>
-                               <th style="font-size:13px;text-align:left;padding:7px;width:30%;border-top: 1px solid #000;">
+                               <th style="font-size:13px;text-align:left;width:30%;border-top: 1px solid #000;">
                                   Annual salary
                                </th>
                             </tr>
@@ -177,7 +189,7 @@
                                <td colspan="3" style="font-size:12px;text-align:left;padding:7px">
                                   <p style="line-height:1.8;font-size:14px">
                                      <br><b>For : Fretus Folks India Pvt Ltd.</b> <br>
-                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" width="100">
+                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" width="100">
                                      <br><b>&nbsp;&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br></p>
                                </td>
                                <td style="font-size:12px;text-align:right;padding:7px;width:40%">

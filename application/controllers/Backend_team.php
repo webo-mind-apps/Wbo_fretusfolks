@@ -719,6 +719,9 @@ class Backend_team extends CI_Controller
 				// file path
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+				$insert = 0;
+				$update = 0;
+				$not_exist = 0;
 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
@@ -735,7 +738,7 @@ class Backend_team extends CI_Controller
 						"interview_date"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['J']))),
 						"joining_date"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['K']))),
 
-
+						//DOL
 						"contract_date"			=> (empty($allDataInSheet[$i]['L']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['L']))),
 
 
@@ -802,11 +805,7 @@ class Backend_team extends CI_Controller
 						"voter_id"				=> (empty($allDataInSheet[$i]['BQ']) ? 'null' : $allDataInSheet[$i]['BQ']),
 						"emp_form"				=> (empty($allDataInSheet[$i]['BR']) ? 'null' : $allDataInSheet[$i]['BR']),
 
-						//EDUCATION CERTIFICATE
-
 						"pf_esic_form"			=> (empty($allDataInSheet[$i]['BT']) ? 'null' : $allDataInSheet[$i]['BT']),
-
-						//OTHER
 						
 						"payslip"				=> (empty($allDataInSheet[$i]['BV']) ? 'null' : $allDataInSheet[$i]['BV']),
 						"exp_letter"			=> (empty($allDataInSheet[$i]['BW']) ? 'null' : $allDataInSheet[$i]['BW']),
@@ -815,15 +814,35 @@ class Backend_team extends CI_Controller
 						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? 'null' : $allDataInSheet[$i]['CE']),
 						'modified_date'			=>	date('Y-m-d H:i:s')
 					);
+					if($import_status=$this->back_end->importEmployee($data))
+					{
+						if ($import_status == "insert") {
+							$insert = $insert + 1;
+							$data1=array(
+								"emp_id"	=>	 (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+								"path"		=>	 (empty($allDataInSheet[$i]['BS']) ? 'null' : $allDataInSheet[$i]['BS'])
+							);	
+							$this->db->insert('education_certificate',$data1);
 
-					$this->back_end->importEmployee($data);
+							$data2=array(
+								"emp_id"	=>	(empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+								"path"		=>	(empty($allDataInSheet[$i]['BU']) ? 'null' : $allDataInSheet[$i]['BU']),
+							);	
+							$this->db->insert('other_certificate',$data2);
+						} else if ($import_status == "update") {
+							$update = $update + 1;
+						}else if ($import_status == "nochanges") {
+							$nochanges = $nochanges + 1;
+						}
+					}
 				}
-
-				$this->session->set_flashdata('success', 'Import successfully');
+				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>' . $nochanges . ' rows no changes <br>';
+				$this->session->set_flashdata('success', $msg);
 				redirect('backend_team', 'refresh');
 			} else {
 
-				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
+				redirect('backend_team', 'refresh');
 			}
 		}
 	}
@@ -857,7 +876,7 @@ class Backend_team extends CI_Controller
 
 			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/DOC_FORMAT.xlsx");
 	
-			$spreadsheet->setActiveSheetIndex(1);
+		$spreadsheet->setActiveSheetIndex(1);
 		$spreadsheet->getActiveSheet()->setTitle('list1');
 		$sheet1 = $spreadsheet->getActiveSheet();
         $sheet1->setCellValue('A1', 'SL No');
@@ -935,10 +954,10 @@ class Backend_team extends CI_Controller
 		$cellB2->setShowInputMessage(true);
 		$cellB2->setShowErrorMessage(true);
 		$cellB2->setShowDropDown(true);
-		$rowCount = $sheet1->getHighestRow();
-		$cellB2->setFormula1('list1!$B$2:$B$'.$rowCount);
+		// $rowCount = $sheet1->getHighestRow();
+		$cellB2->setFormula1('list1!$B:$B');
 		
-		$sheet->setCellValue('CA2', '=vlookup(B2,list1!B2:C'.$rowCount.',2,false)');
+		$sheet->setCellValue('CA2', '=vlookup(B2,list1!B:C,2,false)');
 
 		$cellO2 = $sheet->getCell('O2')->getDataValidation();
 		$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -946,9 +965,9 @@ class Backend_team extends CI_Controller
 		$cellO2->setShowInputMessage(true);
 		$cellO2->setShowErrorMessage(true);
 		$cellO2->setShowDropDown(true);
-		$rowCount = $sheet1->getHighestRow();
-		$cellO2->setFormula1('list1!$O$2:$O$'.$rowCount);
-		$sheet->setCellValue('CB2', '=vlookup(O2,list1!O1:P'.$rowCount.',2,false)');
+		// $rowCount = $sheet1->getHighestRow();
+		$cellO2->setFormula1('list1!$O$:$O');
+		$sheet->setCellValue('CB2', '=vlookup(O2,list1!O:P,2,false)');
 
 		$cellS2 = $sheet->getCell('S2')->getDataValidation();
 		$cellS2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -956,8 +975,8 @@ class Backend_team extends CI_Controller
 		$cellS2->setShowInputMessage(true);
 		$cellS2->setShowErrorMessage(true);
 		$cellS2->setShowDropDown(true);
-		$cellS2->setFormula1('list1!$S$2:$S$3');
-		$sheet->setCellValue('CC2', '=vlookup(S2,list1!S2:T3,2,false)');
+		$cellS2->setFormula1('list1!$S:$S');
+		$sheet->setCellValue('CC2', '=vlookup(S2,list1!S:T,2,false)');
 
 		$cellAY2 = $sheet->getCell('AY2')->getDataValidation();
 		$cellAY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -965,8 +984,8 @@ class Backend_team extends CI_Controller
 		$cellAY2->setShowInputMessage(true);
 		$cellAY2->setShowErrorMessage(true);
 		$cellAY2->setShowDropDown(true);
-		$cellAY2->setFormula1('list1!$AZ$2:$AZ$3');
-		$sheet->setCellValue('CD2', '=vlookup(AY2,list1!AZ2:BA3,2,false)');
+		$cellAY2->setFormula1('list1!$AZ:$AZ');
+		$sheet->setCellValue('CD2', '=vlookup(AY2,list1!AZ:BA,2,false)');
 
 		$cellBY2 = $sheet->getCell('BY2')->getDataValidation();
 		$cellBY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -974,8 +993,8 @@ class Backend_team extends CI_Controller
 		$cellBY2->setShowInputMessage(true);
 		$cellBY2->setShowErrorMessage(true);
 		$cellBY2->setShowDropDown(true);
-		$cellBY2->setFormula1('list1!$BZ$2:$BZ$3');
-		$sheet->setCellValue('CE2', '=vlookup(BY2,list1!BZ2:CA3,2,false)');
+		$cellBY2->setFormula1('list1!$BZ:$BZ');
+		$sheet->setCellValue('CE2', '=vlookup(BY2,list1!BZ:CA,2,false)');
 
 		$cellAC2 = $sheet->getCell('AC2')->getDataValidation();
 		$cellAC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -983,7 +1002,7 @@ class Backend_team extends CI_Controller
 		$cellAC2->setShowInputMessage(true);
 		$cellAC2->setShowErrorMessage(true);
 		$cellAC2->setShowDropDown(true);
-		$cellAC2->setFormula1('list1!$AC$2:$AC$9');
+		$cellAC2->setFormula1('list1!$AC:$AC');
 		
 
 		$cellY2 = $sheet->getCell('Y2')->getDataValidation();
@@ -992,7 +1011,7 @@ class Backend_team extends CI_Controller
 		$cellY2->setShowInputMessage(true);
 		$cellY2->setShowErrorMessage(true);
 		$cellY2->setShowDropDown(true);
-		$cellY2->setFormula1('list1!$Y$2:$Y$3');
+		$cellY2->setFormula1('list1!$Y:$Y');
 
         $writer = new Xlsx($spreadsheet);
         $filename = 'DOC_FORMAT_NEW';
