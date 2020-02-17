@@ -85,7 +85,7 @@ class Increment_letter extends CI_Controller
 	// function letter_content()
 	// {
 	// 	if ($this->session->userdata('admin_login')) {
-			
+
 	// 		$this->load->view('admin/back_end/increment_letter/increment_content', $data);
 	// 	} else {
 	// 		redirect('home/index');
@@ -133,9 +133,7 @@ class Increment_letter extends CI_Controller
 			$this->db->where('b.ffi_emp_id', $emp_id);
 			$query = $this->db->get();
 			$result['letter_details'] = $query->row_array();
-			// echo "<pre>";
-			// print_r($result);
-			// exit;
+			 
 			$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
 			$mpdf = new \Mpdf\Mpdf();
 			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
@@ -252,15 +250,13 @@ class Increment_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 
-			if ($data = $this->increment->download_increment()) {
-				// echo "<pre>";
-				// print_r($data);
-				// exit;
-				$this->load->library('zip');
-				$path = 'increment_letter/incrementLetter_' .$data[0]['client_name'];
-				if (!is_dir($path)) mkdir($path, 0777, TRUE);
+			if ($data['letter_details'] = $this->increment->download_increment()) {
 
-				foreach ($data as $row) {
+				$this->load->library('zip');
+				$path = 'increment_letter/incrementLetter_' . $data[0]['client_name'];
+				if (!is_dir($path)) mkdir($path, 0777, TRUE);
+				
+				foreach ($data['letter_details'] as $key=>$row) {
 					$mpdf = new \Mpdf\Mpdf();
 					$datas['letter_details'] = $row;
 					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
@@ -334,7 +330,7 @@ class Increment_letter extends CI_Controller
 				$insert = 0;
 				//$update = 0;
 				$not_exist = 0;
-				$nochanges = 0;
+				//$nochanges = 0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
 					$date = date("Y-m-d");
@@ -343,7 +339,7 @@ class Increment_letter extends CI_Controller
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
 						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
 						"date"					=>	$date,
-						
+
 						"basic_salary"			=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
 						"hra"					=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
 						"conveyance"			=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
@@ -375,10 +371,7 @@ class Increment_letter extends CI_Controller
 							$this->db->where('b.ffi_emp_id', $emp_id);
 							$query = $this->db->get();
 							$result['letter_details'] = $query->row_array();
-							// echo "<pre>";
-							// print_r($result);
-							// echo $result['letter_details']['email'];
-							// exit;
+							 
 							$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
 							$mpdf = new \Mpdf\Mpdf();
 							$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
@@ -413,20 +406,21 @@ class Increment_letter extends CI_Controller
 							$this->email->message($message);
 							$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 							$this->email->send();
-						} 
+						}
 						// else if ($import_status == "update") {
 						// 	$update = $update + 1;
 						// } 
 						else if ($import_status == "not_exist") {
 							$not_exist = $not_exist + 1;
-						} else if ($import_status == "nochanges") {
-							$nochanges = $nochanges + 1;
 						}
+						// else if ($import_status == "nochanges") {
+						// 	$nochanges = $nochanges + 1;
+						// }
 					}
 				}
 				// echo "insert".$insert."<br>update".$update."<br>not exsist".$not_exist."<br>nochanges".$nochanges;
 				// 		exit;
-				$msg = $insert . ' rows inserted <br>'  . $nochanges . ' rows no changes <br>' . $not_exist . ' employee not founded <br>';
+				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee not founded <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('increment_letter', 'refresh');
 			} else {

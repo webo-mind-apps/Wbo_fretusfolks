@@ -9,25 +9,25 @@
        .table1 td {
           font-size: 12px;
        }
-       th{
-         padding:5px 0px 5px 0px;
+
+       th {
+          padding: 5px 0px 5px 0px;
        }
 
        td:nth-child(2),
        td:nth-child(3) {
           text-align: right;
-          padding:4px 0px 4px 0px;
-       }
-       td:nth-child(1)
-       {
-         text-align: left;
-         padding:4px 0px 4px 0px;
+          padding: 4px 0px 4px 0px;
        }
 
+       td:nth-child(1) {
+          text-align: left;
+          padding: 4px 0px 4px 0px;
+       }
     </style>
  </head>
 
- <body>
+ <body> 
     <div style="position: absolute;
                   top: 117px;
                   right: 20px;
@@ -54,11 +54,11 @@
     <div class="content" style="margin:0 35px;line-height:2;font-size:14px">
        <p style="line-height:1.8;font-size:14px"><b>Dear <?php echo $letter_details['emp_name']; ?>,</b></p>
     </div>
-    <?php $content=str_replace("{{emp_effectivedate}}","<b>".date('d-M-Y',strtotime($letter_details['effective_date']))."</b>",$letter_details['content']);  
-     $content=str_replace("Rs. {{emp_ctc}}","<b>Rs. ".$letter_details['ctc']."</b>",$content);
-    ?>
+    <?php $content = str_replace("{{emp_effectivedate}}", "<b>" . date('d-M-Y', strtotime($letter_details['effective_date'])) . "</b>", $letter_details['content']);
+      $content = str_replace("Rs. {{emp_ctc}}", "<b>Rs. " . $letter_details['ctc'] . "</b>", $content);
+      ?>
     <div class="content1" style="margin:0 35px;line-height:1.8;font-size:14px;overflow:wrap">
-      <div style="text-align:justify;"> <?php echo $content; ?></div>
+       <div style="text-align:justify;"> <?php echo $content; ?></div>
     </div>
     <br>
     <br>
@@ -90,8 +90,8 @@
           <tr>
              <td style="padding-left:5%;padding-right:5%;">
                 <div style="margin:0 35px;color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
-                   <h1 style="font-size:16px;text-align:center;text-decoration: underline; ">Annexure - 1 
-                  </h1><br>
+                   <h1 style="font-size:16px;text-align:center;text-decoration: underline; ">Annexure - 1
+                   </h1><br>
                    <center>
                       <table cellpadding="10px" class="table table1" border="1" style="border-collapse:collapse; width:80%;margin-bottom:0px;font-size: 10px;">
                          <tbody>
