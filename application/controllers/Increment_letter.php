@@ -81,6 +81,25 @@ class Increment_letter extends CI_Controller
 			redirect('home/index');
 		}
 	}
+
+	// function letter_content()
+	// {
+	// 	if ($this->session->userdata('admin_login')) {
+			
+	// 		$this->load->view('admin/back_end/increment_letter/increment_content', $data);
+	// 	} else {
+	// 		redirect('home/index');
+	// 	}
+	// }
+
+	// function save_increment_letter_content()
+	// {
+	// 	if ($this->session->userdata('admin_login')) {
+	// 		$data['letter_content'] = $this->increment->save_increment_letter_content();
+	// 	} else {
+	// 		redirect('home/index');
+	// 	}
+	// }
 	function get_employee_detail()
 	{
 		$data = $this->increment->get_employee_detail();
@@ -185,7 +204,9 @@ class Increment_letter extends CI_Controller
 					0
 				); // margin footer 
 				$mpdf->WriteHTML($html);
-				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . ".pdf", 'D');
+				$mpdf->Output();
+				//$data['ffi_emp_id'] . "_" . $data['emp_name'] . ".pdf", 'D'
+				exit;
 				redirect('increment_letter');
 			}
 		} else {
@@ -234,10 +255,11 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 
 			if ($data = $this->increment->download_increment()) {
-
+				// echo "<pre>";
+				// print_r($data);
+				// exit;
 				$this->load->library('zip');
-
-				$path = 'increment_letter/increment_' . date('Ymdhis');
+				$path = 'increment_letter/incrementLetter_' .$data[0]['client_name'];
 				if (!is_dir($path)) mkdir($path, 0777, TRUE);
 
 				foreach ($data as $row) {
@@ -318,21 +340,12 @@ class Increment_letter extends CI_Controller
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
 					$date = date("Y-m-d");
-					$content1 = "After reviewing you performance, management has decided to give increment, effective from 01-Sep-2018 & your new CTC will be Rs. 322584/- (PA). This letter serves as your final increment and the copy of the same is being sent to the payroll department for further proceedings.\n";
-
-					$content2 = "It is a pride for us to have an employee like to you who have taken organization’s success to greater heights. We wish that you will continue to work with the same dedication in future also.";
-
-					$content3 = "Note: Salary Annexure enclosed.";
-
-					$content = $content1 . $content2 . $content3;
-
-
 					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 					$data = array(
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
 						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
 						"date"					=>	$date,
-						"offer_letter_type"		=> (empty($allDataInSheet[$i]['W']) ? 'null' : $allDataInSheet[$i]['W']),
+						"effective_date"		=> (empty($allDataInSheet[$i]['C']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['C']))),
 						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
 						"hra"					=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
 						"conveyance"			=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
@@ -350,16 +363,16 @@ class Increment_letter extends CI_Controller
 						"employer_esic"			=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
 						"mediclaim"				=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
 						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
-						"content"				=>  $content,
 					);
 					if ($import_status = $this->increment->importEmployee_increment_letter($data)) {
 
 						if ($import_status == "insert") {
 							$insert = $insert + 1;
-							$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
+							$this->db->select('a.*,d.content,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email,a.effective_date');
 							$this->db->from('increment_letter a');
 							$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 							$this->db->join('client_management c', 'a.company_id=c.id', 'left');
+							$this->db->join('letter_content d', 'd.type=1', 'left');
 							$this->db->where('b.ffi_emp_id', $emp_id);
 							$query = $this->db->get();
 							$result['letter_details'] = $query->row_array();
@@ -412,7 +425,7 @@ class Increment_letter extends CI_Controller
 				}
 				// echo "insert".$insert."<br>update".$update."<br>not exsist".$not_exist."<br>nochanges".$nochanges;
 				// 		exit;
-				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>' . $nochanges . ' rows no changes <br>' . $not_exist . ' rows not founded <br>';
+				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>' . $nochanges . ' rows no changes <br>' . $not_exist . ' employee not founded <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('increment_letter', 'refresh');
 			} else {
@@ -437,8 +450,8 @@ class Increment_letter extends CI_Controller
 			$sheet1->setCellValue('C1', 'CLIENT ID');
 			$sheet1->setCellValue('B1', 'CLIENT NAME');
 
-			$sheet1->setCellValue('E1', 'Letter format');
-			$sheet1->setCellValue('F1', 'Format Id');
+			// $sheet1->setCellValue('E1', 'Letter format');
+			// $sheet1->setCellValue('F1', 'Format Id');
 
 
 			$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
@@ -455,15 +468,15 @@ class Increment_letter extends CI_Controller
 				$i += 1;
 			}
 
-			$sheet1->setCellValue('E2', 'Format 1');
-			$sheet1->setCellValue('E3', 'Format 2');
-			$sheet1->setCellValue('E4', 'Format 3');
-			$sheet1->setCellValue('E5', 'Udaan');
+			// $sheet1->setCellValue('E2', 'Format 1');
+			// $sheet1->setCellValue('E3', 'Format 2');
+			// $sheet1->setCellValue('E4', 'Format 3');
+			// $sheet1->setCellValue('E5', 'Udaan');
 
-			$sheet1->setCellValue('F2', '1');
-			$sheet1->setCellValue('F3', '2');
-			$sheet1->setCellValue('F4', '3');
-			$sheet1->setCellValue('F5', '4');
+			// $sheet1->setCellValue('F2', '1');
+			// $sheet1->setCellValue('F3', '2');
+			// $sheet1->setCellValue('F4', '3');
+			// $sheet1->setCellValue('F5', '4');
 
 			$spreadsheet->setActiveSheetIndex(0);
 			$sheet = $spreadsheet->getActiveSheet();
@@ -474,20 +487,20 @@ class Increment_letter extends CI_Controller
 			$cellB2->setShowErrorMessage(true);
 			$cellB2->setShowDropDown(true);
 			$rowCount = $sheet1->getHighestRow();
-			$cellB2->setFormula1('list1!$B$2:$B$' . $rowCount);
+			$cellB2->setFormula1('list1!$B:$B');
 			$sheet->setCellValue('V2', '=vlookup(B2,list1!B:C,2,false)');
 
-			$cellO2 = $sheet->getCell('C2')->getDataValidation();
-			$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-			$cellO2->setAllowBlank(false);
-			$cellO2->setShowInputMessage(true);
-			$cellO2->setShowErrorMessage(true);
-			$cellO2->setShowDropDown(true);
-			$cellO2->setFormula1('list1!$E$2:$E$5');
-			$sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
+			// $cellO2 = $sheet->getCell('C2')->getDataValidation();
+			// $cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			// $cellO2->setAllowBlank(false);
+			// $cellO2->setShowInputMessage(true);
+			// $cellO2->setShowErrorMessage(true);
+			// $cellO2->setShowDropDown(true);
+			// $cellO2->setFormula1('list1!$E:$E');
+			// $sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
 
 			$writer = new Xlsx($spreadsheet);
-			$filename = 'ADMS_INCREMENT_LETTER_NEW';
+			$filename = 'ADMS_INCREMENT_LETTER_DOWNLOAD_FORMAT';
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
 			header('Cache-Control: max-age=0');

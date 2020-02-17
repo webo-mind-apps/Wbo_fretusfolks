@@ -63,7 +63,7 @@ $active_menu="Backendteam";
 		   } );
 		</script>
 	<!-- /theme JS files -->
-	<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+	<!-- <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 	   <script>
 			   tinymce.init({
 						selector: '.editor',
@@ -78,7 +78,7 @@ $active_menu="Backendteam";
 						toolbar: "fontsizeselect | fontselect | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link table"
 						
 					  });
-		</script> 
+		</script>  -->
 	<script>
 		function check_bank_account()
 		{
@@ -350,7 +350,7 @@ $active_menu="Backendteam";
 										</div>
 									</div>
 								</div>
-								<div class="row">
+								<!-- <div class="row">
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Content: <span class="text-danger">*</span></label>
@@ -358,7 +358,7 @@ $active_menu="Backendteam";
 												
 											</div>
 										</div>
-									</div>
+									</div> -->
 								<label><strong>Salary Details</strong></label>
 								<div style="border: 1px solid #d6c8c8;padding: 2%;margin-bottom: 1%;">
 										<div class="row">
@@ -392,19 +392,19 @@ $active_menu="Backendteam";
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<div class="form-group">
 													<label>Special Allowance: <span class="text-danger">*</span></label>
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="special_allowance" id="special_allowance" required autocomplete="off" onchange="calculate_gross_salary();">
 												</div>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<div class="form-group">
 													<label>ST: <span class="text-danger">*</span></label>
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="st_bonus" id="st_bonus" autocomplete="off" required onchange="calculate_gross_salary();">
 												</div>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<div class="form-group">
 													<label>Other Allowance: <span class="text-danger">*</span></label>
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="other_allowance" id="other_allowance" autocomplete="off" required onchange="calculate_gross_salary();">
@@ -418,9 +418,7 @@ $active_menu="Backendteam";
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-2">
+											<div class="col-md-3">
 												<label>Employee PF : <span class="text-danger">*</span></label>
 												<div class="form-group">
 													<div class="row">
@@ -430,6 +428,8 @@ $active_menu="Backendteam";
 													</div>
 												</div>
 											</div>
+										</div>
+										<div class="row">
 											<div class="col-md-2">
 												<label>Employee ESIC : <span class="text-danger">*</span></label>
 												<div class="form-group">
@@ -464,9 +464,7 @@ $active_menu="Backendteam";
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<label>Employer PF : <span class="text-danger">*</span></label>
 													<div class="form-group">
 													<div class="row">
@@ -476,6 +474,8 @@ $active_menu="Backendteam";
 													</div>
 													</div>
 											</div>
+										</div>
+										<div class="row">
 											<div class="col-md-4">
 												<label>Employer ESIC : <span class="text-danger">*</span></label>
 													<div class="form-group">
@@ -499,6 +499,14 @@ $active_menu="Backendteam";
 													<div class="form-group">
 														<label>CTC: <span class="text-danger">*</span></label>
 														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="ctc" id="ctc" autocomplete="off" required>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="form-group">
+													<div class="form-group">
+														<label>Effective Date<span class="text-danger">*</span></label>
+														<input type="date" class="form-control"  name="effective_date" id="effective_date" autocomplete="off" required>
 													</div>
 												</div>
 											</div>

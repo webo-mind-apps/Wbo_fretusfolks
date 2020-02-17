@@ -139,7 +139,12 @@ $active_menu = "index";
 			}
 		}
 	</script>
+
+
+				
 	<script>
+	
+
 		$(function() {
 			$("#From").datepicker({
 				dateFormat: 'dd-mm-yy',
@@ -160,6 +165,12 @@ $active_menu = "index";
 				onClose: function(selectedDate) {
 					$("#From").datepicker("option", "maxDate", selectedDate);
 				}
+			});
+
+			$('#button').click(function() {
+				//e.preventDefault();
+				 $('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide');
+				
 			});
 		});
 	</script>
@@ -197,9 +208,9 @@ $active_menu = "index";
 					<div class="right text-center ">
 						<div class="row">
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+								<button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 							</div>
-							<div class="modal fade" role="dialog" id="fetchData">
+							<div class="modal fade" role="dialog" id="fetchData" >
 								<div class="modal-dialog modal-sm">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -207,7 +218,7 @@ $active_menu = "index";
 										</div>
 										<div class="content">
 											<div class="modal-body">
-												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>">
+												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>" name="certform">
 													<label class="down"><b>Clinent Name</b><span class="text-danger"> *</span></label>
 													<div class="form-group">
 
@@ -235,7 +246,7 @@ $active_menu = "index";
 
 											</div>
 											<div class="modal-footer down">
-												<button type="submit" name="download" class="btn btn-success">Download</button>
+												<button type="submit" name="download" id="button"  class="btn btn-success ">Download</button>
 											</div>
 										</div>
 										</form>
@@ -250,7 +261,7 @@ $active_menu = "index";
 								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 								</br>
 
-								<a href="<?php echo base_url() ?>increment_letter/doc_formate">Download Format</a>
+								<!-- <a href="<?php echo base_url() ?>increment_letter/doc_formate">Download Format</a> -->
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw" style="display:none">
 								</form>
 							</div>
@@ -291,10 +302,11 @@ $active_menu = "index";
 						<div class="breadcrumb">
 							<a href="<?php echo site_url('home/dashboard'); ?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
 							<span class="breadcrumb-item active">Increment Letters</span>
+							
 						</div>
-
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
+					<span style="float:right"><a href="<?php echo base_url() ?>increment_letter/doc_formate" class="breadcrumb-item" >Download Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
@@ -306,6 +318,17 @@ $active_menu = "index";
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+				</div>
+			<?php
+			}
+			?>
+			<?php
+
+			if ($this->session->flashdata('no_file')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Please Choose Valid file formate</span>
 				</div>
 			<?php
 			}
