@@ -184,7 +184,7 @@ class Increment_letter extends CI_Controller
 				// print_r($data);
 				// exit;
 				$mpdf = new \Mpdf\Mpdf();
-				$datas['letter_details'] = $data;
+				$datas['letter_details'][0] = $data;
 				$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
 				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
@@ -202,7 +202,8 @@ class Increment_letter extends CI_Controller
 					0
 				); // margin footer 
 				$mpdf->WriteHTML($html);
-				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . ".pdf", 'D');
+				$date = date('Ymdhis');
+				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . $date . ".pdf", 'D');
 				redirect('increment_letter');
 			}
 		} else {
@@ -334,13 +335,14 @@ class Increment_letter extends CI_Controller
 				$insert = 0;
 				//$update = 0;
 				$not_exist = 0;
+
 				//$nochanges = 0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
 					$date = date("Y-m-d");
 					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 					$data = array(
-						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
+						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
 						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
 						"date"					=>	$date,
 
@@ -363,67 +365,72 @@ class Increment_letter extends CI_Controller
 						"ctc"					=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
 						"effective_date"		=> (empty($allDataInSheet[$i]['T']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['T']))),
 					);
-					if ($import_status = $this->increment->importEmployee_increment_letter($data)) {
+					if ($data['employee_id'] != '' || !empty($data['employee_id'])) :
+						if ($import_status = $this->increment->importEmployee_increment_letter($data)) {
 
-						if ($import_status == "insert") {
-							$insert = $insert + 1;
-							$this->db->select('a.*,d.content,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email,a.effective_date');
-							$this->db->from('increment_letter a');
-							$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
-							$this->db->join('client_management c', 'a.company_id=c.id', 'left');
-							$this->db->join('letter_content d', 'd.type=1', 'left');
-							$this->db->where('b.ffi_emp_id', $emp_id);
-							$query = $this->db->get();
-							$result['letter_details'] = $query->row_array();
+							if ($import_status == "insert") {
+								$insert = $insert + 1;
 
-							$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
-							$mpdf = new \Mpdf\Mpdf();
-							$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-							$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-							$mpdf->AddPage(
-								'', // L - landscape, P - portrait 
-								'',
-								'',
-								'',
-								'',
-								5, // margin_left
-								5, // margin right
-								60, // margin top
-								30, // margin bottom
-								0, // margin header
-								0
-							); // margin footer
-							$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $result, true);
-							$mpdf->WriteHTML($html);
-							$content = $mpdf->Output('', 'S');
-							$filename = date('d/m/Y') . "_increment.pdf";
-							$subject = "welcome";
-							$this->load->config('email');
-							$this->load->library('email');
-							$from = $this->config->item('smtp_user');
+								$this->db->select('a.*,d.content,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email,a.effective_date');
+								$this->db->from('increment_letter a');
+								$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
+								$this->db->join('client_management c', 'a.company_id=c.id', 'left');
+								$this->db->join('letter_content d', 'd.type=1', 'left');
+								// $this->db->where('b.ffi_emp_id', $emp_id);
+								$query = $this->db->get();
+								$result['letter_details'] = $query->result_array();
+								// echo "<pre>";
+								// print_r($result);
+								// exit;
+								$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
+								$mpdf = new \Mpdf\Mpdf();
+								$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+								$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+								$mpdf->AddPage(
+									'', // L - landscape, P - portrait 
+									'',
+									'',
+									'',
+									'',
+									5, // margin_left
+									5, // margin right
+									60, // margin top
+									30, // margin bottom
+									0, // margin header
+									0
+								); // margin footer
+								$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $result, true);
+								$mpdf->WriteHTML($html);
+								$content = $mpdf->Output('', 'S');
+								$filename = date('d/m/Y') . "_increment.pdf";
+								$subject = "welcome";
+								$this->load->config('email');
+								$this->load->library('email');
+								$from = $this->config->item('smtp_user');
 
-							$to = $result['letter_details']['email'];
-							$this->email->set_newline("\r\n");
-							$this->email->from($from, 'Fretus folks india');
-							$this->email->to($to);
-							$this->email->subject($subject);
-							$this->email->message($message);
-							$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-							$this->email->send();
+								$to = $result['letter_details'][0]['email'];
+								$this->email->set_newline("\r\n");
+								$this->email->from($from, 'Fretus folks india');
+								$this->email->to($to);
+								$this->email->subject($subject);
+								$this->email->message($message);
+								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+								if ($this->email->send()) {
+									echo "<script>alert('sended');</script>";
+								} else {
+									echo "<script>alert('not sended');</script>";
+								}
+							} else if ($import_status == "not_exist") {
+								$not_exist = $not_exist + 1;
+							}
+							// else if ($import_status == "nochanges") {
+							// 	$nochanges = $nochanges + 1;
+							// }
 						}
-						// else if ($import_status == "update") {
-						// 	$update = $update + 1;
-						// } 
-						else if ($import_status == "not_exist") {
-							$not_exist = $not_exist + 1;
-						}
-						// else if ($import_status == "nochanges") {
-						// 	$nochanges = $nochanges + 1;
-						// }
-					}
+					endif;
 				}
 				// echo "insert".$insert."<br>update".$update."<br>not exsist".$not_exist."<br>nochanges".$nochanges;
-				// 		exit;
+
 				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee not founded <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('increment_letter', 'refresh');

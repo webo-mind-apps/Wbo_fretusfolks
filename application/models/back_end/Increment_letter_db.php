@@ -205,105 +205,19 @@ class Increment_letter_db extends CI_Model
 	// excel import
 	public function importEmployee_increment_letter($data = null)
 	{
-		// $this->db->where('ffi_emp_id', $data['employee_id']);
-		// $query = $this->db->get("backend_management");
-		// if ($query->num_rows()) {
+		if ($data['employee_id'] != 'null' || $data['employee_id'] != '' || !empty($data['employee_id'])) {
+			$this->db->where('ffi_emp_id', $data['employee_id']);
 
-		// 	$this->db->where('employee_id', $data['employee_id']);
-		// 	$query1 = $this->db->get("increment_letter");
-		// 	if (!$query1->num_rows()) {
-		// 		$this->db->insert('increment_letter', $data);
-		// 		if ($this->db->affected_rows() > 0) {
-		// 			return "insert";
-		// 		}
-		// 	} else {
-		// 		$this->db->where('employee_id', $data['employee_id']);
-		// 		$this->db->update('increment_letter', $data);
-		// 		if ($this->db->affected_rows() > 0) {
+			$query = $this->db->get("backend_management");
+			if ($query->num_rows() > 0) {
+				$this->db->insert('increment_letter', $data);
 
-		// 			return "update";
-		// 		}
-		// 	}
-		// } else {
-		// 	return "not_exist";
-		// }
-		// return "nochanges";
-
-		$this->db->where('ffi_emp_id', $data['employee_id']);
-		$query = $this->db->get("backend_management");
-		if ($query->num_rows()) {
-			// $this->db->select('employee_id,company_id,date,basic_salary,hra,conveyance,medical_reimbursement,special_allowance,st_bonus,other_allowance,gross_salary,emp_pf,emp_esic,pt,total_deduction,take_home,employer_pf,employer_esic,mediclaim,ctc,effective_date');
-			// $datas = array(
-			// 	"employee_id"			=> $data['employee_id'],
-			// 	"company_id"			=> $data['company_id'], 
-			// 	"ctc"					=> $data['ctc'],
-			// 	"effective_date"		=> $data['effective_date'],
-			// );
-			// $this->db->where('employee_id', $data['employee_id']);
-			// foreach($datas as $key=>$value)
-			// {
-			// $this->db->where($key,$value);
-			// }
-			// $query = $this->db->get("increment_letter");
-
-			//$q = $query->result_array();
-			// if($query->num_rows())
-			// {
-			// 	return "nochanges";
-			// }
-			// if(!$query->num_rows())
-			// 	{
-			$this->db->insert('increment_letter', $data);
-			if ($this->db->affected_rows() > 0) {
 				return "insert";
+			} else {
+				return "not_exist";
 			}
-			// } 
 		} else {
-			return "not_exist";
+			return false;
 		}
-		// 	foreach($q[0] as $key => $val)
-		// 	{
-		// 		if($key!='id')
-		// 		{
-		// 			$_SESSION['db_values']=$val;
-		// 			echo "<pre>";
-		// 			print_r($val);
-
-		// 		}
-
-		// 	}
-		// 	foreach($data as $key => $val)
-		// 	{
-
-		// 		$data=$val;
-		// 		// echo "<pre>";
-		// 		// print_r($val);
-
-
-		// 	}
-		// 		// exit;
-		// 		$changes=0;
-		// 	foreach($_SESSION['db_values'] as $val)
-		// 	{
-
-		// 		if(in_array($val,$data))
-		// 		{
-
-
-		// 		}
-		// 		else
-		// 		{
-		// 			$changes=++$changes;
-		// 		}
-		// 	}
-
-
-
-		//  }
-
-
-
-
-
 	}
 }

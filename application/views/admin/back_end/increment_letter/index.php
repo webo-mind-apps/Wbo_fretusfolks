@@ -261,7 +261,7 @@ $active_menu = "index";
 								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 								</br>
 
-								<!-- <a href="<?php echo base_url() ?>increment_letter/doc_formate">Download Format</a> -->
+								<!-- <a href="<?php // echo base_url() ?>increment_letter/doc_formate">Download Format</a> -->
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw" style="display:none">
 								</form>
 							</div>
@@ -369,7 +369,7 @@ $active_menu = "index";
 								<h5 class="card-title">Increment Letters Details</h5>
 								<div class="header-elements">
 									<div class="list-icons">
-										<!-- <a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
+										<!-- <a href="<?php  //echo base_url() ?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
 										<a class="list-icons-item" data-action="reload"></a>
 									</div>
 								</div>
