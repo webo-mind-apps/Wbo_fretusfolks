@@ -253,7 +253,7 @@ class Increment_letter extends CI_Controller
 			if ($data['letter_details'] = $this->increment->download_increment()) {
 
 				$this->load->library('zip');
-				$path = 'increment_letter/incrementLetter_' . $data[0]['client_name'];
+				$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'];
 				if (!is_dir($path)) mkdir($path, 0777, TRUE);
 				
 				foreach ($data['letter_details'] as $key=>$row) {
