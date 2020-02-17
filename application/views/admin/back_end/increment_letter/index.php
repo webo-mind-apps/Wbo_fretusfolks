@@ -232,7 +232,7 @@ $active_menu = "index";
 														</select>
 													</div>
 													<div class="form-group">
-														<label class="down"><b>Date</b>
+														<label class="down"><b>Increment Letter Created Date</b>
 															<span class="text-danger">*</span></label><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
