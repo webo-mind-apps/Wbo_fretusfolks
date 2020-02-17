@@ -62,24 +62,26 @@
 				}
 	</style>
 	<script>
-		function delete_warning_letter(id)
-		{
-			r=confirm("Are You Sure to Delete ?");
-			if(r==true)
-			{
-				$("div#divLoading").addClass('show');	
-					jQuery.ajax({
-					type:"POST",
-					url:"<?php echo base_url(); ?>" + "index.php/warning_letter/delete_warning_letter",
-					datatype:"text",
-					data:{id:id},
-					success:function(response)
-					{
-						location.reload();
-						$("#warning_letter_d_table").DataTable().ajax.reload();
+		function inactive_update(id) {
+			r = confirm("Are you sure to make this as Inactive ?");
+			if (r == true) {
+				$("div#divLoading").addClass('show');
+				jQuery.ajax({
+					type: "POST",
+					url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
+					datatype: "text",
+					data: {
+						id: id
 					},
-					error:function (xhr, ajaxOptions, thrownError){}
-					});
+					success: function(response) {
+						$('#get_details').empty();
+						$('#get_details').append(response);
+						$("div#divLoading").removeClass('show');
+						$("#dtable").DataTable().ajax.reload();
+
+					},
+					error: function(xhr, ajaxOptions, thrownError) {}
+				});
 			}
 		}
 	</script>
@@ -277,7 +279,7 @@
 					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
-							<th><span style=" float:left!important;"><input  id="selectAll" type="checkbox" style="width:20px !important; height:20px !important; " /></span>Select All</th>
+							<th><span style=" float:left!important;"><input  id="selectAll" type="checkbox" style="width:20px !important; height:20px !important;" onclick="inactive_update(this.id)"/></span>Select All</th>
 								<th>Si No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>

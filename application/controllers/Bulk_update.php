@@ -22,6 +22,15 @@ class Bulk_update extends CI_Controller
 			redirect('home/index');
 		}
 	}
+
+	function inactive_update(){
+		if (($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type') == 0 || $this->session->userdata('admin_type') == 1)) {
+			$data = $this->bulk_update->inactive_update();
+			redirect('bulk_update/');
+		} else {
+			redirect('home/index');
+		}
+	}
 	public function get_all_data($var = null)//created for implementing data tables
 	{
 		if ($this->session->userdata('admin_login')) {
@@ -29,7 +38,7 @@ class Bulk_update extends CI_Controller
 			$data = array();
 			$i = 1;
 			foreach ($fetch_data as $row) { 
-				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox"></center>';
+				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox" id="' . $row->id . '" onclick="inactive_update(this.id);"></center>';
 				$sub_array = array();
 				$sub_array[]= $checkbox;
 				$sub_array[] = $row->id;
