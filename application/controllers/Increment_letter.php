@@ -258,11 +258,8 @@ class Increment_letter extends CI_Controller
 				
 				foreach ($data['letter_details'] as $key=>$row) {
 					$mpdf = new \Mpdf\Mpdf();
-					$data['letter_details'][0] = $row; 
-					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $data, true);
-					// echo "<pre>";
-					// print_r($row);
-					// exit;
+					$datas['letter_details'] = $row;
+					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
 					$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 					$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
 					$mpdf->AddPage(
