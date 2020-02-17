@@ -12,22 +12,18 @@ class Bulk_update_db extends CI_Model
     public function make_query()
 	{
 	 
-        $order_column = array("a.id", "client_name", "ffi_emp_id", "emp_name", "joining_date", "phone1","data_status");  
+        $order_column = array("a.id", "client_name", "ffi_emp_id", "emp_name","data_status");  
         $this->db->select('a.*,b.client_name,c.state_name');
 		$this->db->from('backend_management a');
 		$this->db->join('client_management b','a.client_id=b.id','left');
 		$this->db->join('states c','a.state=c.id','left');
 		$this->db->where('emp_name!=','');
-		$this->db->where("a.dcs_approval","1");
-		$this->db->where('a.active_status',0);
 		if(isset($_POST["search"]["value"])){
-            $this->db->group_start();
+			$this->db->group_start();
                 $this->db->like("a.id", $_POST["search"]["value"]);  
                 $this->db->or_like("client_name", $_POST["search"]["value"]);  
                 $this->db->or_like("ffi_emp_id", $_POST["search"]["value"]);  
-                $this->db->or_like("emp_name", $_POST["search"]["value"]);
-				$this->db->or_like("joining_date", $_POST["search"]["value"]);
-				$this->db->or_like("phone1", $_POST["search"]["value"]); 
+                $this->db->or_like("emp_name", $_POST["search"]["value"]); 
                 $this->db->or_like("data_status", $_POST["search"]["value"]); 
             $this->db->group_end();
 		}

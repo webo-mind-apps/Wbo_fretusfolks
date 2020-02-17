@@ -128,19 +128,23 @@
 								'columnDefs': [{
 									"targets": [0],
 									"orderable": false
+									//"searchable":false
 								}],
-
+								/* "select": {
+                                    "style": "multi" ,
+                                    selector: 'tr>th:nth-child(0), tr>th:nth-child(1)'                                 
+                                        } */
 							});
 							
 							//For selecting all the datas
 							$(document).on('change', '#selectAll', function(){
 								if($(this).prop('checked')){
-								$('.select').prop('checked', true);
+								$('.checkbox').prop('checked', true);
 								}else{
-								$('.select').prop('checked', false);
+								$('.checkbox').prop('checked', false);
 								}
 								});
-
+							
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [
@@ -301,7 +305,31 @@
  <!-- <script type="text/javascript">
 $("#selectAll").click(function() {
 $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
-}); -->
-</script>		
+}); 
+</script>-->
+<!-- <script type="text/javascript">
+$(document).ready(function(){
+    $('#selectAll').on('click',function(){
+        if(this.checked){
+            $('.checkbox').each(function(){
+                this.checked = true;
+            });
+        }else{
+             $('.checkbox').each(function(){
+                this.checked = false;
+            });
+        }
+    });
+    
+    $('.checkbox').on('click',function(){
+        if($('.checkbox:checked').length == $('.checkbox').length){
+            $('#selectAll').prop('checked',true);
+        }else{
+            $('#selectAll').prop('checked',false);
+        }
+    });
+});
+</script> -->
+
 </body>
 </html>
