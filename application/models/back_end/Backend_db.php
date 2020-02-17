@@ -29,7 +29,7 @@ class Backend_db extends CI_Model
 	public function make_query()
 	{
 	 
-        $order_column = array("a.id", "client_name", "ffi_emp_id", "emp_name", "joining_date", "phone1","data_status");  
+        $order_column = array("a.id", "b.client_name", "a.ffi_emp_id", "a.emp_name", "a.joining_date", "a.phone1","a.data_status");  
         $this->db->select('a.*,b.client_name,c.state_name');
 		$this->db->from('backend_management a');
 		$this->db->join('client_management b','a.client_id=b.id','left');
@@ -40,12 +40,12 @@ class Backend_db extends CI_Model
 		if(isset($_POST["search"]["value"])){
             $this->db->group_start();
                 $this->db->like("a.id", $_POST["search"]["value"]);  
-                $this->db->or_like("client_name", $_POST["search"]["value"]);  
-                $this->db->or_like("ffi_emp_id", $_POST["search"]["value"]);  
-                $this->db->or_like("emp_name", $_POST["search"]["value"]);
-				$this->db->or_like("joining_date", $_POST["search"]["value"]);
-				$this->db->or_like("phone1", $_POST["search"]["value"]); 
-                $this->db->or_like("data_status", $_POST["search"]["value"]); 
+                $this->db->or_like("b.client_name", $_POST["search"]["value"]);  
+                $this->db->or_like("a.ffi_emp_id", $_POST["search"]["value"]);  
+                $this->db->or_like("a.emp_name", $_POST["search"]["value"]);
+				$this->db->or_like("a.joining_date", $_POST["search"]["value"]);
+				$this->db->or_like("a.phone1", $_POST["search"]["value"]); 
+                $this->db->or_like("a.data_status", $_POST["search"]["value"]); 
             $this->db->group_end();
 		}
 		if(isset($_POST["order"]))  
@@ -87,7 +87,7 @@ class Backend_db extends CI_Model
 		// $data=array("status"=>"1");
 		$this->db->where("id",$id);
 		if($this->db->delete("backend_management")){
-			return True; 
+			return true; 
 		}
 		// redirect("Backend_team/get_all_data");
 		// redirect("Backend_team/");
@@ -945,10 +945,12 @@ class Backend_db extends CI_Model
 	// excel import
 	public function importEmployee($data = null)
 	{
+		
 		$this->db->where('ffi_emp_id', $data['ffi_emp_id']);
 		$query = $this->db->get("backend_management");
-		if ($query->num_rows())
+		if (!$query->num_rows())
 		{
+			
 			$this->db->insert('backend_management', $data);
 			if ($this->db->affected_rows() > 0)
 			{
@@ -961,10 +963,13 @@ class Backend_db extends CI_Model
 			$this->db->update('backend_management', $data);
 			if ($this->db->affected_rows() > 0)
 			{
+				
 				return "update";
 			}
+			
 		}
 		return "nochanges";
+		
 	}
 
 	
