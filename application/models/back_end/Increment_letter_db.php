@@ -143,10 +143,11 @@ class Increment_letter_db extends CI_Model
 
 
 
-		$this->db->select('a.*,c.client_name,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+		$this->db->select('a.*,c.client_name,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,d.content,b.contract_date,c.client_name');
 		$this->db->from('increment_letter a');
 		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
+		$this->db->join('letter_content d', '1=d.id', 'left');
 		$this->db->where('a.company_id', $client);
 		if (!empty($input_date)) {
 			$date = date("Y-m-d", strtotime($input_date));

@@ -27,22 +27,22 @@
     </style>
  </head>
 
- <body> 
+ <body>
     <div style="position: absolute;
                   top: 117px;
                   right: 20px;
                   font-size: 18px;margin:0 35px">
        <p style="line-height:1.8;font-size:14px;font-family:times; ">
-          <span>Date :<b><?php echo date("d-m-Y", strtotime($letter_details['date'])); ?></b> </span> <br>
+          <span>Date :<b><?php echo date("d-m-Y", strtotime($letter_details[0]['date'])); ?></b> </span> <br>
        </p>
     </div>
 
     <div style="margin:0 35px">
        <p style="line-height:1.8;font-size:14px;font-family:times;">
           <span><b>To</b></span><br>
-          <span><b> Mr. /Mrs. /Ms. : <?php echo $letter_details['emp_name']; ?></b></span> <br>
-          <span>Employee ID : <?php echo $letter_details['ffi_emp_id']; ?></span> <br>
-          <span>Place : <?php echo $letter_details['location']; ?></span> <br>
+          <span><b> Mr. /Mrs. /Ms. : <?php echo $letter_details[0]['emp_name']; ?></b></span> <br>
+          <span>Employee ID : <?php echo $letter_details[0]['ffi_emp_id']; ?></span> <br>
+          <span>Place : <?php echo $letter_details[0]['location']; ?></span> <br>
        </p>
     </div>
 
@@ -52,10 +52,11 @@
     </div>
 
     <div class="content" style="margin:0 35px;line-height:2;font-size:14px">
-       <p style="line-height:1.8;font-size:14px"><b>Dear <?php echo $letter_details['emp_name']; ?>,</b></p>
+       <p style="line-height:1.8;font-size:14px"><b>Dear <?php echo $letter_details[0]['emp_name']; ?>,</b></p>
     </div>
-    <?php $content = str_replace("{{emp_effectivedate}}", "<b>" . date('d-M-Y', strtotime($letter_details['effective_date'])) . "</b>", $letter_details['content']);
-      $content = str_replace("Rs. {{emp_ctc}}", "<b>Rs. " . $letter_details['ctc'] . "</b>", $content);
+    <?php
+      $content = str_replace("{{emp_effectivedate}}", "<b>" . date('d-M-Y', strtotime($letter_details[0]['effective_date'])) . "</b>", $letter_details[0]['content']);
+      $content = str_replace("Rs. {{emp_ctc}}", "<b>Rs. " . $letter_details[0]['ctc'] . "</b>", $content);
       ?>
     <div class="content1" style="margin:0 35px;line-height:1.8;font-size:14px;overflow:wrap">
        <div style="text-align:justify;"> <?php echo $content; ?></div>
@@ -108,78 +109,78 @@
                             </tr>
                             <tr>
                                <td>Basic</td>
-                               <td><?php echo $letter_details['basic_salary']; ?></td>
-                               <td><?php echo ($letter_details['basic_salary'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['basic_salary']; ?></td>
+                               <td><?php echo ($letter_details[0]['basic_salary'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>HRA</td>
-                               <td><?php echo $letter_details['hra']; ?></td>
-                               <td><?php echo ($letter_details['hra'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['hra']; ?></td>
+                               <td><?php echo ($letter_details[0]['hra'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Conveyance</td>
-                               <td><?php echo $letter_details['conveyance']; ?></td>
-                               <td><?php echo ($letter_details['conveyance'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['conveyance']; ?></td>
+                               <td><?php echo ($letter_details[0]['conveyance'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Medical Reimbursement</td>
-                               <td><?php echo $letter_details['medical_reimbursement']; ?></td>
-                               <td><?php echo ($letter_details['medical_reimbursement'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['medical_reimbursement']; ?></td>
+                               <td><?php echo ($letter_details[0]['medical_reimbursement'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Special Allowance</td>
-                               <td><?php echo $letter_details['special_allowance']; ?></td>
-                               <td><?php echo ($letter_details['special_allowance'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['special_allowance']; ?></td>
+                               <td><?php echo ($letter_details[0]['special_allowance'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Other Allowance</td>
-                               <td><?php echo $letter_details['other_allowance']; ?></td>
-                               <td><?php echo ($letter_details['other_allowance'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['other_allowance']; ?></td>
+                               <td><?php echo ($letter_details[0]['other_allowance'] * 12); ?></td>
                             </tr>
                             <tr class="gross" style="background: #ecbfbf;">
                                <td>Gross Salary</td>
-                               <td><?php echo $letter_details['gross_salary']; ?></td>
-                               <td><?php echo ($letter_details['gross_salary'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['gross_salary']; ?></td>
+                               <td><?php echo ($letter_details[0]['gross_salary'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Employee PF @ 12%</td>
-                               <td><?php echo $letter_details['emp_pf']; ?></td>
-                               <td><?php echo ($letter_details['emp_pf'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['emp_pf']; ?></td>
+                               <td><?php echo ($letter_details[0]['emp_pf'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Employee ESIC @ 1.75%</td>
-                               <td><?php echo $letter_details['emp_esic']; ?></td>
-                               <td><?php echo ($letter_details['emp_esic'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['emp_esic']; ?></td>
+                               <td><?php echo ($letter_details[0]['emp_esic'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>PT</td>
-                               <td><?php echo $letter_details['pt']; ?></td>
-                               <td><?php echo ($letter_details['pt'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['pt']; ?></td>
+                               <td><?php echo ($letter_details[0]['pt'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Total Deduction</td>
-                               <td><?php echo $letter_details['total_deduction']; ?></td>
-                               <td><?php echo ($letter_details['total_deduction'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['total_deduction']; ?></td>
+                               <td><?php echo ($letter_details[0]['total_deduction'] * 12); ?></td>
                             </tr>
                             <tr class="gross" style="background: #ecbfbf;">
                                <td>Take-home</td>
-                               <td><?php echo ($letter_details['take_home']); ?></td>
-                               <td><?php echo (($letter_details['take_home']) * 12); ?></td>
+                               <td><?php echo ($letter_details[0]['take_home']); ?></td>
+                               <td><?php echo (($letter_details[0]['take_home']) * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Employer PF</td>
-                               <td><?php echo $letter_details['employer_pf']; ?></td>
-                               <td><?php echo ($letter_details['employer_pf'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['employer_pf']; ?></td>
+                               <td><?php echo ($letter_details[0]['employer_pf'] * 12); ?></td>
                             </tr>
                             <tr>
                                <td>Employer ESIC</td>
-                               <td><?php echo $letter_details['employer_esic']; ?></td>
-                               <td><?php echo ($letter_details['employer_esic'] * 12); ?></td>
+                               <td><?php echo $letter_details[0]['employer_esic']; ?></td>
+                               <td><?php echo ($letter_details[0]['employer_esic'] * 12); ?></td>
                             </tr>
                             <tr class="gross" style="background: #ecbfbf;">
                                <td>CTC</td>
-                               <td><?php echo ($letter_details['ctc']); ?></td>
-                               <td><?php echo (($letter_details['ctc']) * 12); ?></td>
+                               <td><?php echo ($letter_details[0]['ctc']); ?></td>
+                               <td><?php echo (($letter_details[0]['ctc']) * 12); ?></td>
                             </tr>
                          </tbody>
                       </table>
