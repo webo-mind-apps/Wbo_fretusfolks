@@ -133,7 +133,7 @@ class Increment_letter extends CI_Controller
 			$this->db->where('b.ffi_emp_id', $emp_id);
 			$query = $this->db->get();
 			$result['letter_details'] = $query->row_array();
-			 
+
 			$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
 			$mpdf = new \Mpdf\Mpdf();
 			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
@@ -253,12 +253,17 @@ class Increment_letter extends CI_Controller
 			if ($data['letter_details'] = $this->increment->download_increment()) {
 
 				$this->load->library('zip');
-				$path = 'increment_letter/incrementLetter_' . $data[0]['client_name'];
+				$date = date('ymdhis');
+				$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'] . $date;
 				if (!is_dir($path)) mkdir($path, 0777, TRUE);
-				
-				foreach ($data['letter_details'] as $key=>$row) {
+				// echo "<pre>";
+				// print_r($data['letter_details'] );
+
+				// echo "</pre>";
+
+				foreach ($data['letter_details'] as $key => $row) {
 					$mpdf = new \Mpdf\Mpdf();
-					$datas['letter_details'] = $row;
+					$datas['letter_details'][0] = $row;
 					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
 					$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 					$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
@@ -276,9 +281,8 @@ class Increment_letter extends CI_Controller
 						0
 					); // margin footer
 					$mpdf->WriteHTML($html);
-					$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . ".pdf", 'F');
-					// $path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . ".pdf", 'F'
-					// exit();
+					$date = date('Ymdhis') . $key;
+					$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . $date . ".pdf", 'F');
 				}
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
@@ -371,7 +375,7 @@ class Increment_letter extends CI_Controller
 							$this->db->where('b.ffi_emp_id', $emp_id);
 							$query = $this->db->get();
 							$result['letter_details'] = $query->row_array();
-							 
+
 							$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
 							$mpdf = new \Mpdf\Mpdf();
 							$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
