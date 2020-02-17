@@ -23,6 +23,75 @@ class Candidate_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+
+	public function make_query()
+	{ 
+        $order_column = array("a.id", "client_name","emp_name", "joining_date", "phone1","dcs_approval","data_status");  
+		$admin_id=$this->session->userdata('admin_id');
+		$this->db->select('a.*,b.client_name,c.state_name');
+		$this->db->from('backend_management a');
+		$this->db->join('client_management b','a.client_id=b.id','left');
+		$this->db->join('states c','a.state=c.id','left');
+		$this->db->where("a.status","0");
+		$this->db->where("a.created_by",$admin_id);
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("a.id", $_POST["search"]["value"]);  
+                $this->db->or_like("client_name", $_POST["search"]["value"]);   
+                $this->db->or_like("emp_name", $_POST["search"]["value"]);
+				$this->db->or_like("joining_date", $_POST["search"]["value"]);
+				$this->db->or_like("phone1", $_POST["search"]["value"]); 
+				$this->db->or_like("dcs_approval", $_POST["search"]["value"]); 
+                $this->db->or_like("data_status", $_POST["search"]["value"]); 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('a.id', 'DESC');  
+        }  	
+	}
+
+	function get_all_data()  
+    {  
+           $this->db->select("*");
+           $this->db->from('backend_management');  
+           return $this->db->count_all_results();  
+	}
+	
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+	function make_datatables(){  
+        $this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+	}
+	
+	function delete_backend_team()
+	{
+		$id=$this->input->post('id'); 
+		// $data=array("status"=>"1");
+		$this->db->where("id",$id);
+		if($this->db->delete("backend_management")){
+			return True; 
+		}
+		// redirect("Backend_team/get_all_data");
+		// redirect("Backend_team/");
+		// $this->db->update("backend_management",$data);
+		
+	}
+
 	function get_candidate_details($id)
 	{
 		$this->db->select('a.*,b.client_name,c.state_name,d.name as username');

@@ -1396,5 +1396,198 @@ class Fhrms_db extends CI_Model
 		$count=$this->db->count_all_results('fhrms');
 		return $count;
 	}
+	function delete_fhrms()
+	{
+		$id=$this->input->post('id');
+		$data=array("status"=>"2");
+		$this->db->where('id',$id);
+		$this->db->update("fhrms",$data);
+	}
+
+
+	// get data
+	public function make_datatables()
+	{
+		$this->make_query();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();
+	}
+
+	// make query 
+	public function make_query()
+	{
+	 
+		$order_column = array("a.id", "emp_name", "state", "a.status"); 
+		
+		$this->db->select("a.*,emp_name,state");
+		$this->db->from("fhrms a");
+		$this->db->join('states b','a.state=b.id','left');
+		$this->db->where("a.status","0");
+		
+
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("a.id", $_POST["search"]["value"]);  
+                $this->db->or_like("emp_name", $_POST["search"]["value"]);  
+                $this->db->or_like("joining_date", $_POST["search"]["value"]);  
+                $this->db->or_like("phone1", $_POST["search"]["value"]);  
+                $this->db->or_like("email", $_POST["search"]["value"]);  
+                $this->db->or_like("status", $_POST["search"]["value"]);  
+                 
+                 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('a.id', 'DESC');  
+        }  	
+	}
+
+	
+	public function get_all_data()
+	{
+		$this->db->select("*");
+        $this->db->from('fhrms');  
+        return $this->db->count_all_results(); 
+	}
+
+	function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+	// get data
+	public function make_datatable()
+	{
+		$this->make_queries();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();
+	}
+
+	// make query 
+	public function make_queries()
+	{
+	 
+		$order_column = array("a.id", "emp_name","phone","email","a.status","date"); 
+		
+		$this->db->select('a.*,c.emp_name,c.email,c.phone1');
+		$this->db->from('ffi_offer_letter a');
+		$this->db->join('fhrms c','a.employee_id=c.ffi_emp_id','left');
+		$this->db->where("a.status","0");
+
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+                $this->db->like("a.id", $_POST["search"]["value"]);  
+                $this->db->or_like("emp_name", $_POST["search"]["value"]);  
+                $this->db->or_like("date", $_POST["search"]["value"]);  
+                $this->db->or_like("phone1", $_POST["search"]["value"]);  
+                $this->db->or_like("email", $_POST["search"]["value"]);  
+               
+                 
+                 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('a.id', 'DESC');  
+        }  	
+	}
+
+	
+	public function get_all_datas()
+	{
+		$this->db->select("*");
+        $this->db->from('fhrms');  
+        return $this->db->count_all_results(); 
+	}
+
+	function get_filtered_datas(){  
+		$this->make_queries();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
+
+	// get data
+	public function make_datatab()
+	{
+		$this->make_quer();   
+		if($_POST["length"] != -1)  
+		{  
+			 $this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();
+	}
+
+	// make query 
+	public function make_quer()
+	{
+	 
+		$order_column = array("a.id"); 
+		
+		$this->db->select('a.*,b.state_name');
+		$this->db->from('fhrms a');
+		$this->db->join('states b','a.state=b.id','left');
+		$this->db->where("a.status","0");
+		$this->db->where("a.dob",date("Y-m-d"));
+		//$this->db->where('EXTRACT(month FROM `dob`)','MONTH(NOW())');
+		$this->db->order_by('a.id','DESC');
+
+		if(isset($_POST["search"]["value"])){
+            $this->db->group_start();
+				$this->db->like("a.id", $_POST["search"]["value"]); 
+				$this->db->like("ffi_emp_id", $_POST["search"]["value"]);  
+                $this->db->or_like("emp_name", $_POST["search"]["value"]);  
+				$this->db->or_like("joining_date", $_POST["search"]["value"]);  
+				$this->db->or_like("dob", $_POST["search"]["value"]);  
+                $this->db->or_like("phone1", $_POST["search"]["value"]);  
+                $this->db->or_like("email", $_POST["search"]["value"]);  
+               
+                 
+                 
+            $this->db->group_end();
+		}
+		if(isset($_POST["order"]))  
+        {  
+             $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+        }  
+        else  
+        {  
+             $this->db->order_by('a.id', 'DESC');  
+        }  	
+	}
+
+	
+	public function get_all_data_elements()
+	{
+		$this->db->select("*");
+        $this->db->from('fhrms');  
+        return $this->db->count_all_results(); 
+	}
+
+	function get_filter_datas(){  
+		$this->make_quer();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+	} 
+
 }  
 ?>

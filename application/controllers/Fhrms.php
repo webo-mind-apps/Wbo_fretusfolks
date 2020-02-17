@@ -15,7 +15,7 @@ class Fhrms extends CI_Controller
 		if($this->session->userdata('admin_login'))
 		{
 			$data['active_menu']="fhrms";
-			$data['backend_team']=$this->fhrms->get_all_ffi_employee();
+			//$data['backend_team']=$this->fhrms->get_all_ffi_employee();
 			$this->load->view('admin/back_end/fhrms/index',$data);
 		}
 		else
@@ -772,4 +772,208 @@ class Fhrms extends CI_Controller
 		$this->session->unset_userdata('admin_login');
 		redirect('home/index');
 	}
+
+	function delete_fhrms()
+	{
+		$data1=$this->fhrms->delete_fhrms();
+		$data=$this->fhrms->get_all_ffi_employee();
+		$i=1;
+		foreach($data as $row)
+		{
+									echo '
+											<tr>
+												<td>'.$i.'</td>
+												<td>'.$row['emp_name'].'</td>
+												<td>'.$row['joining_date'].'</td>
+												<td>'.$row['phone1'].'</td>
+												<td>'.$row['email'].'</td>
+												<td>'.$status.'</td>
+												<td class="text-center">
+												<div class="list-icons">
+												<div class="dropdown">
+													<a href="#" class="list-icons-item" data-toggle="dropdown">
+														<i class="icon-menu9"></i>
+													</a>
+													<div class="dropdown-menu dropdown-menu-right">
+														<a href="javascript:void(0)" id='.$row->id.' onclick="view_employee_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+														<a href="'.site_url('fhrms/edit_fhrms/'.$row->id).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>';
+													if($this->session->userdata('admin_type')==0)
+															{
+																echo '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_fhrms(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>';
+															}
+														
+															echo '	</div>
+												</div>
+											</div>
+												</td>
+											</tr>';
+									$i++;
+								}
+	}
+
+	
+// data table fetch data from table
+public function get_all_data()
+{
+	if ($this->session->userdata('admin_login')) {
+		$fetch_data = $this->fhrms->make_datatables();
+
+		$data = array();
+		// $status = '<span class="badge bg-blue">Completed</span>';
+		foreach ($fetch_data as $row) { 
+			$sub_array   = array();
+			$btn = '';
+			if($this->session->userdata('admin_type')==0)
+			{
+				$btn = '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_fhrms(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+';
+			}
+			$status="";
+			if ($row->status == 1) {
+				$status = '<span class="badge bg-blue">Completed</span>';
+			} else if ($row->status == 0) {
+				$status = '<span class="badge bg-danger">Pending</span>';
+			}
+			
+			$action = '<div class="list-icons">
+			<div class="dropdown">
+				<a href="#" class="list-icons-item" data-toggle="dropdown">
+					<i class="icon-menu9"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a href="javascript:void(0)" id='.$row->id.' onclick="view_employee_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
+					<a href="'.site_url('fhrms/edit_fhrms/'.$row->id).'" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
+					'.$btn.'
+				</div>
+			</div>
+		</div>';
+
+			$sub_array[] = $row->id;
+			$sub_array[] = $row->emp_name;
+			$sub_array[] = $row->joining_date;
+			$sub_array[] = $row->phone1;
+			$sub_array[] = $row->email;
+			$sub_array[] = $status;
+			$sub_array[] = $action;
+			
+			 
+			$data[] = $sub_array;
+		// 	
+		}
+		$output = array(
+			"draw"                =>     intval($_POST["draw"]),
+			"recordsTotal"        =>     $this->fhrms->get_all_data(),
+			"recordsFiltered"     =>     $this->fhrms->get_filtered_data(),
+			"data" => $data
+		);
+		echo json_encode($output);
+	} else {
+		redirect('home/index');
+	}
+}
+
+public function get_all_datas()
+{
+	if ($this->session->userdata('admin_login')) {
+		$fetch_data = $this->fhrms->make_datatable();
+
+		$data = array();
+		// $status = '<span class="badge bg-blue">Completed</span>';
+		foreach ($fetch_data as $row) { 
+			$sub_array   = array();
+			$btn = '';
+			if($this->session->userdata('admin_type')==0)
+			{
+				$btn = '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+';
+			}
+			$action = '<div class="list-icons">
+			<div class="dropdown">
+				<a href="#" class="list-icons-item" data-toggle="dropdown">
+					<i class="icon-menu9"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a href="'.site_url('fhrms/view_offer_letter/'.$row->id).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+					'.$btn.'
+				</div>
+			</div>
+		</div>';
+
+			$sub_array[] = $row->id;
+			$sub_array[] = $row->emp_name;
+			$sub_array[] = $row->date;
+			$sub_array[] = $row->phone1;
+			$sub_array[] = $row->email;
+			$sub_array[] = $action;
+			
+			 
+			$data[] = $sub_array;
+		// 	
+		}
+		$output = array(
+			"draw"                =>     intval($_POST["draw"]),
+			"recordsTotal"        =>     $this->fhrms->get_all_datas(),
+			"recordsFiltered"     =>     $this->fhrms->get_filtered_datas(),
+			"data" => $data
+		);
+		echo json_encode($output);
+	} else {
+		redirect('home/index');
+	}
+}
+
+
+public function get_all_data_elements()
+{
+	if ($this->session->userdata('admin_login')) {
+		$fetch_data = $this->fhrms->make_datatab();
+
+		$data = array();
+		// $status = '<span class="badge bg-blue">Completed</span>';
+		foreach ($fetch_data as $row) { 
+			$sub_array   = array();
+			//$btn = '';
+			/* if($this->session->userdata('admin_type')==0)
+			{
+			$btn = '<a href="javascript:void(0);" id="'.$row->id.'" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+';
+			}
+			/* $action = '<div class="list-icons">
+			<div class="dropdown">
+				<a href="#" class="list-icons-item" data-toggle="dropdown">
+					<i class="icon-menu9"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a href="'.site_url('fhrms/view_offer_letter/'.$row->id).'" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+					'.$btn.'
+				</div>
+			</div>
+		</div>'; */ 
+
+			$sub_array[] = $row->id;
+			$sub_array[] = $row->ffi_emp_id;
+			$sub_array[] = $row->emp_name;
+			$sub_array[] = $row->joining_date;
+			$sub_array[] = $row->dob;
+			$sub_array[] = $row->phone1;
+			$sub_array[] = $row->email;
+			
+			
+			 
+			$data[] = $sub_array;
+		// 	
+		}
+		$output = array(
+			"draw"                =>     intval($_POST["draw"]),
+			"recordsTotal"        =>     $this->fhrms->get_all_data_elements(),
+			"recordsFiltered"     =>     $this->fhrms->get_filter_datas(),
+			"data" => $data
+		);
+		echo json_encode($output);
+	} else {
+		redirect('home/index');
+	}
+}
+
+
 }

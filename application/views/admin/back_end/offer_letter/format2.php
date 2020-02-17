@@ -5,7 +5,7 @@
    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
    <meta content="telephone=no" name="format-detection" />
    <title>Fretus Folks</title>
-   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+   <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
    <style type="text/css" media="screen">
       /* Linked Styles */
@@ -144,7 +144,7 @@
          <tr>
             <td style="padding-left:5%;padding-right:5%;">
                <img src="<?php echo base_url() ?>admin_assets/ffi_header.jpg">
-               <div>
+               
                   <div style="color:#000;font-size: 21px;margin-top: 2%;margin-bottom: 5%;">
                      <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
                         <div>
@@ -166,6 +166,7 @@
                            </table>
                         </div>
                      </div>
+                </div>
                      <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
                         <h4 style="text-align: center;text-decoration: underline;">OFFER CUM APPOINTMENT LETTER</h4>
                         <p style="line-height:1.8;font-size:14px;">
@@ -243,7 +244,7 @@
          </tr>
       </tbody>
    </table>
-   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:6%;">
+   <img class="abc" src="<?php echo base_url() ?>admin_assets/ffi_footer.jpg" style="margin-top:8.2%;">
   
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody>
@@ -429,8 +430,6 @@
                   </table>
                   
                </div>
-               
-                  
                   <br />
                   <br>
                   <br>

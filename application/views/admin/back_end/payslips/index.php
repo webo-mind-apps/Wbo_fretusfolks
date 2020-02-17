@@ -283,9 +283,7 @@ $active_menu="index";
 									  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 									  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 									  <div class="card-header header-elements-inline">
-									<h5 class="card-title">Download Excel Sheet:</h5>
-									
-									
+									<h5 class="card-title">Download Payslips:</h5> 
 									
 								</div>
 											

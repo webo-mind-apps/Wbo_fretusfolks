@@ -40,6 +40,30 @@ var DatatableBasic = function() {
                 paginate: { 'first': 'First', 'last': 'Last', 'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;', 'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;' }
             }
         });
+//data collecting
+        // var dataTable = $('#dynamic_table').DataTable({
+        //     'processing': true,
+        //     'serverSide': true,
+        //     'order': [],
+        //     'ajax': {
+        //         'url': "<?php echo base_url() . 'Backend_team/get_all_data' ?>",
+        //         'type': 'POST'
+        //     },
+        //     'columnDefs': [{
+        //         "targets": [7],
+        //         "orderable": false,
+        //     }]
+        // })
+
+        // $('#import_file').click(function(e) {
+        //     e.preventDefault();
+        //     $('#import').trigger('click');
+        // });
+
+        // $('#import').change(function(e) {
+        //     $('#import_form').submit()
+        // });
+//data collecting end
 
         // Basic datatable
         $('.datatable-basic').DataTable();

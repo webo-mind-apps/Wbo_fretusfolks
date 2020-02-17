@@ -45,7 +45,7 @@
 			<div class="content d-flex justify-content-center align-items-center">
 
 				<!-- Login form -->
-				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/create_new_password_form'); ?>" method="POST">
+				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/create_new_password_form_fun'); ?>" method="POST">
 					<div class="card mb-0">
 						<div class="tab-content card-body">
 							<div class="tab-pane fade show active" id="login-tab1">
@@ -54,15 +54,8 @@
 									<h5 class="mb-0">Create New Password</h5>
 									<span class="d-block text-muted">Your credentials</span>
 								</div>
+
 								<?php
-								if ($this->session->flashdata('password_modifed', 'updated')) {
-								?>
-									<div class="alert bg-success alert-styled-left">
-										<button type="button" class="close" data-dismiss="alert"></button>
-										<span class="text-semibold">Password</span> SET
-									</div>
-								<?php 
-								} 
 								if ($this->session->flashdata('password_not_modifed', 'not_updated')) {
 								?>
 									<div class="alert bg-danger alert-styled-left">
@@ -70,17 +63,17 @@
 										<span class="text-semibold">Password</span> Mis Match!
 									</div>
 								<?php
-								}   
-								?> 
+								}
+								?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="New Password" name="abc_new_password" required>
+									<input type="password" class="form-control" placeholder="New Password" name="abc_new_password" required>
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>
 								</div>
 
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="Confirm Password" name="abc_confirm_password" required>
+									<input type="password" class="form-control" placeholder="Confirm Password" name="abc_confirm_password" required>
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>

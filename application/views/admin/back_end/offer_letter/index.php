@@ -1,5 +1,6 @@
 <?php
 $active_menu = "index";
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,10 +30,12 @@ $active_menu = "index";
 	<!-- /core JS files -->
 	<!-- Theme JS files -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="<?php echo base_url();
+					?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script src="<?php echo base_url(); 
+						?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script> 
 
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>
+	<!-- <script src="<?php //echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -84,6 +87,9 @@ $active_menu = "index";
 			width: 100%;
 			height: 100%;
 		}
+		.down {
+			float: left;
+		}
 	</style>
 	<script>
 		function delete_offer_letter(id) {
@@ -101,6 +107,7 @@ $active_menu = "index";
 						$('#get_details').empty();
 						$('#get_details').append(response);
 						$("div#divLoading").removeClass('show');
+						$("#offer_letter_tables").DataTable().ajax.reload(); 
 					},
 					error: function(xhr, ajaxOptions, thrownError) {}
 				});
@@ -139,24 +146,48 @@ $active_menu = "index";
 					</div>
 					<div class="right text-center " style="width:550px;">
 						<div class="row">
-							<div class="col-md-2"  > 
-								
-							</div>
-							<div class="col-md-3"  > 
-									<a href="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">Export  <b><i class="fa fa-download" aria-hidden="true"></i></b></a> 
-							</div>
-							<div class="col-md-3"  >
-								<button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br>
+							<div class="col-md-2">
 
-								<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx" download>Sample Format</a> 
+							</div>
+							<div class="col-md-3">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+							</div>
+							<div class="modal fade" role="dialog" id="fetchData">
+								<div class="modal-dialog modal-sm">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="content">
+											<div class="modal-body">
+												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
+													<div class="form-group">
+														<label class="down"><b>Date</b><span class="text-danger"></span></label>
+														<input type="date" name="offer_download_date" class="form-control" required>
+													</div>
+
+											</div>
+											<div class="modal-footer down">
+												<button type="submit" name="download" class="btn btn-success">Download</button>
+											</div>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br>
+							
+								<a href="<?php echo base_url() ?>offer_letter/doc_formate">Sample Format</a>
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-offer-letter-import'); ?>" id="import_form" style="display:none">
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 								</form>
 							</div>
-							<div class="col-md-4"  >
+							<div class="col-md-4">
 								<!-- <div class="header-elements d-none"> -->
-									<a  href="<?php echo site_url('offer_letter/new_offer_letter'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">New Offer Letter <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
+								<a href="<?php echo site_url('offer_letter/new_offer_letter'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">New Offer Letter <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
 								<!-- </div> -->
 							</div>
 						</div>
@@ -190,6 +221,18 @@ $active_menu = "index";
 			<?php
 			}
 			?>
+			<?php
+
+				if ($this->session->flashdata('nochange', 'No changes')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold">No changes..!</span>
+					</div>
+				<?php
+				}
+				?>
+
 
 			<?php
 
@@ -203,18 +246,24 @@ $active_menu = "index";
 			}
 			?>
 
+			<?php
+
+			if ($this->session->flashdata('noData', 'Datas not available')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Datas not available...!</span>
+				</div>
+			<?php
+			}
+			?>
+
 			<!-- Content area -->
 			<div class="content">
-
-
-
 				<!-- Floating labels -->
 				<div class="row">
 
 					<div class="col-md-12">
-
-
-
 						<!-- Style combinations -->
 						<div class="card">
 							<div class="card-header header-elements-inline">
@@ -222,16 +271,14 @@ $active_menu = "index";
 
 								<div class="header-elements">
 									<div class="list-icons">
-									<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_OFFER_LETTER.xlsx">Sample excel file</a>
+										<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_OFFER_LETTER.xlsx">Sample excel file</a>
 										<a class="list-icons-item" data-action="reload"></a>
 									</div>
 								</div>
 							</div>
 
-							<table class="table datatable-basic table-bordered table-striped table-hover">
-
+							<table id="offer_letter_tables" class="table datatable-basic table-bordered table-striped table-hover">
 								<thead>
-									
 									<tr>
 										<th>Si No</th>
 										<th>Employee ID</th>
@@ -243,39 +290,6 @@ $active_menu = "index";
 										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
-								<tbody id="get_details">
-									<?php
-									$i = 1;
-									foreach ($offer_letter as $row) {
-										$status = "";
-
-										echo '
-											<tr>
-												<td>' . $i . '</td>
-												<td>' . $row['employee_id'] . '</td>
-												<td style="width:15%">' . $row['client_name'] . '</td>
-												<td>' . $row['emp_name'] . '</td>
-												<td style="width:15%">' . date("d-m-Y", strtotime($row['date'])) . '</td>
-												<td>' . $row['phone1'] . '</td>
-												<td>' . $row['email'] . '</td>
-												<td class="text-center">
-													<div class="list-icons">
-														<div class="dropdown">
-															<a href="#" class="list-icons-item" data-toggle="dropdown">
-																<i class="icon-menu9"></i>
-															</a>
-															<div class="dropdown-menu dropdown-menu-right">
-																<a href="' . site_url('offer_letter/view_offer_letter/' . $row['id']) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
-																<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_offer_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
-															</div>
-														</div>
-													</div>
-												</td>
-											</tr>';
-										$i++;
-									}
-									?>
-								</tbody>
 							</table>
 
 						</div>
@@ -309,6 +323,114 @@ $active_menu = "index";
 
 							$('#import_form').submit()
 						});
+					});
+
+					var DatatableAdvanced = function() {
+
+						// Basic Datatable examples
+						var _componentDatatableAdvanced = function() {
+							if (!$().DataTable) {
+								console.warn('Warning - datatables.min.js is not loaded.');
+								return;
+							}
+
+							// Setting datatable defaults
+							$.extend($.fn.dataTable.defaults, {
+								autoWidth: false,
+								columnDefs: [{
+									orderable: false,
+									width: 100,
+									targets: [5]
+								}],
+								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+								language: {
+									search: '<span>Filter:</span> _INPUT_',
+									searchPlaceholder: 'Type to filter...',
+									lengthMenu: '<span>Show:</span> _MENU_',
+									paginate: {
+										'first': 'First',
+										'last': 'Last',
+										'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
+										'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
+									}
+								}
+							});
+
+							var dataTable = $('#offer_letter_tables').DataTable({
+
+								'processing': true,
+								'serverSide': true,
+								'order': [],
+								'ajax': {
+									'url': "<?php echo base_url() . 'Offer_letter/get_all_data' ?>",
+									'type': 'POST'
+								},
+								'columnDefs': [{
+									"targets": [7],
+									"orderable": false,
+								}],
+
+							})
+
+							// Datatable 'length' options
+							$('.datatable-show-all').DataTable({
+								lengthMenu: [
+									[10, 25, 50, -1],
+									[10, 25, 50, "All"]
+								]
+							});
+
+							// DOM positioning
+							$('.datatable-dom-position').DataTable({
+								dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
+							});
+
+							// Highlighting rows and columns on mouseover
+							var lastIdx = null;
+							var table = $('.datatable-highlight').DataTable();
+
+							$('.datatable-highlight tbody').on('mouseover', 'td', function() {
+								var colIdx = table.cell(this).index().column;
+
+								if (colIdx !== lastIdx) {
+									$(table.cells().nodes()).removeClass('active');
+									$(table.column(colIdx).nodes()).addClass('active');
+								}
+							}).on('mouseleave', function() {
+								$(table.cells().nodes()).removeClass('active');
+							});
+
+							// Columns rendering
+							$('.datatable-columns').dataTable({
+								columnDefs: [{
+										// The `data` parameter refers to the data for the cell (defined by the
+										// `data` option, which defaults to the column being worked with, in
+										// this case `data: 0`.
+										render: function(data, type, row) {
+											return data + ' (' + row[3] + ')';
+										},
+										targets: 0
+									},
+									{
+										visible: false,
+										targets: [3]
+									}
+								]
+							});
+
+						};
+						//
+						// Return objects assigned to module
+						//
+						return {
+							init: function() {
+								_componentDatatableAdvanced();
+							}
+						}
+					}();
+
+					document.addEventListener('DOMContentLoaded', function() {
+						DatatableAdvanced.init()
 					});
 				</script>
 

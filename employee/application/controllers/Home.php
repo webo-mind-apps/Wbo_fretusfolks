@@ -28,72 +28,79 @@ class Home extends CI_Controller
 		if (isset($_POST['forgot_password_form_submit'])) {
 			$data = $this->admin->check_employee_data();
 			if ($data) {
-				$this->load->config('email');
-				$this->load->library('email');
-				$from = $this->config->item('smtp_user');
+				if ($code = $this->admin->add_refresh_id()) {
+					$this->load->config('email');
+					$this->load->library('email');
+					$from = $this->config->item('smtp_user');
 
-				//Email content
-				$data['first_name'] = $data[0]['emp_name'];
-				$data['last_name'] = $data[0]['last_name'];
-				//$this->load->view('mail_format', $data);
-				// exit();
-				$mail_message = $this->load->view('mail_format', $data, TRUE);
-				$this->email->set_newline("\r\n");
-				$this->email->from($from);
-				$this->email->to('madhusudhandummy@gmail.com');
-				$this->email->subject('Password reset Request');
-				$this->email->message($mail_message);
+					//Email content
+					$data['code']       = $code;
+					$data['first_name'] = $data[0]['emp_name'];
+					$data['last_name']  = $data[0]['last_name'];
+					//$this->load->view('mail_format', $data);
+					// exit();
+					$mail_message = $this->load->view('mail_format', $data, TRUE);
+					$this->email->set_newline("\r\n");
+					$this->email->from($from);
+					$this->email->to('madhusudhandummy@gmail.com');
+					$this->email->subject('Password reset Request');
+					$this->email->message($mail_message);
 
-				//Send email
+					//Send email
 
-				if ($this->email->send()) {
-					$this->load->view('admin/forgot_password_form');
-					$this->session->set_flashdata('mail_sent', 'sent');
-					redirect('home/forgot_password');
+					if ($this->email->send()) {
+						$this->load->view('admin/forgot_password_form');
+						$this->session->set_flashdata('mail_sent', 'sent');
+						redirect('home/forgot_password');
+					} else {
+						$this->load->view('admin/forgot_password_form');
+						$this->session->set_flashdata('mail_not_sent', 'not_sent');
+						redirect('home/forgot_password');
+					}
 				} else {
-					$this->load->view('admin/forgot_password_form');
-					$this->session->set_flashdata('mail_not_sent', 'not_sent');
-					redirect('home/forgot_password');
+					echo "something our side error";
 				}
 			} else {
 				//invalid emp id send error to reset password form
 				$this->session->set_flashdata('emp_id_err', 'error');
 				redirect('home/forgot_password');
 			}
+		}else{
+			redirect('home/forgot_password');
 		}
 	}
-	function create_new_password_form()
-	{   //form for reset password
-		$this->load->view('create_new_password_form');
-		if (isset($_POST['create_new_password_submit'])) {
+
+	function create_new_password_form_fun() //calling from create_new_password func below
+	{   //form for reset password 
+		if (isset($_POST['create_new_password_submit'])) { //new password update entire func
 			$new_password = $this->input->post('abc_new_password');
 			$confirm_password = $this->input->post('abc_confirm_password');
 			if ($new_password != $confirm_password) {
 				$this->session->set_flashdata('password_not_modifed', 'not_updated');
-				redirect('home/create_new_password_form');
-			}else{
-				$this->admin->update_emp_password();
-				$this->session->set_flashdata('password_modifed', 'updated');
-				redirect('home/create_new_password_form');
+				redirect('home/create_new_password_form_fun');
+			} else {
+				if ($this->admin->update_emp_password()) {
+					$this->session->set_flashdata('password_modifed', 'updated');
+					$this->admin->update_refresh_id();
+					redirect('home/');
+				}
 			}
+		}else{
+			redirect('home/forgot_password');
 		}
 	}
-	function create_new_password()
-	{  //id creating and sending from mail_format
 
-		if (isset($_POST['flash_id_create_new_pass'])) {
-			$enc_id = $_POST['flash_id_create_new_pass']; //from mail_format_submit
-			if ($this->session->userdata($enc_id, 'encrypted_flash_id')) {
-				//this is userdata getting md5 id
-				redirect('home/create_new_password_form');
+	function create_new_password()
+	{
+		if (isset($_POST['mail_link_submit'])) {//from mail format form submit
+
+			if ($this->admin->check_refresh_id()) {
+				$this->load->view('create_new_password_form');
+			} else {
+				$this->session->set_flashdata('link_expired', 'expired');
+				redirect('home/forgot_password');
 			}
-		} //from create_new_user_form
-		else if (isset($_POST['create_new_password_submit'])) {
-			if ($this->admin->update_emp_password()) {
-				$this->session->set_flashdata('password_modifed', 'updated');
-				redirect('home/create_new_password_form');
-			}  
-		} else {
+		}else{
 			redirect('home/forgot_password');
 		}
 	}
