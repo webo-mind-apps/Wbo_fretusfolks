@@ -1,4 +1,7 @@
 <?php
+ob_clean();
+ob_start();
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -28,6 +31,7 @@ class Backend_team extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->back_end->make_datatables();
+			
 			$data = array();
 			$status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
@@ -721,7 +725,7 @@ class Backend_team extends CI_Controller
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 				$insert = 0;
 				$update = 0;
-				$not_exist = 0;
+				$nochanges = 0;
 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
@@ -812,7 +816,7 @@ class Backend_team extends CI_Controller
 						"password"				=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
 						"psd"					=>	md5($allDataInSheet[$i]['BX']),
 						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? 'null' : $allDataInSheet[$i]['CE']),
-						'modified_date'			=>	date('Y-m-d H:i:s')
+						// 'modified_date'			=>	date('Y-m-d H:i:s')
 					);
 					if($import_status=$this->back_end->importEmployee($data))
 					{
@@ -837,6 +841,7 @@ class Backend_team extends CI_Controller
 					}
 				}
 				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>' . $nochanges . ' rows no changes <br>';
+				
 				$this->session->set_flashdata('success', $msg);
 				redirect('backend_team', 'refresh');
 			} else {
@@ -874,55 +879,61 @@ class Backend_team extends CI_Controller
 		
 		// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
 
-			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/DOC_FORMAT.xlsx");
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/DOC_FORMAT.xlsx");
 	
 		$spreadsheet->setActiveSheetIndex(1);
 		$spreadsheet->getActiveSheet()->setTitle('list1');
 		$sheet1 = $spreadsheet->getActiveSheet();
-        $sheet1->setCellValue('A1', 'SL No');
-        $sheet1->setCellValue('C1', 'CLIENT ID');
+		$sheet1->setCellValue('A1', 'SL No');
 		$sheet1->setCellValue('B1', 'CLIENT NAME');
-
-		$sheet1->setCellValue('P1', 'STATES ID');
+        $sheet1->setCellValue('C1', 'CLIENT ID');
+		
 		$sheet1->setCellValue('O1', 'STATES');
+		$sheet1->setCellValue('P1', 'STATES ID');
+		
 
-		$sheet1->setCellValue('T1', 'GENDER VALUE');
+		
 		$sheet1->setCellValue('S1', 'GENDER');
+		$sheet1->setCellValue('T1', 'GENDER VALUE');
 
 		$sheet1->setCellValue('Y1', 'MARITAL STATUS');
 
 		$sheet1->setCellValue('AC1', 'BLOOD GROUP');
 
-		$sheet1->setCellValue('BA1', 'STATUS VALUE');
 		$sheet1->setCellValue('AZ1', 'STATUS');
-
-		$sheet1->setCellValue('CA1', 'VALUE');
+		$sheet1->setCellValue('BA1', 'STATUS VALUE');
+		
 		$sheet1->setCellValue('BZ1', 'ACTIVE STATUS');
+		$sheet1->setCellValue('CA1', 'VALUE');
+		
 		
 		$sheet1->getStyle("A1:CA1")->applyFromArray(array("font" => array("bold" => true)));
-		foreach(range('A','S') as $columnID) {
+		foreach(range('A','CA') as $columnID) {
 			$sheet1->getColumnDimension($columnID)
 				->setAutoSize(true);
 		}
 		$i = 2;
         foreach ($client as $key => $value) {
 
-            $sheet1->setCellValue('A'.$i, $key + 1);
+			$sheet1->setCellValue('A'.$i, $key + 1);
+			$sheet1->setCellValue('B'.$i, $value['client_name']);
             $sheet1->setCellValue('C'.$i, $value['id']);
-            $sheet1->setCellValue('B'.$i, $value['client_name']);
+            
             $i += 1;
 		}   
 		$j = 2;
 		foreach ($states as $key => $value) {
+			$sheet1->setCellValue('O'.$j, $value['state_name']);
 			$sheet1->setCellValue('P'.$j, $value['id']);
-            $sheet1->setCellValue('O'.$j, $value['state_name']);
+           
             $j += 1;
 		}   
 
-		$sheet1->setCellValue('T2','1');
-		$sheet1->setCellValue('T3','2');
+		
 		$sheet1->setCellValue('S2','Male');
 		$sheet1->setCellValue('S3','Female');
+		$sheet1->setCellValue('T2','1');
+		$sheet1->setCellValue('T3','2');
 		
 		$sheet1->setCellValue('Y2','Single');
 		$sheet1->setCellValue('Y3','Married');
@@ -936,18 +947,22 @@ class Backend_team extends CI_Controller
 		$sheet1->setCellValue('AC8','AB+');
 		$sheet1->setCellValue('AC9','AB-');
 		
-		$sheet1->setCellValue('BA2','0');
-		$sheet1->setCellValue('BA3','1');
+		
 		$sheet1->setCellValue('AZ2','Active');
 		$sheet1->setCellValue('AZ3','Inactive');
+		$sheet1->setCellValue('BA2','0');
+		$sheet1->setCellValue('BA3','1');
 
-		$sheet1->setCellValue('CA2','0');
-		$sheet1->setCellValue('CA3','1');
 		$sheet1->setCellValue('BZ2','Active');
 		$sheet1->setCellValue('BZ3','Deactive');
+		$sheet1->setCellValue('CA2','0');
+		$sheet1->setCellValue('CA3','1');
+		
 
 		$spreadsheet->setActiveSheetIndex(0);
+		$spreadsheet->getActiveSheet()->setTitle('Back_end');
 		$sheet = $spreadsheet->getActiveSheet();
+
 		$cellB2 = $sheet->getCell('B2')->getDataValidation();
 		$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
 		$cellB2->setAllowBlank(false);
@@ -956,7 +971,6 @@ class Backend_team extends CI_Controller
 		$cellB2->setShowDropDown(true);
 		// $rowCount = $sheet1->getHighestRow();
 		$cellB2->setFormula1('list1!$B:$B');
-		
 		$sheet->setCellValue('CA2', '=vlookup(B2,list1!B:C,2,false)');
 
 		$cellO2 = $sheet->getCell('O2')->getDataValidation();
@@ -966,7 +980,7 @@ class Backend_team extends CI_Controller
 		$cellO2->setShowErrorMessage(true);
 		$cellO2->setShowDropDown(true);
 		// $rowCount = $sheet1->getHighestRow();
-		$cellO2->setFormula1('list1!$O$:$O');
+		$cellO2->setFormula1('list1!$O:$O');
 		$sheet->setCellValue('CB2', '=vlookup(O2,list1!O:P,2,false)');
 
 		$cellS2 = $sheet->getCell('S2')->getDataValidation();
@@ -975,7 +989,7 @@ class Backend_team extends CI_Controller
 		$cellS2->setShowInputMessage(true);
 		$cellS2->setShowErrorMessage(true);
 		$cellS2->setShowDropDown(true);
-		$cellS2->setFormula1('list1!$S:$S');
+		$cellS2->setFormula1('list1!$S$2:$S$40');
 		$sheet->setCellValue('CC2', '=vlookup(S2,list1!S:T,2,false)');
 
 		$cellAY2 = $sheet->getCell('AY2')->getDataValidation();
@@ -1014,7 +1028,7 @@ class Backend_team extends CI_Controller
 		$cellY2->setFormula1('list1!$Y:$Y');
 
         $writer = new Xlsx($spreadsheet);
-        $filename = 'DOC_FORMAT_NEW';
+        $filename = 'DOC_DOWNLOAD_FORMAT';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
         header('Cache-Control: max-age=0');

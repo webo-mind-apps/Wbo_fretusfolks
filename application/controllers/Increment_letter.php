@@ -204,9 +204,7 @@ class Increment_letter extends CI_Controller
 					0
 				); // margin footer 
 				$mpdf->WriteHTML($html);
-				$mpdf->Output();
-				//$data['ffi_emp_id'] . "_" . $data['emp_name'] . ".pdf", 'D'
-				exit;
+				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . ".pdf", 'D');
 				redirect('increment_letter');
 			}
 		} else {
@@ -264,7 +262,7 @@ class Increment_letter extends CI_Controller
 
 				foreach ($data as $row) {
 					$mpdf = new \Mpdf\Mpdf();
-					$datas['letter_details'] = $row;
+					$datass['letter_details'] = $row;
 					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
 					$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 					$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
@@ -334,7 +332,7 @@ class Increment_letter extends CI_Controller
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 				$insert = 0;
-				$update = 0;
+				//$update = 0;
 				$not_exist = 0;
 				$nochanges = 0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
@@ -345,24 +343,25 @@ class Increment_letter extends CI_Controller
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
 						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
 						"date"					=>	$date,
-						"effective_date"		=> (empty($allDataInSheet[$i]['C']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['C']))),
-						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
-						"hra"					=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
-						"conveyance"			=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
-						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
-						"special_allowance"		=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
-						"st_bonus"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
-						"other_allowance"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
-						"gross_salary"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
-						"emp_pf"				=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
-						"emp_esic"				=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
-						"pt"					=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
-						"total_deduction"		=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
-						"take_home"				=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
-						"employer_pf"			=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
-						"employer_esic"			=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
-						"mediclaim"				=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
-						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
+						
+						"basic_salary"			=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+						"hra"					=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
+						"conveyance"			=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
+						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
+						"special_allowance"		=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
+						"st_bonus"				=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
+						"other_allowance"		=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
+						"gross_salary"			=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
+						"emp_pf"				=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
+						"emp_esic"				=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
+						"pt"					=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
+						"total_deduction"		=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
+						"take_home"				=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
+						"employer_pf"			=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
+						"employer_esic"			=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
+						"mediclaim"				=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
+						"ctc"					=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
+						"effective_date"		=> (empty($allDataInSheet[$i]['T']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['T']))),
 					);
 					if ($import_status = $this->increment->importEmployee_increment_letter($data)) {
 
@@ -414,9 +413,11 @@ class Increment_letter extends CI_Controller
 							$this->email->message($message);
 							$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 							$this->email->send();
-						} else if ($import_status == "update") {
-							$update = $update + 1;
-						} else if ($import_status == "not_exist") {
+						} 
+						// else if ($import_status == "update") {
+						// 	$update = $update + 1;
+						// } 
+						else if ($import_status == "not_exist") {
 							$not_exist = $not_exist + 1;
 						} else if ($import_status == "nochanges") {
 							$nochanges = $nochanges + 1;
@@ -425,7 +426,7 @@ class Increment_letter extends CI_Controller
 				}
 				// echo "insert".$insert."<br>update".$update."<br>not exsist".$not_exist."<br>nochanges".$nochanges;
 				// 		exit;
-				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>' . $nochanges . ' rows no changes <br>' . $not_exist . ' employee not founded <br>';
+				$msg = $insert . ' rows inserted <br>'  . $nochanges . ' rows no changes <br>' . $not_exist . ' employee not founded <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('increment_letter', 'refresh');
 			} else {
