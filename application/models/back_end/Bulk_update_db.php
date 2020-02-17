@@ -19,7 +19,7 @@ class Bulk_update_db extends CI_Model
 		$this->db->join('states c','a.state=c.id','left');
 		$this->db->where('emp_name!=','');
 		if(isset($_POST["search"]["value"])){
-			$this->db->group_start();
+            $this->db->group_start();
                 $this->db->like("a.id", $_POST["search"]["value"]);  
                 $this->db->or_like("client_name", $_POST["search"]["value"]);  
                 $this->db->or_like("ffi_emp_id", $_POST["search"]["value"]);  

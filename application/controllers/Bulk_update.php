@@ -29,7 +29,7 @@ class Bulk_update extends CI_Controller
 			$data = array();
 			$i = 1;
 			foreach ($fetch_data as $row) { 
-				$checkbox ='<center><input type="checkbox" name="checkbox" style="height: 25px; width: 20px; " class="checkbox"></center>';
+				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox"></center>';
 				$sub_array = array();
 				$sub_array[]= $checkbox;
 				$sub_array[] = $row->id;
