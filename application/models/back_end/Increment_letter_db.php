@@ -157,7 +157,12 @@ class Increment_letter_db extends CI_Model
 		}
 		$query = $this->db->get();
 		$q = $query->result_array();
-		return $q;
+		
+		if($q){
+			return $q;
+		}else{
+			return "nothing_found";
+		}
 		// 	echo "<pre>";
 		// 	print_r($q);
 

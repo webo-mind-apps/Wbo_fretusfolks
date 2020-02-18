@@ -31,6 +31,13 @@ $active_menu = "index";
 			cursor: pointer;
 			border-radius: .1875rem;
 		}
+
+		.spinner {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: red;
+		}
 	</style>
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -40,6 +47,7 @@ $active_menu = "index";
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+	<!-- ---css datepicker -->
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
@@ -53,10 +61,12 @@ $active_menu = "index";
 
 	<!-- /core JS files -->
 	<!-- Theme JS files -->
+	<!-- js date picker -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/jquery-ui.min.js"></script>
 	<!-- <script src="<?php //echo base_url(); 
 						?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<link href="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.css">
 	<!-- main for datatables -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 
@@ -141,17 +151,15 @@ $active_menu = "index";
 	</script>
 
 
-				
-	<script>
-	
 
+	<script>
 		$(function() {
 			$("#From").datepicker({
 				dateFormat: 'dd-mm-yy',
 				changeMonth: true,
 				changeYear: true,
 				showOtherMonths: true,
-				yearRange: '1947:2100', 
+				yearRange: '1947:2100',
 				onClose: function(selectedDate) {
 					$("#To").datepicker("option", "minDate", selectedDate);
 				}
@@ -161,7 +169,7 @@ $active_menu = "index";
 				changeMonth: true,
 				changeYear: true,
 				showOtherMonths: true,
-				yearRange: '1947:2100', 
+				yearRange: '1947:2100',
 				onClose: function(selectedDate) {
 					$("#From").datepicker("option", "maxDate", selectedDate);
 				}
@@ -169,8 +177,9 @@ $active_menu = "index";
 
 			$('#button').click(function() {
 				//e.preventDefault();
-				 $('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide');
-				
+				if ($('#client_values').val()) {
+					$('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide'); 
+				}
 			});
 		});
 	</script>
@@ -208,9 +217,9 @@ $active_menu = "index";
 					<div class="right text-center ">
 						<div class="row">
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" data-toggle="modal" data-target="#fetchData">Download <b><i class="fa fa-download" aria-hidden="true"></i></b></button>
 							</div>
-							<div class="modal fade" role="dialog" id="fetchData" >
+							<div class="modal fade" role="dialog" id="fetchData">
 								<div class="modal-dialog modal-sm">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -222,7 +231,7 @@ $active_menu = "index";
 													<label class="down"><b>Clinent Name</b><span class="text-danger"> *</span></label>
 													<div class="form-group">
 
-														<select name="increment_download_client" class="form-control" required>
+														<select id="client_values" name="increment_download_client" class="form-control" required>
 															<option value=""><b>Select Name</b></option>
 															<?php
 															foreach ($client_management as $row) {
@@ -246,7 +255,7 @@ $active_menu = "index";
 
 											</div>
 											<div class="modal-footer down">
-												<button type="submit" name="download" id="button"  class="btn btn-success ">Download</button>
+												<button type="submit" name="download" id="button" class="btn btn-success ">Download</button>
 											</div>
 										</div>
 										</form>
@@ -257,11 +266,12 @@ $active_menu = "index";
 
 							<div class="col-md-4" style="margin-right:-3.5%;">
 
-								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form" >
-								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
-								</br>
+								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form">
+									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-undo" aria-hidden="true"></i></b> </button>
+									</br>
 
-								<!-- <a href="<?php // echo base_url() ?>increment_letter/doc_formate">Download Format</a> -->
+									<!-- <a href="<?php // echo base_url() 
+													?>increment_letter/doc_formate">Download Format</a> -->
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw" style="display:none">
 								</form>
 							</div>
@@ -274,7 +284,7 @@ $active_menu = "index";
 					</div>
 
 				</div>
-				<!-- <?php
+				<?php
 
 				if ($this->session->flashdata('no_data', 'No datas found')) {
 				?>
@@ -285,16 +295,16 @@ $active_menu = "index";
 				<?php
 				}
 				?>
-				<?php
+				<!--<?php
 
-				if ($this->session->flashdata('nochange', 'No changes')) {
-				?>
+					if ($this->session->flashdata('nochange', 'No changes')) {
+					?>
 					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<span class="text-semibold">No changes..!</span>
 					</div>
 				<?php
-				}
+					}
 				?> -->
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
@@ -302,15 +312,15 @@ $active_menu = "index";
 						<div class="breadcrumb">
 							<a href="<?php echo site_url('home/dashboard'); ?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
 							<span class="breadcrumb-item active">Increment Letters</span>
-							
+
 						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
-					<span style="float:right"><a href="<?php echo base_url() ?>increment_letter/doc_formate" class="breadcrumb-item" >Download Format</a></span>
+					<span style="float:right"><a href="<?php echo base_url() ?>increment_letter/doc_formate" class="breadcrumb-item">Download Sample Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
-			
+
 			<?php
 
 			if ($this->session->flashdata('success')) {
@@ -336,14 +346,14 @@ $active_menu = "index";
 
 			<!-- <?php
 
-			if ($this->session->flashdata('not_exist', 'Employee not found')) {
-			?>
+					if ($this->session->flashdata('not_exist', 'Employee not found')) {
+					?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">Some employee id not founded..!</span>
 				</div>
 			<?php
-			}
+					}
 			?>
 
 			<?php
@@ -369,7 +379,8 @@ $active_menu = "index";
 								<h5 class="card-title">Increment Letters Details</h5>
 								<div class="header-elements">
 									<div class="list-icons">
-										<!-- <a href="<?php  //echo base_url() ?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
+										<!-- <a href="<?php  //echo base_url() 
+														?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
 										<a class="list-icons-item" data-action="reload"></a>
 									</div>
 								</div>
@@ -398,7 +409,9 @@ $active_menu = "index";
 					</div>
 				</div>
 				<!-- /floating labels -->
-
+				<p>
+					<button type="button" id="btn-reload">Reload</button>
+				</p>
 
 				<!-- content area -->
 
@@ -457,18 +470,21 @@ $active_menu = "index";
 							});
 
 							var dataTable = $('#increment_letter_d_table').DataTable({
-								'processing': true,
-								'serverSide': true,
-								'order': [],
-								'ajax': {
-									'url': "<?php echo base_url() . 'increment_letter/get_all_data' ?>",
-									'type': 'POST'
-								},
-								'columnDefs': [{
-									"targets": [7],
-									"orderable": false,
-								}],
 
+								"language": {
+									"processing": "DataTables is currently busy"
+								},
+								processing: true,
+								serverSide: true,
+								order: [],
+								ajax: {
+									url: "<?php echo site_url() . 'increment_letter/get_all_data' ?>",
+									type: 'POST'
+								},
+								columnDefs: [{
+									targets: [7],
+									orderable: false,
+								}]
 							})
 
 							// Datatable 'length' options
@@ -500,22 +516,6 @@ $active_menu = "index";
 							});
 
 							// Columns rendering
-							$('.datatable-columns').dataTable({
-								columnDefs: [{
-										// The `data` parameter refers to the data for the cell (defined by the
-										// `data` option, which defaults to the column being worked with, in
-										// this case `data: 0`.
-										render: function(data, type, row) {
-											return data + ' (' + row[3] + ')';
-										},
-										targets: 0
-									},
-									{
-										visible: false,
-										targets: [3]
-									}
-								]
-							});
 
 						};
 						//

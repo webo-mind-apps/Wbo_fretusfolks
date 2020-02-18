@@ -252,44 +252,47 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 
 			if ($data['letter_details'] = $this->increment->download_increment()) {
+				if ($data['letter_details']!="nothing_found") {
+					$this->load->library('zip');
+					$date = date('ymdhis');
+					$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'] . $date;
+					if (!is_dir($path)) mkdir($path, 0777, TRUE);
 
-				$this->load->library('zip');
-				$date = date('ymdhis');
-				$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'] . $date;
-				if (!is_dir($path)) mkdir($path, 0777, TRUE);
-				// echo "<pre>";
-				// print_r($data['letter_details'] );
+					// echo "<script> alert('sdfsdf')</script>";
 
-				// echo "</pre>";
+					// echo '<script>alert("'.count($data['letter_details']).'")</script>';
 
-				foreach ($data['letter_details'] as $key => $row) {
-					$mpdf = new \Mpdf\Mpdf();
-					$datas['letter_details'][0] = $row;
-					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
-					$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-					$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-					$mpdf->AddPage(
-						'', // L - landscape, P - portrait 
-						'',
-						'',
-						'',
-						'',
-						5, // margin_left
-						5, // margin right
-						35, // margin top
-						35, // margin bottom
-						0, // margin header
-						0
-					); // margin footer
-					$mpdf->WriteHTML($html);
-					$date = date('Ymdhis') . $key;
-					$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . $date . ".pdf", 'F');
+					foreach ($data['letter_details'] as $key => $row) {
+						$mpdf = new \Mpdf\Mpdf();
+						$datas['letter_details'][0] = $row;
+						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+						$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+						$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+						$mpdf->AddPage(
+							'', // L - landscape, P - portrait 
+							'',
+							'',
+							'',
+							'',
+							5, // margin_left
+							5, // margin right
+							35, // margin top
+							35, // margin bottom
+							0, // margin header
+							0
+						); // margin footer
+						$mpdf->WriteHTML($html);
+						$date = date('Ymdhis') . $key;
+						$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . $date . ".pdf", 'F');
+					}
+					$this->zip->read_dir($path, false);
+					$download = $this->zip->download($path . '.zip');
+				} else {
+					 
+					$this->session->set_flashdata('no_data', 'No datas found');
+					redirect('increment_letter');
+					// redirect('home/index');
 				}
-				$this->zip->read_dir($path, false);
-				$download = $this->zip->download($path . '.zip');
-			} else {
-				$this->session->set_flashdata('no_data', 'No datas found');
-				redirect('increment_letter');
 			}
 		} else {
 			redirect('home/index');
