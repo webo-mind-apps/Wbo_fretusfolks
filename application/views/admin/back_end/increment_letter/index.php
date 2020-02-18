@@ -242,13 +242,13 @@ $active_menu = "index";
 													</div>
 													<div class="form-group">
 														<label class="down"><b>Increment Letter Created Date</b>
-															<span class="text-danger">*</span></label><br>
+															</label><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
 															<input id="From" type="text" name="increment_download_date" class="form-control" autocomplete="off"><br>
 														</div><br>
 														<div style="display:flex;">
-															<span style="margin-right:21px;padding-top:9px">To: </span>
+															<span style="margin-right:21px;padding-top:9px">To:  </span>
 															<input id="To" type="text" name="increment_download_date2" class="form-control" autocomplete="off"><br>
 														</div>
 													</div>
@@ -409,9 +409,7 @@ $active_menu = "index";
 					</div>
 				</div>
 				<!-- /floating labels -->
-				<p>
-					<button type="button" id="btn-reload">Reload</button>
-				</p>
+				 
 
 				<!-- content area -->
 
