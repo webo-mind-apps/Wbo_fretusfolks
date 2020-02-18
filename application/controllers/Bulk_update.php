@@ -23,9 +23,11 @@ class Bulk_update extends CI_Controller
 		}
 	}
 
-	function inactive_update(){
+	function inactive_update(){ //For making inactive
 		if (($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type') == 0 || $this->session->userdata('admin_type') == 1)) {
-			$data = $this->bulk_update->inactive_update();
+				$id=$this->uri->segment(3);	
+				$status = $this->input->post('status');
+				$this->bulk_update->inactive_update($id,$status);
 			redirect('bulk_update/');
 		} else {
 			redirect('home/index');
@@ -38,7 +40,7 @@ class Bulk_update extends CI_Controller
 			$data = array();
 			$i = 1;
 			foreach ($fetch_data as $row) { 
-				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox" id="' . $row->id . '" onclick="inactive_update(this.id);"></center>';
+				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox" id="'. $row->id .'" ></center>';
 				$sub_array = array();
 				$sub_array[]= $checkbox;
 				$sub_array[] = $row->id;

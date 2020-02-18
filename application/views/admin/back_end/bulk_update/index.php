@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 	<title>Fretus Folks India Pvt Ltd </title>
 
 	<!-- Global stylesheets -->
@@ -62,28 +63,24 @@
 				}
 	</style>
 	<script>
-		function inactive_update(id) {
-			r = confirm("Are you sure to make this as Inactive ?");
-			if (r == true) {
-				$("div#divLoading").addClass('show');
-				jQuery.ajax({
-					type: "POST",
-					url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
-					datatype: "text",
-					data: {
-						id: id
-					},
-					success: function(response) {
-						$('#get_details').empty();
-						$('#get_details').append(response);
-						$("div#divLoading").removeClass('show');
-						$("#dtable").DataTable().ajax.reload();
-
-					},
-					error: function(xhr, ajaxOptions, thrownError) {}
-				});
-			}
-		}
+	// For making Inactive
+	function status_checks(){
+      var status = ($(this).hasClass("btn-success")) ? '0' : '1';
+      var msg = (status=='1')? 'Inactive' : 'Active';
+      if(confirm("Are you sure to "+ msg)){
+        var current_element = $(this);
+        $.ajax({
+          type:"POST",
+          url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
+          data: {id:$(current_element).attr('data'),status:status},
+          success: function(data)
+          {  
+            location.reload();
+          },
+		  error: function(xhr, ajaxOptions, thrownError) {}
+        });
+      }     
+    }
 	</script>
 
 <script>
@@ -130,12 +127,7 @@
 								'columnDefs': [{
 									"targets": [0],
 									"orderable": false
-									//"searchable":false
 								}],
-								/* "select": {
-                                    "style": "multi" ,
-                                    selector: 'tr>th:nth-child(0), tr>th:nth-child(1)'                                 
-                                        } */
 							});
 							
 							//For selecting all the datas
@@ -270,7 +262,7 @@
 						<h5 class="card-title">Bulk Updates</h5>
 						<div class="header-elements">
 							<div class="list-icons">
-		                		
+		                		<button type="button" class="btn-success" onclick="status_checks()">Inactive</button>
 		                		<a class="list-icons-item" data-action="reload"></a>
 		                	</div>
 	                	</div>
@@ -279,7 +271,7 @@
 					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
-							<th><span style=" float:left!important;"><input  id="selectAll" type="checkbox" style="width:20px !important; height:20px !important;" onclick="inactive_update(this.id)"/></span>Select All</th>
+							<th><span style=" float:left!important;"><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></span>Select All</th>
 								<th>Si No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
@@ -304,34 +296,7 @@
 						</div>
 					</div>
 				</div>
- <!-- <script type="text/javascript">
-$("#selectAll").click(function() {
-$("input[type=checkbox]").prop("checked", $(this).prop("checked"));
-}); 
-</script>-->
-<!-- <script type="text/javascript">
-$(document).ready(function(){
-    $('#selectAll').on('click',function(){
-        if(this.checked){
-            $('.checkbox').each(function(){
-                this.checked = true;
-            });
-        }else{
-             $('.checkbox').each(function(){
-                this.checked = false;
-            });
-        }
-    });
-    
-    $('.checkbox').on('click',function(){
-        if($('.checkbox:checked').length == $('.checkbox').length){
-            $('#selectAll').prop('checked',true);
-        }else{
-            $('#selectAll').prop('checked',false);
-        }
-    });
-});
-</script> -->
+ 
 
 </body>
 </html>
