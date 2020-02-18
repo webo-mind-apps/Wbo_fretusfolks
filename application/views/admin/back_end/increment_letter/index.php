@@ -381,7 +381,7 @@ $active_menu = "index";
 									<div class="list-icons">
 										<!-- <a href="<?php  //echo base_url() 
 														?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
-										<a class="list-icons-item" data-action="reload"></a>
+										<!-- <a class="list-icons-item" data-action="reload"></a> -->
 									</div>
 								</div>
 							</div>
