@@ -63,8 +63,36 @@
 				}
 	</style>
 	<script>
+	// For making Active
+	function status_active_checks(id){
+      
+	  var checked = $('input[name="checkbox[]"]:checked'); 
+	  var id = [];
+	  $.each(checked, function (index, value) { 
+	  id[index] = $(value).val();
+		
+	  });
+	  console.log(id);
+	  
+      if(confirm("Are you sure to Active")){
+        var current_element = $(this);
+        $.ajax({
+          type:"POST",
+          url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
+          data: {
+			  id:id,
+			  status:1
+			},
+          success: function(data)
+          {  
+            $("#dtable").DataTable().ajax.reload();
+          },
+		  error: function(xhr, ajaxOptions, thrownError) {}
+        });
+      }     
+    }
 	// For making Inactive
-	function status_checks(id){
+	function status_inactive_checks(id){
       
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
@@ -272,8 +300,9 @@
 						<h5 class="card-title">Bulk Updates</h5>
 						<div class="header-elements">
 							<div class="list-icons">
-		                		<button type="button" class="btn-success btn btn-sm" onclick="status_checks(this.id)" id="status">Inactive</button>
-
+								<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="status">Active</button>
+		                		<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="status">Inactive</button>
+								
 		                	</div>
 	                	</div>
 					</div>

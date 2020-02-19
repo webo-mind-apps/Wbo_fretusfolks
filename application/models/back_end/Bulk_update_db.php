@@ -42,6 +42,12 @@ class Bulk_update_db extends CI_Model
 		$this->db->update('backend_management',array('status'=>$status));
 	}
 
+	function active_update($id,$status) //For making active
+	{
+		$this->db->where('id',$id);
+		$this->db->update('backend_management',array('status'=>$status));
+	}
+
 	function get_all_data()  
     {  
            $this->db->select("*");
