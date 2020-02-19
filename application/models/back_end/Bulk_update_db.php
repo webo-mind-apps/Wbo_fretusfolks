@@ -38,9 +38,8 @@ class Bulk_update_db extends CI_Model
 
 	function inactive_update($id,$status) //For making inactive
 	{
-		$data['status'] = $status;
 		$this->db->where('id',$id);
-		$this->db->update('backend_management',$data);
+		$this->db->update('backend_management',array('status'=>$status));
 	}
 
 	function get_all_data()  

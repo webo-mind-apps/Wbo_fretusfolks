@@ -64,18 +64,28 @@
 	</style>
 	<script>
 	// For making Inactive
-	function status_checks(){
-      var status = ($(this).hasClass("btn-success")) ? '0' : '1';
-      var msg = (status=='1')? 'Inactive' : 'Active';
-      if(confirm("Are you sure to "+ msg)){
+	function status_checks(id){
+      
+	  var checked = $('input[name="checkbox[]"]:checked'); 
+	  var id = [];
+	  $.each(checked, function (index, value) { 
+	  id[index] = $(value).val();
+		
+	  });
+	  console.log(id);
+	  
+      if(confirm("Are you sure to Inactive")){
         var current_element = $(this);
         $.ajax({
           type:"POST",
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
-          data: {id:$(current_element).attr('data'),status:status},
+          data: {
+			  id:id,
+			  status:0
+			},
           success: function(data)
           {  
-            location.reload();
+            $("#dtable").DataTable().ajax.reload();
           },
 		  error: function(xhr, ajaxOptions, thrownError) {}
         });
@@ -262,8 +272,8 @@
 						<h5 class="card-title">Bulk Updates</h5>
 						<div class="header-elements">
 							<div class="list-icons">
-		                		<button type="button" class="btn-success" onclick="status_checks()">Inactive</button>
-		                		<a class="list-icons-item" data-action="reload"></a>
+		                		<button type="button" class="btn-success btn btn-sm" onclick="status_checks(this.id)" id="status">Inactive</button>
+
 		                	</div>
 	                	</div>
 					</div>
@@ -271,7 +281,7 @@
 					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
-							<th><span style=" float:left!important;"><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></span>Select All</th>
+							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
 								<th>Si No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
@@ -296,7 +306,16 @@
 						</div>
 					</div>
 				</div>
- 
+ <!-- <script>
+$(document).ready(function() {
 
+$('#selectAll').click(function() {
+	$('button[type="button"]').attr('disabled','disabled');
+
+ });
+	$("#status").show();
+});
+});
+</script> -->
 </body>
 </html>

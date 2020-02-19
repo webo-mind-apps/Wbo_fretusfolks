@@ -25,13 +25,12 @@ class Bulk_update extends CI_Controller
 
 	function inactive_update(){ //For making inactive
 		if (($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type') == 0 || $this->session->userdata('admin_type') == 1)) {
-				$id=$this->uri->segment(3);	
-				$status = $this->input->post('status');
-				$this->bulk_update->inactive_update($id,$status);
-			redirect('bulk_update/');
-		} else {
-			redirect('home/index');
-		}
+			$id=$this->input->post('id');	
+			$status = $this->input->post('status');
+			foreach ($id as $key => $value) {
+				$this->bulk_update->inactive_update($value,$status);
+			}	
+		} 	
 	}
 	public function get_all_data($var = null)//created for implementing data tables
 	{
@@ -40,7 +39,7 @@ class Bulk_update extends CI_Controller
 			$data = array();
 			$i = 1;
 			foreach ($fetch_data as $row) { 
-				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox" id="'. $row->id .'" ></center>';
+				$checkbox ='<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox" name="checkbox[]" id="'.$row->id.'" value="'.$row->id.'"></center>';
 				$sub_array = array();
 				$sub_array[]= $checkbox;
 				$sub_array[] = $row->id;
