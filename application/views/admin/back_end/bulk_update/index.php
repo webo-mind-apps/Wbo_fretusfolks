@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 	<title>Fretus Folks India Pvt Ltd </title>
 
 	<!-- Global stylesheets -->
@@ -24,6 +25,7 @@
 		<script src="<?php echo base_url();?>admin_assets/assets/js/app.js"></script>
 		<!-- <script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
 	<style>
 				#divLoading
 				{
@@ -61,26 +63,66 @@
 				}
 	</style>
 	<script>
-		function delete_warning_letter(id)
-		{
-			r=confirm("Are You Sure to Delete ?");
-			if(r==true)
-			{
-				$("div#divLoading").addClass('show');	
-					jQuery.ajax({
-					type:"POST",
-					url:"<?php echo base_url(); ?>" + "index.php/warning_letter/delete_warning_letter",
-					datatype:"text",
-					data:{id:id},
-					success:function(response)
-					{
-						location.reload();
-						$("#warning_letter_d_table").DataTable().ajax.reload();
-					},
-					error:function (xhr, ajaxOptions, thrownError){}
-					});
-			}
-		}
+	// For making Active
+	function status_active_checks(id){
+
+	  $("#inactive_btn").attr('disabled','disabled');
+	  $("#active_btn").removeAttr('disabled'); 
+	  var checked = $('input[name="checkbox[]"]:checked'); 
+	  var id = [];
+	  $.each(checked, function (index, value) { 
+	  id[index] = $(value).val();
+		
+	  });
+	  console.log(id);
+	  
+      if(confirm("Are you sure to Active")){
+        $.ajax({
+          type:"POST",
+          url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
+          data: {
+			  id:id,
+			  status:1
+			},
+          success: function(data)
+          {  
+            $("#dtable").DataTable().ajax.reload();
+          },
+		  error: function(xhr, ajaxOptions, thrownError) {}
+        });
+      }     
+    }
+
+
+	// For making Inactive
+	function status_inactive_checks(id){
+
+	  $("#active_btn").attr('disabled','disabled');
+	  $("#inactive_btn").removeAttr('disabled'); 
+	  var checked = $('input[name="checkbox[]"]:checked'); 
+	  var id = [];
+	  $.each(checked, function (index, value) { 
+	  id[index] = $(value).val();
+		
+	  });
+	  console.log(id);
+	  
+      if(confirm("Are you sure to Inactive")){
+        $.ajax({
+          type:"POST",
+          url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
+          data: {
+			  id:id,
+			  status:0
+			},
+          success: function(data)
+          {  
+            $("#dtable").DataTable().ajax.reload();
+          },
+		  error: function(xhr, ajaxOptions, thrownError) {}
+        });
+      }     
+    }
 	</script>
 
 <script>
@@ -115,21 +157,30 @@
 								}
 							});
 
+							//For datatables
 							var dataTable = $('#dtable').DataTable({
 								'processing': true,
 								'serverSide': true,
-								'order': [],
+								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
 									'type': 'POST'
 								},
 								'columnDefs': [{
-									"targets": [6],
-									"orderable": false,
+									"targets": [0],
+									"orderable": false
 								}],
-
-							})
-
+							});
+							
+							//For selecting all the datas
+							$(document).on('change', '#selectAll', function(){
+								if($(this).prop('checked')){
+								$('.checkbox').prop('checked', true);
+								}else{
+								$('.checkbox').prop('checked', false);
+								}
+								});
+							
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [
@@ -190,6 +241,8 @@
 					document.addEventListener('DOMContentLoaded', function() {
 						DatatableAdvanced.init()
 					});
+					
+					
 				</script>
 
 </head>
@@ -251,8 +304,9 @@
 						<h5 class="card-title">Bulk Updates</h5>
 						<div class="header-elements">
 							<div class="list-icons">
-		                		
-		                		<a class="list-icons-item" data-action="reload"></a>
+								<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="active_btn" >Active</button>
+		                		<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="inactive_btn">Inactive</button>
+								
 		                	</div>
 	                	</div>
 					</div>
@@ -260,6 +314,7 @@
 					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
 						<thead>
 							<tr>
+							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
 								<th>Si No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
@@ -284,7 +339,16 @@
 						</div>
 					</div>
 				</div>
+ <!-- <script>
+$(document).ready(function() {
 
-			
+$('#selectAll').click(function() {
+	$('button[type="button"]').attr('disabled','disabled');
+
+ });
+	$("#status").show();
+});
+});
+</script> -->
 </body>
 </html>
