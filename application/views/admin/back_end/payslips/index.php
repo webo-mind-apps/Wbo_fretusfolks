@@ -189,7 +189,7 @@ $active_menu="index";
 					?>
 							<div class="alert bg-danger alert-styled-left">
 								<button type="button" class="close" data-dismiss="alert"></button>
-								<span class="text-semibold">Opps!</span> Try agin!
+								<span class="text-semibold">Opps!</span> Try again!
 							</div>
 					<?php	
 						}
