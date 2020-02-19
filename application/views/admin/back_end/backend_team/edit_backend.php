@@ -329,20 +329,7 @@ $active_menu="Backendteam";
 						<h4><a href="<?php echo site_url('backend_team');?>"><i class="icon-arrow-left52 mr-2"></i></a> <span class="font-weight-semibold">Back End Management</span></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
-					<div class="right text-center">
-					<div class="row">
-					<div class="col-md-5">
-					<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Download&nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
-					</div><div class="col-md-1"></div>
-					<div class="col-md-5">
-						<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
-					</div>
-					</div>
-						<!-- <a href="<?php echo base_url() ?>doc-formate" download >Download Format</a> -->
-						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-doc-import" id="import_form" style="display:none">
-							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
-						</form>
-					</div>
+					
 				</div>
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -352,7 +339,7 @@ $active_menu="Backendteam";
 						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
-					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate" >Download Sample Format</a></span>
+					
 				</div>
 			</div>
 			<!-- /page header -->

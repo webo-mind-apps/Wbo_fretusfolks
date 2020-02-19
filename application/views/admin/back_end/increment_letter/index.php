@@ -268,7 +268,7 @@ $active_menu = "index";
 							<div class="col-md-4" style="margin-right:-3.5%;">
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('increment_letter/adms_increment_letter_import'); ?>" id="import_form">
-									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-undo" aria-hidden="true"></i></b> </button>
+									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-reply" aria-hidden="true"></i></i></b> </button>
 									</br>
 
 									<!-- <a href="<?php // echo base_url() 

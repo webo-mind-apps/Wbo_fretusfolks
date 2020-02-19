@@ -253,7 +253,7 @@
 							</div>
 					</div><div class="col-md-1"></div>
 					<div class="col-md-5">
-						<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
+						<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b><i class="fa fa-reply" aria-hidden="true"></i></b></button>
 					</div>
 					</div>
 						<!-- <a href="<?php //echo base_url() ?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->

@@ -480,7 +480,7 @@ class Backend_team extends CI_Controller
 			// $sheet->getColumnDimension('BS')->setAutoSize(true);
 			
 
-			$sheet->getStyle("A1:BA1")->applyFromArray(array("font" => array("bold" => true)));
+			$sheet->getStyle("A1:BP1")->applyFromArray(array("font" => array("bold" => true)));
 			$sheet->setCellValue('A1', 'Entity Name: *');
 			$sheet->setCellValue('B1', 'Enter Client Name: *');
 			$sheet->setCellValue('C1', 'Enter FFI Employee ID: *');
