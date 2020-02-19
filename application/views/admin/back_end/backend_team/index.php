@@ -18,16 +18,19 @@
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
-
+	
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/jquery.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/loaders/blockui.min.js"></script>
-
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/jquery-ui.min.js"></script>
 	<!-- /core JS files -->
 	<!-- Theme JS files -->
+	<!-- ---css datepicker -->
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 
-
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
+	<!-- <script src="<?php //echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
@@ -40,7 +43,9 @@
 		#divLoading {
 			display: none;
 		}
-
+		.down {
+			float: left;
+		}
 		#divLoading.show {
 			display: block;
 			position: fixed;
@@ -119,6 +124,38 @@
 			}
 		}
 	</script>
+	<script>
+	
+
+	$(function() {
+		$("#From").datepicker({
+			dateFormat: 'dd-mm-yy',
+			changeMonth: true,
+			changeYear: true,
+			showOtherMonths: true,
+			yearRange: '1947:2100', 
+			onClose: function(selectedDate) {
+				$("#To").datepicker("option", "minDate", selectedDate);
+			}
+		});
+		$("#To").datepicker({
+			dateFormat: 'dd-mm-yy',
+			changeMonth: true,
+			changeYear: true,
+			showOtherMonths: true,
+			yearRange: '1947:2100', 
+			onClose: function(selectedDate) {
+				$("#From").datepicker("option", "maxDate", selectedDate);
+			}
+		});
+
+		$('#button').click(function() {
+			//e.preventDefault();
+			 $('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide');
+			
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -156,8 +193,69 @@
 											?>" class="btn btn-labeled btn-labeled-right bg-primary">New Back End <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>-->
 					</div>
 					<div class="right text-center">
-						<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
-						</br>
+					<div class="row">
+					<div class="col-md-5">
+					<!-- <a href="<?php //echo base_url(); ?>backend_team/download_backend_details" > -->
+					<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" data-toggle="modal"  data-target="#fetchData">&nbsp;&nbsp;Download&nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
+					<!-- </a> -->
+					<div class="modal fade" role="dialog" id="fetchData" >
+								<div class="modal-dialog modal-sm">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="content">
+											<div class="modal-body">
+												<form enctype="multipart/form-data" method="post" action="<?php echo base_url(); ?>backend_team/download_backend_details" name="certform">
+													<label class="down"><b>Clinent Name</b></label>
+													<div class="form-group">
+
+														<select name="backend_download_client" class="form-control">
+															<option value=""><b>Select Name</b></option>
+															<?php
+															foreach ($client_management as $row) {
+																echo '<option value="' . $row['id'] . '">' . $row['client_name'] . '</option>';
+															}
+															?>
+														</select>
+													</div>
+													<label class="down"><b>Active Status</b></label>
+													<div class="form-group">
+
+														<select name="emp_status" class="form-control">
+															<option value=""><b>Select</b></option>
+															<option value="0"><b>Active</b></option>
+															<option value="1"><b>Deactive</b></option>
+															
+														</select>
+													</div>
+													<div class="form-group">
+														<label class="down"><b>Employee Joining Date</b>
+															</label><br>
+														<div style="display: flex;width:100%">
+															<span style="margin-right:5px;padding-top:9px;">From:</span>
+															<input id="From" type="text" name="backend_download_date" class="form-control" autocomplete="off"><br>
+														</div><br>
+														<div style="display:flex;">
+															<span style="margin-right:21px;padding-top:9px">To: </span>
+															<input id="To" type="text" name="backend_download_date2" class="form-control" autocomplete="off"><br>
+														</div>
+													</div>
+
+											</div>
+											<div class="modal-footer down">
+												<button type="submit" name="download" id="button"  class="btn btn-success ">Download</button>
+											</div>
+										</div>
+										</form>
+									</div>
+								</div>
+							</div>
+					</div><div class="col-md-1"></div>
+					<div class="col-md-5">
+						<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
+					</div>
+					</div>
 						<!-- <a href="<?php //echo base_url() ?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->
 						<!-- <a href="<?php echo base_url() ?>doc-formate" >Download Format</a> -->
 						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-doc-import" id="import_form" style="display:none">
@@ -165,6 +263,17 @@
 						</form>
 					</div>
 				</div>
+				 <?php
+
+					if ($this->session->flashdata('no_data', 'No datas founded')) {
+						?>
+							<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+								<span class="text-semibold">No datas found..!</span>
+							</div>
+						<?php
+						}
+						?>
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -175,7 +284,7 @@
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div> 
-					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate" >Download Format</a></span>
+					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate" >Download Sample Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
@@ -216,12 +325,7 @@
 						<div class="card">
 							<div class="card-header header-elements-inline">
 								<h5 class="card-title">Back End Details</h5>
-								<div class="header-elements">
-									<div class="list-icons">
-										<a href="<?php echo site_url('backend_team/download_backend_details'); ?>"><i class="fa fa-download" aria-hidden="true"></i></a>
-										<a class="list-icons-item" data-action="reload"></a>
-									</div>
-								</div>
+								
 							</div>
 
 							<table id="dynamic_table" class="table datatable-basic table-bordered table-striped table-hover cell-border compact stripe">
@@ -256,6 +360,8 @@
 					</div>
 				</div>
 
+				
+
 				<script>
 					$(document).ready(function() { 
 						$('#import_file').click(function(e) {
@@ -266,6 +372,7 @@
 						$('#import').change(function(e) {
 							$('#import_form').submit()
 						}); 
+
 					});
 			
 					var DatatableAdvanced = function() {
