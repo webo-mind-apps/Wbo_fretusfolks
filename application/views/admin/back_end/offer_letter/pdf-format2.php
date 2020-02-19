@@ -8,6 +8,14 @@
    <style>
       p {
          text-align: justify;
+      } 
+      .table1 td {
+         font-size: 12px;
+      }
+
+      td:nth-child(2),
+      td:nth-child(3) {
+         text-align: right;
       }
    </style>
 </head>
@@ -33,8 +41,8 @@
    <h4 style="text-align: center;text-decoration: underline;margin-bottom:30px;">OFFER CUM APPOINTMENT LETTER</h4>
    <div style="margin:0 35px">
       <p style="line-height:1.8;font-size:13px;">
-         <span>To,</span> <br>
-         <span>Mr. /Mrs. /Ms. : <?php echo $letter_details[0]['emp_name']; ?></span> <br>
+         <span><b>To</b></span> <br>
+         <span><b>/Mrs. /Ms. : <?php echo $letter_details[0]['emp_name']; ?></b></span> <br>
          <span>S/o <?php echo $letter_details[0]['father_name']; ?></span> <br>
          <span>Location : <?php echo $letter_details[0]['location']; ?></span> <br>
       </p>
@@ -80,7 +88,7 @@
             <b style="text-decoration: underline;">POSITION:</b> You are appointed as <b><?php echo $letter_details[0]['designation']; ?></b>.
          </span>
       </p>
-      <p style="font-size:12px;line-height:1.8;">
+      <p style="margin-bottom:120px;font-size:12px;line-height:1.8;">
          <span>
             <b style="text-decoration: underline;">TRANING:</b> You will have to undergo with an On The Job Training (OJT) for 4 days. During this period the
             company will not assign any work. This training will be given to only enhance your knowledge and skills about the work to be performed. The Payment of that 4 days of training period will be provided to you once you complete 3 Months in the system.
@@ -88,7 +96,7 @@
       </p>
    </div>
 
-   <div style="margin:120px 35px 0">
+   <div style="margin:80px 35px 0">
 
       <p style="font-size:12px;line-height:1.8;">
          <span style="margin-left:0%;">
@@ -174,7 +182,7 @@
          </span>
       </p>
 
-      <p style="font-size:12px;line-height:1.8;">
+      <p style="margin-bottom:50px;font-size:12px;line-height:1.8;">
          <span>
             <b style="text-decoration: underline;">OTHER TERMS OF CONTRACT:</b> In addition to the terms of appointment mentioned above, you are also governed by the standard employment rules of , <b>Fretus Folks India Pvt Ltd.</b> (as per Associate Manual). The combined rules and procedures as contained in this letter will constitute the standard employment rules and you are required to read both of them in conjunction.
          </span>
@@ -215,13 +223,13 @@
    <div style="margin:0 35px">
       <p style="line-height:1.8;font-size:14px">
          <b>For : Fretus Folks India Pvt Ltd.</b> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100"><br>
-         <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
+         <b>Authorized Signatory</b> <br>
       </p>
    </div>
 
 
 
-   <div style="margin:60px 35px 150px">
+   <div style="margin:260px 35px 150px">
       <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5px;text-align: justify; padding-left: 0%;">
          <h1 style="font-size:15px;text-align:center;text-decoration: underline;">Annexure - A</h1>
          <p style="line-height:1.8;font-size:14px ;">
@@ -324,7 +332,7 @@
       </div>
    </div>
 
-   <div style="margin:170px 35px 0">
+   <div style="margin:270px 35px 0">
       <table>
          <tbody>
             <tr>
@@ -333,8 +341,8 @@
                      <b>Offer No :</b> <?php echo $letter_details[0]['ffi_emp_id']; ?> <br>
                   </p>
                </td>
-               <td style="font-size:12px;text-align:right;padding-left:10px;width:20%">
-                  <p style="line-height:1.8;font-size:14px">
+               <td style="font-size:12px;text-align:right;width:20%;padding-left:20px;">
+                  <p style="line-height:1.8;font-size:13px;float:right">
                      <b>Date :</b> <?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?>
                   </p>
                </td>

@@ -24,7 +24,7 @@ $active_menu="index";
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>
+	<!--<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script>-->
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/visualization/d3/d3.min.js"></script>
@@ -189,7 +189,7 @@ $active_menu="index";
 					?>
 							<div class="alert bg-danger alert-styled-left">
 								<button type="button" class="close" data-dismiss="alert"></button>
-								<span class="text-semibold">Opps!</span> Try agin!
+								<span class="text-semibold">Opps!</span> Try again!
 							</div>
 					<?php	
 						}
@@ -322,7 +322,7 @@ $active_menu="index";
 
 										<div class="col-md-4">
 											<div class="form-group">
-												<label>Clinent Name<span class="text-danger">*</span></label>
+												<label>Client Name<span class="text-danger">*</span></label>
 												<select name="payslip_download_client" id="payslip_client" class="form-control" required>
 														<option value="">Select Name</option>
 														<?php

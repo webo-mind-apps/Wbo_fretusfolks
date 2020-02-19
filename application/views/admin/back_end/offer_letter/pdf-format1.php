@@ -20,7 +20,7 @@
 <body onload="window.print();">
 
    <div style="position: absolute;
-                  top: 153px;
+                  top: 120px;
                   right: 20px;
                   font-size: 18px;margin:0 35px">
       <p style="line-height:1.8;font-size:14px;font-family:times; ">
@@ -38,13 +38,13 @@
    <h1 style="font-size:18px;text-align:center;text-decoration:underline;margin-top:20px">Appointment Letter</h1>
    <div style="margin:0 35px">
       <p style="font-size:12px;line-height:1.5;text-align:justify">
-         <b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br>
+         <b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br><br>
          <span>
             Further to your interview , we are pleased to inform you that you are hereby appointed as <b><?php echo $letter_details[0]['designation']; ?></b> in the <b><?php echo $letter_details[0]['department']; ?></b> Department of our company <b><?php echo $letter_details[0]['client_name']; ?></b> You are assigned to work at Bangalore as per terms and conditions discussed and agreed upon as <br>under :-
          </span>
       </p>
 
-      <p style="font-size:12px;line-height:1.5;text-align:justify;margin-bottom:110px;">
+      <p style="font-size:12px;line-height:1.8;text-align:justify;margin-bottom:110px;">
          <span>1. This appointment is effective from <b><?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?></b> the date of your joining our Organization.</span><br>
          <span>2. Your salary and other allowances shall be as per <b>Annexure-1</b>.</span><br>
          <span>3. You will be placed on probation for a period of six months and the said period can be extended by another three months and on the expiry of the period of probation or extended period of probation, if you are not confirmed in writing, your services shall be deemed to be automatically terminated. However, unless you are confirmed in writing, you shall not be deemed to be permanent.</span><br>
@@ -55,7 +55,7 @@
          <span>8. During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.</span><br>
       </p>
 
-      <p style="font-size:12px;line-height:1.5;text-align:justify;">
+      <p style="margin-top:170px;font-size:12px;line-height:1.8;text-align:justify;">
          <span>9. </span><br>&nbsp;&nbsp;
          <span>1. services are liable to be transferred or loaned or assigned with / without transfer, wholly or partially, from one department to another or to office/ branch and vice-versa or office/ branch to another office/ branch of an associate company, existing or to come into existence in future or any of the Company’s branch office or locations anywhere in India or abroad or any other concern where this Company has any interest. In such case, you will abide by responsibilities expressly vested or implied or communicated and shall follow rules and regulations of the department / office, establishment, jointly or separately, without any compensation or extra remuneration or provision of accommodation. You, thereupon, may be governed by service conditions and other terms of the said concern as may be applicable.</span><br>&nbsp;&nbsp;
          <span>2. The aforesaid Clause (i) will not give you any right to claim employment in any associate or / sister concern or ask for a common seniority with the employee of sister / associate concern.
@@ -72,13 +72,13 @@
          <span>13. All documents, plans, drawings, prints, trade secrets, technical information, reports, statements, correspondence etc., written or unwritten and also information and instructions that pass through you or come to your knowledge shall be treated as confidential. You shall not utilize them for your own use or disclose to other persons during or after your employment.<br>
             <span style="margin-top:1% !important;">During the course of employment with the Company, you will acquire, gain, generate, gather and develop knowledge of and be given access to business information about products activities, know how, methods or refinements and business plans and business secrets and other information concerning the products / business of the Company, hereinafter called the “ SECRETS ”. You will be liable for prosecution for damages for divulgence, sharing or parting any of such information during course of employment and on cessation for at least 2 years period.</span></span><br>
          <span>14. You shall carry out the job of <b><?php echo $letter_details[0]['designation']; ?></b> and such other jobs connected with or incidental to which is necessary for business of the Company. You shall do any other work assigned to you, which you are capable of doing or work at any other post which has been temporarily assigned to you.</span><br>
+
+      </p>
+
+      <p style="margin-top:80px;font-size:12px;line-height:1.8;text-align:justify">
          <span>15. You shall faithfully and to the best of your ability perform your duties that may be entrusted to you from time to time by the management. You will be bound by rules, regulations and orders promulgated by the management in relation to conduct, discipline and policy matters.<br>
             You will not seek membership of any local or public bodies without first obtaining specific permission of the management. In the event of your becoming member without following due process as mentioned , it shall amount to contravention of provision of employment condition and the management reserves the right to take appropriate action including dispensing with your services , as it may deem fit. <br>
             You will not give out to any one, by word of mouth or otherwise, particulars of our business or administrative or organizational matters of a confidential nature which may be your privilege to know by virtue of your being our employee.</span><br>
-      </p>
-
-      <p style="font-size:12px;line-height:1.5;text-align:justify">
-
          <span>16. While you are in employment of the company, you may be given or handed over company’s property and / or equipment for official use and you shall take care of them including their upkeep. On cessation of employment with the Company, you shall return all documents, books, papers relating to the affairs of the Company, purchased with the Company’s money, which may have come to you, and also any property of the Company in your possession.</span><br>
          <span>17. Any balance of advance or loan taken by you from the Company, shall be fully recovered from your salary and any other legal dues including Gratuity, at the time of you’re leaving the services of the Company. </span><br>
          <span>18. While working as an employee if you enter into any business transaction with any party on behalf of the company within your permissible limits, it shall be your responsibility to ensure recovery of outstanding. If any outstanding remains at the time of leaving the services of the company, it shall be your responsibility to recover for remittance to the company before you proceed to settle your legal dues in full and final settlement of your account.</span><br>
@@ -92,7 +92,7 @@
          <tbody>
             <tr>
                <td>
-                  <p style="font-size:12px;line-height:1.5;text-align:justify"><br>
+                  <p style="font-size:12px;line-height:1.8;text-align:justify"><br>
                      <span>
                         You are requested to return the enclosed copy duly signed as a token of your acceptance of the terms and conditions of your employment.</span><br><br>
                      <span>
@@ -107,12 +107,12 @@
          <tbody>
             <tr>
                <td style="font-size:12px;text-align:left;margin-left:-5px;">
-               <br> 
-                     Yours faithfully,<br>
-                     <b>For : Fretus Folks India Pvt Ltd.</b> <br>
-                     &nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100"><br>
-                     <b>&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
-                   
+                  <br>
+                  Yours faithfully,<br>
+                  <b>For : Fretus Folks India Pvt Ltd.</b> <br>
+                  &nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style="margin-top:2%;" width="100"><br>
+                  <b>&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
+
                </td>
                <td style="font-size:12px;text-align:right;padding:7px;width:40%">
                   <p>
@@ -228,209 +228,6 @@
 
    </div>
 
-<<<<<<< HEAD
-   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="display:none;"> -->
-
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-         <tr>
-            <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-top:-5%">
-                  <!-- <img src="admin_assets/ffi_header.jpg"> -->
-                  <br><br>
-                  <ol type="1" start="9" style="font-size:12px;line-height:1.8;">
-                     <li>
-                        <ol type="i">
-                           <li>Your services are liable to be transferred or loaned or assigned with / without transfer, wholly or partially, from one department to another or to office/ branch and vice-versa or office/ branch to another office/ branch of an associate company, existing or to come into existence in future or any of the Company’s branch office or locations anywhere in India or abroad or any other concern where this Company has any interest. In such case, you will abide by responsibilities expressly vested or implied or communicated and shall follow rules and regulations of the department / office, establishment, jointly or separately, without any compensation or extra remuneration or provision of accommodation. You, thereupon, may be governed by service conditions and other terms of the said concern as may be applicable.</li>
-                           <li>The aforesaid Clause (i) will not give you any right to claim employment in any associate or / sister concern or ask for a common seniority with the employee of sister / associate concern.
-                           </li>
-                        </ol>
-                     </li>
-                     <li>In the event you are absent from duty without information or permission of leave or you overstay your sanctioned leave, the Management will treat you as having voluntarily abandoned the services of the Company.</li>
-                     <li>
-                        <ol type="i">
-                           <li>During your employment , in case you are found to be medically unfit by the Company’s Authorized Medical practitioner, on examination</li>
-                           <li>As and when the Company comes to know of any conviction by the Court of Law during the tenure of your service with us or conviction and / or any bad record in the past under the previous employer, or because of your giving false information at the time of your appointment or concealed any material information or given any false details in the application form or otherwise as regard age, education qualification , experience , salary etc.
-                           </li>
-                           <li>if you are found to be not possessing desired qualification which do not conform to custom authority and / govt. regulation as may be required from time to time and necessary for continuation of business or its exigencies or on account of redundancy .</li>
-                        </ol>
-                     </li>
-                     <li>You will keep the Company informed of any change in your residential address that may happen during the course of employment of your service with the company.</li>
-                     <li>All documents, plans, drawings, prints, trade secrets, technical information, reports, statements, correspondence etc., written or unwritten and also information and instructions that pass through you or come to your knowledge shall be treated as confidential. You shall not utilize them for your own use or disclose to other persons during or after your employment.<br><br><span style="margin-top:1% !important;">During the course of employment with the Company, you will acquire, gain, generate, gather and develop knowledge of and be given access to business information about products activities, know how, methods or refinements and business plans and business secrets and other information concerning the products / business of the Company, hereinafter called the “ SECRETS ”. You will be liable for prosecution for damages for divulgence, sharing or parting any of such information during course of employment and on cessation for at least 2 years period.</span></li>
-                     <li>You shall carry out the job of <b><?php echo $letter_details[0]['designation']; ?></b> and such other jobs connected with or incidental to which is necessary for business of the Company. You shall do any other work assigned to you, which you are capable of doing or work at any other post which has been temporarily assigned to you.</li>
-                  </ol>
-               </div>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:28.6%"> -->
-
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-         <tr>
-            <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;margin-top:-4%">
-                  <!-- <img src="admin_assets/ffi_header.jpg"> -->
-                  <br><br>
-                  <ol type="1" start="15" style="font-size:12px;line-height:1.8;">
-                     <li>You shall faithfully and to the best of your ability perform your duties that may be entrusted to you from time to time by the management. You will be bound by rules, regulations and orders promulgated by the management in relation to conduct, discipline and policy matters.<br>
-                        You will not seek membership of any local or public bodies without first obtaining specific permission of the management. In the event of your becoming member without following due process as mentioned , it shall amount to contravention of provision of employment condition and the management reserves the right to take appropriate action including dispensing with your services , as it may deem fit. <br>
-                        You will not give out to any one, by word of mouth or otherwise, particulars of our business or administrative or organizational matters of a confidential nature which may be your privilege to know by virtue of your being our employee.</li>
-                     <li>While you are in employment of the company, you may be given or handed over company’s property and / or equipment for official use and you shall take care of them including their upkeep. On cessation of employment with the Company, you shall return all documents, books, papers relating to the affairs of the Company, purchased with the Company’s money, which may have come to you, and also any property of the Company in your possession.</li>
-                     <li>Any balance of advance or loan taken by you from the Company, shall be fully recovered from your salary and any other legal dues including Gratuity, at the time of you’re leaving the services of the Company. </li>
-                     <li>While working as an employee if you enter into any business transaction with any party on behalf of the company within your permissible limits, it shall be your responsibility to ensure recovery of outstanding. If any outstanding remains at the time of leaving the services of the company, it shall be your responsibility to recover for remittance to the company before you proceed to settle your legal dues in full and final settlement of your account.</li>
-                     <li>The company is obliged to deduct Income Tax at source as per provision of Income Tax Act / Rules . Accordingly, you are required to submit all required proof of permitted savings / investments and other details from time to time to enable the company to comply with the provisions of law. In the event of non compliance by you as aforesaid if the company is required to pay any interest or payment under Income Tax Act , it shall deduct the amount as may be paid or payable from your salary or other payments and you shall allow the company to comply with these requirements without objection.</li>
-                     <li>All disputes arising out of this letter will be subject to the jurisdiction of the Bangalore Court. And that the courts, tribunals and/or authorities at Bangalore only shall have jurisdiction to entertain, try and decide such disputes or differences arising out of or pertaining to this contract of employment, irrespective of your working HQ being elsewhere at that times.</li>
-                  </ol>
-                  <p style="font-size:12px;line-height:1.8;"><br>
-                     <span style="margin-left:0%;">
-                        You are requested to return the enclosed copy duly signed as a token of your acceptance of the terms and conditions of your employment.</span><br><br>
-                     <span style="margin-left:0%;">
-                        Hope that this will be the beginning of a long and successful career with us.</span>
-                  </p>
-               </div>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-   <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="">
-      <tbody>
-         <tr st>
-            <td colspan="3" style="font-size:12px;text-align:left;padding:7px">
-               <p style="line-height:1.8;font-size:14px">
-                  Yours faithfully,<br>
-                  <b>For : Fretus Folks India Pvt Ltd.</b> <br>
-                  &nbsp;&nbsp;&nbsp;<img src="admin_assets/seal.png" style=""><br>
-                  <b>&nbsp;&nbsp;&nbsp;Authorized Signatory</b> <br>
-               </p>
-            </td>
-            <td style="font-size:12px;text-align:left;padding:7px;width:40%">
-               <p style="line-height:1.8;font-size:14px">
-                  <br>
-                  <b>I accept:</b> <br><br><br><br>
-                  <b>(Signature of an Employee) </b> <br>
-               </p>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-   <!-- </tbody>
-   </table> -->
-   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:8.5%;"> -->
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-         <tr>
-            <td style="padding-left:5%;padding-right:5%;">
-               <div style="color: #000;font-family: Tahoma;font-size: 10px;line-height: 1.5;text-align: justify; padding-left: 0%;margin-top:-2%">
-      <!-- <img src=" admin_assets/ffi_header.jpg"> <br> -->
-                  <h1 style="font-size:17px;text-align:center;text-decoration: underline;">Annexure - 1</h1>
-                  <center>
-                  <table class="table table1" border="1" style="border-collapse:collapse;width:80%;margin-bottom:5px;">
-                     <tbody>
-                        <tr>
-                           <th style="font-size:12px;text-align:left;padding:7px;border-top: 1px solid #000;">
-                              Components
-                           </th>
-                           <th style="font-size:12px;text-align:left;padding:7px;width:30%;border-top: 1px solid #000;">
-                              Monthly salary
-                           </th>
-                           <th style="font-size:12px;text-align:left;padding:7px;width:30%;border-top: 1px solid #000;">
-                              Annual salary
-                           </th>
-                        </tr>
-                        <tr>
-                           <td>Basic</td>
-                           <td><?php echo $letter_details[0]['basic_salary']; ?></td>
-                           <td><?php echo ($letter_details[0]['basic_salary'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>HRA</td>
-                           <td><?php echo $letter_details[0]['hra']; ?></td>
-                           <td><?php echo ($letter_details[0]['hra'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Conveyance</td>
-                           <td><?php echo $letter_details[0]['conveyance']; ?></td>
-                           <td><?php echo ($letter_details[0]['conveyance'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Medical Reimbursement</td>
-                           <td><?php echo $letter_details[0]['medical_reimbursement']; ?></td>
-                           <td><?php echo ($letter_details[0]['medical_reimbursement'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Special Allowance</td>
-                           <td><?php echo $letter_details[0]['special_allowance']; ?></td>
-                           <td><?php echo ($letter_details[0]['special_allowance'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Other Allowance</td>
-                           <td><?php echo $letter_details[0]['other_allowance']; ?></td>
-                           <td><?php echo ($letter_details[0]['other_allowance'] * 12); ?></td>
-                        </tr>
-                        <tr class="gross" style="background: #ecbfbf;">
-                           <td>Gross Salary</td>
-                           <td><?php echo $letter_details[0]['gross_salary']; ?></td>
-                           <td><?php echo ($letter_details[0]['gross_salary'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Employee PF @ 12%</td>
-                           <td><?php echo $letter_details[0]['emp_pf']; ?></td>
-                           <td><?php echo ($letter_details[0]['emp_pf'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Employee ESIC @ 1.75%</td>
-                           <td><?php echo $letter_details[0]['emp_esic']; ?></td>
-                           <td><?php echo ($letter_details[0]['emp_esic'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>PT</td>
-                           <td><?php echo $letter_details[0]['pt']; ?></td>
-                           <td><?php echo ($letter_details[0]['pt'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Total Deduction</td>
-                           <td><?php echo $letter_details[0]['total_deduction']; ?></td>
-                           <td><?php echo ($letter_details[0]['total_deduction'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Take Home Salary</td>
-                           <td><?php echo $letter_details[0]['take_home']; ?></td>
-                           <td><?php echo ($letter_details[0]['take_home'] * 12); ?></td>
-                        </tr>
-                        <tr class="gross" style="background: #ecbfbf;">
-                           <td>Take-home</td>
-                           <td><?php echo ($letter_details[0]['gross_salary'] - $letter_details[0]['total_deduction']); ?></td>
-                           <td><?php echo (($letter_details[0]['gross_salary'] - $letter_details[0]['total_deduction']) * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Employer PF 13%</td>
-                           <td><?php echo $letter_details[0]['employer_pf']; ?></td>
-                           <td><?php echo ($letter_details[0]['employer_pf'] * 12); ?></td>
-                        </tr>
-                        <tr>
-                           <td>Employer ESIC @ 4.75%</td>
-                           <td><?php echo $letter_details[0]['employer_esic']; ?></td>
-                           <td><?php echo ($letter_details[0]['employer_esic'] * 12); ?></td>
-                        </tr>
-                        <tr class="gross" style="background: #ecbfbf;">
-                           <td>CTC</td>
-                           <td><?php echo ($letter_details[0]['ctc']); ?></td>
-                           <td><?php echo (($letter_details[0]['ctc']) * 12); ?></td>
-                        </tr>
-                     </tbody>
-                  </table>
-                  </center>
-               </div>
-               <!-- </div> -->
-            </td>
-         </tr>
-      </tbody>
-   </table><br><br>
-   <!-- <img class="abc" src="admin_assets/ffi_footer.jpg" style="margin-top:34.2%"> -->
-=======
->>>>>>> cd44bd012600365841596cf9af6d3c8b5a7c40a1
 </body>
 
 </html>

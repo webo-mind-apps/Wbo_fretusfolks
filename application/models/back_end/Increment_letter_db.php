@@ -97,7 +97,7 @@ class Increment_letter_db extends CI_Model
 		$employer_esic = $this->input->post('employer_esic');
 		$mediclaim = $this->input->post('mediclaim');
 		$ctc = $this->input->post('ctc');
-		$content = $this->input->post('content');
+		 
 
 		$data = array(
 			"designation" => $designation, "department" => $department, "basic_salary" => $basic_salary, "hra" => $hra, "conveyance" => $conveyance, "medical_reimbursement" => $medical, "special_allowance" => $special_allowance, "other_allowance" => $other_allowance, "gross_salary" => $gross_salary, "emp_pf" => $emp_pf, "emp_esic" => $emp_esic, "pt" => $pt, "total_deduction" => $total_deduction, "take_home" => $take_home, "employer_pf" => $employer_pf, "employer_esic" => $employer_esic, "mediclaim" => $mediclaim, "ctc" => $ctc
@@ -108,7 +108,7 @@ class Increment_letter_db extends CI_Model
 		$this->db->update("backend_management", $data);
 
 		$date = date("Y-m-d");
-		$data1 = array("company_id" => $client, "employee_id" => $emp_id, "date" => $date, "basic_salary" => $basic_salary, "hra" => $hra, "conveyance" => $conveyance, "medical_reimbursement" => $medical, "special_allowance" => $special_allowance, "other_allowance" => $other_allowance, "gross_salary" => $gross_salary, "emp_pf" => $emp_pf, "emp_esic" => $emp_esic, "pt" => $pt, "total_deduction" => $total_deduction, "take_home" => $take_home, "employer_pf" => $employer_pf, "employer_esic" => $employer_esic, "mediclaim" => $mediclaim, "ctc" => $ctc, "content" => $content);
+		$data1 = array("company_id" => $client, "employee_id" => $emp_id, "date" => $date, "basic_salary" => $basic_salary, "hra" => $hra, "conveyance" => $conveyance, "medical_reimbursement" => $medical, "special_allowance" => $special_allowance, "other_allowance" => $other_allowance, "gross_salary" => $gross_salary, "emp_pf" => $emp_pf, "emp_esic" => $emp_esic, "pt" => $pt, "total_deduction" => $total_deduction, "take_home" => $take_home, "employer_pf" => $employer_pf, "employer_esic" => $employer_esic, "mediclaim" => $mediclaim, "ctc" => $ctc);
 
 		if ($this->db->insert("increment_letter", $data1)) {
 			return true;
@@ -157,7 +157,12 @@ class Increment_letter_db extends CI_Model
 		}
 		$query = $this->db->get();
 		$q = $query->result_array();
-		return $q;
+		
+		if($q){
+			return $q;
+		}else{
+			return "nothing_found";
+		}
 		// 	echo "<pre>";
 		// 	print_r($q);
 
@@ -206,12 +211,11 @@ class Increment_letter_db extends CI_Model
 	public function importEmployee_increment_letter($data = null)
 	{
 		if ($data['employee_id'] != 'null' || $data['employee_id'] != '' || !empty($data['employee_id'])) {
-			$this->db->where('ffi_emp_id', $data['employee_id']);
 
+			$this->db->where('ffi_emp_id', $data['employee_id']);
 			$query = $this->db->get("backend_management");
 			if ($query->num_rows() > 0) {
 				$this->db->insert('increment_letter', $data);
-
 				return "insert";
 			} else {
 				return "not_exist";
