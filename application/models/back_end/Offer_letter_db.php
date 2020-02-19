@@ -213,16 +213,22 @@ class Offer_letter_db extends CI_Model
 	// excel import
 	public function importEmployee_offer_letter($data = null)	{
 
-		$this->db->where('employee_id', $data['employee_id']);
+		$this->db->where('ffi_emp_id',$data['employee_id']);
+		$query=$this->db->get("backend_management");
+		if($query->num_rows())
+		{
 
-		$query = $this->db->get("offer_letter");
-		if (!$query->num_rows()) {
-			$this->db->insert('offer_letter', $data);
-			return true;
-		} else {
 			$this->db->where('employee_id', $data['employee_id']);
-			$this->db->update('offer_letter', $data);
-			return true;
+
+			$query = $this->db->get("offer_letter");
+			if (!$query->num_rows()) {
+				$this->db->insert('offer_letter', $data);
+				return true;
+			} else {
+				$this->db->where('employee_id', $data['employee_id']);
+				$this->db->update('offer_letter', $data);
+				return true;
+			}
 		}
 	}
 }

@@ -9,7 +9,36 @@ $active_menu = "index";
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Fretus Folks India Pvt Ltd </title>
+	<style>
+		.ui-datepicker-prev {
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
 
+		.ui-datepicker-next{
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
+
+		.spinner {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: red;
+		}
+	</style>
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
@@ -18,6 +47,10 @@ $active_menu = "index";
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+	<!-- ---css datepicker -->
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -28,11 +61,17 @@ $active_menu = "index";
 
 	<!-- /core JS files -->
 	<!-- Theme JS files -->
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
+	<!-- js date picker -->
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/jquery-ui.min.js"></script>
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<link href="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.css">
+	<!-- main for datatables -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 
-	<!-- <script src="<?php //echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -41,12 +80,10 @@ $active_menu = "index";
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/ui/moment/moment.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script>
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/dashboard.js"></script>
-
-
-
 
 	<!-- /theme JS files -->
 	<style>
@@ -105,12 +142,46 @@ $active_menu = "index";
 						$('#get_details').empty();
 						$('#get_details').append(response);
 						$("div#divLoading").removeClass('show');
-						$("#increment_letter_d_table").DataTable().ajax.reload();   
+						$("#increment_letter_d_table").DataTable().ajax.reload();
 					},
 					error: function(xhr, ajaxOptions, thrownError) {}
 				});
 			}
 		}
+	</script>
+
+
+
+	<script>
+		$(function() {
+			$("#From").datepicker({
+				dateFormat: 'dd-mm-yy',
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				yearRange: '1947:2100',
+				onClose: function(selectedDate) {
+					$("#To").datepicker("option", "minDate", selectedDate);
+				}
+			});
+			$("#To").datepicker({
+				dateFormat: 'dd-mm-yy',
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				yearRange: '1947:2100',
+				onClose: function(selectedDate) {
+					$("#From").datepicker("option", "maxDate", selectedDate);
+				}
+			});
+
+			$('#button').click(function() {
+				//e.preventDefault();
+				if ($('#client_values').val()) {
+					$('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide'); 
+				}
+			});
+		});
 	</script>
 </head>
 
@@ -146,7 +217,7 @@ $active_menu = "index";
 					<div class="right text-center ">
 						<div class="row">
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" data-toggle="modal" data-target="#fetchData">Download <b><i class="fa fa-download" aria-hidden="true"></i></b></button>
 							</div>
 							<div class="modal fade" role="dialog" id="fetchData">
 								<div class="modal-dialog modal-sm">
@@ -156,11 +227,11 @@ $active_menu = "index";
 										</div>
 										<div class="content">
 											<div class="modal-body">
-												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>">
-													<label class="down"><b>Clinent Name</b><span class="text-danger">*</span></label>
+												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>" name="certform">
+													<label class="down"><b>Clinent Name</b><span class="text-danger"> *</span></label>
 													<div class="form-group">
 
-														<select name="increment_download_client" class="form-control" required>
+														<select id="client_values" name="increment_download_client" class="form-control" required>
 															<option value=""><b>Select Name</b></option>
 															<?php
 															foreach ($client_management as $row) {
@@ -170,21 +241,21 @@ $active_menu = "index";
 														</select>
 													</div>
 													<div class="form-group">
-														<label class="down"><b>Date</b>
-														<span class="text-danger">*</span></label><br>
-														<div style="display: flex;width:100%" >
+														<label class="down"><b>Increment Letter Created Date</b>
+															</label><br>
+														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input type="date" name="increment_download_date" class="form-control"><br> 
-														</div><br> 
+															<input id="From" type="text" name="increment_download_date" class="form-control" autocomplete="off"><br>
+														</div><br>
 														<div style="display:flex;">
 															<span style="margin-right:21px;padding-top:9px">To:  </span>
-															<input type="date" name="increment_download_date2" class="form-control"><br> 
+															<input id="To" type="text" name="increment_download_date2" class="form-control" autocomplete="off"><br>
 														</div>
 													</div>
 
 											</div>
 											<div class="modal-footer down">
-												<button type="submit" name="download" class="btn btn-success">Download</button>
+												<button type="submit" name="download" id="button" class="btn btn-success ">Download</button>
 											</div>
 										</div>
 										</form>
@@ -194,18 +265,18 @@ $active_menu = "index";
 
 
 							<div class="col-md-4" style="margin-right:-3.5%;">
-								<button type="button" class="btn btn-primary" id="import_file">Import&nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
-								</br>
 
-								<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx" download>Download Format</a>
+								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form">
+									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-undo" aria-hidden="true"></i></b> </button>
+									</br>
 
-
-								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form" style="display:none">
-									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+									<!-- <a href="<?php // echo base_url() 
+													?>increment_letter/doc_formate">Download Format</a> -->
+									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw" style="display:none">
 								</form>
 							</div>
 							<div class="col-md-4" style="margin-right:5%;">
-								<div class="header-elements d-none" >
+								<div class="header-elements d-none">
 									<a href="<?php echo site_url('increment_letter/new_increment'); ?>" class="btn btn-labeled btn-labeled-right bg-primary">New Increment Letter <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
 								</div>
 							</div>
@@ -215,7 +286,7 @@ $active_menu = "index";
 				</div>
 				<?php
 
-				if ($this->session->flashdata('error', 'No datas found')) {
+				if ($this->session->flashdata('no_data', 'No datas found')) {
 				?>
 					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -224,46 +295,70 @@ $active_menu = "index";
 				<?php
 				}
 				?>
-				<?php
+				<!--<?php
 
-				if ($this->session->flashdata('nochange', 'No changes')) {
-				?>
+					if ($this->session->flashdata('nochange', 'No changes')) {
+					?>
 					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<span class="text-semibold">No changes..!</span>
 					</div>
 				<?php
-				}
-				?>
+					}
+				?> -->
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
 							<a href="<?php echo site_url('home/dashboard'); ?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
 							<span class="breadcrumb-item active">Increment Letters</span>
-						</div>
 
+						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
+					<span style="float:right"><a href="<?php echo base_url() ?>increment_letter/doc_formate" class="breadcrumb-item">Download Sample Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
 
 			<?php
 
-			if ($this->session->flashdata('success', 'Import successfully')) {
+			if ($this->session->flashdata('success')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Import successfully..!</span>
+					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+				</div>
+			<?php
+			}
+			?>
+			<?php
+
+			if ($this->session->flashdata('no_file')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Please Choose Valid file formate</span>
 				</div>
 			<?php
 			}
 			?>
 
+			<!-- <?php
+
+					if ($this->session->flashdata('not_exist', 'Employee not found')) {
+					?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Some employee id not founded..!</span>
+				</div>
+			<?php
+					}
+			?>
+
 			<?php
 
-			if ($this->session->flashdata('error', 'Please Choose Valid file formate ')) {
+			if ($this->session->flashdata('no_file', 'Please Choose Valid file formate ')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -271,7 +366,7 @@ $active_menu = "index";
 				</div>
 			<?php
 			}
-			?>
+			?> -->
 			<!-- Content area -->
 			<div class="content">
 				<div class="row">
@@ -284,8 +379,9 @@ $active_menu = "index";
 								<h5 class="card-title">Increment Letters Details</h5>
 								<div class="header-elements">
 									<div class="list-icons">
-										<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a>
-										<a class="list-icons-item" data-action="reload"></a>
+										<!-- <a href="<?php  //echo base_url() 
+														?>admin_assets/exel-formate/SAMPLE_INCREMENT_LETTER.xlsx">Sample excel file</a> -->
+										<!-- <a class="list-icons-item" data-action="reload"></a> -->
 									</div>
 								</div>
 							</div>
@@ -302,7 +398,7 @@ $active_menu = "index";
 										<th>Email</th>
 										<th class="text-center">Actions</th>
 									</tr>
-								</thead> 
+								</thead>
 							</table>
 
 						</div>
@@ -313,7 +409,7 @@ $active_menu = "index";
 					</div>
 				</div>
 				<!-- /floating labels -->
-
+				 
 
 				<!-- content area -->
 
@@ -372,18 +468,21 @@ $active_menu = "index";
 							});
 
 							var dataTable = $('#increment_letter_d_table').DataTable({
-								'processing': true,
-								'serverSide': true,
-								'order': [],
-								'ajax': {
-									'url': "<?php echo base_url() . 'increment_letter/get_all_data' ?>",
-									'type': 'POST'
-								},
-								'columnDefs': [{
-									"targets": [7],
-									"orderable": false,
-								}],
 
+								"language": {
+									"processing": "DataTables is currently busy"
+								},
+								processing: true,
+								serverSide: true,
+								order: [],
+								ajax: {
+									url: "<?php echo site_url() . 'increment_letter/get_all_data' ?>",
+									type: 'POST'
+								},
+								columnDefs: [{
+									targets: [7],
+									orderable: false,
+								}]
 							})
 
 							// Datatable 'length' options
@@ -415,22 +514,6 @@ $active_menu = "index";
 							});
 
 							// Columns rendering
-							$('.datatable-columns').dataTable({
-								columnDefs: [{
-										// The `data` parameter refers to the data for the cell (defined by the
-										// `data` option, which defaults to the column being worked with, in
-										// this case `data: 0`.
-										render: function(data, type, row) {
-											return data + ' (' + row[3] + ')';
-										},
-										targets: 0
-									},
-									{
-										visible: false,
-										targets: [3]
-									}
-								]
-							});
 
 						};
 						//

@@ -19,7 +19,7 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
 			// $data['offer_letter'] = $this->increment->get_all_increment_letters();
-			 $data['client_management'] = $this->increment->get_all_client();
+			$data['client_management'] = $this->increment->get_all_client();
 			$this->load->view('admin/back_end/increment_letter/index', $data);
 		} else {
 			redirect('home/index');
@@ -30,7 +30,7 @@ class Increment_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->increment->make_datatables();
-			$data = array(); 
+			$data = array();
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $row->id;
@@ -48,14 +48,14 @@ class Increment_letter extends CI_Controller
 							<i class="icon-menu9"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
-							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
+							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-download"></i>Download Increment Letter</a>
 							<a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_increment_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 						</div>
 					</div>
 				</div>
 			</td>
 					 ';
-				$data[] = $sub_array; 
+				$data[] = $sub_array;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
@@ -81,6 +81,25 @@ class Increment_letter extends CI_Controller
 			redirect('home/index');
 		}
 	}
+
+	// function letter_content()
+	// {
+	// 	if ($this->session->userdata('admin_login')) {
+
+	// 		$this->load->view('admin/back_end/increment_letter/increment_content', $data);
+	// 	} else {
+	// 		redirect('home/index');
+	// 	}
+	// }
+
+	// function save_increment_letter_content()
+	// {
+	// 	if ($this->session->userdata('admin_login')) {
+	// 		$data['letter_content'] = $this->increment->save_increment_letter_content();
+	// 	} else {
+	// 		redirect('home/index');
+	// 	}
+	// }
 	function get_employee_detail()
 	{
 		$data = $this->increment->get_employee_detail();
@@ -114,9 +133,7 @@ class Increment_letter extends CI_Controller
 			$this->db->where('b.ffi_emp_id', $emp_id);
 			$query = $this->db->get();
 			$result['letter_details'] = $query->row_array();
-			// echo "<pre>";
-			// print_r($result);
-			// exit;
+
 			$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
 			$mpdf = new \Mpdf\Mpdf();
 			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
@@ -156,13 +173,46 @@ class Increment_letter extends CI_Controller
 	}
 	function view_increment_letter()
 	{
-		$data['letter_details'] = $this->increment->get_increment_letter_details();
+		// $data['letter_details'] = $this->increment->get_increment_letter_details();
 
-		$this->load->view('admin/back_end/increment_letter/print_letter', $data);
+		// $this->load->view('admin/back_end/increment_letter/print_letter', $data);
+
+		if ($this->session->userdata('admin_login')) {
+
+			if ($data = $this->increment->get_increment_letter_details()) {
+				// echo "<pre>";
+				// print_r($data);
+				// exit;
+				$mpdf = new \Mpdf\Mpdf();
+				$datas['letter_details'][0] = $data;
+				$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+				$mpdf->AddPage(
+					'', // L - landscape, P - portrait 
+					'',
+					'',
+					'',
+					'',
+					5, // margin_left
+					5, // margin right
+					35, // margin top
+					35, // margin bottom
+					0, // margin header
+					0
+				); // margin footer 
+				$mpdf->WriteHTML($html);
+				$date = date('Ymdhis');
+				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . $date . ".pdf", 'D');
+				redirect('increment_letter');
+			}
+		} else {
+			redirect('home/index');
+		}
 	}
 	function delete_increment_letter()
 	{
-		if($this->increment->delete_increment_letter()){
+		if ($this->increment->delete_increment_letter()) {
 			echo "deleted";
 		}
 		// $data = $this->increment->get_all_increment_letters();
@@ -201,40 +251,48 @@ class Increment_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 
-			if ($data = $this->increment->download_increment()) {
+			if ($data['letter_details'] = $this->increment->download_increment()) {
+				if ($data['letter_details']!="nothing_found") {
+					$this->load->library('zip');
+					$date = date('ymdhis');
+					$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'] . $date;
+					if (!is_dir($path)) mkdir($path, 0777, TRUE);
 
-				$this->load->library('zip');
+					// echo "<script> alert('sdfsdf')</script>";
 
-				$path = 'increment_letter/increment_' . date('Ymdhis');
-				if (!is_dir($path)) mkdir($path, 0777, TRUE);
+					// echo '<script>alert("'.count($data['letter_details']).'")</script>';
 
-				foreach ($data as $row) {
-					$mpdf = new \Mpdf\Mpdf();
-					$datas['letter_details'] = $row;
-					$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
-					$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-					$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-					$mpdf->AddPage(
-						'', // L - landscape, P - portrait 
-						'',
-						'',
-						'',
-						'',
-						5, // margin_left
-						5, // margin right
-						60, // margin top
-						30, // margin bottom
-						0, // margin header
-						0
-					); // margin footer
-					$mpdf->WriteHTML($html);
-					$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . ".pdf", 'F');
+					foreach ($data['letter_details'] as $key => $row) {
+						$mpdf = new \Mpdf\Mpdf();
+						$datas['letter_details'][0] = $row;
+						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+						$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+						$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+						$mpdf->AddPage(
+							'', // L - landscape, P - portrait 
+							'',
+							'',
+							'',
+							'',
+							5, // margin_left
+							5, // margin right
+							35, // margin top
+							35, // margin bottom
+							0, // margin header
+							0
+						); // margin footer
+						$mpdf->WriteHTML($html);
+						$date = date('Ymdhis') . $key;
+						$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . $date . ".pdf", 'F');
+					}
+					$this->zip->read_dir($path, false);
+					$download = $this->zip->download($path . '.zip');
+				} else {
+					 
+					$this->session->set_flashdata('no_data', 'No datas found');
+					redirect('increment_letter');
+					// redirect('home/index');
 				}
-				$this->zip->read_dir($path, false);
-				$download = $this->zip->download($path . '.zip');
-			} else {
-				$this->session->set_flashdata('error', 'No datas found');
-				redirect('increment_letter');
 			}
 		} else {
 			redirect('home/index');
@@ -277,127 +335,188 @@ class Increment_letter extends CI_Controller
 				// file path
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+				$insert = 0;
+				//$update = 0;
+				$not_exist = 0;
 
+				//$nochanges = 0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
-					$client = empty($allDataInSheet[$i]['B']) ? 'null' : $allDataInSheet[$i]['B'];
-					$this->db->where("client_name", $client);
-					$query = $this->db->get("client_management");
-					$q = $query->row_array();
-					// echo "<pre>";
-					// print_r($q);
-					// echo $client;
-					// // print_r($q);
-					// // exit;
 
-					// echo $client_id;
-					// exit;
-					$client_id = $q['id'];
 					$date = date("Y-m-d");
-
-					$offer_letter = empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C'];
-					$offer_letter_type = "";
-					if ($offer_letter == "Format 1") {
-						$offer_letter_type = 1;
-					} elseif ($offer_letter == "Format 2") {
-						$offer_letter_type = 2;
-					} elseif ($offer_letter == "Format 3") {
-						$offer_letter_type = 3;
-					} elseif ($offer_letter == "Udaan") {
-						$offer_letter_type = 4;
-					}
-
-					$content1 = "After reviewing you performance, management has decided to give increment, effective from 01-Sep-2018 & your new CTC will be Rs. 322584/- (PA). This letter serves as your final increment and the copy of the same is being sent to the payroll department for further proceedings.\n";
-
-					$content2 = "It is a pride for us to have an employee like to you who have taken organization’s success to greater heights. We wish that you will continue to work with the same dedication in future also.";
-
-					$content3 = "Note: Salary Annexure enclosed.";
-
-					$content = $content1 . $content2 . $content3;
-
-
 					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 					$data = array(
-						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
-						"company_id"			=>	$client_id,
+						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
 						"date"					=>	$date,
-						"offer_letter_type"		=>	$offer_letter_type,
-						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
-						"hra"					=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
-						"conveyance"			=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
-						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
-						"special_allowance"		=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
-						"st_bonus"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
-						"other_allowance"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
-						"gross_salary"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
-						"emp_pf"				=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
-						"emp_esic"				=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
-						"pt"					=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
-						"total_deduction"		=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
-						"take_home"				=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
-						"employer_pf"			=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
-						"employer_esic"			=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
-						"mediclaim"				=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
-						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
-						"content"				=>  $content,
-					);
-					if ($insert = $this->increment->importEmployee_increment_letter($data)) {
-						$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
-						$this->db->from('increment_letter a');
-						$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
-						$this->db->join('client_management c', 'a.company_id=c.id', 'left');
-						$this->db->where('b.ffi_emp_id', $emp_id);
-						$query = $this->db->get();
-						$result['letter_details'] = $query->row_array();
-						// echo "<pre>";
-						// print_r($result);
-						// exit;
-						$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
-						$mpdf = new \Mpdf\Mpdf();
-						$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-						$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-						$mpdf->AddPage(
-							'', // L - landscape, P - portrait 
-							'',
-							'',
-							'',
-							'',
-							5, // margin_left
-							5, // margin right
-							60, // margin top
-							30, // margin bottom
-							0, // margin header
-							0
-						); // margin footer
-						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $result, true);
-						$mpdf->WriteHTML($html);
-						$content = $mpdf->Output('', 'S');
-						$filename = date('d/m/Y') . "_increment.pdf";
-						$subject = "welcome";
-						$this->load->config('email');
-						$this->load->library('email');
-						$from = $this->config->item('smtp_user');
-						$to = $result['letter_details']['email'];
-						$this->email->set_newline("\r\n");
-						$this->email->from($from, 'Fretus folks india');
-						$this->email->to($to);
-						$this->email->subject($subject);
-						$this->email->message($message);
-						$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-						$this->email->send();
-					}
-				}
-				if ($insert) {
-					$this->session->set_flashdata('success', 'Import successfully');
-					redirect('increment_letter', 'refresh');
-				} else {
-					$this->session->set_flashdata('nochange', 'No changes');
-					redirect('offer_letter', 'refresh');
-				}
-			} else {
 
-				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+						"basic_salary"			=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+						"hra"					=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
+						"conveyance"			=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
+						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
+						"special_allowance"		=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
+						"st_bonus"				=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
+						"other_allowance"		=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
+						"gross_salary"			=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
+						"emp_pf"				=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
+						"emp_esic"				=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
+						"pt"					=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
+						"total_deduction"		=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
+						"take_home"				=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
+						"employer_pf"			=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
+						"employer_esic"			=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
+						"mediclaim"				=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
+						"ctc"					=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
+						"effective_date"		=> (empty($allDataInSheet[$i]['T']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['T']))),
+					);
+					if ($data['employee_id'] != '' || !empty($data['employee_id'])) :
+						if ($import_status = $this->increment->importEmployee_increment_letter($data)) {
+
+							if ($import_status == "insert") {
+								$insert = $insert + 1;
+
+								$this->db->select('a.*,d.content,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email,a.effective_date');
+								$this->db->from('increment_letter a');
+								$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
+								$this->db->join('client_management c', 'a.company_id=c.id', 'left');
+								$this->db->join('letter_content d', 'd.type=1', 'left');
+								// $this->db->where('b.ffi_emp_id', $emp_id);
+								$query = $this->db->get();
+								$result['letter_details'] = $query->result_array();
+								// echo "<pre>";
+								// print_r($result);
+								// exit;
+								$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
+								$mpdf = new \Mpdf\Mpdf();
+								$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+								$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+								$mpdf->AddPage(
+									'', // L - landscape, P - portrait 
+									'',
+									'',
+									'',
+									'',
+									5, // margin_left
+									5, // margin right
+									60, // margin top
+									30, // margin bottom
+									0, // margin header
+									0
+								); // margin footer
+								$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $result, true);
+								$mpdf->WriteHTML($html);
+								$content = $mpdf->Output('', 'S');
+								$filename = date('d/m/Y') . "_increment.pdf";
+								$subject = "welcome";
+								$this->load->config('email');
+								$this->load->library('email');
+								$from = $this->config->item('smtp_user');
+
+								$to = $result['letter_details'][0]['email'];
+								$this->email->set_newline("\r\n");
+								$this->email->from($from, 'Fretus folks india');
+								$this->email->to($to);
+								$this->email->subject($subject);
+								$this->email->message($message);
+								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+								if ($this->email->send()) {
+									echo "<script>alert('sended');</script>";
+								} else {
+									echo "<script>alert('not sended');</script>";
+								}
+							} else if ($import_status == "not_exist") {
+								$not_exist = $not_exist + 1;
+							}
+							// else if ($import_status == "nochanges") {
+							// 	$nochanges = $nochanges + 1;
+							// }
+						}
+					endif;
+				}
+				// echo "insert".$insert."<br>update".$update."<br>not exsist".$not_exist."<br>nochanges".$nochanges;
+
+				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee not founded <br>';
+				$this->session->set_flashdata('success', $msg);
+				redirect('increment_letter', 'refresh');
+			} else {
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
 				redirect('increment_letter', 'refresh');
 			}
+			redirect('increment_letter', 'refresh');
+		}
+	}
+	public function doc_formate()
+	{
+		if ($this->session->userdata('admin_login')) {
+			$client = $this->increment->get_all_clients();
+			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx");
+
+			$spreadsheet->setActiveSheetIndex(1);
+			$spreadsheet->getActiveSheet()->setTitle('list1');
+			$sheet1 = $spreadsheet->getActiveSheet();
+			$sheet1->setCellValue('A1', 'SL No');
+			$sheet1->setCellValue('C1', 'CLIENT ID');
+			$sheet1->setCellValue('B1', 'CLIENT NAME');
+
+			// $sheet1->setCellValue('E1', 'Letter format');
+			// $sheet1->setCellValue('F1', 'Format Id');
+
+
+			$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
+			foreach (range('A', 'G') as $columnID) {
+				$sheet1->getColumnDimension($columnID)
+					->setAutoSize(true);
+			}
+			$i = 2;
+			foreach ($client as $key => $value) {
+
+				$sheet1->setCellValue('A' . $i, $key + 1);
+				$sheet1->setCellValue('C' . $i, $value['id']);
+				$sheet1->setCellValue('B' . $i, $value['client_name']);
+				$i += 1;
+			}
+
+			// $sheet1->setCellValue('E2', 'Format 1');
+			// $sheet1->setCellValue('E3', 'Format 2');
+			// $sheet1->setCellValue('E4', 'Format 3');
+			// $sheet1->setCellValue('E5', 'Udaan');
+
+			// $sheet1->setCellValue('F2', '1');
+			// $sheet1->setCellValue('F3', '2');
+			// $sheet1->setCellValue('F4', '3');
+			// $sheet1->setCellValue('F5', '4');
+
+			$spreadsheet->setActiveSheetIndex(0);
+			$sheet = $spreadsheet->getActiveSheet();
+			$cellB2 = $sheet->getCell('B2')->getDataValidation();
+			$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellB2->setAllowBlank(false);
+			$cellB2->setShowInputMessage(true);
+			$cellB2->setShowErrorMessage(true);
+			$cellB2->setShowDropDown(true);
+			$rowCount = $sheet1->getHighestRow();
+			$cellB2->setFormula1('list1!$B:$B');
+			$sheet->setCellValue('V2', '=vlookup(B2,list1!B:C,2,false)');
+
+			// $cellO2 = $sheet->getCell('C2')->getDataValidation();
+			// $cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			// $cellO2->setAllowBlank(false);
+			// $cellO2->setShowInputMessage(true);
+			// $cellO2->setShowErrorMessage(true);
+			// $cellO2->setShowDropDown(true);
+			// $cellO2->setFormula1('list1!$E:$E');
+			// $sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
+
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'ADMS_INCREMENT_LETTER_DOWNLOAD_FORMAT';
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output'); // download file 
+
+		} else {
+			redirect('home/index');
 		}
 	}
 }

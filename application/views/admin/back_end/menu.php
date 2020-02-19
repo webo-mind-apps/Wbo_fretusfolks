@@ -74,6 +74,9 @@
 									<li class="nav-item">
 										<a href="<?php echo site_url('user_master/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>User Masters</a>
 									</li>
+									<!-- <li class="nav-item">
+										<a href="<?php echo site_url('increment_letter/letter_content');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Increment Master</a>
+									</li> -->
 								</ul>
 						</li>
 				<?php 

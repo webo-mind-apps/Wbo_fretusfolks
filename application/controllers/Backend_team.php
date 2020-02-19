@@ -1,4 +1,7 @@
 <?php
+ob_clean();
+ob_start();
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -28,6 +31,7 @@ class Backend_team extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->back_end->make_datatables();
+			
 			$data = array();
 			$status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
@@ -719,13 +723,16 @@ class Backend_team extends CI_Controller
 				// file path
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+				$insert = 0;
+				$update = 0;
+				$nochanges = 0;
 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
 					$data = array(
 						"entity_name"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
-						"client_id"				=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['B']),
-						"ffi_emp_id"			=> (empty($allDataInSheet[$i]['B']) ? 'null' : $allDataInSheet[$i]['C']),
+						"client_id"				=> (empty($allDataInSheet[$i]['CA']) ? 'null' : $allDataInSheet[$i]['CA']),
+						"ffi_emp_id"			=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
 						"console_id"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
 						"client_emp_id"			=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
 						"grade"					=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
@@ -734,14 +741,18 @@ class Backend_team extends CI_Controller
 						"last_name"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
 						"interview_date"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['J']))),
 						"joining_date"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['K']))),
+
+						//DOL
 						"contract_date"			=> (empty($allDataInSheet[$i]['L']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['L']))),
+
+
 						"designation"			=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
 						"department"			=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
-						"state"					=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
+						"state"					=> (empty($allDataInSheet[$i]['CD']) ? 'null' : $allDataInSheet[$i]['CD']),
 						"location"				=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
 						"branch"				=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
 						"dob"					=> (empty($allDataInSheet[$i]['R']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['R']))),
-						"gender"				=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
+						"gender"				=> (empty($allDataInSheet[$i]['CC']) ? 'null' : $allDataInSheet[$i]['CC']),
 						"father_name"			=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
 						"mother_name"			=> (empty($allDataInSheet[$i]['U']) ? 'null' : $allDataInSheet[$i]['U']),
 						"religion"				=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
@@ -773,43 +784,70 @@ class Backend_team extends CI_Controller
 						"bank_ifsc_code"		=> (empty($allDataInSheet[$i]['AV']) ? 'null' : $allDataInSheet[$i]['AV']),
 						"uan_no"				=> (empty($allDataInSheet[$i]['AW']) ? 'null' : $allDataInSheet[$i]['AW']),
 						"esic_no"				=> (empty($allDataInSheet[$i]['AX']) ? 'null' : $allDataInSheet[$i]['AX']),
-						"status"				=> (empty($allDataInSheet[$i]['AY']) ? 'null' : $allDataInSheet[$i]['AY']),
+						"status"				=> (empty($allDataInSheet[$i]['CD']) ? 'null' : $allDataInSheet[$i]['CD']),
 						"basic_salary"			=> (empty($allDataInSheet[$i]['AZ']) ? 'null' : $allDataInSheet[$i]['AZ']),
 						"hra"					=> (empty($allDataInSheet[$i]['BA']) ? 'null' : $allDataInSheet[$i]['BA']),
 						"conveyance"			=> (empty($allDataInSheet[$i]['BB']) ? 'null' : $allDataInSheet[$i]['BB']),
 						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['BC']) ? 'null' : $allDataInSheet[$i]['BC']),
 						"special_allowance"		=> (empty($allDataInSheet[$i]['BD']) ? 'null' : $allDataInSheet[$i]['BD']),
 						"st_bonus"				=> (empty($allDataInSheet[$i]['BE']) ? 'null' : $allDataInSheet[$i]['BE']),
-						"gross_salary"			=> (empty($allDataInSheet[$i]['BF']) ? 'null' : $allDataInSheet[$i]['BF']),
-						"emp_pf"				=> (empty($allDataInSheet[$i]['BG']) ? 'null' : $allDataInSheet[$i]['BG']),
-						"emp_esic"				=> (empty($allDataInSheet[$i]['BH']) ? 'null' : $allDataInSheet[$i]['BH']),
-						"pt"					=> (empty($allDataInSheet[$i]['BI']) ? 'null' : $allDataInSheet[$i]['BI']),
-						"total_deduction"		=> (empty($allDataInSheet[$i]['BJ']) ? 'null' : $allDataInSheet[$i]['BJ']),
-						"take_home"				=> (empty($allDataInSheet[$i]['BK']) ? 'null' : $allDataInSheet[$i]['BK']),
-						"employer_pf"			=> (empty($allDataInSheet[$i]['BL']) ? 'null' : $allDataInSheet[$i]['BL']),
-						"employer_esic"			=> (empty($allDataInSheet[$i]['BM']) ? 'null' : $allDataInSheet[$i]['BM']),
-						"mediclaim"				=> (empty($allDataInSheet[$i]['BN']) ? 'null' : $allDataInSheet[$i]['BN']),
+						"other_allowance"		=> (empty($allDataInSheet[$i]['BF']) ? 'null' : $allDataInSheet[$i]['BF']),
+						"gross_salary"			=> (empty($allDataInSheet[$i]['BG']) ? 'null' : $allDataInSheet[$i]['BG']),
+						"emp_pf"				=> (empty($allDataInSheet[$i]['BH']) ? 'null' : $allDataInSheet[$i]['BH']),
+						"emp_esic"				=> (empty($allDataInSheet[$i]['BI']) ? 'null' : $allDataInSheet[$i]['BI']),
+						"pt"					=> (empty($allDataInSheet[$i]['BJ']) ? 'null' : $allDataInSheet[$i]['BJ']),
+						"total_deduction"		=> (empty($allDataInSheet[$i]['BK']) ? 'null' : $allDataInSheet[$i]['BK']),
+						"take_home"				=> (empty($allDataInSheet[$i]['BL']) ? 'null' : $allDataInSheet[$i]['BL']),
+						"employer_pf"			=> (empty($allDataInSheet[$i]['BM']) ? 'null' : $allDataInSheet[$i]['BM']),
+						"employer_esic"			=> (empty($allDataInSheet[$i]['BN']) ? 'null' : $allDataInSheet[$i]['BN']),
+						"mediclaim"				=> (empty($allDataInSheet[$i]['BO']) ? 'null' : $allDataInSheet[$i]['BO']),
+
+
 						"ctc"					=> (empty($allDataInSheet[$i]['BO']) ? 'null' : $allDataInSheet[$i]['BO']),
-						"voter_id"				=> (empty($allDataInSheet[$i]['BP']) ? 'null' : $allDataInSheet[$i]['BP']),
-						"emp_form"				=> (empty($allDataInSheet[$i]['BQ']) ? 'null' : $allDataInSheet[$i]['BQ']),
-						"pf_esic_form"			=> (empty($allDataInSheet[$i]['BS']) ? 'null' : $allDataInSheet[$i]['BS']),
-						"other_allowance"		=> (empty($allDataInSheet[$i]['BT']) ? 'null' : $allDataInSheet[$i]['BT']),
-						"payslip"				=> (empty($allDataInSheet[$i]['BU']) ? 'null' : $allDataInSheet[$i]['BU']),
-						"exp_letter"			=> (empty($allDataInSheet[$i]['BV']) ? 'null' : $allDataInSheet[$i]['BV']),
-						"password"				=> (empty($allDataInSheet[$i]['BW']) ? 'null' : $allDataInSheet[$i]['BW']),
-						"psd"					=>	md5($allDataInSheet[$i]['BW']),
-						"active_status"			=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
-						'modified_date'			=>	date('Y-m-d H:i:s')
+
+
+						"voter_id"				=> (empty($allDataInSheet[$i]['BQ']) ? 'null' : $allDataInSheet[$i]['BQ']),
+						"emp_form"				=> (empty($allDataInSheet[$i]['BR']) ? 'null' : $allDataInSheet[$i]['BR']),
+
+						"pf_esic_form"			=> (empty($allDataInSheet[$i]['BT']) ? 'null' : $allDataInSheet[$i]['BT']),
+						
+						"payslip"				=> (empty($allDataInSheet[$i]['BV']) ? 'null' : $allDataInSheet[$i]['BV']),
+						"exp_letter"			=> (empty($allDataInSheet[$i]['BW']) ? 'null' : $allDataInSheet[$i]['BW']),
+						"password"				=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
+						"psd"					=>	md5($allDataInSheet[$i]['BX']),
+						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? 'null' : $allDataInSheet[$i]['CE']),
+						// 'modified_date'			=>	date('Y-m-d H:i:s')
 					);
+					if($import_status=$this->back_end->importEmployee($data))
+					{
+						if ($import_status == "insert") {
+							$insert = $insert + 1;
+							$data1=array(
+								"emp_id"	=>	 (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+								"path"		=>	 (empty($allDataInSheet[$i]['BS']) ? 'null' : $allDataInSheet[$i]['BS'])
+							);	
+							$this->db->insert('education_certificate',$data1);
 
-					$this->back_end->importEmployee($data);
+							$data2=array(
+								"emp_id"	=>	(empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+								"path"		=>	(empty($allDataInSheet[$i]['BU']) ? 'null' : $allDataInSheet[$i]['BU']),
+							);	
+							$this->db->insert('other_certificate',$data2);
+						} else if ($import_status == "update") {
+							$update = $update + 1;
+						}else if ($import_status == "nochanges") {
+							$nochanges = $nochanges + 1;
+						}
+					}
 				}
-
-				$this->session->set_flashdata('success', 'Import successfully');
+				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>' . $nochanges . ' rows no changes <br>';
+				
+				$this->session->set_flashdata('success', $msg);
 				redirect('backend_team', 'refresh');
 			} else {
 
-				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
+				redirect('backend_team', 'refresh');
 			}
 		}
 	}
@@ -839,172 +877,158 @@ class Backend_team extends CI_Controller
 		$client=$this->back_end->get_all_clients();
 		$states=$this->back_end->get_all_states();
 		
-        // $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
-        $i = 2;
-		$spreadsheet = new Spreadsheet();
-		$spreadsheet->createSheet();
+		// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/DOC_FORMAT.xlsx");
+	
 		$spreadsheet->setActiveSheetIndex(1);
-		$spreadsheet->getActiveSheet()->setTitle('sheet1');
+		$spreadsheet->getActiveSheet()->setTitle('list1');
 		$sheet1 = $spreadsheet->getActiveSheet();
-        $sheet1->setCellValue('A1', 'SL No');
-        $sheet1->setCellValue('B1', 'CLIENT ID');
-		$sheet1->setCellValue('C1', 'CLIENT NAME');
-
-		$sheet1->setCellValue('E1', 'STATES ID');
-		$sheet1->setCellValue('F1', 'STATES');
-
-		$sheet1->setCellValue('H1', 'GENDER VALUE');
-		$sheet1->setCellValue('I1', 'GENDER');
-
-		$sheet1->setCellValue('K1', 'MARITAL STATUS');
-
-		$sheet1->setCellValue('M1', 'BLOOD GROUP');
-
-		$sheet1->setCellValue('O1', 'STATUS VALUE');
-		$sheet1->setCellValue('P1', 'STATUS');
-
-		$sheet1->setCellValue('R1', 'VALUE');
-		$sheet1->setCellValue('S1', 'ACTIVE STATUS');
+		$sheet1->setCellValue('A1', 'SL No');
+		$sheet1->setCellValue('B1', 'CLIENT NAME');
+        $sheet1->setCellValue('C1', 'CLIENT ID');
 		
-		$sheet1->getStyle("A1:S1")->applyFromArray(array("font" => array("bold" => true)));
-		foreach(range('A','S') as $columnID) {
+		$sheet1->setCellValue('O1', 'STATES');
+		$sheet1->setCellValue('P1', 'STATES ID');
+		
+
+		
+		$sheet1->setCellValue('S1', 'GENDER');
+		$sheet1->setCellValue('T1', 'GENDER VALUE');
+
+		$sheet1->setCellValue('Y1', 'MARITAL STATUS');
+
+		$sheet1->setCellValue('AC1', 'BLOOD GROUP');
+
+		$sheet1->setCellValue('AZ1', 'STATUS');
+		$sheet1->setCellValue('BA1', 'STATUS VALUE');
+		
+		$sheet1->setCellValue('BZ1', 'ACTIVE STATUS');
+		$sheet1->setCellValue('CA1', 'VALUE');
+		
+		
+		$sheet1->getStyle("A1:CA1")->applyFromArray(array("font" => array("bold" => true)));
+		foreach(range('A','CA') as $columnID) {
 			$sheet1->getColumnDimension($columnID)
 				->setAutoSize(true);
 		}
-		
+		$i = 2;
         foreach ($client as $key => $value) {
 
-            $sheet1->setCellValue('A'.$i, $key + 1);
-            $sheet1->setCellValue('B'.$i, $value['id']);
-            $sheet1->setCellValue('C'.$i, $value['client_name']);
+			$sheet1->setCellValue('A'.$i, $key + 1);
+			$sheet1->setCellValue('B'.$i, $value['client_name']);
+            $sheet1->setCellValue('C'.$i, $value['id']);
+            
             $i += 1;
 		}   
 		$j = 2;
 		foreach ($states as $key => $value) {
-			$sheet1->setCellValue('E'.$j, $value['id']);
-            $sheet1->setCellValue('F'.$j, $value['state_name']);
+			$sheet1->setCellValue('O'.$j, $value['state_name']);
+			$sheet1->setCellValue('P'.$j, $value['id']);
+           
             $j += 1;
 		}   
 
-		$sheet1->setCellValue('H2','1');
-		$sheet1->setCellValue('H3','2');
-		$sheet1->setCellValue('I2','Male');
-		$sheet1->setCellValue('I3','Female');
 		
-		$sheet1->setCellValue('K2','Single');
-		$sheet1->setCellValue('K3','Married');
+		$sheet1->setCellValue('S2','Male');
+		$sheet1->setCellValue('S3','Female');
+		$sheet1->setCellValue('T2','1');
+		$sheet1->setCellValue('T3','2');
 		
-		$sheet1->setCellValue('M2','O+');
-		$sheet1->setCellValue('M3','O-');
-		$sheet1->setCellValue('M4','A+');
-		$sheet1->setCellValue('M5','A-');
-		$sheet1->setCellValue('M6','B+');
-		$sheet1->setCellValue('M7','B-');
-		$sheet1->setCellValue('M8','AB+');
-		$sheet1->setCellValue('M9','AB-');
+		$sheet1->setCellValue('Y2','Single');
+		$sheet1->setCellValue('Y3','Married');
 		
-		$sheet1->setCellValue('O2','0');
-		$sheet1->setCellValue('O3','1');
-		$sheet1->setCellValue('P2','Active');
-		$sheet1->setCellValue('P3','Inactive');
+		$sheet1->setCellValue('AC2','O+');
+		$sheet1->setCellValue('AC3','O-');
+		$sheet1->setCellValue('AC4','A+');
+		$sheet1->setCellValue('AC5','A-');
+		$sheet1->setCellValue('AC6','B+');
+		$sheet1->setCellValue('AC7','B-');
+		$sheet1->setCellValue('AC8','AB+');
+		$sheet1->setCellValue('AC9','AB-');
+		
+		
+		$sheet1->setCellValue('AZ2','Active');
+		$sheet1->setCellValue('AZ3','Inactive');
+		$sheet1->setCellValue('BA2','0');
+		$sheet1->setCellValue('BA3','1');
 
-		$sheet1->setCellValue('R2','0');
-		$sheet1->setCellValue('R3','1');
-		$sheet1->setCellValue('S2','Active');
-		$sheet1->setCellValue('S3','Deactive');
-
-
+		$sheet1->setCellValue('BZ2','Active');
+		$sheet1->setCellValue('BZ3','Deactive');
+		$sheet1->setCellValue('CA2','0');
+		$sheet1->setCellValue('CA3','1');
 		
+
 		$spreadsheet->setActiveSheetIndex(0);
-		$spreadsheet->getActiveSheet()->setTitle('Back end details');
+		$spreadsheet->getActiveSheet()->setTitle('Back_end');
 		$sheet = $spreadsheet->getActiveSheet();
-		$sheet->getStyle("A1:BZ1")->applyFromArray(array("font" => array("bold" => true)));
-        $sheet->setCellValue('A1', 'Entity Name: *');
-        $sheet->setCellValue('B1', 'Enter Client Name: *');
-		$sheet->setCellValue('C1', 'Enter FFI Employee ID: *');
-		$sheet->setCellValue('D1', 'Console ID:');
-        $sheet->setCellValue('E1', 'Enter Client Employee ID:');
-		$sheet->setCellValue('F1', 'Grade:');
-		$sheet->setCellValue('G1', 'Enter Employee Name: *');
-        $sheet->setCellValue('H1', 'Middle Name:');
-		$sheet->setCellValue('I1', 'Last Name:');
-		$sheet->setCellValue('J1', 'Interview Date: *');
-        $sheet->setCellValue('K1', 'Joining Date: *');
-		$sheet->setCellValue('L1', 'DOL');
-		$sheet->setCellValue('M1', 'Enter Designation: *');
-        $sheet->setCellValue('N1', 'Enter Department:');
-		$sheet->setCellValue('O1', 'State: *');
-		$sheet->setCellValue('P1', 'Location: *');
-        $sheet->setCellValue('Q1', 'Branch:');
-		$sheet->setCellValue('R1', 'DOB: *');
-		$sheet->setCellValue('S1', 'Gender: *');
-        $sheet->setCellValue('T1', 'Father Name: *');
-		$sheet->setCellValue('U1', 'Mother Name: *');
-		$sheet->setCellValue('V1', 'Religion: *');
-        $sheet->setCellValue('W1', 'Languages: *');
-		$sheet->setCellValue('X1', 'Mother Tongue: *');
-		$sheet->setCellValue('Y1', 'Marital Status: *');
-        $sheet->setCellValue('Z1', 'Emergency Contact Person: *');
-		$sheet->setCellValue('AA1', 'Spouse Name:');
-		$sheet->setCellValue('AB1', 'No of Children:');
-        $sheet->setCellValue('AC1', 'Blood Group: *');
-		$sheet->setCellValue('AD1', 'Qualification: *');
-		$sheet->setCellValue('AE1', 'Phone 1: *');
-        $sheet->setCellValue('AF1', 'Phone 2:');
-		$sheet->setCellValue('AG1', 'Email ID:');
-		$sheet->setCellValue('AH1', 'Official Email ID:');
-        $sheet->setCellValue('AI1', 'Enter Permanent Address: *');
-		$sheet->setCellValue('AJ1', 'Enter Present Address: *');
-		$sheet->setCellValue('AK1', 'Enter PAN Card No:');
-        $sheet->setCellValue('AL1', 'Attach PAN:');
-		$sheet->setCellValue('AM1', 'Enter Adhar Card No: *');
-		$sheet->setCellValue('AN1', 'Attach Adhaar Card:');
-        $sheet->setCellValue('AO1', 'Enter Driving License No:');
-		$sheet->setCellValue('AP1', 'Attach Driving License:');
-		$sheet->setCellValue('AQ1', 'Photo: *');
-        $sheet->setCellValue('AR1', 'Resume: *');
-		$sheet->setCellValue('AS1', 'Enter Bank Name:');
-		$sheet->setCellValue('AT1', 'Attach Bank Document:');
-        $sheet->setCellValue('AU1', 'Enter Bank Account No:');
-		$sheet->setCellValue('AV1', 'Repeat Bank Account No:');
-		$sheet->setCellValue('AW1', 'Enter Bank IFSC CODE:');
-        $sheet->setCellValue('AX1', 'UAN No:');
-		$sheet->setCellValue('AY1', 'ESIC No:');
-		$sheet->setCellValue('AZ1', 'Status:');
-        $sheet->setCellValue('BA1', 'Basic Salary: *');
-		$sheet->setCellValue('BB1', 'HRA: *');
-		$sheet->setCellValue('BC1', 'Conveyance: *');
-        $sheet->setCellValue('BD1', 'Medical Reimbursement: *');
-		$sheet->setCellValue('BE1', 'Special Allowance: *');
-		$sheet->setCellValue('BF1', 'ST: *');
-        $sheet->setCellValue('BG1', 'Other Allowance: *');
-		$sheet->setCellValue('BH1', 'Gross Salary: *');
-		$sheet->setCellValue('BI1', 'Employee PF : *');
-        $sheet->setCellValue('BJ1', 'Employee ESIC : *');
-		$sheet->setCellValue('BK1', 'PT: *');
-		$sheet->setCellValue('BL1', 'Total Deduction: *');
-        $sheet->setCellValue('BM1', 'Take Home Salary: *');
-		$sheet->setCellValue('BN1', 'Employer PF : *');
-		$sheet->setCellValue('BO1', 'Employer ESIC : *');
-        $sheet->setCellValue('BP1', 'Mediclaim Insurance: *');
-		$sheet->setCellValue('BQ1', 'Grand Total: *');
-		$sheet->setCellValue('BR1', 'Attach Voter ID:');
-        $sheet->setCellValue('BS1', 'Attach Employee Form:');
-		$sheet->setCellValue('BT1', 'Education Certificate:');
-		$sheet->setCellValue('BU1', 'PF Form / ESIC:');
-        $sheet->setCellValue('BV1', 'Others:');
-		$sheet->setCellValue('BW1', 'Payslip:');
-		$sheet->setCellValue('BX1', 'Exp Letter:');
-        $sheet->setCellValue('BY1', 'Password: *');
-		$sheet->setCellValue('BZ1', 'Active Status: *');
 
-		foreach(range('A','BZ') as $columnID) {
-			$sheet->getColumnDimension($columnID)
-				->setAutoSize(true);
-		}
+		$cellB2 = $sheet->getCell('B2')->getDataValidation();
+		$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellB2->setAllowBlank(false);
+		$cellB2->setShowInputMessage(true);
+		$cellB2->setShowErrorMessage(true);
+		$cellB2->setShowDropDown(true);
+		// $rowCount = $sheet1->getHighestRow();
+		$cellB2->setFormula1('list1!$B:$B');
+		$sheet->setCellValue('CA2', '=vlookup(B2,list1!B:C,2,false)');
+
+		$cellO2 = $sheet->getCell('O2')->getDataValidation();
+		$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellO2->setAllowBlank(false);
+		$cellO2->setShowInputMessage(true);
+		$cellO2->setShowErrorMessage(true);
+		$cellO2->setShowDropDown(true);
+		// $rowCount = $sheet1->getHighestRow();
+		$cellO2->setFormula1('list1!$O:$O');
+		$sheet->setCellValue('CB2', '=vlookup(O2,list1!O:P,2,false)');
+
+		$cellS2 = $sheet->getCell('S2')->getDataValidation();
+		$cellS2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellS2->setAllowBlank(false);
+		$cellS2->setShowInputMessage(true);
+		$cellS2->setShowErrorMessage(true);
+		$cellS2->setShowDropDown(true);
+		$cellS2->setFormula1('list1!$S$2:$S$40');
+		$sheet->setCellValue('CC2', '=vlookup(S2,list1!S:T,2,false)');
+
+		$cellAY2 = $sheet->getCell('AY2')->getDataValidation();
+		$cellAY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellAY2->setAllowBlank(false);
+		$cellAY2->setShowInputMessage(true);
+		$cellAY2->setShowErrorMessage(true);
+		$cellAY2->setShowDropDown(true);
+		$cellAY2->setFormula1('list1!$AZ:$AZ');
+		$sheet->setCellValue('CD2', '=vlookup(AY2,list1!AZ:BA,2,false)');
+
+		$cellBY2 = $sheet->getCell('BY2')->getDataValidation();
+		$cellBY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellBY2->setAllowBlank(false);
+		$cellBY2->setShowInputMessage(true);
+		$cellBY2->setShowErrorMessage(true);
+		$cellBY2->setShowDropDown(true);
+		$cellBY2->setFormula1('list1!$BZ:$BZ');
+		$sheet->setCellValue('CE2', '=vlookup(BY2,list1!BZ:CA,2,false)');
+
+		$cellAC2 = $sheet->getCell('AC2')->getDataValidation();
+		$cellAC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellAC2->setAllowBlank(false);
+		$cellAC2->setShowInputMessage(true);
+		$cellAC2->setShowErrorMessage(true);
+		$cellAC2->setShowDropDown(true);
+		$cellAC2->setFormula1('list1!$AC:$AC');
 		
+
+		$cellY2 = $sheet->getCell('Y2')->getDataValidation();
+		$cellY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+		$cellY2->setAllowBlank(false);
+		$cellY2->setShowInputMessage(true);
+		$cellY2->setShowErrorMessage(true);
+		$cellY2->setShowDropDown(true);
+		$cellY2->setFormula1('list1!$Y:$Y');
+
         $writer = new Xlsx($spreadsheet);
-        $filename = 'DOC_FORMAT';
+        $filename = 'DOC_DOWNLOAD_FORMAT';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
         header('Cache-Control: max-age=0');

@@ -97,7 +97,7 @@
 								<div style="text-align:center;">
 									<a href="<?php echo site_url('home/forgot_password'); ?>">Forgot Password</a>
 								</div>
-
+								<!-- Done by Madhusudhan -->
 								<span class="form-text text-center text-muted">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
 							</div>
 						</div>

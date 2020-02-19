@@ -17,44 +17,6 @@
    </style>
 </head>
 
-<<<<<<< HEAD
-<body onload="window.print()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none">
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-         <tr>
-            <td style="padding-left:5%;padding-right:5%;">
-               <!-- <img src="admin_assets/ffi_header.jpg"> -->
-               <div style="color:#000;font-size: 21px;">
-                  <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 18px;text-align: justify; padding-left: 0%;">
-                     <div>
-                        <br>
-                        <table style="border-collapse:collapse;width:100%;margin-bottom:20px;">
-                           <tbody>
-                              <tr>
-                                 <td colspan="3" style="font-size:12px;text-align:left;padding:7px">
-                                    <p style="line-height:1.8;font-size:14px">
-                                       <b>Mr. /Mrs. /Ms. : <?php echo $letter_details[0]['emp_name']; ?></b> <br>
-                                       <b>Employee ID : <?php echo $letter_details[0]['ffi_emp_id']; ?></b> <br>
-                                       <b>Place : <?php echo $letter_details[0]['location']; ?></b> <br></p>
-                                 </td>
-                                 <td style="font-size:12px;text-align:left;padding:7px;width:30%">
-                                    <p style="line-height:1.8;font-size:14px">
-                                       <b>Date : <?php echo date("d-m-Y", strtotime($letter_details[0]['joining_date'])); ?><b></a>
-                                    </p>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
-                  </div>
-               </div>
-               <div style="color: #000;font-family: Tahoma;font-size: 17px;line-height: 15px;text-align: justify; padding-left: 0%;">
-                  <h1 style="font-size:18px;text-align:center;text-decoration: underline;">Appointment Letter</h1>
-                  <br><br>
-                  <p style="font-size:12px;line-height:1.5;"><b>Dear Mr./Mrs./Ms <?php echo $letter_details[0]['emp_name']; ?></b><br>
-                     <span style="margin-left:0%;">
-                        Further to your interview , we are pleased to inform you that you are hereby appointed as <b><?php echo $letter_details[0]['designation']; ?></b> in the <b><?php echo $letter_details[0]['department']; ?></b> Department of our company <b><?php echo $letter_details[0]['client_name']; ?></b>. You are assigned to work at Bangalore as per terms and conditions discussed and agreed upon as <br>under :-</span>
-=======
 <body onload="window.print();">
 
    <div style="position: absolute;
@@ -136,7 +98,6 @@
                      <span>
                         Hope that this will be the beginning of a long and successful career with us.
                      </span>
->>>>>>> cd44bd012600365841596cf9af6d3c8b5a7c40a1
                   </p>
                </td>
             </tr>

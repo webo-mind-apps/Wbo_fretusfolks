@@ -840,7 +840,7 @@ class Backend_team extends CI_Controller
 		$states=$this->back_end->get_all_states();
 		
         // $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
-        $i = 2;
+       
 		$spreadsheet = new Spreadsheet();
 		$spreadsheet->createSheet();
 		$spreadsheet->setActiveSheetIndex(1);
@@ -871,7 +871,7 @@ class Backend_team extends CI_Controller
 			$sheet1->getColumnDimension($columnID)
 				->setAutoSize(true);
 		}
-		
+		$i = 2;
         foreach ($client as $key => $value) {
 
             $sheet1->setCellValue('A'.$i, $key + 1);
