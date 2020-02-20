@@ -76,7 +76,7 @@ class Payslips extends CI_Controller
 				$not_exist = 0; 
 				$month=$this->input->post('payslip_month');;
 				$year=$this->input->post('payslip_year');;
-			 
+				$date = date("Y-m-d");
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 						
 						$data=array(
@@ -145,6 +145,8 @@ class Payslips extends CI_Controller
 							"in_words"						=>(empty($allDataInSheet[$i]['BJ']) ? 'null' : $allDataInSheet[$i]['BJ']),
 							"month"							=>$month,
 							"year"							=>$year,
+							"date_upload"					=>$date,
+
 						);
 								
 					if ($data['emp_id'] != '' || !empty($data['emp_id'])) :
