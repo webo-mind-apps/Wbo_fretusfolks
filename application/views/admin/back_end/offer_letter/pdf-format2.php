@@ -138,7 +138,7 @@
          <span style="margin-left:0%;">
             <b style="text-decoration: underline;">INDEMNITY:</b> You shall be responsible for protecting any property of the Client entrusted to you in the due discharge of your duties and you shall indemnify the Client if there is a loss of any kind to the said property.To the fullest extent permitted by the Applicable Law, you shall hold the Client, its agents, employees and assigns, free and harmless and indemnify and defend Client from and against any and all suits, actions, proceedings, claims, demands, liabilities, costs and charges, legal expenses, damages or penalties of any nature actually or allegedly arising out of or related to your services at the Location or to any alleged actions or omissions by you, including, but not limited to, those resulting from, or claimed to result from injury, death or damage to you.
          </span>
-      </p>
+      </p><br><br>
 
       <p style="font-size:12px;line-height:1.8;">
          <span style="margin-left:0%;">

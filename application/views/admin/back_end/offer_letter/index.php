@@ -54,7 +54,7 @@ ob_start();
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/dashboard.js"></script>
- 
+
 	<!-- /theme JS files -->
 	<style>
 		#divLoading {
@@ -208,7 +208,7 @@ ob_start();
 														</label><br><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off" ><br>
+															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off"><br>
 														</div><br>
 														<div style="display:flex;">
 															<span style="margin-right:21px;padding-top:9px">To: </span>
@@ -262,23 +262,45 @@ ob_start();
 				</div>
 			</div>
 			<!-- /page header -->
-			<?php
-			if ($this->session->flashdata('success', 'Import successfully')) {
-			?>
+			<!-- <?php
+					//if ($this->session->flashdata('success', 'Import successfully')) {
+					?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">Import successfully..!</span>
 				</div>
 			<?php
-			}
+				//	}
 			?>
 			<?php
 
-			if ($this->session->flashdata('nochange', 'No changes')) {
+			//if ($this->session->flashdata('nochange', 'No changes')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">No changes..!</span>
+				</div>
+			<?php
+			//}
+			?> -->
+
+			<?php 
+			if ($this->session->flashdata('success')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+				</div>
+			<?php
+			}
+			?>
+
+			<?php 
+			if ($this->session->flashdata('no_file')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Please Choose Valid file formate</span>
 				</div>
 			<?php
 			}

@@ -93,7 +93,7 @@
 
          <li style=" text-align:justify;">
             In the event you are absent from duty without information or permission of leave or you overstay your sanctioned leave, the Management will treat you as having voluntarily abandoned the services of the Company.
-         </li>
+         </li><br><br>
          <li style="text-align:justify;">
             You will keep the Company informed of any change in your residential address that may happen during the course of employment of your service with the company.
          </li>
