@@ -19,6 +19,10 @@ ob_start();
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+	<!-- ---css datepicker -->
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -29,13 +33,16 @@ ob_start();
 
 	<!-- /core JS files -->
 	<!-- Theme JS files -->
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/jquery-ui.min.js"></script>
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
 	<script src="<?php echo base_url();
 					?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
-	<script src="<?php echo base_url(); 
-						?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script> 
+	<script src="<?php echo base_url();
+					?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 
-	<!-- <script src="<?php //echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -47,10 +54,7 @@ ob_start();
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/dashboard.js"></script>
-
-
-
-
+ 
 	<!-- /theme JS files -->
 	<style>
 		#divLoading {
@@ -87,8 +91,31 @@ ob_start();
 			width: 100%;
 			height: 100%;
 		}
+
 		.down {
 			float: left;
+		}
+
+		.ui-datepicker-prev {
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
+
+		.ui-datepicker-next {
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
 		}
 	</style>
 	<script>
@@ -107,12 +134,24 @@ ob_start();
 						$('#get_details').empty();
 						$('#get_details').append(response);
 						$("div#divLoading").removeClass('show');
-						$("#offer_letter_tables").DataTable().ajax.reload(); 
+						$("#offer_letter_tables").DataTable().ajax.reload();
 					},
 					error: function(xhr, ajaxOptions, thrownError) {}
 				});
 			}
 		}
+		// $('#bulk_button').click(function() { 
+		// 		$fval = $('#From').val();
+		// 		$tval = $('#To').val();
+		// 		if(!($fval&$tval)) {
+		// 			$('#From').attr('required',false);  
+		// 			$('#To').attr('required',false);  
+		// 		}else if(!$fval){
+		// 			$('#To').attr('required',true);
+		// 		}else if(!$tval){
+		// 			$('#From').attr('required',true); 
+		// 		}
+		// });
 	</script>
 </head>
 
@@ -150,7 +189,9 @@ ob_start();
 
 							</div>
 							<div class="col-md-3">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" data-toggle="modal" data-target="#fetchData">Download <b><i class="fa fa-download" aria-hidden="true"></i></b></button>
+
+								<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fetchData">Download &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button> -->
 							</div>
 							<div class="modal fade" role="dialog" id="fetchData">
 								<div class="modal-dialog modal-sm">
@@ -161,11 +202,19 @@ ob_start();
 										<div class="content">
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
-													<div class="form-group">
-														<label class="down"><b>Date</b><span class="text-danger"></span></label>
-														<input type="date" name="offer_download_date" class="form-control" required>
-													</div>
 
+													<div class="form-group">
+														<label class="down"><b>Offer Letter Created Date</b>
+														</label><br><br>
+														<div style="display: flex;width:100%">
+															<span style="margin-right:5px;padding-top:9px;">From:</span>
+															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off" ><br>
+														</div><br>
+														<div style="display:flex;">
+															<span style="margin-right:21px;padding-top:9px">To: </span>
+															<input id="To" type="text" name="offer_download_date2" class="form-control" autocomplete="off">
+														</div>
+													</div>
 											</div>
 											<div class="modal-footer down">
 												<button type="submit" name="download" class="btn btn-success">Download</button>
@@ -177,13 +226,16 @@ ob_start();
 							</div>
 
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br>
-							
-								<a href="<?php echo base_url() ?>offer_letter/doc_formate">Sample Format</a>
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-reply" aria-hidden="true"></i></i></b> </button>
+								<!-- <button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br> -->
 
-								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-offer-letter-import'); ?>" id="import_form" style="display:none">
+								<!-- <a href="<?php //echo base_url() 
+												?>offer_letter/doc_formate">Sample Format</a> -->
+
+								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('offer_letter/adms_offer_letter_import'); ?>" id="import_form" style="display:none">
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 								</form>
+
 							</div>
 							<div class="col-md-4">
 								<!-- <div class="header-elements d-none"> -->
@@ -205,13 +257,12 @@ ob_start();
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
-
+					<span style="float:right"><a href="<?php echo base_url() ?>offer_letter/doc_formate" class="breadcrumb-item">Download Sample Format</a></span>
 
 				</div>
 			</div>
 			<!-- /page header -->
 			<?php
-
 			if ($this->session->flashdata('success', 'Import successfully')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
@@ -223,19 +274,17 @@ ob_start();
 			?>
 			<?php
 
-				if ($this->session->flashdata('nochange', 'No changes')) {
-				?>
-					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
-						<span class="text-semibold">No changes..!</span>
-					</div>
-				<?php
-				}
-				?>
-
+			if ($this->session->flashdata('nochange', 'No changes')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">No changes..!</span>
+				</div>
+			<?php
+			}
+			?>
 
 			<?php
-
 			if ($this->session->flashdata('error', 'Please Choose Valid file formate ')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
@@ -269,12 +318,13 @@ ob_start();
 							<div class="card-header header-elements-inline">
 								<h5 class="card-title">Offer Letters Details</h5>
 
-								<div class="header-elements">
+								<!-- <div class="header-elements">
 									<div class="list-icons">
-										<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_OFFER_LETTER.xlsx">Sample excel file</a>
+										<a href="<?php //echo base_url() 
+													?>admin_assets/exel-formate/SAMPLE_OFFER_LETTER.xlsx">Sample excel file</a>
 										<a class="list-icons-item" data-action="reload"></a>
 									</div>
-								</div>
+								</div> -->
 							</div>
 
 							<table id="offer_letter_tables" class="table datatable-basic table-bordered table-striped table-hover">
@@ -313,6 +363,28 @@ ob_start();
 					</div>
 				</div>
 				<script>
+					$(function() {
+						$("#From").datepicker({
+							dateFormat: 'dd-mm-yy',
+							changeMonth: true,
+							changeYear: true,
+							showOtherMonths: true,
+							yearRange: '1947:2100',
+							onClose: function(selectedDate) {
+								$("#To").datepicker("option", "minDate", selectedDate);
+							}
+						});
+						$("#To").datepicker({
+							dateFormat: 'dd-mm-yy',
+							changeMonth: true,
+							changeYear: true,
+							showOtherMonths: true,
+							yearRange: '1947:2100',
+							onClose: function(selectedDate) {
+								$("#From").datepicker("option", "maxDate", selectedDate);
+							}
+						});
+					});
 					$(document).ready(function() {
 						$('#import_file').click(function(e) {
 							e.preventDefault();

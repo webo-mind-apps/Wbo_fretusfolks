@@ -177,13 +177,18 @@ class Offer_letter_db extends CI_Model
 	{
 		// $id=$this->uri->segment(3);
 		$input_date=$this->input->post('offer_download_date');
-		$date=date("Y-m-d",strtotime($input_date));
+		$input_date2=$this->input->post('offer_download_date2'); 
 		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.branch,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,c.client_code');
 		$this->db->from('offer_letter a');
 		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
-		// $this->db->where('a.id',$id);
-		$this->db->where('a.date',$date);
+		if (!empty($input_date)) {
+			$date = date("Y-m-d", strtotime($input_date)); 
+			$this->db->where('a.date >=', $date);
+		}else if (!empty($input_date2)) {
+			$date2 = date("Y-m-d", strtotime($input_date2));
+			$this->db->where('a.date <=', $date2); 
+		}
 		$query = $this->db->get();
 		$q = $query->result_array();
 		return $q;
@@ -202,6 +207,15 @@ class Offer_letter_db extends CI_Model
 		$query = $this->db->get("client_management");
 		$q = $query->result_array();
 		return $q;
+		
+		// $this->db->select('a.*,b.offer_letter_type,b.company_id');
+		// $this->db->from('client_management a'); 
+		// $this->db->join('offer_letter b', 'a.id=b.company_id', 'left');
+		// $this->db->where("a.status", "0");
+		// $this->db->order_by('a.id', 'DESC');
+		// $query = $this->db->get();
+		// $q = $query->result_array();
+		// return $q;
 	}
 	function delete_offer_letter()
 	{

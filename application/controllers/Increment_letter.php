@@ -76,7 +76,7 @@ class Increment_letter extends CI_Controller
 			$data['letter_content'] = $this->increment->get_letter_content();
 			$data['states'] = $this->increment->get_all_states();
 			$data['clients'] = $this->increment->get_all_clients();
-			$this->load->view('admin/back_end/increment_letter/new_offer_letter', $data);
+			$this->load->view('admin/back_end/increment_letter/new_increment_letter', $data);
 		} else {
 			redirect('home/index');
 		}
@@ -125,6 +125,7 @@ class Increment_letter extends CI_Controller
 	function save_increment_letter()
 	{
 		$emp_id = $this->input->post('ffi_emp_id');
+		// echo "<script>alert('inside')</script>";
 		if ($data = $this->increment->save_increment_letter()) {
 			$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');
 			$this->db->from('increment_letter a');
@@ -166,50 +167,15 @@ class Increment_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			$this->email->send();
-		}
-
-		redirect('increment_letter/');
-	}
-	function view_increment_letter()
-	{
-		// $data['letter_details'] = $this->increment->get_increment_letter_details();
-
-		// $this->load->view('admin/back_end/increment_letter/print_letter', $data);
-
-		if ($this->session->userdata('admin_login')) {
-
-			if ($data = $this->increment->get_increment_letter_details()) {
-				// echo "<pre>";
-				// print_r($data);
-				// exit;
-				$mpdf = new \Mpdf\Mpdf();
-				$datas['letter_details'][0] = $data;
-				$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
-				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-				$mpdf->AddPage(
-					'', // L - landscape, P - portrait 
-					'',
-					'',
-					'',
-					'',
-					5, // margin_left
-					5, // margin right
-					35, // margin top
-					35, // margin bottom
-					0, // margin header
-					0
-				); // margin footer 
-				$mpdf->WriteHTML($html);
-				$date = date('Ymdhis');
-				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . $date . ".pdf", 'D');
-				redirect('increment_letter');
+			if ($this->email->send()) {
+				redirect('increment_letter/');
+			} else {
+				echo "<script>alert('not sent')</script>";
+				exit();
 			}
-		} else {
-			redirect('home/index');
 		}
 	}
+
 	function delete_increment_letter()
 	{
 		if ($this->increment->delete_increment_letter()) {
@@ -252,7 +218,7 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 
 			if ($data['letter_details'] = $this->increment->download_increment()) {
-				if ($data['letter_details']!="nothing_found") {
+				if ($data['letter_details'] != "nothing_found") {
 					$this->load->library('zip');
 					$date = date('ymdhis');
 					$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'] . $date;
@@ -288,7 +254,6 @@ class Increment_letter extends CI_Controller
 					$this->zip->read_dir($path, false);
 					$download = $this->zip->download($path . '.zip');
 				} else {
-					 
 					$this->session->set_flashdata('no_data', 'No datas found');
 					redirect('increment_letter');
 					// redirect('home/index');
@@ -299,6 +264,46 @@ class Increment_letter extends CI_Controller
 		}
 	}
 
+	function view_increment_letter()
+	{
+		// $data['letter_details'] = $this->increment->get_increment_letter_details();
+
+		// $this->load->view('admin/back_end/increment_letter/print_letter', $data);
+
+		if ($this->session->userdata('admin_login')) {
+
+			if ($data = $this->increment->get_increment_letter_details()) {
+
+				$mpdf = new \Mpdf\Mpdf();
+				$datas['letter_details'][0] = $data;
+				// echo "<pre>";
+				// print_r($datas['letter_details'][0]);
+				// exit;
+				$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+				$mpdf->AddPage(
+					'', // L - landscape, P - portrait 
+					'',
+					'',
+					'',
+					'',
+					5, // margin_left
+					5, // margin right
+					35, // margin top
+					35, // margin bottom
+					0, // margin header
+					0
+				); // margin footer 
+				$mpdf->WriteHTML($html);
+				$date = date('Ymdhis');
+				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . $date . ".pdf", 'D');
+				redirect('increment_letter');
+			}
+		} else {
+			redirect('home/index');
+		}
+	}
 
 	function logout()
 	{
@@ -333,13 +338,15 @@ class Increment_letter extends CI_Controller
 				endif;
 
 				// file path
-				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
+				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);//1.location
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
-				$insert = 0;
-				//$update = 0;
-				$not_exist = 0;
-
-				//$nochanges = 0;
+				//2.fetch stru and datas row wise
+				echo "<pre>"; 
+				print_r($allDataInSheet[2]); 
+				exit;
+				$insert = 0; 
+				$not_exist = 0; 
+			 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
 					$date = date("Y-m-d");
@@ -418,9 +425,7 @@ class Increment_letter extends CI_Controller
 								$this->email->subject($subject);
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-								if ($this->email->send()) {
-									echo "<script>alert('sended');</script>";
-								} else {
+								if (!$this->email->send()) {
 									echo "<script>alert('not sended');</script>";
 								}
 							} else if ($import_status == "not_exist") {

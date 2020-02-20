@@ -21,9 +21,41 @@ class Backend_db extends CI_Model
 		$this->db->where('a.active_status',0); 
 		$this->db->order_by('a.id','DESC');
 		$query=$this->db->get();
-		// $q=$query->result_array();
+		$q=$query->result_array();
 	
-		return $query;
+		return $q;
+	}
+	public function get_all_backend_team_for_download()
+	{
+		$client=$this->input->post('backend_download_client'); 
+		$status=$this->input->post('emp_status'); 
+		$from=$this->input->post('backend_download_date'); 
+		$to=$this->input->post('backend_download_date2'); 
+		$date = date("Y-m-d", strtotime($from));
+		$date2 = date("Y-m-d", strtotime($to));
+		$this->db->select('a.*,b.client_name,c.state_name');
+		$this->db->from('backend_management a');
+		$this->db->join('client_management b','a.client_id=b.id','left');
+		$this->db->join('states c','a.state=c.id','left');
+		$this->db->where('emp_name!=','');
+		if (!empty($client)) {
+			$this->db->where("a.client_id",$client);
+			}
+		
+		if (!empty($status)) {
+			$this->db->where("a.active_status",$status);
+			}
+		if (!empty($from)) {
+		$this->db->where("a.joining_date >=",$date);
+		}
+		if (!empty($to)) {
+			$this->db->where("a.joining_date <=",$date2);
+			}
+
+		$query=$this->db->get();
+		$q=$query->result_array();
+	
+		return $q;
 	}
 
 	public function make_query()
@@ -945,32 +977,202 @@ class Backend_db extends CI_Model
 	// excel import
 	public function importEmployee($data = null)
 	{
-		
-		$this->db->where('ffi_emp_id', $data['ffi_emp_id']);
+		$this->db->where('ffi_emp_id', $data['backend']['ffi_emp_id']);
 		$query = $this->db->get("backend_management");
-		if (!$query->num_rows())
+		if ($query->num_rows() <= 0)
 		{
+			$backendData=$data['backend'];
+			$inM=$this->insertMangment($backendData);
+
+				$explode=explode("|",$data['education_certificate']['path']);
+				$length=sizeof($explode);
+				
+				for($i=0;$i<$length;$i++)
+				{
+					 
+					$row=trim($explode[$i]);
+					$insertData=array(
+						"emp_id"	=>	 $data['education_certificate']['emp_id'],
+						"path"		=>	 $row,
+					);	
+					$inE=$this->insertEducation($insertData);
 			
-			$this->db->insert('backend_management', $data);
-			if ($this->db->affected_rows() > 0)
-			{
-				return "insert";
+				}
+				
+			$explode1=explode("|",$data['other_certificate']['path']);
+				$length1=sizeof($explode1);
+				for($i=0;$i<$length1;$i++)
+				{
+					$row1=trim($explode1[$i]);
+					$insertData1=array(
+						"emp_id"	=>	 $data['other_certificate']['emp_id'],
+						"path"		=>	 $row1,
+					);	
+					$inO=$this->insertOther($insertData1);
+				}
+
+				if($inM && $inE && $inO)
+				{
+					return "insert";
+				}
+			
 			}
-		} 
 		else 
 		{
-			$this->db->where('ffi_emp_id', $data['ffi_emp_id']);
-			$this->db->update('backend_management', $data);
-			if ($this->db->affected_rows() > 0)
-			{
+			$upM=$this->updateMangment($data);
+			// $upE=$this->updateEducation($data);
+			// $upO=$this->updateOther($data);
+			$this->db->where("emp_id",$data['education_certificate']['emp_id']);
+			$this->db->delete("education_certificate");
+			$explode=explode("|",$data['education_certificate']['path']);
+				$length=sizeof($explode);
+				for($i=0;$i<$length;$i++)
+				{
+					 
+					$row=trim($explode[$i]);
+					$insertData=array(
+						"emp_id"	=>	 $data['education_certificate']['emp_id'],
+						"path"		=>	 $row,
+					);	
+					$upE=$this->insertEducation($insertData);
 				
+				}
+
+
+				$this->db->where("emp_id",$data['other_certificate']['emp_id']);
+				$this->db->delete("other_certificate");
+			$explode1=explode("|",$data['other_certificate']['path']);
+				$length1=sizeof($explode1);
+				for($i=0;$i<$length1;$i++)
+				{
+					$row1=trim($explode1[$i]);
+					$insertData1=array(
+						"emp_id"	=>	 $data['other_certificate']['emp_id'],
+						"path"		=>	 $row1,
+					);	
+					$upO=$this->insertOther($insertData1);
+				}
+			if($upM || $upE || $upO)
+			{
 				return "update";
-			}
+			}	
 			
 		}
-		return "nochanges";
 		
+	
+	return "nochanges";
+}
+
+public function insertMangment($data)
+{
+	$this->db->insert('backend_management', $data);
+	if ($this->db->affected_rows() > 0)
+	{
+		return true;
 	}
+	else
+	{
+		return false;
+	}
+
+}
+	public function insertEducation($insertData)
+	{
+		$this->db->insert('education_certificate',$insertData);
+		if ($this->db->affected_rows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	public function insertOther($insertData1)
+	{
+		$this->db->insert('other_certificate',$insertData1);
+
+		if ($this->db->affected_rows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	public function updateMangment($data)
+	{
+		$this->db->where('ffi_emp_id', $data['backend']['ffi_emp_id']);
+		$this->db->update('backend_management', $data['backend']);
+		if ($this->db->affected_rows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	// public function updateEducation($data)
+	// {
+	// 	$this->db->where("emp_id",$data['education_certificate']['emp_id']);
+	// 	$this->db->delete("education_certificate");
+	// 	$explode=explode("|",$data['education_certificate']['path']);
+	// 	$length=sizeof($explode);
+	// 	for($i=0;$i<$length;$i++)
+	// 	{
+	// 		$row=trim($explode[$i]);
+	// 		$updateData=array(
+	// 			"emp_id"	=>	 $data['education_certificate']['emp_id'],
+	// 			"path"		=>	 $row,
+	// 		);	
+	// 	$this->db->insert('education_certificate', $updateData);
+	// 	if ($this->db->affected_rows() > 0)
+	// 	{
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		return false;
+	// 	}
+	// }
+
+	// }
+
+	public function updateOther($data)
+	{
+		$this->db->where("emp_id",$data['other_certificate']['emp_id']);
+		$this->db->delete("other_certificate");
+
+		$explode=explode("|",$data['other_certificate']['path']);
+		$length=sizeof($explode);
+		for($i=0;$i<$length;$i++)
+		{
+			$row=trim($explode[$i]);
+			$updateData=array(
+				"emp_id"	=>	 $data['other_certificate']['emp_id'],
+				"path"		=>	 $row,
+			);	
+		$this->db->insert('other_certificate', $updateData);
+		if ($this->db->affected_rows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	}
+
 
 	
 }

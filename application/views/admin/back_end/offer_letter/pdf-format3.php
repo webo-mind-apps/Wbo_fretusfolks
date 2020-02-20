@@ -63,9 +63,9 @@
 				<li style="text-align:justify;">
 					In case of any adverse remarks found from the reference given by you, the documents submitted by you/outcome of the police verification report then this appointment will stand withdrawn immediately.
 				</li>
-				<li style="text-align:justify;">
+				<li style="margin-bottom:30px;text-align:justify;">
 					You will not be absent from your duty without sufficient reasons, you will obtain prior written permission / sanction from the supervisor about your absence giving reasons thereof and probable duration immediately, failing which, the same will be treated as loss of Pay.
-				</li>
+				</li><br><br>
 				<li style="text-align:justify;">
 					<p style="text-align:justify;"> 
 					<b>If you did not report to work for continuous 3 days</b> without proper notification of absenteeism, company is liable to end your contract on immediate basis, on request from client.

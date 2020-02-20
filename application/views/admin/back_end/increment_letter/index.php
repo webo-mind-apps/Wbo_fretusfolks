@@ -21,7 +21,7 @@ $active_menu = "index";
 			border-radius: .1875rem;
 		}
 
-		.ui-datepicker-next{
+		.ui-datepicker-next {
 			position: absolute;
 			top: 50% !important;
 			margin-top: -.9375rem;
@@ -52,6 +52,7 @@ $active_menu = "index";
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
+
 
 	<!-- Core JS files -->
 
@@ -242,13 +243,13 @@ $active_menu = "index";
 													</div>
 													<div class="form-group">
 														<label class="down"><b>Increment Letter Created Date</b>
-															</label><br>
+														</label><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
 															<input id="From" type="text" name="increment_download_date" class="form-control" autocomplete="off"><br>
 														</div><br>
 														<div style="display:flex;">
-															<span style="margin-right:21px;padding-top:9px">To:  </span>
+															<span style="margin-right:21px;padding-top:9px">To: </span>
 															<input id="To" type="text" name="increment_download_date2" class="form-control" autocomplete="off"><br>
 														</div>
 													</div>
@@ -266,8 +267,8 @@ $active_menu = "index";
 
 							<div class="col-md-4" style="margin-right:-3.5%;">
 
-								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-increment-letter-import'); ?>" id="import_form">
-									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-undo" aria-hidden="true"></i></b> </button>
+								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('increment_letter/adms_increment_letter_import'); ?>" id="import_form">
+									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-reply" aria-hidden="true"></i></i></b> </button>
 									</br>
 
 									<!-- <a href="<?php // echo base_url() 
@@ -409,7 +410,7 @@ $active_menu = "index";
 					</div>
 				</div>
 				<!-- /floating labels -->
-				 
+
 
 				<!-- content area -->
 
