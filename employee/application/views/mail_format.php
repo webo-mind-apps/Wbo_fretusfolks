@@ -398,7 +398,7 @@
                       <div class="container">
                         <div class="content">
                           <b>Dear <?php echo $first_name . ' ' . $last_name ?>,</b>
-                          <p style="margin-top:15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You recently requested to reset your password for your account.click the button below to reset it</p>
+                          <p style="margin-top:15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You recently requested to reset the password for your account. Click the button below to reset it</p>
                           <center>
                             <form action="<?php echo base_url() ?>index.php/Home/create_new_password?code_id=<?php echo $code ?>" method="post"> 
                               <center>
@@ -409,7 +409,7 @@
                             </form>
 
 
-                            <p> if you did not request a password reset,please ignore this email or reply to let us know.This password reset is only valid for the next 24 Hours.</p>
+                            <p> If you didn't request a password reset, please ignore this email or reply to let us know.This password reset is only valid for the next 24 Hours.</p>
 
                             <p>Thanks,</p>
                             <p>Fretus Folks Team.</p>
