@@ -1,6 +1,4 @@
 <?php
-ob_clean();
-ob_start();
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -719,7 +717,7 @@ class Backend_team extends CI_Controller
 				$this->zip->clear_data();
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
-				redirect('backend_team');
+				redirect('backend_team/');
 		}
 		else {
 			$this->session->set_flashdata('no_data', 'No datas founded');

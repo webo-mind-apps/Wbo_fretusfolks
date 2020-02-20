@@ -358,7 +358,7 @@
                     <tr>
                       <td>
                         <br>
-                        <p>Dear <?php echo $result['emp_name'].' '.$result['middle_name'].' '.$result['last_name'] ?>,</p>
+                        <p>Dear <?php echo $payslip['emp_name'].' '.$payslip['middle_name'].' '.$payslip['last_name'] ?>,</p>
                         <p>Find the attachment</p>
                         
                         
