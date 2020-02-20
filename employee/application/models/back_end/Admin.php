@@ -12,7 +12,8 @@ class Admin extends CI_Model {
 	
 	function check_employee_data()
 	{
-		$name=$this->input->post('username'); 
+		$name=$this->input->post('username');  
+		$this->db->select('emp_name,middle_name,last_name,email'); 
 		$this->db->where("ffi_emp_id",$name); 
 		$query=$this->db->get('backend_management');
 		$res=$query->result_array();

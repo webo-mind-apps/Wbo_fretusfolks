@@ -371,7 +371,6 @@
 </head>
 
 <body class="">
-  <span class="preheader">Pay stub on <?php echo date('d/m/Y', strtotime($pdf->pay_start)) . ' TO ' . date('d/m/Y', strtotime($pdf->pay_end)) ?></span>
   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
     <tr>
       <td>&nbsp;</td>
@@ -388,7 +387,7 @@
                   <tr>
                     <td>
                       <center>
-                      <img src="<?php echo base_url('admin_assets/ffi_header.jpg')?>"/>
+                        <img src="<?php echo base_url('admin_assets/ffi_header.jpg') ?>" />
                       </center>
 
                     </td>
@@ -397,10 +396,10 @@
                     <td>
                       <div class="container">
                         <div class="content">
-                          <b>Dear <?php echo $first_name . ' ' . $last_name ?>,</b>
+                          <b>Dear <?php echo $first_name . $middle_name . $last_name ?>,</b>
                           <p style="margin-top:15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You recently requested to reset your password for your account.click the button below to reset it</p>
                           <center>
-                            <form action="<?php echo base_url() ?>index.php/Home/create_new_password?code_id=<?php echo $code ?>" method="post"> 
+                            <form action="<?php echo base_url() ?>index.php/Home/create_new_password?code_id=<?php echo $code ?>" method="post">
                               <center>
                                 <button type="submit" name="mail_link_submit" class="button">
                                   Reset Your Password

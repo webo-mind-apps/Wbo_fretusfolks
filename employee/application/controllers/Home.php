@@ -28,6 +28,9 @@ class Home extends CI_Controller
 		if (isset($_POST['forgot_password_form_submit'])) {
 			$data = $this->admin->check_employee_data();
 			if ($data) {
+				// echo "<pre>";
+				// print_r($data);
+				// exit;
 				if ($code = $this->admin->add_refresh_id()) {
 					$this->load->config('email');
 					$this->load->library('email');
@@ -36,13 +39,16 @@ class Home extends CI_Controller
 					//Email content
 					$data['code']       = $code;
 					$data['first_name'] = $data[0]['emp_name'];
+					$data['middle_name'] = $data[0]['middle_name'];
 					$data['last_name']  = $data[0]['last_name'];
+					$my_mail = $data[0]['email'];
+
 					//$this->load->view('mail_format', $data);
 					// exit();
 					$mail_message = $this->load->view('mail_format', $data, TRUE);
 					$this->email->set_newline("\r\n");
 					$this->email->from($from);
-					$this->email->to('madhusudhandummy@gmail.com');
+					$this->email->to($my_mail);
 					$this->email->subject('Password reset Request');
 					$this->email->message($mail_message);
 
@@ -77,7 +83,8 @@ class Home extends CI_Controller
 			$confirm_password = $this->input->post('abc_confirm_password');
 			if ($new_password != $confirm_password) {
 				$this->session->set_flashdata('password_not_modifed', 'not_updated');
-				redirect('home/create_new_password_form_fun');
+				$this->load->view('create_new_password_form');
+				// redirect('home/create_new_password_form');
 			} else {
 				if ($this->admin->update_emp_password()) {
 					$this->session->set_flashdata('password_modifed', 'updated');
