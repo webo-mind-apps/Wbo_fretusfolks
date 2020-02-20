@@ -175,7 +175,7 @@
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div> 
-					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate" >Download Format</a></span>
+					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate">Download Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
