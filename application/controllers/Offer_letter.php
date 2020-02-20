@@ -528,57 +528,55 @@ class Offer_letter extends CI_Controller
 	}
 
 	public function doc_formate()
-	{
-		// if ($this->session->userdata('admin_login')) {
-		// 	$client = $this->letter->get_all_clients();
-		// 	$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx");
-
-		// 	//change it
-		// 	$sheet1 = $spreadsheet->setActiveSheetIndex(1);
-		// 	$i = 2;
-		// 	foreach ($client as $key => $value) {
-
-		// 		$sheet1->setCellValue('A' . $i, $value['id']);
-		// 		$sheet1->setCellValue('B' . $i, $value['client_name']);
-		// 		$i += 1;
-		// 	}
-
-		// 	//write it again to Filesystem with the same name (=replace)
-		// 	$writer = new Xlsx($spreadsheet);
-
-		// 	$filename = 'ADMS_OFFER_LETTER_NEW';
-		// 	header('Content-Type: application/vnd.ms-excel');
-		// 	header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
-		// 	header('Cache-Control: max-age=0');
-		// 	$writer->save('php://output'); // download file
-
+	{ 
 		if ($this->session->userdata('admin_login')) {
 			$client = $this->letter->get_all_clients();
 			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
-
+			// echo "<pre>";
+			// print_r($client);
+			// exit;
 			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_OFFER_LETTER.xlsx");
 
 			$spreadsheet->setActiveSheetIndex(1);
 			$spreadsheet->getActiveSheet()->setTitle('list1');
 			$sheet1 = $spreadsheet->getActiveSheet();
 			$sheet1->setCellValue('A1', 'SL No');
-			$sheet1->setCellValue('C1', 'CLIENT ID');
 			$sheet1->setCellValue('B1', 'CLIENT NAME');
+			$sheet1->setCellValue('C1', 'CLIENT ID');
+			$sheet1->setCellValue('E1', 'FORMAT NAME');
+			$sheet1->setCellValue('F1', 'FORMAT ID');
 
-			$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
-			foreach (range('A', 'G') as $columnID) {
-				$sheet1->getColumnDimension($columnID)
-					->setAutoSize(true);
+			$sheet1->getStyle("A1:F1")->applyFromArray(array("font" => array("bold" => true)));
+			foreach (range('A', 'F') as $columnID) {
+				$sheet1->getColumnDimension($columnID)->setAutoSize(true);
 			}
 			$i = 2;
 			foreach ($client as $key => $value) {
-
 				$sheet1->setCellValue('A' . $i, $key + 1);
-				$sheet1->setCellValue('C' . $i, $value['id']);
 				$sheet1->setCellValue('B' . $i, $value['client_name']);
+				$sheet1->setCellValue('C' . $i, $value['id']);
 				$i += 1;
 			}
+		 
+			// $sheet1->setCellValue('C2', "Format 1");
+			// $sheet1->setCellValue('C3', "Format 2");
+			// $sheet1->setCellValue('C4', "Format 3");
+			// $sheet1->setCellValue('C5', "Format 4");
+
+			$sheet1->setCellValue('E2', "Format 1");
+			$sheet1->setCellValue('E3', "Format 2");
+			$sheet1->setCellValue('E4', "Format 3");
+			$sheet1->setCellValue('E5', "Format 4");
+
+			$sheet1->setCellValue('F2', 1);
+			$sheet1->setCellValue('F3', 2);
+			$sheet1->setCellValue('F4', 3);
+			$sheet1->setCellValue('F5', 4);
+
+
+
 			$spreadsheet->setActiveSheetIndex(0);
+			$spreadsheet->getActiveSheet()->setTitle('Offer_letter');
 			$sheet = $spreadsheet->getActiveSheet();
 			$cellB2 = $sheet->getCell('B2')->getDataValidation();
 			$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -586,9 +584,20 @@ class Offer_letter extends CI_Controller
 			$cellB2->setShowInputMessage(true);
 			$cellB2->setShowErrorMessage(true);
 			$cellB2->setShowDropDown(true);
-			$rowCount = $sheet1->getHighestRow();
+			// $rowCount = $sheet1->getHighestRow();
 			$cellB2->setFormula1('list1!$B:$B');
 			$sheet->setCellValue('V2', '=vlookup(B2,list1!B:C,2,false)');
+
+			$cellC2 = $sheet->getCell('C2')->getDataValidation();
+			$cellC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellC2->setAllowBlank(false);
+			$cellC2->setShowInputMessage(true);
+			$cellC2->setShowErrorMessage(true);
+			$cellC2->setShowDropDown(true);
+			// $rowCount = $sheet1->getHighestRow();
+			$cellC2->setFormula1('list1!$E:$E');
+			$sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
+
 			$writer = new Xlsx($spreadsheet);
 			$filename = 'ADMS_OFFER_LETTER_DOWNLOAD_FORMAT';
 			header('Content-Type: application/vnd.ms-excel');

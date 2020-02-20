@@ -207,6 +207,15 @@ class Offer_letter_db extends CI_Model
 		$query = $this->db->get("client_management");
 		$q = $query->result_array();
 		return $q;
+		
+		// $this->db->select('a.*,b.offer_letter_type,b.company_id');
+		// $this->db->from('client_management a'); 
+		// $this->db->join('offer_letter b', 'a.id=b.company_id', 'left');
+		// $this->db->where("a.status", "0");
+		// $this->db->order_by('a.id', 'DESC');
+		// $query = $this->db->get();
+		// $q = $query->result_array();
+		// return $q;
 	}
 	function delete_offer_letter()
 	{
