@@ -167,33 +167,34 @@ $active_menu="index";
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
+					<span><a href="<?php echo base_url() ?>payslips/doc_format" target="_blank">Download Sample Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
 			<!-- Content area -->
 			<div class="content">		
-					<?php
-						if($this->session->flashdata('success','success'))
-						{
-					?>
-							<div class="alert bg-success alert-styled-left">
-								<button type="button" class="close" data-dismiss="alert"></button>
-								<span class="text-semibold">Payslip Uploaded Successfully</span>
-							</div>	
-					<?php	
-						}
-					?>
-					<?php
-						if($this->session->flashdata('abc','error'))
-						{
-					?>
-							<div class="alert bg-danger alert-styled-left">
-								<button type="button" class="close" data-dismiss="alert"></button>
-								<span class="text-semibold">Opps!</span> Try again!
-							</div>
-					<?php	
-						}
-					?>
+			<?php
+
+				if ($this->session->flashdata('success')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+					</div>
+				<?php
+				}
+				?>
+				<?php
+
+				if ($this->session->flashdata('no_file')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold">Please Choose Valid file formate</span>
+					</div>
+				<?php
+				}
+				?>
 				<!-- Floating labels -->
 				<div class="row">
 					<div class="col-md-12">
@@ -212,7 +213,7 @@ $active_menu="index";
 									<div class="tab-content" id="myTabContent">
 									  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 									  <div class="card-header header-elements-inline">
-									<h5 class="card-title">Upload Excel Sheet :[<a href="<?php echo base_url()."downloads/salary_slip.xlsx";?>" target="_blank">Sample Format</a>]</h5>
+									<h5 class="card-title">Upload Excel Sheet </h5>
 									
 								</div>
 
@@ -227,9 +228,6 @@ $active_menu="index";
 									<?php 
 									}
 								?>	
-
-								
-
 
 								<form class="form-horizontal" id="my_form" action="<?php  echo site_url('payslips/upload_payslips');?>" method="POST" enctype="multipart/form-data">
 
@@ -328,7 +326,7 @@ $active_menu="index";
 														<?php
 															foreach($client_management as $row)
 															{
-																echo '<option value="'.$row['client_name'].'">'.$row['client_name'].'</option>';
+																echo '<option value="'.$row['id'].'">'.$row['client_name'].'</option>';
 															}
 														?>
 												</select>
@@ -356,22 +354,19 @@ $active_menu="index";
 						<div class="card">
 							<div class="card-header header-elements-inline">
 								<h5 class="card-title">Search Payslips</h5>
-								<div class="header-elements">
-									<div class="list-icons">
-				                		<a class="list-icons-item" data-action="collapse"></a>
-				                		<a class="list-icons-item" data-action="reload"></a>
-				                		</div>
-			                	</div>
+								
 							</div>
 							<div class="card-body">
 								<div class="row">
-										<div class="col-md-3">
+										<div class="col-md-4">
+										<label class="control-label" style="padding-top:1%">Employee Id</label>
 											<div class="form-group">
 												<input type="text" name="emp_id" id="emp_id" class="form-control" placeholder="Employee ID" required>
 											</div>
 										</div>	
-										<label class="control-label col-lg-1" style="padding-top:1%">Month</label>
-										<div class="col-md-3">
+										
+										<div class="col-md-4">
+										<label class="control-label" style="padding-top:1%">Month</label></br>
 											<select name="month" id="month" class="form-control" required>
 												<option value="">Select Month</option>
 												<?php
@@ -382,8 +377,9 @@ $active_menu="index";
 												?>
 											</select>
 										</div>	
-										<label class="control-label col-lg-1" style="padding-top:1%">Year</label>
-											<div class="col-md-3">
+										
+											<div class="col-md-4">
+											<label class="control-label" style="padding-top:1%">Year</label></br>
 													<select name="year" id="year" class="form-control" required>
 														<option value="">Select Year</option>
 														<?php
@@ -414,11 +410,7 @@ $active_menu="index";
 				<div class="card" id="payslip_table" style="display:none">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Payslip Details</h5>
-						<div class="header-elements">
-							<div class="list-icons">
-		                		<a class="list-icons-item" data-action="reload"></a>
-		                	</div>
-	                	</div>
+						
 					</div>
 					
 					<table class="table datatable-basic table-bordered table-striped table-hover">

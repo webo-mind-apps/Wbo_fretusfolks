@@ -408,7 +408,7 @@
                             </form>
 
 
-                            <p> if you did not request a password reset,please ignore this email or reply to let us know.This password reset is only valid for the next 24 Hours.</p>
+                            <p> If you didn't request a password reset, please ignore this email or reply to let us know.This password reset is only valid for the next 24 Hours.</p>
 
                             <p>Thanks,</p>
                             <p>Fretus Folks Team.</p>
