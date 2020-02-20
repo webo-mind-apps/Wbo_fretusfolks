@@ -226,7 +226,7 @@ ob_start();
 							</div>
 
 							<div class="col-md-3">
-								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-undo" aria-hidden="true"></i></b> </button>
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-reply" aria-hidden="true"></i></i></b> </button>
 								<!-- <button type="button" class="btn btn-primary" id="import_file">Import &nbsp;&nbsp;&nbsp; <b><i class="fa fa-download" aria-hidden="true"></i></b></button></br> -->
 
 								<!-- <a href="<?php //echo base_url() 
