@@ -193,7 +193,9 @@ class Offer_letter extends CI_Controller
 			if ($data[0]['contract_date'] != "0000-00-00") {
 				$contract_date = date("d-m-Y", strtotime($data[0]['contract_date']));
 			}
-
+			echo "<pre>";
+			print_r($data);
+			exit();
 
 			if ($data[0]['data_status'] == 1) {
 				echo $data[0]['client_id'] . "****" . $data[0]['emp_name'] . "****" . $joining_date . "****" . $contract_date . "****" . $data[0]['designation'] . "****" . $data[0]['location'] . "****" . $data[0]['department'] . "****" . $data[0]['basic_salary'] . "****" . $data[0]['hra'] . "****" . $data[0]['conveyance'] . "****" . $data[0]['medical_reimbursement'] . "****" . $data[0]['special_allowance'] . "****" . $data[0]['other_allowance'] . "****" . $data[0]['st_bonus'] . "****" . $data[0]['gross_salary'] . "****" . $data[0]['emp_pf'] . "****" . $data[0]['emp_esic'] . "****" . $data[0]['pt'] . "****" . $data[0]['total_deduction'] . "****" . $data[0]['take_home'] . "****" . $data[0]['employer_pf'] . "****" . $data[0]['employer_esic'] . "****" . $data[0]['mediclaim'] . "****" . $data[0]['ctc'];
@@ -210,7 +212,7 @@ class Offer_letter extends CI_Controller
 
 		$data['letter_details'] = $this->letter->save_offer_letter();
 		// echo '<pre>';
-		// print_r($data['letter_details'][0]['email']);
+		// print_r($data['letter_details']);
 		// exit;
 
 		if (!empty($data)) {
@@ -258,11 +260,10 @@ class Offer_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			if ($this->email->send()) {
+			if ($this->email->send()) { 
 				redirect('Offer_letter/');
 			} else {
-				echo "<script>alert('not sent')</script>";
-				exit();
+				echo "<script>alert('Mail not sent')</script>";
 			}
 		}
 	}
@@ -354,7 +355,7 @@ class Offer_letter extends CI_Controller
 
 	// excel Import for ADMS OFFER LETTER 
 	function adms_offer_letter_import()
-	{ 
+	{
 		$data = array();
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
