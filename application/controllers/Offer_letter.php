@@ -354,18 +354,24 @@ class Offer_letter extends CI_Controller
 
 	// excel Import for ADMS OFFER LETTER 
 	function adms_offer_letter_import()
-	{
-
+	{ 
 		$data = array();
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
-			// get file extension
-			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
-			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+			//1.get file content type using mime type
+			$allowed_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			$content_type = mime_content_type($_FILES['import']['tmp_name']);
+
+			$extension = "";
 			$valid = false;
-			foreach ($valid_extentions as $key => $value) {
-				if ($extension == $value) {
-					$valid = true;
+			if (in_array($content_type, $allowed_extentions)) {
+				//2.get file extension 
+				$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+				$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+				foreach ($valid_extentions as $key => $value) {
+					if ($extension == $value) {
+						$valid = true;
+					}
 				}
 			}
 
@@ -410,7 +416,7 @@ class Offer_letter extends CI_Controller
 					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 
 					$data = array(
-						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']),
+						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
 						"company_id"			=>  $client_id,
 						"date"					=>	$date,
 						"offer_letter_type"		=>	$offer_letter_type,
@@ -433,7 +439,7 @@ class Offer_letter extends CI_Controller
 						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
 
 					);
-					if($data['employee_id'] != '' || !empty($data['employee_id'])) :
+					if ($data['employee_id'] != '' || !empty($data['employee_id'])) :
 						if ($import_status = $this->letter->importEmployee_offer_letter($data)) {
 							if ($import_status == "insert") {
 								$insert = $insert + 1;
@@ -441,7 +447,7 @@ class Offer_letter extends CI_Controller
 								$this->db->from('offer_letter a');
 								$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 								$this->db->join('client_management c', 'a.company_id=c.id', 'left');
-								$this->db->where('a.employee_id', $emp_id);
+								$this->db->where('a.employee_id', $data['employee_id']);
 								$query = $this->db->get();
 								$data['letter_details'] = $query->result_array();
 

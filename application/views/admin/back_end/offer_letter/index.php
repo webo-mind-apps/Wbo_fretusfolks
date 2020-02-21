@@ -233,7 +233,7 @@ ob_start();
 												?>offer_letter/doc_formate">Sample Format</a> -->
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('offer_letter/adms_offer_letter_import'); ?>" id="import_form" style="display:none">
-									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+									<input id="import" type="file" name="import" >
 								</form>
 
 							</div>
