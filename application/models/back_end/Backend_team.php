@@ -709,7 +709,6 @@ class Backend_team extends CI_Controller
 						
 						foreach ($zip_data as $key=>$row1)
 						{	
-							
 							$this->zip->read_file($row1);
 						}
 
@@ -740,7 +739,7 @@ class Backend_team extends CI_Controller
 		}
 		else {
 			$this->session->set_flashdata('no_data', 'No datas founded');
-				redirect('backend_team/', 'refresh');
+				redirect('home/index', 'refresh');
 		}
 		} else {
 			redirect('home/index');
@@ -830,12 +829,11 @@ class Backend_team extends CI_Controller
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
 			// get file extension
-			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
 			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
-			$content_type = mime_content_type($_FILES['import']['tmp_name']);
 			$valid = false;
 			foreach ($valid_extentions as $key => $value) {
-				if ($content_type == $value) {
+				if ($extension == $value) {
 					$valid = true;
 				}
 			}
@@ -961,7 +959,6 @@ class Backend_team extends CI_Controller
 						
 						if ($import_status == "insert") {
 							$insert = $insert + 1;
-							
 						} else if ($import_status == "update") {
 							$update = $update + 1;
 						}else if ($import_status == "nochanges") {

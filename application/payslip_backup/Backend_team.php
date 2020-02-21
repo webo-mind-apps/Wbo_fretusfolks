@@ -571,10 +571,10 @@ class Backend_team extends CI_Controller
 			 {
 				if (!empty($client)) {
 			
-				$path = 'dcs/dcs_'.$data[0]['client_name'].'_'. $date;
+				$path = 'dcs_'.$data[0]['client_name'].'_'. $date.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'];
 				}else{
 					
-					$path = 'dcs/dcs_'. $date;
+					$path = 'dcs_'. $date.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'];
 				}
 				if (!is_dir($path)) mkdir($path, 0777, TRUE);
 				$interview_date = "";
@@ -687,52 +687,83 @@ class Backend_team extends CI_Controller
 			$objWriter =  new Xlsx($spreadsheet);
 			$filename ='BackEnd_Details'.$date.'.xlsx';
 			
-				$objWriter->save($path."/".$filename);
+			if (!empty($client)) 
+			{
+				$objWriter->save("dcs_".$row['client_name'].'_'. $date."/".$filename);
+				
+				}else{
+					
+					$objWriter->save("dcs_". $date."/".$filename);
+			}
 				
 				$this->load->library('zip');
-				
 				foreach ($data as $key=>$row)
 				{
-						$zip_data=array(
-							 $row['bank_document'],
-							 $row['emp_form'],
-							 $row['exp_letter'],
-							 $row['driving_license_path'],
-							 $row['pan_path'],
-							 $row['payslip'],
-							 $row['pf_esic_form'],
-							 $row['photo'],
-							 $row['resume'],
-							 $row['voter_id'],
-
-						);
-						
-						foreach ($zip_data as $key=>$row1)
-						{	
+					if (!empty($client)) {
+			
+						$path = 'dcs_'.$data[0]['client_name'].'_'. $date.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'];
+						$path1 = 'dcs_'.$data[0]['client_name'].'_'. $date;
+						}else{
 							
-							$this->zip->read_file($row1);
-						}
+							$path = 'dcs_'. $date.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'];
+							$path1 = 'dcs_'. $date;
 
-						$education_certificate = $this->back_end->get_education_details($row['ffi_emp_id']);
-						foreach ($education_certificate as $key=>$r)
-						{
-							
-							$this->zip->read_file($r['path']);
 						}
-						$other_certificate = $this->back_end->get_other_certificate_details($row['ffi_emp_id']);
-						foreach ($other_certificate as $key=>$r1)
-						{
-							
-							$this->zip->read_file($r1['path']);
-						}
+					if (!is_dir($path)) mkdir($path, 0777, TRUE);
+					$extension1 = pathinfo($row['aadhar_path'], PATHINFO_EXTENSION);
+					$extension2 = pathinfo($row['bank_document'], PATHINFO_EXTENSION);
+					$extension3 = pathinfo($row['emp_form'], PATHINFO_EXTENSION);
+					$extension4 = pathinfo($row['exp_letter'], PATHINFO_EXTENSION);
+					$extension5 = pathinfo($row['driving_license_path'], PATHINFO_EXTENSION);
+					$extension6 = pathinfo($row['pan_path'], PATHINFO_EXTENSION);
+					$extension7 = pathinfo($row['payslip'], PATHINFO_EXTENSION);
+					$extension8 = pathinfo($row['pf_esic_form'], PATHINFO_EXTENSION);
+					$extension9 = pathinfo($row['photo'], PATHINFO_EXTENSION);
+					$extension10 = pathinfo($row['resume'], PATHINFO_EXTENSION);
+					$extension11 = pathinfo($row['voter_id'], PATHINFO_EXTENSION);
+					
+					$new_path1=$path.'/'.'aadhar'.'.'.$extension1;
+					$new_path2=$path.'/'.'bank_document'.'.'.$extension2;
+					$new_path3=$path.'/'.'emp_form'.'.'.$extension3;
+					$new_path4=$path.'/'.'exp_letter'.'.'.$extension4;
+					$new_path5=$path.'/'.'driving_license'.'.'.$extension5;
+					$new_path6=$path.'/'.'pan_card'.'.'.$extension6;
+					$new_path7=$path.'/'.'payslip'.'.'.$extension7;
+					$new_path8=$path.'/'.'pf_esic_form'.'.'.$extension8;
+					$new_path9=$path.'/'.'photo'.'.'.$extension9;
+					$new_path10=$path.'/'.'resume'.'.'.$extension10;
+					$new_path11=$path.'/'.'voter_id'.'.'.$extension11;
 
-						
-					$this->zip->archive($path.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'].'.zip');
+					copy($row['aadhar_path'],$new_path1);
+					copy($row['bank_document'],$new_path2);
+					copy($row['emp_form'],$new_path3);
+					copy($row['exp_letter'],$new_path4);
+					copy($row['driving_license_path'],$new_path5);
+					copy($row['pan_path'],$new_path6);
+					copy($row['payslip'],$new_path7);
+					copy($row['pf_esic_form'],$new_path8);
+					copy($row['photo'],$new_path9);
+					copy($row['resume'],$new_path10);
+					copy($row['voter_id'],$new_path11);
+					$education_certificate = $this->back_end->get_education_details($row['ffi_emp_id']);
+					foreach ($education_certificate as $key=>$r)
+					 {
+						$extension12 = pathinfo($r['path'], PATHINFO_EXTENSION);
+						$new_path12=$path.'/'.'education_certificate'.$key.'.'.$extension12;
+						copy($r['path'],$new_path12);	
+					 }
+					 $other_certificate = $this->back_end->get_other_certificate_details($row['ffi_emp_id']);
+					foreach ($other_certificate as $key=>$r1)
+					 {
+						$extension13 = pathinfo($r1['path'], PATHINFO_EXTENSION);
+						$new_path13=$path.'/'.'other_certificate'.$key.'.'.$extension13;
+						copy($r1['path'],$new_path13);	
+					 }
+
+					$this->zip->read_dir($path, false);
+					$this->zip->archive($path1.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'].'.zip');
 					$this->zip->clear_data();
-
-
 				}
-				
 				$this->zip->clear_data();
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
@@ -740,7 +771,7 @@ class Backend_team extends CI_Controller
 		}
 		else {
 			$this->session->set_flashdata('no_data', 'No datas founded');
-				redirect('backend_team/', 'refresh');
+				redirect('home/index', 'refresh');
 		}
 		} else {
 			redirect('home/index');
@@ -830,12 +861,11 @@ class Backend_team extends CI_Controller
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
 			// get file extension
-			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
 			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
-			$content_type = mime_content_type($_FILES['import']['tmp_name']);
 			$valid = false;
 			foreach ($valid_extentions as $key => $value) {
-				if ($content_type == $value) {
+				if ($extension == $value) {
 					$valid = true;
 				}
 			}
@@ -961,7 +991,6 @@ class Backend_team extends CI_Controller
 						
 						if ($import_status == "insert") {
 							$insert = $insert + 1;
-							
 						} else if ($import_status == "update") {
 							$update = $update + 1;
 						}else if ($import_status == "nochanges") {
