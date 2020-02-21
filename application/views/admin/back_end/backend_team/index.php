@@ -88,6 +88,14 @@
     display: inline-block;
     margin: 0 1.5rem 1.25rem 1.25rem;
 }
+.table-bordered {
+    border-top: 1px solid #b7b7b7 !important;
+    border-bottom: 1px solid #b7b7b7 !important;
+    margin-bottom: 10px;
+}
+#dynamic_table_info {
+    margin-left: 20px;
+}
 	</style>
 	<script>
 		function view_backend_team_details(id) {
@@ -336,7 +344,7 @@
 								
 							</div>
 
-							<table id="dynamic_table" class="table datatable-basic table-bordered table-striped table-hover cell-border compact stripe">
+							<table id="dynamic_table" class="table datatable-basic table-bordered table-striped table-hover cell-border compact stripe" >
 								<thead>
 									<tr>
 										<th>Si No</th>
