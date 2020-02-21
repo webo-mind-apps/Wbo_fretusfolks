@@ -36,6 +36,9 @@
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<!-- <script src="<?php //echo base_url(); 
 						?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+						<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+						<!-- <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" > -->
+						
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- /theme JS files -->
@@ -80,6 +83,11 @@
 		.right {
 			float: right;
 		}
+		.dataTables_length {
+    float: right;
+    display: inline-block;
+    margin: 0 1.5rem 1.25rem 1.25rem;
+}
 	</style>
 	<script>
 		function view_backend_team_details(id) {
@@ -392,11 +400,12 @@
 									width: 100,
 									targets: [5]
 								}],
-								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+								// dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
 								language: {
 									search: '<span>Filter:</span> _INPUT_',
 									searchPlaceholder: 'Type to filter...',
 									lengthMenu: '<span>Show:</span> _MENU_',
+									
 									paginate: {
 										'first': 'First',
 										'last': 'Last',
@@ -481,6 +490,18 @@
 					document.addEventListener('DOMContentLoaded', function() {
 						DatatableAdvanced.init()
 					});
+// $(function(){
+// 	$(window).bind('beforeunload',function(){
+// });
+// // $(document).on('load',function(){
+// // 	alert('hi')
+// // });
+// if(document.readyState=="loading")
+// 	$('body').css('background-color','red');
+// 	alert("test")
+// })
+
+					
 				</script>
 				<!-- ----- -->
 </body>
