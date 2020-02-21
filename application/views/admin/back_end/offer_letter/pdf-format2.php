@@ -8,7 +8,8 @@
    <style>
       p {
          text-align: justify;
-      } 
+      }
+
       .table1 td {
          font-size: 12px;
       }
