@@ -84,16 +84,16 @@
          </li><br><br>
          <li style="text-align:justify;">
             During the tenure of your services, you will wholly devote yourself to the work assigned to you and will not undertake any other employment either on full or part time basis without prior permission of the Company in writing. Any contravention of this condition will entail termination of your services from the Company.<br><br>
-         
+
             &nbsp;&nbsp;&nbsp; i. Your services are liable to be transferred or loaned or assigned with / without transfer, wholly or partially, from one department to another or to office/ branch and vice-versa or office/ branch to another office/ branch of an associate company, existing or to come into existence in future or any of the Company’s branch office or locations anywhere in India or abroad or any other concern where this Company has any interest. In such case, you will abide by responsibilities expressly vested or implied or communicated and shall follow rules and regulations of the department / office, establishment, jointly or separately, without any compensation or extra remuneration or provision of accommodation. You, thereupon, may be governed by service conditions and other terms of the said concern as may be applicable.<br><br>
-          
+
             &nbsp;&nbsp;&nbsp;ii. The aforesaid Clause (i) will not give you any right to claim employment in any associate or / sister concern or ask for a common seniority with the employee of sister / associate concern.
          </li>
-         
+
 
          <li style=" text-align:justify;">
             In the event you are absent from duty without information or permission of leave or you overstay your sanctioned leave, the Management will treat you as having voluntarily abandoned the services of the Company.
-         </li>
+         </li><br><br>
          <li style="text-align:justify;">
             You will keep the Company informed of any change in your residential address that may happen during the course of employment of your service with the company.
          </li>
@@ -168,7 +168,7 @@
             </tr>
          </tbody>
       </table><br><br><br><br><br><br>
-      <h1 style="font-size:20px;text-decoration:underline;text-align:center;font-weight:bold">Annexure - 1</h1>
+      <h1 style="font-size:20px;text-decoration:underline;text-align:center;font-weight:bold">Annexure - A.</h1>
       <table class="table table1" border="1" style="align:center;border-collapse:collapse;width:100%;">
          <tbody>
             <tr>

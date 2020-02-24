@@ -88,7 +88,7 @@ class Offer_letter_db extends CI_Model
 	{
 		$emp_id = $this->input->post('emp_id');
 		$this->db->where('ffi_emp_id', $emp_id);
-		// $this->db->where("status", "0");
+		$this->db->where("status", "0");
 		$query = $this->db->get('backend_management');
 		$q = $query->result_array();
 		return $q;

@@ -260,10 +260,7 @@ $active_menu="Backendteam";
 				<!-- Floating labels -->
 				<div class="row">
 				
-					<div class="col-md-12">
-
-						
-						
+					<div class="col-md-12"> 
 
 					 <form class="form-horizontal" action="<?php echo site_url('offer_letter/save_offer_letter');?>" method="POST" enctype="multipart/form-data">
                         

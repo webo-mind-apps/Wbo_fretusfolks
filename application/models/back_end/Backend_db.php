@@ -1119,33 +1119,6 @@ public function insertMangment($data)
 		}
 
 	}
-
-	// public function updateEducation($data)
-	// {
-	// 	$this->db->where("emp_id",$data['education_certificate']['emp_id']);
-	// 	$this->db->delete("education_certificate");
-	// 	$explode=explode("|",$data['education_certificate']['path']);
-	// 	$length=sizeof($explode);
-	// 	for($i=0;$i<$length;$i++)
-	// 	{
-	// 		$row=trim($explode[$i]);
-	// 		$updateData=array(
-	// 			"emp_id"	=>	 $data['education_certificate']['emp_id'],
-	// 			"path"		=>	 $row,
-	// 		);	
-	// 	$this->db->insert('education_certificate', $updateData);
-	// 	if ($this->db->affected_rows() > 0)
-	// 	{
-	// 		return true;
-	// 	}
-	// 	else
-	// 	{
-	// 		return false;
-	// 	}
-	// }
-
-	// }
-
 	public function updateOther($data)
 	{
 		$this->db->where("emp_id",$data['other_certificate']['emp_id']);
@@ -1172,7 +1145,24 @@ public function insertMangment($data)
 	}
 
 	}
-
+	public function get_education_details($emp_id)
+	{
+		$this->db->select("*");
+		$this->db->from("education_certificate");
+		$this->db->where('emp_id',$emp_id);
+		$query=$this->db->get();
+		$q=$query->result_array();
+		return $q;
+	}
+	public function get_other_certificate_details($emp_id)
+	{
+		$this->db->select("*");
+		$this->db->from("other_certificate");
+		$this->db->where('emp_id',$emp_id);
+		$query=$this->db->get();
+		$q=$query->result_array();
+		return $q;
+	}
 
 	
 }

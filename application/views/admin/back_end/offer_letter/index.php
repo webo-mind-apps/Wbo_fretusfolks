@@ -54,8 +54,9 @@ ob_start();
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/dashboard.js"></script>
- 
+
 	<!-- /theme JS files -->
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 	<style>
 		#divLoading {
 			display: none;
@@ -116,6 +117,22 @@ ob_start();
 			padding: .4375rem;
 			cursor: pointer;
 			border-radius: .1875rem;
+		}
+
+		.dataTables_length {
+			float: right;
+			display: inline-block;
+			margin: 0 1.5rem 1.25rem 1.25rem;
+		}
+
+		.table-bordered {
+			border-top: 1px solid #b7b7b7 !important;
+			border-bottom: 1px solid #b7b7b7 !important;
+			margin-bottom: 10px;
+		}
+
+		#dynamic_table_info {
+			margin-left: 20px;
 		}
 	</style>
 	<script>
@@ -208,7 +225,7 @@ ob_start();
 														</label><br><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off" ><br>
+															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off"><br>
 														</div><br>
 														<div style="display:flex;">
 															<span style="margin-right:21px;padding-top:9px">To: </span>
@@ -233,7 +250,7 @@ ob_start();
 												?>offer_letter/doc_formate">Sample Format</a> -->
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('offer_letter/adms_offer_letter_import'); ?>" id="import_form" style="display:none">
-									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+									<input id="import" type="file" name="import">
 								</form>
 
 							</div>
@@ -262,23 +279,45 @@ ob_start();
 				</div>
 			</div>
 			<!-- /page header -->
-			<?php
-			if ($this->session->flashdata('success', 'Import successfully')) {
-			?>
+			<!-- <?php
+					//if ($this->session->flashdata('success', 'Import successfully')) {
+					?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">Import successfully..!</span>
 				</div>
 			<?php
-			}
+			//	}
 			?>
 			<?php
 
-			if ($this->session->flashdata('nochange', 'No changes')) {
+			//if ($this->session->flashdata('nochange', 'No changes')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">No changes..!</span>
+				</div>
+			<?php
+			//}
+			?> -->
+
+			<?php
+			if ($this->session->flashdata('success')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+				</div>
+			<?php
+			}
+			?>
+
+			<?php
+			if ($this->session->flashdata('no_file')) {
+			?>
+				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<span class="text-semibold">Please Choose Valid file formate</span>
 				</div>
 			<?php
 			}
@@ -414,7 +453,7 @@ ob_start();
 									width: 100,
 									targets: [5]
 								}],
-								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+								//dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
 								language: {
 									search: '<span>Filter:</span> _INPUT_',
 									searchPlaceholder: 'Type to filter...',

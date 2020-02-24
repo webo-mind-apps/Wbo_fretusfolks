@@ -88,8 +88,8 @@
         <div class="row">
 		<div class="col-md-12" style="border:2px solid #333;">
 			<div class="col-md-12">
-				<img src="admin_assets\assets\main_logo.png" width="200" style="padding: 3px;margin-left: -3%;"/>
-				<span><h4 style="float:right;text-decoration:none;font-size:12px">Payslip <?php	echo substr(date("F", mktime(0, 0, 0, $payslip['month'], 3)),0,3).' - '.$payslip['year']; ?></h4></span>
+				<img src="admin_assets\assets\main_logo.png" width="200" style="padding: 3px;"/>
+				<span><h4 style="float:right;text-decoration:none;font-size:12px">Payslip <?php	echo substr(date("F", mktime(0, 0, 0, $data['month'], 3)),0,3).' - '.$data['year']; ?></h4></span>
 			</div>
 			<div class="col-md-6">
 				
@@ -112,35 +112,35 @@
 		</thead>
 		<tbody>
 		<tr>
-			<td style="width: 50%;">Employee Name : <?php echo $payslip['emp_name'];?></td>
-			<td>UAN No. : <?php echo $payslip['uan_no'];?></td>
+			<td style="width: 50%;">Employee Name : <?php echo $data['emp_name'];?></td>
+			<td>UAN No. : <?php echo $data['uan_no'];?></td>
 			
 		</tr>
 		<tr>
-		  <td>Emp. ID : <?php echo $payslip['emp_id'];?></td>
-		  <td>PF No : <?php echo $payslip['pf_no'];?></td>
+		  <td>Emp. ID : <?php echo $data['emp_id'];?></td>
+		  <td>PF No : <?php echo $data['pf_no'];?></td>
 	
 		</tr>
 		<tr>
-		  <td>Designation : <?php echo $payslip['designation'];?></td>
-		  <td>ESI No. : <?php echo $payslip['esi_no'];?></td>
+		  <td>Designation : <?php echo $data['designation'];?></td>
+		  <td>ESI No. : <?php echo $data['esi_no'];?></td>
 	
 		</tr>
 		<tr>
-		  <td>Date of Joining : <?php if($payslip['doj'] !="0000-00-00"){ echo date("d-m-Y",strtotime($payslip['doj']));}?></td>
-		  <td>Bank Name : <?php echo $payslip['bank_name'];?></td>
+		  <td>Date of Joining : <?php if($data['doj'] !="0000-00-00"){ echo date("d-m-Y",strtotime($data['doj']));}?></td>
+		  <td>Bank Name : <?php echo $data['bank_name'];?></td>
 		
 		</tr>
 		<tr> 
-		  <td>Department : <?php echo $payslip['department'];?></td>
-		  <td>Account No. : <?php echo $payslip['account_no'];?></td>
+		  <td>Department : <?php echo $data['department'];?></td>
+		  <td>Account No. : <?php echo $data['account_no'];?></td>
 		</tr>
 		<tr> 
-		  <td>Location : <?php echo $payslip['location'];?></td> 
-		  <td>IFSC Code : <?php echo $payslip['ifsc_code'];?></td>
+		  <td>Location : <?php echo $data['location'];?></td> 
+		  <td>IFSC Code : <?php echo $data['ifsc_code'];?></td>
 		</tr>
 		<tr> 
-		  <td>Client Name : <?php echo $payslip['client_name'];?></td> 
+		  <td>Client Name : <?php echo $data['client_name'];?></td> 
 		  <td></td>
 		</tr>
 		</tbody>
@@ -151,16 +151,16 @@
 		
 		<tbody>
 		<tr>
-			<td style="width: 38%;">Month Days : <?php echo $payslip['month_days'];?></td>
-			<td>Leave Taken : <?php echo $payslip['leave_days'];?></td>
-			 <td>Arrears Days : <?php echo $payslip['arrears_days'];?></td> 
-			 <td>Leave Balance : <?php echo $payslip['leave_balance'];?></td> 
+			<td style="width: 38%;">Month Days : <?php echo $data['month_days'];?></td>
+			<td>Leave Taken : <?php echo $data['leave_days'];?></td>
+			 <td>Arrears Days : <?php echo $data['arrears_days'];?></td> 
+			 <td>Leave Balance : <?php echo $data['leave_balance'];?></td> 
 		
 		</tr>
 		<tr>
-		  <td>Payable Days : <?php echo $payslip['payable_days'];?></td>
-		  <td>LOP Days : <?php echo $payslip['lop_days'];?></td> 
-		  <td>OT Hours : <?php echo $payslip['ot_hours'];?></td>  
+		  <td>Payable Days : <?php echo $data['payable_days'];?></td>
+		  <td>LOP Days : <?php echo $data['lop_days'];?></td> 
+		  <td>OT Hours : <?php echo $data['ot_hours'];?></td>  
 		  <td></td>  
 		</tr>
 		
@@ -181,63 +181,63 @@
 		<tbody>
 		<tr>
 			<td>Basic + DA</td>
-			<td><?php echo $payslip['fixed_basic_da'];?></td>
-			<td><?php echo $payslip['earn_basic'];?></td>  
+			<td><?php echo $data['fixed_basic_da'];?></td>
+			<td><?php echo $data['earn_basic'];?></td>  
 			<td>EPF </td>
-			<td><?php echo $payslip['epf'];?></td>
+			<td><?php echo $data['epf'];?></td>
 			
 		</tr>
 		<tr>
 		  <td>HRA</td>
-		  <td><?php echo $payslip['fixed_hra'];?></td>
-		  <td><?php echo $payslip['earn_hr'];?></td>  
+		  <td><?php echo $data['fixed_hra'];?></td>
+		  <td><?php echo $data['earn_hr'];?></td>  
 		  <td>ESIC</td>
-		  <td><?php echo $payslip['esic'];?></td>
+		  <td><?php echo $data['esic'];?></td>
 		
 		</tr>
 		<tr>
 		  <td>Conveyance Allowance</td>
-		  <td><?php echo $payslip['fixed_conveyance'];?></td>
-		  <td><?php echo $payslip['earn_conveyance'];?></td>  
+		  <td><?php echo $data['fixed_conveyance'];?></td>
+		  <td><?php echo $data['earn_conveyance'];?></td>  
 		  <td>PT</td>
-		  <td><?php echo $payslip['pt'];?></td>
+		  <td><?php echo $data['pt'];?></td>
 		</tr>
 		
 		<tr>
 		  <td>Education Allowance</td>
-		  <td><?php echo $payslip['fix_education_allowance'];?></td>
-		  <td><?php echo $payslip['earn_education_allowance'];?></td>  
+		  <td><?php echo $data['fix_education_allowance'];?></td>
+		  <td><?php echo $data['earn_education_allowance'];?></td>  
 		  <td>IT</td>
-		  <td><?php echo $payslip['it'];?></td>
+		  <td><?php echo $data['it'];?></td>
 		</tr>
 		
 		<tr>
 		  <td>Medical Reimbursement</td>
-		  <td><?php echo $payslip['fixed_medical_reimbursement'];?></td>
-		  <td><?php echo $payslip['earn_medical_allowance'];?></td>  
+		  <td><?php echo $data['fixed_medical_reimbursement'];?></td>
+		  <td><?php echo $data['earn_medical_allowance'];?></td>  
 		   <td>LWF</td>
-		  <td><?php echo $payslip['lwf'];?></td> 
+		  <td><?php echo $data['lwf'];?></td> 
 		</tr>
 		<tr>
 		  <td>Special Allowance</td>
-		  <td><?php echo $payslip['fixed_special_allowance'];?></td>
-		  <td><?php echo $payslip['earn_special_allowance'];?></td>  
+		  <td><?php echo $data['fixed_special_allowance'];?></td>
+		  <td><?php echo $data['earn_special_allowance'];?></td>  
 		  <td>Salary Advance</td>
-		  <td><?php echo $payslip['salary_advance'];?></td>
+		  <td><?php echo $data['salary_advance'];?></td>
 		</tr>
 		
 		<tr>
 		  <td>Other Allowance</td>
-		  <td><?php echo $payslip['fixed_other_allowance'];?></td>
-		  <td><?php echo $payslip['earn_other_allowance'];?></td>  
+		  <td><?php echo $data['fixed_other_allowance'];?></td>
+		  <td><?php echo $data['earn_other_allowance'];?></td>  
 		 <td>Other Deduction</td>
-		  <td><?php echo $payslip['other_deduction'];?></td>
+		  <td><?php echo $data['other_deduction'];?></td>
 		</tr>
 		
 		<tr>
 		  <td>St.Bonus</td>
-		  <td><?php echo $payslip['fixed_st_bonus'];?></td>
-		  <td><?php echo $payslip['earn_st_bonus'];?></td>  
+		  <td><?php echo $data['fixed_st_bonus'];?></td>
+		  <td><?php echo $data['earn_st_bonus'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -245,8 +245,8 @@
 		
 		<tr>
 		  <td>Leave Wages</td>
-		  <td><?php echo $payslip['fix_leave_wages'];?></td>
-		  <td><?php echo $payslip['earn_leave_wages'];?></td>  
+		  <td><?php echo $data['fix_leave_wages'];?></td>
+		  <td><?php echo $data['earn_leave_wages'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -254,8 +254,8 @@
 		
 		<tr>
 		  <td>Holiday Wages</td>
-		  <td><?php echo $payslip['fixed_holiday_wages'];?></td>
-		  <td><?php echo $payslip['earn_holiday_wages'];?></td>  
+		  <td><?php echo $data['fixed_holiday_wages'];?></td>
+		  <td><?php echo $data['earn_holiday_wages'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -264,24 +264,24 @@
 			
 		<tr>
 		  <td>Attendance Bonus</td>
-		  <td><?php echo $payslip['fixed_attendance_bonus'];?></td>
-		  <td><?php echo $payslip['earn_attendance_bonus'];?></td>  
+		  <td><?php echo $data['fixed_attendance_bonus'];?></td>
+		  <td><?php echo $data['earn_attendance_bonus'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
 		</tr>
 		<tr>
 		  <td>OT Wage </td>
-		  <td><?php echo $payslip['fixed_ot_wages'];?></td>
-		  <td><?php echo $payslip['earn_ot_wages'];?></td>  
+		  <td><?php echo $data['fixed_ot_wages'];?></td>
+		  <td><?php echo $data['earn_ot_wages'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
 		</tr>
 		<tr>
 		  <td>Incentive </td>
-		  <td><?php echo $payslip['fix_incentive_wages'];?></td>
-		  <td><?php echo $payslip['earn_incentive_wages'];?></td>  
+		  <td><?php echo $data['fix_incentive_wages'];?></td>
+		  <td><?php echo $data['earn_incentive_wages'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -289,8 +289,8 @@
 		
 		<tr>
 		  <td>Arrear Wages </td>
-		  <td><?php echo $payslip['fix_arrear_wages'];?></td>
-		  <td><?php echo $payslip['earn_arrear_wages'];?></td>  
+		  <td><?php echo $data['fix_arrear_wages'];?></td>
+		  <td><?php echo $data['earn_arrear_wages'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -298,18 +298,18 @@
 	 
 		<tr>
 		  <td>Other wages</td>
-		  <td><?php echo $payslip['fixed_other_wages'];?></td>
-		  <td><?php echo $payslip['earn_other_wages'];?></td>  
+		  <td><?php echo $data['fixed_other_wages'];?></td>
+		  <td><?php echo $data['earn_other_wages'];?></td>  
 		  <td></td>
 		  <td></td>
 		 
 		</tr>
 		<tr style="border-top: 2px solid;">
 			<th style="width: 20%;">Total Gross </th>
-			<th style="width: 134px;"><?php echo $payslip['fixed_total_earnings'];?></th>
-			<th style="width: 151px;"><?php echo $payslip['earn_total_gross'];?></th>  
+			<th style="width: 134px;"><?php echo $data['fixed_total_earnings'];?></th>
+			<th style="width: 151px;"><?php echo $data['earn_total_gross'];?></th>  
 			<th>Total Deduction </th>
-			<th style="width: 13%;"><?php echo $payslip['total_deduction'];?></th>
+			<th style="width: 13%;"><?php echo $data['total_deduction'];?></th>
 		</tr>
 		</tbody>
 	</table>
@@ -319,13 +319,13 @@
 		
 		<tr>
 			<td style="border-right:none;"><b>Net Salary:</b></td>
-			<td colspan="6"><b><?php echo $payslip['net_salary'];?></b></td>
+			<td colspan="6"><b><?php echo $data['net_salary'];?></b></td>
 		
 		
 		</tr>
 		<tr style="border-top: 2px solid;">
 			<td style="border-right:none;"><b>In Words:</b></td>
-			<td colspan="6"><b><?php echo $payslip['in_words'];?></b></td>
+			<td colspan="6"><b><?php echo $data['in_words'];?></b></td>
 		
 		
 		</tr>
