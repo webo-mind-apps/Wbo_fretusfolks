@@ -66,8 +66,8 @@
 	// For making Active
 	function status_active_checks(id){
 
-	  $("#inactive_btn").attr('disabled','disabled');
-	  $("#active_btn").removeAttr('disabled'); 
+	  //$("#inactive_btn").attr('disabled','disabled');
+	 // $("#active_btn").removeAttr('disabled'); 
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
 	  $.each(checked, function (index, value) { 
@@ -97,8 +97,8 @@
 	// For making Inactive
 	function status_inactive_checks(id){
 
-	  $("#active_btn").attr('disabled','disabled');
-	  $("#inactive_btn").removeAttr('disabled'); 
+	 // $("#active_btn").attr('disabled','disabled');
+	 // $("#inactive_btn").removeAttr('disabled'); 
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
 	  $.each(checked, function (index, value) { 
@@ -172,7 +172,7 @@
 								}],
 							});
 							
-							//For selecting all the datas
+							//For select all  
 							$(document).on('change', '#selectAll', function(){
 								if($(this).prop('checked')){
 								$('.checkbox').prop('checked', true);
