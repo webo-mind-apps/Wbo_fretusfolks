@@ -315,7 +315,7 @@
 						<thead>
 							<tr>
 							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
-								<th>Si No</th>
+								<th>SI No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
 								<th class="text-center">Status</th>
