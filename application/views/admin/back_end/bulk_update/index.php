@@ -127,7 +127,7 @@
 
 <script>
 					var DatatableAdvanced = function() {
-
+						
 						// Basic Datatable examples
 						var _componentDatatableAdvanced = function() {
 							if (!$().DataTable) {
