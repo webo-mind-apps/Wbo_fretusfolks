@@ -308,7 +308,6 @@
 
 					<div class="col-md-12">
 
-<<<<<<< HEAD
 						<!-- Style combinations -->
 						<div class="card">
 							<div class="card-header header-elements-inline">
@@ -338,34 +337,6 @@
 
 							</table>
 						</div>
-=======
-										<!-- Style combinations -->
-				<div class="card">
-					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Bulk Updates</h5>
-						<div class="header-elements">
-							<div class="list-icons">
-								<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="active_btn" >Active</button>
-		                		<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="inactive_btn">Inactive</button>
-								
-		                	</div>
-	                	</div>
-					</div>
-					
-					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
-						<thead>
-							<tr>
-							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
-								<th>SI No</th>
-								<th>Emp ID</th>
-								<th>Emp Name</th>
-								<th class="text-center">Status</th>
-							</tr>
-						</thead>
-						
-					</table>
-				</div>
->>>>>>> 7d05b04dcf9f57f3a5ec04208926151c172d2a65
 					</div>
 				</div>
 				<!-- /floating labels -->
