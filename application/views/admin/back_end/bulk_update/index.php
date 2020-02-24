@@ -63,164 +63,178 @@
 		}
 	</style>
 	<script>
-		// For making Active
-		function status_active_checks(id) {
+	// For making Active
+	function status_active_checks(id){
 
-			$("#inactive_btn").attr('disabled', 'disabled');
-			$("#active_btn").removeAttr('disabled');
-			var checked = $('input[name="checkbox[]"]:checked');
-			var id = [];
-			$.each(checked, function(index, value) {
-				id[index] = $(value).val();
+	  //$("#inactive_btn").attr('disabled','disabled');
+	 // $("#active_btn").removeAttr('disabled'); 
+	  var checked = $('input[name="checkbox[]"]:checked'); 
+	  var id = [];
+	  $.each(checked, function (index, value) { 
+	  id[index] = $(value).val();
+		
+	  });
+	  console.log(id);
+	  
+      if(confirm("Are you sure to Active ?")){
+        $.ajax({
+          type:"POST",
+          url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
+          data: {
+			  id:id,
+			  status:1
+			},
+          success: function(data)
+          {  
+            $("#dtable").DataTable().ajax.reload();
+          },
+		  error: function(xhr, ajaxOptions, thrownError) {}
+        });
+      }     
+    }
 
-			});
-			console.log(id);
 
-			if (confirm("Are you sure to Active")) {
-				$.ajax({
-					type: "POST",
-					url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
-					data: {
-						id: id,
-						status: 1
-					},
-					success: function(data) {
-						$("#dtable").DataTable().ajax.reload();
-					},
-					error: function(xhr, ajaxOptions, thrownError) {}
-				});
-			}
-		}
+	// For making Inactive
+	function status_inactive_checks(id){
 
-
-		// For making Inactive
-		function status_inactive_checks(id) {
-
-			$("#active_btn").attr('disabled', 'disabled');
-			$("#inactive_btn").removeAttr('disabled');
-			var checked = $('input[name="checkbox[]"]:checked');
-			var id = [];
-			$.each(checked, function(index, value) {
-				id[index] = $(value).val();
-
-			});
-			console.log(id);
-
-			if (confirm("Are you sure to Inactive")) {
-				$.ajax({
-					type: "POST",
-					url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
-					data: {
-						id: id,
-						status: 0
-					},
-					success: function(data) {
-						$("#dtable").DataTable().ajax.reload();
-					},
-					error: function(xhr, ajaxOptions, thrownError) {}
-				});
-			}
-		}
+	 // $("#active_btn").attr('disabled','disabled');
+	 // $("#inactive_btn").removeAttr('disabled'); 
+	  var checked = $('input[name="checkbox[]"]:checked'); 
+	  var id = [];
+	  $.each(checked, function (index, value) { 
+	  id[index] = $(value).val();
+		
+	  });
+	  console.log(id);
+	  
+      if(confirm("Are you sure to Inactive ?")){
+        $.ajax({
+          type:"POST",
+          url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
+          data: {
+			  id:id,
+			  status:0
+			},
+          success: function(data)
+          {  
+            $("#dtable").DataTable().ajax.reload();
+          },
+		  error: function(xhr, ajaxOptions, thrownError) {}
+        });
+      }     
+    }
 	</script>
 
-	<script>
-		var DatatableAdvanced = function() {
+<script>
+					var DatatableAdvanced = function() {
 
-			// Basic Datatable examples
-			var _componentDatatableAdvanced = function() {
-				if (!$().DataTable) {
-					console.warn('Warning - datatables.min.js is not loaded.');
-					return;
-				}
+						// Basic Datatable examples
+						var _componentDatatableAdvanced = function() {
+							if (!$().DataTable) {
+								console.warn('Warning - datatables.min.js is not loaded.');
+								return;
+							}
 
-				// Setting datatable defaults
-				$.extend($.fn.dataTable.defaults, {
-					autoWidth: false,
-					columnDefs: [{
-						orderable: false,
-						width: 100,
-						targets: [5]
-					}],
-					dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-					language: {
-						search: '<span>Filter:</span> _INPUT_',
-						searchPlaceholder: 'Type to filter...',
-						lengthMenu: '<span>Show:</span> _MENU_',
-						paginate: {
-							'first': 'First',
-							'last': 'Last',
-							'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
-							'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
-						}
-					}
-				});
+							// Setting datatable defaults
+							$.extend($.fn.dataTable.defaults, {
+								autoWidth: false,
+								columnDefs: [{
+									orderable: false,
+									width: 100,
+									targets: [5]
+								}],
+								dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+								language: {
+									search: '<span>Filter:</span> _INPUT_',
+									searchPlaceholder: 'Type to filter...',
+									lengthMenu: '<span>Show:</span> _MENU_',
+									paginate: {
+										'first': 'First',
+										'last': 'Last',
+										'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
+										'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
+									}
+								}
+							});
 
-				//For datatables
-				var dataTable = $('#dtable').DataTable({
-					'processing': true,
-					'serverSide': true,
-					'order': [],
-					'ajax': {
-						'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
-						'type': 'POST'
-					},
-					'columnDefs': [{
-						"targets": [0],
-						"orderable": false
-					}],
-				});
+							//For datatables
+							var dataTable = $('#dtable').DataTable({
+								'processing': true,
+								'serverSide': true,
+								'order' : [],
+								'ajax': {
+									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
+									'type': 'POST'
+								},
+								'columnDefs': [{
+									"targets": [0],
+									"orderable": false
+								}],
+							});
+							
+							//For select all  
+							$(document).on('change', '#selectAll', function(){
+								if($(this).prop('checked')){
+								$('.checkbox').prop('checked', true);
+								}else{
+								$('.checkbox').prop('checked', false);
+								}
+								});
+							
+							// Datatable 'length' options
+							$('.datatable-show-all').DataTable({
+								lengthMenu: [
+									[10, 25, 50, -1],
+									[10, 25, 50, "All"]
+								]
+							});
 
-				//For selecting all the datas
-				$(document).on('change', '#selectAll', function() {
-					if ($(this).prop('checked')) {
-						$('.checkbox').prop('checked', true);
-					} else {
-						$('.checkbox').prop('checked', false);
-					}
-				});
+							// DOM positioning
+							$('.datatable-dom-position').DataTable({
+								dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
+							});
 
-				// Datatable 'length' options
-				$('.datatable-show-all').DataTable({
-					lengthMenu: [
-						[10, 25, 50, -1],
-						[10, 25, 50, "All"]
-					]
-				});
+							// Highlighting rows and columns on mouseover
+							var lastIdx = null;
+							var table = $('.datatable-highlight').DataTable();
 
-				// DOM positioning
-				$('.datatable-dom-position').DataTable({
-					dom: '<"datatable-header length-left"lp><"datatable-scroll"t><"datatable-footer info-right"fi>',
-				});
+							$('.datatable-highlight tbody').on('mouseover', 'td', function() {
+								var colIdx = table.cell(this).index().column;
 
-				// Highlighting rows and columns on mouseover
-				var lastIdx = null;
-				var table = $('.datatable-highlight').DataTable();
+								if (colIdx !== lastIdx) {
+									$(table.cells().nodes()).removeClass('active');
+									$(table.column(colIdx).nodes()).addClass('active');
+								}
+							}).on('mouseleave', function() {
+								$(table.cells().nodes()).removeClass('active');
+							});
 
-				$('.datatable-highlight tbody').on('mouseover', 'td', function() {
-					var colIdx = table.cell(this).index().column;
+							// Columns rendering
+							$('.datatable-columns').dataTable({
+								columnDefs: [{
+										// The `data` parameter refers to the data for the cell (defined by the
+										// `data` option, which defaults to the column being worked with, in
+										// this case `data: 0`.
+										render: function(data, type, row) {
+											return data + ' (' + row[3] + ')';
+										},
+										targets: 0
+									},
+									{
+										visible: false,
+										targets: [3]
+									}
+								]
+							});
 
-					if (colIdx !== lastIdx) {
-						$(table.cells().nodes()).removeClass('active');
-						$(table.column(colIdx).nodes()).addClass('active');
-					}
-				}).on('mouseleave', function() {
-					$(table.cells().nodes()).removeClass('active');
-				});
-
-				// Columns rendering
-				$('.datatable-columns').dataTable({
-					columnDefs: [{
-							// The `data` parameter refers to the data for the cell (defined by the
-							// `data` option, which defaults to the column being worked with, in
-							// this case `data: 0`.
-							render: function(data, type, row) {
-								return data + ' (' + row[3] + ')';
-							},
-							targets: 0
-						},
-						{
-							visible: false,
-							targets: [3]
+						};
+						//
+						// Return objects assigned to module
+						//
+						return {
+							init: function() {
+								_componentDatatableAdvanced();
+							}
 						}
 					]
 				});
@@ -294,6 +308,7 @@
 
 					<div class="col-md-12">
 
+<<<<<<< HEAD
 						<!-- Style combinations -->
 						<div class="card">
 							<div class="card-header header-elements-inline">
@@ -323,6 +338,34 @@
 
 							</table>
 						</div>
+=======
+										<!-- Style combinations -->
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Bulk Updates</h5>
+						<div class="header-elements">
+							<div class="list-icons">
+								<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="active_btn" >Active</button>
+		                		<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="inactive_btn">Inactive</button>
+								
+		                	</div>
+	                	</div>
+					</div>
+					
+					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
+								<th>SI No</th>
+								<th>Emp ID</th>
+								<th>Emp Name</th>
+								<th class="text-center">Status</th>
+							</tr>
+						</thead>
+						
+					</table>
+				</div>
+>>>>>>> 7d05b04dcf9f57f3a5ec04208926151c172d2a65
 					</div>
 				</div>
 				<!-- /floating labels -->
