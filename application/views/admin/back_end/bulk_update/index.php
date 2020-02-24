@@ -9,58 +9,58 @@
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url();?>admin_assets/global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url();?>admin_assets/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url();?>admin_assets/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url();?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url();?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url();?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/main/jquery.min.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/loaders/blockui.min.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
-		<script src="<?php echo base_url();?>admin_assets/assets/js/app.js"></script>
-		<!-- <script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/jquery.min.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/loaders/blockui.min.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
+	<!-- <script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<style>
-				#divLoading
-				{
-					display : none;
-				}
-				#divLoading.show
-				{
-					display : block;
-					position : fixed;
-					z-index: 100;
-					background-image : url('<?php echo base_url();?>admin_assets/3.gif');
-					background-color:#666;
-					opacity : 0.4;
-					background-repeat : no-repeat;
-					background-position : center;
-					left : 0;
-					bottom : 0;
-					right : 0;
-					top : 0;
-				}
-				#loadinggif.show
-				{
-					left : 50%;
-					top : 50%;
-					position : absolute;
-					z-index : 101;
-					width : 32px;
-					height : 32px;
-					margin-left : -16px;
-					margin-top : -16px;
-				}
-				div.content {
-				   width : 100%;
-				   height : 100%;
-				}
+		#divLoading {
+			display: none;
+		}
+
+		#divLoading.show {
+			display: block;
+			position: fixed;
+			z-index: 100;
+			background-image: url('<?php echo base_url(); ?>admin_assets/3.gif');
+			background-color: #666;
+			opacity: 0.4;
+			background-repeat: no-repeat;
+			background-position: center;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			top: 0;
+		}
+
+		#loadinggif.show {
+			left: 50%;
+			top: 50%;
+			position: absolute;
+			z-index: 101;
+			width: 32px;
+			height: 32px;
+			margin-left: -16px;
+			margin-top: -16px;
+		}
+
+		div.content {
+			width: 100%;
+			height: 100%;
+		}
 	</style>
 	<script>
 	// For making Active
@@ -236,23 +236,33 @@
 								_componentDatatableAdvanced();
 							}
 						}
-					}();
+					]
+				});
 
-					document.addEventListener('DOMContentLoaded', function() {
-						DatatableAdvanced.init()
-					});
-					
-					
-				</script>
+			};
+			//
+			// Return objects assigned to module
+			//
+			return {
+				init: function() {
+					_componentDatatableAdvanced();
+				}
+			}
+		}();
+
+		document.addEventListener('DOMContentLoaded', function() {
+			DatatableAdvanced.init()
+		});
+	</script>
 
 </head>
 
 <body>
 
 	<!-- Main navbar -->
-<?php 
+	<?php
 	$this->load->view('admin/back_end/topbar');
-?>
+	?>
 	<!-- /main navbar -->
 
 
@@ -263,8 +273,8 @@
 		<?php $this->load->view('admin/back_end/menu'); ?>
 		<!-- /main sidebar -->
 
-	<div id="divLoading"> 
-    </div>
+		<div id="divLoading">
+		</div>
 		<!-- Main content -->
 		<div class="content-wrapper">
 
@@ -280,7 +290,7 @@
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
-							<a href="<?php echo site_url('home/dashboard');?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+							<a href="<?php echo site_url('home/dashboard'); ?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
 							<span class="breadcrumb-item active">Bulk Update</span>
 						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -295,9 +305,40 @@
 
 				<!-- Floating labels -->
 				<div class="row">
-				
+
 					<div class="col-md-12">
 
+<<<<<<< HEAD
+						<!-- Style combinations -->
+						<div class="card">
+							<div class="card-header header-elements-inline">
+								<h5 class="card-title">Bulk Updates</h5>
+								<div class="header-elements">
+									<div class="list-icons">
+										<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="active_btn">Active</button>
+										<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="inactive_btn">Inactive</button>
+
+									</div>
+								</div>
+							</div>
+
+							<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
+								<thead>
+									<tr>
+										<th style="width: 30px;">
+											<center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" />
+										</th>
+										</center>
+										<th>Si No</th>
+										<th>Emp ID</th>
+										<th>Emp Name</th>
+										<th class="text-center">Status</th>
+									</tr>
+								</thead>
+
+							</table>
+						</div>
+=======
 										<!-- Style combinations -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
@@ -324,31 +365,23 @@
 						
 					</table>
 				</div>
+>>>>>>> 7d05b04dcf9f57f3a5ec04208926151c172d2a65
 					</div>
 				</div>
 				<!-- /floating labels -->
 
-		
-			<!-- content area -->
+
+				<!-- content area -->
 
 
 				<div id="modal_theme_primary" class="modal fade" tabindex="-1">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content" id="client_details">
-							
+
 						</div>
 					</div>
 				</div>
- <!-- <script>
-$(document).ready(function() {
 
-$('#selectAll').click(function() {
-	$('button[type="button"]').attr('disabled','disabled');
-
- });
-	$("#status").show();
-});
-});
-</script> -->
 </body>
+
 </html>
