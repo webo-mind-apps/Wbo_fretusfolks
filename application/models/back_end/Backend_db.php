@@ -43,7 +43,7 @@ class Backend_db extends CI_Model
 			}
 		
 		if (!empty($status)) {
-			$this->db->where("a.active_status",$status);
+			$this->db->where("a.status",$status);
 			}
 		if (!empty($from)) {
 		$this->db->where("a.joining_date >=",$date);

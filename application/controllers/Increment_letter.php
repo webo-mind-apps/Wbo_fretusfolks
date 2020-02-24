@@ -105,7 +105,8 @@ class Increment_letter extends CI_Controller
 		$data = $this->increment->get_employee_detail();
 		$joining_date = "";
 		$contract_date = "";
-		if ($data) {
+		
+		if (!empty($data)||$data!='') {
 			if ($data[0]['joining_date'] != "0000-00-00") {
 				$joining_date = date("d-m-Y", strtotime($data[0]['joining_date']));
 			}
