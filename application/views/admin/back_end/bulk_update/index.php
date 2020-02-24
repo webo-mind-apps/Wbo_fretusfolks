@@ -76,7 +76,7 @@
 	  });
 	  console.log(id);
 	  
-      if(confirm("Are you sure to Active")){
+      if(confirm("Are you sure to Active ?")){
         $.ajax({
           type:"POST",
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
@@ -107,7 +107,7 @@
 	  });
 	  console.log(id);
 	  
-      if(confirm("Are you sure to Inactive")){
+      if(confirm("Are you sure to Inactive ?")){
         $.ajax({
           type:"POST",
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
