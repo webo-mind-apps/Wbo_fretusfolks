@@ -9,70 +9,67 @@
 
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>admin_assets/global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>admin_assets/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>admin_assets/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo base_url(); ?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>admin_assets/global_assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>admin_assets/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>admin_assets/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>admin_assets/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>admin_assets/assets/css/components.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url();?>admin_assets/assets/css/colors.min.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/jquery.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/loaders/blockui.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
-	<!-- <script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/main/jquery.min.js"></script>
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/loaders/blockui.min.js"></script>
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script>
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+		<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+		<script src="<?php echo base_url();?>admin_assets/assets/js/app.js"></script>
+		<!-- <script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
 	<style>
-		#divLoading {
-			display: none;
-		}
-
-		#divLoading.show {
-			display: block;
-			position: fixed;
-			z-index: 100;
-			background-image: url('<?php echo base_url(); ?>admin_assets/3.gif');
-			background-color: #666;
-			opacity: 0.4;
-			background-repeat: no-repeat;
-			background-position: center;
-			left: 0;
-			bottom: 0;
-			right: 0;
-			top: 0;
-		}
-
-		#loadinggif.show {
-			left: 50%;
-			top: 50%;
-			position: absolute;
-			z-index: 101;
-			width: 32px;
-			height: 32px;
-			margin-left: -16px;
-			margin-top: -16px;
-		}
-
-		div.content {
-			width: 100%;
-			height: 100%;
-		}
+				#divLoading
+				{
+					display : none;
+				}
+				#divLoading.show
+				{
+					display : block;
+					position : fixed;
+					z-index: 100;
+					background-image : url('<?php echo base_url();?>admin_assets/3.gif');
+					background-color:#666;
+					opacity : 0.4;
+					background-repeat : no-repeat;
+					background-position : center;
+					left : 0;
+					bottom : 0;
+					right : 0;
+					top : 0;
+				}
+				#loadinggif.show
+				{
+					left : 50%;
+					top : 50%;
+					position : absolute;
+					z-index : 101;
+					width : 32px;
+					height : 32px;
+					margin-left : -16px;
+					margin-top : -16px;
+				}
+				div.content {
+				   width : 100%;
+				   height : 100%;
+				}
 	</style>
 	<script>
 	// For making Active
 	function status_active_checks(id){
 
-	  //$("#inactive_btn").attr('disabled','disabled');
-	 // $("#active_btn").removeAttr('disabled'); 
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
 	  $.each(checked, function (index, value) { 
-	  id[index] = $(value).val();
-		
+	  id[index] = $(value).val();	
 	  });
 	  console.log(id);
 	  
@@ -84,10 +81,9 @@
 			  id:id,
 			  status:1
 			},
-          success: function(data)
-          {  
-            $("#dtable").DataTable().ajax.reload();
-          },
+          success: function(data)  {
+			$("#dtable").DataTable().ajax.reload();
+		   },
 		  error: function(xhr, ajaxOptions, thrownError) {}
         });
       }     
@@ -97,8 +93,6 @@
 	// For making Inactive
 	function status_inactive_checks(id){
 
-	 // $("#active_btn").attr('disabled','disabled');
-	 // $("#inactive_btn").removeAttr('disabled'); 
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
 	  $.each(checked, function (index, value) { 
@@ -115,10 +109,9 @@
 			  id:id,
 			  status:0
 			},
-          success: function(data)
-          {  
-            $("#dtable").DataTable().ajax.reload();
-          },
+          success: function(data){
+			$("#dtable").DataTable().ajax.reload();
+		  },
 		  error: function(xhr, ajaxOptions, thrownError) {}
         });
       }     
@@ -127,7 +120,7 @@
 
 <script>
 					var DatatableAdvanced = function() {
-						
+
 						// Basic Datatable examples
 						var _componentDatatableAdvanced = function() {
 							if (!$().DataTable) {
@@ -164,15 +157,35 @@
 								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
+<<<<<<< HEAD
 									'type': 'POST'
 								},
+=======
+									'type': 'POST',
+									beforeSend: function(){
+								/* $(document).on('change', '#selectAll', function(){
+									if($(this).prop('checked')){
+									$('.checkbox').prop('checked', true);
+									}else{
+									$('.checkbox').prop('checked', false);
+									}	
+								}); */
+								$('#selectAll').prop('checked', false);
+									},
+									},
+									
+>>>>>>> 44ea2cdabbb41718407e40079a7d3e615470db6c
 								'columnDefs': [{
 									"targets": [0],
 									"orderable": false
 								}],
 							});
+<<<<<<< HEAD
 							
 							//For select all  
+=======
+							 //For Select 
+>>>>>>> 44ea2cdabbb41718407e40079a7d3e615470db6c
 							$(document).on('change', '#selectAll', function(){
 								if($(this).prop('checked')){
 								$('.checkbox').prop('checked', true);
@@ -236,33 +249,23 @@
 								_componentDatatableAdvanced();
 							}
 						}
-					]
-				});
+					}();
 
-			};
-			//
-			// Return objects assigned to module
-			//
-			return {
-				init: function() {
-					_componentDatatableAdvanced();
-				}
-			}
-		}();
-
-		document.addEventListener('DOMContentLoaded', function() {
-			DatatableAdvanced.init()
-		});
-	</script>
+					document.addEventListener('DOMContentLoaded', function() {
+						DatatableAdvanced.init()
+					});
+					
+					
+				</script>
 
 </head>
 
 <body>
 
 	<!-- Main navbar -->
-	<?php
+<?php 
 	$this->load->view('admin/back_end/topbar');
-	?>
+?>
 	<!-- /main navbar -->
 
 
@@ -273,8 +276,8 @@
 		<?php $this->load->view('admin/back_end/menu'); ?>
 		<!-- /main sidebar -->
 
-		<div id="divLoading">
-		</div>
+	<div id="divLoading"> 
+    </div>
 		<!-- Main content -->
 		<div class="content-wrapper">
 
@@ -290,7 +293,7 @@
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
-							<a href="<?php echo site_url('home/dashboard'); ?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+							<a href="<?php echo site_url('home/dashboard');?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
 							<span class="breadcrumb-item active">Bulk Update</span>
 						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -305,54 +308,60 @@
 
 				<!-- Floating labels -->
 				<div class="row">
-
+				
 					<div class="col-md-12">
 
-						<!-- Style combinations -->
-						<div class="card">
-							<div class="card-header header-elements-inline">
-								<h5 class="card-title">Bulk Updates</h5>
-								<div class="header-elements">
-									<div class="list-icons">
-										<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="active_btn">Active</button>
-										<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="inactive_btn">Inactive</button>
-
-									</div>
-								</div>
-							</div>
-
-							<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
-								<thead>
-									<tr>
-										<th style="width: 30px;">
-											<center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" />
-										</th>
-										</center>
-										<th>Si No</th>
-										<th>Emp ID</th>
-										<th>Emp Name</th>
-										<th class="text-center">Status</th>
-									</tr>
-								</thead>
-
-							</table>
-						</div>
+										<!-- Style combinations -->
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Bulk Updates</h5>
+						<div class="header-elements">
+							<div class="list-icons">
+								<button type="button" class="btn-success btn btn-sm" onclick="status_active_checks(this.id)" id="active_btn" >Active</button>
+		                		<button type="button" class="btn-danger btn btn-sm" onclick="status_inactive_checks(this.id)" id="inactive_btn">Inactive</button>
+								
+		                	</div>
+	                	</div>
+					</div>
+					
+					<table id="dtable" class="table datatable-basic table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
+								<th>SI No</th>
+								<th>Emp ID</th>
+								<th>Emp Name</th>
+								<th class="text-center">Status</th>
+							</tr>
+						</thead>
+						
+					</table>
+				</div>
 					</div>
 				</div>
 				<!-- /floating labels -->
 
-
-				<!-- content area -->
+		
+			<!-- content area -->
 
 
 				<div id="modal_theme_primary" class="modal fade" tabindex="-1">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content" id="client_details">
-
+							
 						</div>
 					</div>
 				</div>
+ <!-- <script>
+$(document).ready(function() {
 
+$('#selectAll').click(function() {
+	$('button[type="button"]').attr('disabled','disabled');
+
+ });
+	$("#status").show();
+});
+});
+</script> -->
 </body>
-
 </html>

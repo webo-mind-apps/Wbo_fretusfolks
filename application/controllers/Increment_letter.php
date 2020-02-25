@@ -31,9 +31,10 @@ class Increment_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->increment->make_datatables();
 			$data = array();
+			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i++;
 				$sub_array[] = $row->employee_id;
 				$sub_array[] = $row->client_name;
 				$sub_array[] = $row->emp_name;
@@ -105,8 +106,8 @@ class Increment_letter extends CI_Controller
 		$data = $this->increment->get_employee_detail();
 		$joining_date = "";
 		$contract_date = "";
-		
-		if (!empty($data)||$data!='') {
+
+		if (!empty($data) || $data != '') {
 			if ($data[0]['joining_date'] != "0000-00-00") {
 				$joining_date = date("d-m-Y", strtotime($data[0]['joining_date']));
 			}
@@ -341,15 +342,15 @@ class Increment_letter extends CI_Controller
 				endif;
 
 				// file path
-				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);//1.location
+				$spreadsheet = $reader->load($_FILES['import']['tmp_name']); //1.location
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 				//2.fetch stru and datas row wise
-				echo "<pre>"; 
-				print_r($allDataInSheet[2]); 
+				echo "<pre>";
+				print_r($allDataInSheet[2]);
 				exit;
-				$insert = 0; 
-				$not_exist = 0; 
-			 
+				$insert = 0;
+				$not_exist = 0;
+
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
 					$date = date("Y-m-d");

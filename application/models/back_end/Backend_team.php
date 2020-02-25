@@ -20,21 +20,22 @@ class Backend_team extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "backend";
-			$data['client_management']=$this->back_end->get_all_clients();
+			$data['client_management'] = $this->back_end->get_all_clients();
 			//  $data['backend_team']=$this->back_end->get_all_backend_team();
 			$this->load->view('admin/back_end/backend_team/index', $data);
 			//get_all_data();
 		}
-	} 
-	public function get_all_data($var = null)//created for implementing data tables
+	}
+	public function get_all_data($var = null) //created for implementing data tables
 	{
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->back_end->make_datatables();
-			
+
 			$data = array();
 			$status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
-			foreach ($fetch_data as $row) { 
+			$i = 1;
+			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $row->id;
 				$sub_array[] = $row->client_name;
@@ -64,7 +65,7 @@ class Backend_team extends CI_Controller
 				 </div>
 					 ';
 				$data[] = $sub_array;
-				$i=++$i;
+				$i = ++$i;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
@@ -395,9 +396,9 @@ class Backend_team extends CI_Controller
 	}
 	function download_backend_details()
 	{
-		
+
 		if ($this->session->userdata('admin_login')) {
-			
+
 			$date = date('y-m-d-his');
 			$spreadsheet = new Spreadsheet();
 			$spreadsheet->createSheet();
@@ -476,7 +477,7 @@ class Backend_team extends CI_Controller
 			// $sheet->getColumnDimension('BQ')->setAutoSize(true);
 			// $sheet->getColumnDimension('BR')->setAutoSize(true);
 			// $sheet->getColumnDimension('BS')->setAutoSize(true);
-			
+
 
 			$sheet->getStyle("A1:BP1")->applyFromArray(array("font" => array("bold" => true)));
 			$sheet->setCellValue('A1', 'Entity Name: *');
@@ -563,196 +564,186 @@ class Backend_team extends CI_Controller
 			$n = 2;
 			$i = 1;
 			$data = $this->back_end->get_all_backend_team_for_download();
-			if(!empty($data))
-			{
+			if (!empty($data)) {
 				$client = $this->input->post('backend_download_client');
-			
-			foreach ($data as $key=>$row)
-			 {
-				if (!empty($client)) {
-			
-				$path = 'dcs/dcs_'.$data[0]['client_name'].'_'. $date;
-				}else{
-					
-					$path = 'dcs/dcs_'. $date;
-				}
-				if (!is_dir($path)) mkdir($path, 0777, TRUE);
-				$interview_date = "";
-				$joining_date = "";
-				$contract_date = "";
-				$dob = "";
-				$gender = "";
-				$status = "";
-				// $row=$row[$key];
-				if ($row['joining_date'] != "0000-00-00") {
-					$joining_date = date("d-m-Y", strtotime($row['joining_date']));
-				}
-				if ($row['contract_date'] != "0000-00-00") {
-					$contract_date = date("d-m-Y", strtotime($row['contract_date']));
-				}
-				if ($row['interview_date'] != "0000-00-00") {
-					$interview_date = date("d-m-Y", strtotime($row['interview_date']));
-				}
-				if ($row['dob'] != "0000-00-00") {
-					$dob = date("d-m-Y", strtotime($row['dob']));
-				}
-				if ($row['gender'] == 1) {
-					$gender = "Male";
-				} else if ($row['gender'] == 2) {
-					$gender = "Female";
-				}
-				if ($row['active_status'] == 0) {
-					$status = "Active";
-				} else if ($row['active_status'] == 1) {
-					$status = "Deactive";
-				}
-				$sheet->setCellValue('A' . $n,$row['entity_name']);
-				$sheet->setCellValue('B' . $n, $row['client_name']);
-				$sheet->setCellValue('C' . $n, $row['ffi_emp_id']);
-				$sheet->setCellValue('D' . $n, $row['console_id']);
-				$sheet->setCellValue('E' . $n, $row['client_emp_id']);
-				$sheet->setCellValue('F' . $n, $row['grade']);
-				$sheet->setCellValue('G' . $n, $row['emp_name']);
-				$sheet->setCellValue('H' . $n, $row['middle_name']);
-				$sheet->setCellValue('I' . $n, $row['last_name']);
-				$sheet->setCellValue('J' . $n, $joining_date);
-				$sheet->setCellValue('K' . $n, $interview_date);
-				$sheet->setCellValue('L' . $n, $contract_date);
-				$sheet->setCellValue('M' . $n, $row['designation']);
-				$sheet->setCellValue('N' . $n, $row['department']);
-				$sheet->setCellValue('O' . $n, $row['state_name']);
-				$sheet->setCellValue('P' . $n, $row['location']);
-				$sheet->setCellValue('Q' . $n, $row['branch']);
-				$sheet->setCellValue('R' . $n, $dob);
-				$sheet->setCellValue('S' . $n, $gender);
-				$sheet->setCellValue('T' . $n, $row['father_name']);
-				$sheet->setCellValue('U' . $n, $row['mother_name']);
-				$sheet->setCellValue('V' . $n, $row['religion']);
-				$sheet->setCellValue('W' . $n, $row['languages']);
-				$sheet->setCellValue('X' . $n, $row['mother_tongue']);
-				$sheet->setCellValue('Y' . $n, $row['maritial_status']);
 
-				$sheet->setCellValue('Z' . $n, $row['emer_contact_no']);
-				$sheet->setCellValue('AA' . $n, $row['spouse_name']);
-				$sheet->setCellValue('AB' . $n, $row['no_of_childrens']);
-				$sheet->setCellValue('AC' . $n, $row['blood_group']);
-				$sheet->setCellValue('AD' . $n, $row['qualification']);
-				$sheet->setCellValue('AE' . $n, $row['phone1']);
-				$sheet->setCellValue('AF' . $n, $row['phone2']);
-				$sheet->setCellValue('AG' . $n, $row['email']);
-				$sheet->setCellValue('AH' . $n, $row['official_mail_id']);
-				$sheet->setCellValue('AI' . $n, $row['permanent_address']);
-				$sheet->setCellValue('AJ' . $n, $row['present_address']);
-				$sheet->setCellValue('AK' . $n, $row['pan_no']);
-				$sheet->setCellValue('AL' . $n, $row['aadhar_no']);
-				$sheet->setCellValue('AM' . $n, $row['driving_license_no']);
-				$sheet->setCellValue('AN' . $n, $row['bank_name']);
-				$sheet->setCellValue('AO' . $n, $row['bank_account_no']);
-				$sheet->setCellValue('AP' . $n, $row['bank_ifsc_code']);
-				$sheet->setCellValue('AQ' . $n, $row['uan_no']);
-				$sheet->setCellValue('AR' . $n, $row['esic_no']);
-				$sheet->setCellValue('AS' . $n, $row['status']);
-				$sheet->setCellValue('AT' . $n, $row['basic_salary']);
-				$sheet->setCellValue('AU' . $n, $row['hra']);
-				$sheet->setCellValue('AV' . $n, $row['conveyance']);
-				$sheet->setCellValue('AW' . $n, $row['medical_reimbursement']);
-				$sheet->setCellValue('AX' . $n, $row['special_allowance']);
-				$sheet->setCellValue('AY' . $n, $row['st_bonus']);
-				$sheet->setCellValue('AZ' . $n, $row['other_allowance']);
-				$sheet->setCellValue('BA' . $n, $row['gross_salary']);
-				$sheet->setCellValue('BB' . $n, $row['emp_pf']);
-				$sheet->setCellValue('BC' . $n, $row['emp_esic']);
-				$sheet->setCellValue('BD' . $n, $row['pt']);
-				$sheet->setCellValue('BE' . $n, $row['total_deduction']);
-				$sheet->setCellValue('BF' . $n, $row['take_home']);
-				$sheet->setCellValue('BG' . $n, $row['employer_pf']);
-				$sheet->setCellValue('BH' . $n, $row['employer_esic']);
-				$sheet->setCellValue('BI' . $n, $row['mediclaim']);
-				$sheet->setCellValue('BJ' . $n, $row['ctc']);
-				$sheet->setCellValue('BK' . $n, $row['voter_id']);
-				$sheet->setCellValue('BL' . $n, $row['pf_esic_form']);
-				$sheet->setCellValue('BM' . $n, $row['payslip']);
-				$sheet->setCellValue('BN' . $n, $row['exp_letter']);
-				$sheet->setCellValue('BO' . $n, $row['password']);
-				$sheet->setCellValue('BP' . $n, $status);
-				// $sheet->setCellValue('BQ' . $n, $row['location']);
-				// $sheet->setCellValue('BR' . $n, $row['branch']);
-				// $sheet->setCellValue('BS' . $n, $dob);
+				foreach ($data as $key => $row) {
+					if (!empty($client)) {
 
-				$i++;
-				$n++;
+						$path = 'dcs/dcs_' . $data[0]['client_name'] . '_' . $date;
+					} else {
 
-			 }
-			/**************************************************************************************************************************/
-			$objWriter =  new Xlsx($spreadsheet);
-			$filename ='BackEnd_Details'.$date.'.xlsx';
-			
-				$objWriter->save($path."/".$filename);
-				
+						$path = 'dcs/dcs_' . $date;
+					}
+					if (!is_dir($path)) mkdir($path, 0777, TRUE);
+					$interview_date = "";
+					$joining_date = "";
+					$contract_date = "";
+					$dob = "";
+					$gender = "";
+					$status = "";
+					// $row=$row[$key];
+					if ($row['joining_date'] != "0000-00-00") {
+						$joining_date = date("d-m-Y", strtotime($row['joining_date']));
+					}
+					if ($row['contract_date'] != "0000-00-00") {
+						$contract_date = date("d-m-Y", strtotime($row['contract_date']));
+					}
+					if ($row['interview_date'] != "0000-00-00") {
+						$interview_date = date("d-m-Y", strtotime($row['interview_date']));
+					}
+					if ($row['dob'] != "0000-00-00") {
+						$dob = date("d-m-Y", strtotime($row['dob']));
+					}
+					if ($row['gender'] == 1) {
+						$gender = "Male";
+					} else if ($row['gender'] == 2) {
+						$gender = "Female";
+					}
+					if ($row['active_status'] == 0) {
+						$status = "Active";
+					} else if ($row['active_status'] == 1) {
+						$status = "Deactive";
+					}
+					$sheet->setCellValue('A' . $n, $row['entity_name']);
+					$sheet->setCellValue('B' . $n, $row['client_name']);
+					$sheet->setCellValue('C' . $n, $row['ffi_emp_id']);
+					$sheet->setCellValue('D' . $n, $row['console_id']);
+					$sheet->setCellValue('E' . $n, $row['client_emp_id']);
+					$sheet->setCellValue('F' . $n, $row['grade']);
+					$sheet->setCellValue('G' . $n, $row['emp_name']);
+					$sheet->setCellValue('H' . $n, $row['middle_name']);
+					$sheet->setCellValue('I' . $n, $row['last_name']);
+					$sheet->setCellValue('J' . $n, $joining_date);
+					$sheet->setCellValue('K' . $n, $interview_date);
+					$sheet->setCellValue('L' . $n, $contract_date);
+					$sheet->setCellValue('M' . $n, $row['designation']);
+					$sheet->setCellValue('N' . $n, $row['department']);
+					$sheet->setCellValue('O' . $n, $row['state_name']);
+					$sheet->setCellValue('P' . $n, $row['location']);
+					$sheet->setCellValue('Q' . $n, $row['branch']);
+					$sheet->setCellValue('R' . $n, $dob);
+					$sheet->setCellValue('S' . $n, $gender);
+					$sheet->setCellValue('T' . $n, $row['father_name']);
+					$sheet->setCellValue('U' . $n, $row['mother_name']);
+					$sheet->setCellValue('V' . $n, $row['religion']);
+					$sheet->setCellValue('W' . $n, $row['languages']);
+					$sheet->setCellValue('X' . $n, $row['mother_tongue']);
+					$sheet->setCellValue('Y' . $n, $row['maritial_status']);
+
+					$sheet->setCellValue('Z' . $n, $row['emer_contact_no']);
+					$sheet->setCellValue('AA' . $n, $row['spouse_name']);
+					$sheet->setCellValue('AB' . $n, $row['no_of_childrens']);
+					$sheet->setCellValue('AC' . $n, $row['blood_group']);
+					$sheet->setCellValue('AD' . $n, $row['qualification']);
+					$sheet->setCellValue('AE' . $n, $row['phone1']);
+					$sheet->setCellValue('AF' . $n, $row['phone2']);
+					$sheet->setCellValue('AG' . $n, $row['email']);
+					$sheet->setCellValue('AH' . $n, $row['official_mail_id']);
+					$sheet->setCellValue('AI' . $n, $row['permanent_address']);
+					$sheet->setCellValue('AJ' . $n, $row['present_address']);
+					$sheet->setCellValue('AK' . $n, $row['pan_no']);
+					$sheet->setCellValue('AL' . $n, $row['aadhar_no']);
+					$sheet->setCellValue('AM' . $n, $row['driving_license_no']);
+					$sheet->setCellValue('AN' . $n, $row['bank_name']);
+					$sheet->setCellValue('AO' . $n, $row['bank_account_no']);
+					$sheet->setCellValue('AP' . $n, $row['bank_ifsc_code']);
+					$sheet->setCellValue('AQ' . $n, $row['uan_no']);
+					$sheet->setCellValue('AR' . $n, $row['esic_no']);
+					$sheet->setCellValue('AS' . $n, $row['status']);
+					$sheet->setCellValue('AT' . $n, $row['basic_salary']);
+					$sheet->setCellValue('AU' . $n, $row['hra']);
+					$sheet->setCellValue('AV' . $n, $row['conveyance']);
+					$sheet->setCellValue('AW' . $n, $row['medical_reimbursement']);
+					$sheet->setCellValue('AX' . $n, $row['special_allowance']);
+					$sheet->setCellValue('AY' . $n, $row['st_bonus']);
+					$sheet->setCellValue('AZ' . $n, $row['other_allowance']);
+					$sheet->setCellValue('BA' . $n, $row['gross_salary']);
+					$sheet->setCellValue('BB' . $n, $row['emp_pf']);
+					$sheet->setCellValue('BC' . $n, $row['emp_esic']);
+					$sheet->setCellValue('BD' . $n, $row['pt']);
+					$sheet->setCellValue('BE' . $n, $row['total_deduction']);
+					$sheet->setCellValue('BF' . $n, $row['take_home']);
+					$sheet->setCellValue('BG' . $n, $row['employer_pf']);
+					$sheet->setCellValue('BH' . $n, $row['employer_esic']);
+					$sheet->setCellValue('BI' . $n, $row['mediclaim']);
+					$sheet->setCellValue('BJ' . $n, $row['ctc']);
+					$sheet->setCellValue('BK' . $n, $row['voter_id']);
+					$sheet->setCellValue('BL' . $n, $row['pf_esic_form']);
+					$sheet->setCellValue('BM' . $n, $row['payslip']);
+					$sheet->setCellValue('BN' . $n, $row['exp_letter']);
+					$sheet->setCellValue('BO' . $n, $row['password']);
+					$sheet->setCellValue('BP' . $n, $status);
+					// $sheet->setCellValue('BQ' . $n, $row['location']);
+					// $sheet->setCellValue('BR' . $n, $row['branch']);
+					// $sheet->setCellValue('BS' . $n, $dob);
+
+					$i++;
+					$n++;
+				}
+				/**************************************************************************************************************************/
+				$objWriter =  new Xlsx($spreadsheet);
+				$filename = 'BackEnd_Details' . $date . '.xlsx';
+
+				$objWriter->save($path . "/" . $filename);
+
 				$this->load->library('zip');
-				
-				foreach ($data as $key=>$row)
-				{
-						$zip_data=array(
-							 $row['bank_document'],
-							 $row['emp_form'],
-							 $row['exp_letter'],
-							 $row['driving_license_path'],
-							 $row['pan_path'],
-							 $row['payslip'],
-							 $row['pf_esic_form'],
-							 $row['photo'],
-							 $row['resume'],
-							 $row['voter_id'],
 
-						);
-						
-						foreach ($zip_data as $key=>$row1)
-						{	
-							$this->zip->read_file($row1);
-						}
+				foreach ($data as $key => $row) {
+					$zip_data = array(
+						$row['bank_document'],
+						$row['emp_form'],
+						$row['exp_letter'],
+						$row['driving_license_path'],
+						$row['pan_path'],
+						$row['payslip'],
+						$row['pf_esic_form'],
+						$row['photo'],
+						$row['resume'],
+						$row['voter_id'],
 
-						$education_certificate = $this->back_end->get_education_details($row['ffi_emp_id']);
-						foreach ($education_certificate as $key=>$r)
-						{
-							
-							$this->zip->read_file($r['path']);
-						}
-						$other_certificate = $this->back_end->get_other_certificate_details($row['ffi_emp_id']);
-						foreach ($other_certificate as $key=>$r1)
-						{
-							
-							$this->zip->read_file($r1['path']);
-						}
+					);
 
-						
-					$this->zip->archive($path.'/'.$row['ffi_emp_id'].'_'.$row['emp_name'].'.zip');
+					foreach ($zip_data as $key => $row1) {
+						$this->zip->read_file($row1);
+					}
+
+					$education_certificate = $this->back_end->get_education_details($row['ffi_emp_id']);
+					foreach ($education_certificate as $key => $r) {
+
+						$this->zip->read_file($r['path']);
+					}
+					$other_certificate = $this->back_end->get_other_certificate_details($row['ffi_emp_id']);
+					foreach ($other_certificate as $key => $r1) {
+
+						$this->zip->read_file($r1['path']);
+					}
+
+
+					$this->zip->archive($path . '/' . $row['ffi_emp_id'] . '_' . $row['emp_name'] . '.zip');
 					$this->zip->clear_data();
-
-
 				}
-				
+
 				$this->zip->clear_data();
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
 				redirect('backend_team/');
-		}
-		else {
-			$this->session->set_flashdata('no_data', 'No datas founded');
+			} else {
+				$this->session->set_flashdata('no_data', 'No datas founded');
 				redirect('home/index', 'refresh');
-		}
+			}
 		} else {
 			redirect('home/index');
 		}
 	}
 	function delete_backend_team()
 	{
-		if($this->back_end->delete_backend_team()){
-			echo "deleted"; 
+		if ($this->back_end->delete_backend_team()) {
+			echo "deleted";
 		}
 
 		// $backend_team = $this->back_end->get_all_backend_team();
-        // redirect('backend_team/');
+		// redirect('backend_team/');
 		// $i = 1;
 		// foreach ($backend_team as $row) {
 		// 	$status = "";
@@ -935,7 +926,7 @@ class Backend_team extends CI_Controller
 						"emp_form"				=> (empty($allDataInSheet[$i]['BR']) ? 'null' : $allDataInSheet[$i]['BR']),
 
 						"pf_esic_form"			=> (empty($allDataInSheet[$i]['BT']) ? 'null' : $allDataInSheet[$i]['BT']),
-						
+
 						"payslip"				=> (empty($allDataInSheet[$i]['BV']) ? 'null' : $allDataInSheet[$i]['BV']),
 						"exp_letter"			=> (empty($allDataInSheet[$i]['BW']) ? 'null' : $allDataInSheet[$i]['BW']),
 						"password"				=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
@@ -943,35 +934,32 @@ class Backend_team extends CI_Controller
 						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? 'null' : $allDataInSheet[$i]['CE']),
 						// 'modified_date'			=>	date('Y-m-d H:i:s')
 					);
-					$data['education_certificate']=array(
-						"emp_id"	=>	 (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
-						"path"		=>	 (empty($allDataInSheet[$i]['BS']) ? 'null' : $allDataInSheet[$i]['BS'])
-					);	
-					$data['other_certificate']=array(
-						"emp_id"	=>	(empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
-						"path"		=>	(empty($allDataInSheet[$i]['BU']) ? 'null' : $allDataInSheet[$i]['BU']),
-					);	
-					
-					if ($data['backend']['ffi_emp_id'] != '' || !empty($data['backend']['ffi_emp_id'])) 
-					{
-					if($import_status=$this->back_end->importEmployee($data))
-					{
-						
-						if ($import_status == "insert") {
-							$insert = $insert + 1;
-						} else if ($import_status == "update") {
-							$update = $update + 1;
-						}else if ($import_status == "nochanges") {
-							$nochanges = $nochanges + 1;
-						}
+					$data['education_certificate'] = array(
+						"emp_id"	=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+						"path"		=> (empty($allDataInSheet[$i]['BS']) ? 'null' : $allDataInSheet[$i]['BS'])
+					);
+					$data['other_certificate'] = array(
+						"emp_id"	=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
+						"path"		=> (empty($allDataInSheet[$i]['BU']) ? 'null' : $allDataInSheet[$i]['BU']),
+					);
 
+					if ($data['backend']['ffi_emp_id'] != '' || !empty($data['backend']['ffi_emp_id'])) {
+						if ($import_status = $this->back_end->importEmployee($data)) {
+
+							if ($import_status == "insert") {
+								$insert = $insert + 1;
+							} else if ($import_status == "update") {
+								$update = $update + 1;
+							} else if ($import_status == "nochanges") {
+								$nochanges = $nochanges + 1;
+							}
+						}
 					}
 				}
-				}
-				if($insert>0 || $update>0){
-				$msg = "Imported successfully";
-				
-				$this->session->set_flashdata('success', $msg);
+				if ($insert > 0 || $update > 0) {
+					$msg = "Imported successfully";
+
+					$this->session->set_flashdata('success', $msg);
 				}
 				redirect('backend_team', 'refresh');
 			} else {
@@ -1002,174 +990,169 @@ class Backend_team extends CI_Controller
 	// Document Sample formate generate
 	public function doc_formate()
 	{
-		if($this->session->userdata('admin_login'))
-		{
-		$client=$this->back_end->get_all_clients();
-		$states=$this->back_end->get_all_states();
-		
-		// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+		if ($this->session->userdata('admin_login')) {
+			$client = $this->back_end->get_all_clients();
+			$states = $this->back_end->get_all_states();
 
-		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/DOC_FORMAT.xlsx");
-	
-		$spreadsheet->setActiveSheetIndex(1);
-		$spreadsheet->getActiveSheet()->setTitle('list1');
-		$sheet1 = $spreadsheet->getActiveSheet();
-		$sheet1->setCellValue('A1', 'SL No');
-		$sheet1->setCellValue('B1', 'CLIENT NAME');
-        $sheet1->setCellValue('C1', 'CLIENT ID');
-		
-		$sheet1->setCellValue('O1', 'STATES');
-		$sheet1->setCellValue('P1', 'STATES ID');
-		
+			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
 
-		
-		$sheet1->setCellValue('S1', 'GENDER');
-		$sheet1->setCellValue('T1', 'GENDER VALUE');
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/DOC_FORMAT.xlsx");
 
-		$sheet1->setCellValue('Y1', 'MARITAL STATUS');
+			$spreadsheet->setActiveSheetIndex(1);
+			$spreadsheet->getActiveSheet()->setTitle('list1');
+			$sheet1 = $spreadsheet->getActiveSheet();
+			$sheet1->setCellValue('A1', 'SL No');
+			$sheet1->setCellValue('B1', 'CLIENT NAME');
+			$sheet1->setCellValue('C1', 'CLIENT ID');
 
-		$sheet1->setCellValue('AC1', 'BLOOD GROUP');
+			$sheet1->setCellValue('O1', 'STATES');
+			$sheet1->setCellValue('P1', 'STATES ID');
 
-		$sheet1->setCellValue('AZ1', 'STATUS');
-		$sheet1->setCellValue('BA1', 'STATUS VALUE');
-		
-		$sheet1->setCellValue('BZ1', 'ACTIVE STATUS');
-		$sheet1->setCellValue('CA1', 'VALUE');
-		
-		
-		$sheet1->getStyle("A1:CA1")->applyFromArray(array("font" => array("bold" => true)));
-		foreach(range('A','CA') as $columnID) {
-			$sheet1->getColumnDimension($columnID)
-				->setAutoSize(true);
-		}
-		$i = 2;
-        foreach ($client as $key => $value) {
 
-			$sheet1->setCellValue('A'.$i, $key + 1);
-			$sheet1->setCellValue('B'.$i, $value['client_name']);
-            $sheet1->setCellValue('C'.$i, $value['id']);
-            
-            $i += 1;
-		}   
-		$j = 2;
-		foreach ($states as $key => $value) {
-			$sheet1->setCellValue('O'.$j, $value['state_name']);
-			$sheet1->setCellValue('P'.$j, $value['id']);
-           
-            $j += 1;
-		}   
 
-		
-		$sheet1->setCellValue('S2','Male');
-		$sheet1->setCellValue('S3','Female');
-		$sheet1->setCellValue('T2','1');
-		$sheet1->setCellValue('T3','2');
-		
-		$sheet1->setCellValue('Y2','Single');
-		$sheet1->setCellValue('Y3','Married');
-		
-		$sheet1->setCellValue('AC2','O+');
-		$sheet1->setCellValue('AC3','O-');
-		$sheet1->setCellValue('AC4','A+');
-		$sheet1->setCellValue('AC5','A-');
-		$sheet1->setCellValue('AC6','B+');
-		$sheet1->setCellValue('AC7','B-');
-		$sheet1->setCellValue('AC8','AB+');
-		$sheet1->setCellValue('AC9','AB-');
-		
-		
-		$sheet1->setCellValue('AZ2','Active');
-		$sheet1->setCellValue('AZ3','Inactive');
-		$sheet1->setCellValue('BA2','0');
-		$sheet1->setCellValue('BA3','1');
+			$sheet1->setCellValue('S1', 'GENDER');
+			$sheet1->setCellValue('T1', 'GENDER VALUE');
 
-		$sheet1->setCellValue('BZ2','Active');
-		$sheet1->setCellValue('BZ3','Deactive');
-		$sheet1->setCellValue('CA2','0');
-		$sheet1->setCellValue('CA3','1');
-		
+			$sheet1->setCellValue('Y1', 'MARITAL STATUS');
 
-		$spreadsheet->setActiveSheetIndex(0);
-		$spreadsheet->getActiveSheet()->setTitle('Back_end');
-		$sheet = $spreadsheet->getActiveSheet();
+			$sheet1->setCellValue('AC1', 'BLOOD GROUP');
 
-		$cellB2 = $sheet->getCell('B2')->getDataValidation();
-		$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellB2->setAllowBlank(false);
-		$cellB2->setShowInputMessage(true);
-		$cellB2->setShowErrorMessage(true);
-		$cellB2->setShowDropDown(true);
-		// $rowCount = $sheet1->getHighestRow();
-		$cellB2->setFormula1('list1!$B:$B');
-		$sheet->setCellValue('CA2', '=vlookup(B2,list1!B:C,2,false)');
+			$sheet1->setCellValue('AZ1', 'STATUS');
+			$sheet1->setCellValue('BA1', 'STATUS VALUE');
 
-		$cellO2 = $sheet->getCell('O2')->getDataValidation();
-		$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellO2->setAllowBlank(false);
-		$cellO2->setShowInputMessage(true);
-		$cellO2->setShowErrorMessage(true);
-		$cellO2->setShowDropDown(true);
-		// $rowCount = $sheet1->getHighestRow();
-		$cellO2->setFormula1('list1!$O:$O');
-		$sheet->setCellValue('CB2', '=vlookup(O2,list1!O:P,2,false)');
+			$sheet1->setCellValue('BZ1', 'ACTIVE STATUS');
+			$sheet1->setCellValue('CA1', 'VALUE');
 
-		$cellS2 = $sheet->getCell('S2')->getDataValidation();
-		$cellS2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellS2->setAllowBlank(false);
-		$cellS2->setShowInputMessage(true);
-		$cellS2->setShowErrorMessage(true);
-		$cellS2->setShowDropDown(true);
-		$cellS2->setFormula1('list1!$S$2:$S$40');
-		$sheet->setCellValue('CC2', '=vlookup(S2,list1!S:T,2,false)');
 
-		$cellAY2 = $sheet->getCell('AY2')->getDataValidation();
-		$cellAY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellAY2->setAllowBlank(false);
-		$cellAY2->setShowInputMessage(true);
-		$cellAY2->setShowErrorMessage(true);
-		$cellAY2->setShowDropDown(true);
-		$cellAY2->setFormula1('list1!$AZ:$AZ');
-		$sheet->setCellValue('CD2', '=vlookup(AY2,list1!AZ:BA,2,false)');
+			$sheet1->getStyle("A1:CA1")->applyFromArray(array("font" => array("bold" => true)));
+			foreach (range('A', 'CA') as $columnID) {
+				$sheet1->getColumnDimension($columnID)
+					->setAutoSize(true);
+			}
+			$i = 2;
+			foreach ($client as $key => $value) {
 
-		$cellBY2 = $sheet->getCell('BY2')->getDataValidation();
-		$cellBY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellBY2->setAllowBlank(false);
-		$cellBY2->setShowInputMessage(true);
-		$cellBY2->setShowErrorMessage(true);
-		$cellBY2->setShowDropDown(true);
-		$cellBY2->setFormula1('list1!$BZ:$BZ');
-		$sheet->setCellValue('CE2', '=vlookup(BY2,list1!BZ:CA,2,false)');
+				$sheet1->setCellValue('A' . $i, $key + 1);
+				$sheet1->setCellValue('B' . $i, $value['client_name']);
+				$sheet1->setCellValue('C' . $i, $value['id']);
 
-		$cellAC2 = $sheet->getCell('AC2')->getDataValidation();
-		$cellAC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellAC2->setAllowBlank(false);
-		$cellAC2->setShowInputMessage(true);
-		$cellAC2->setShowErrorMessage(true);
-		$cellAC2->setShowDropDown(true);
-		$cellAC2->setFormula1('list1!$AC:$AC');
-		
+				$i += 1;
+			}
+			$j = 2;
+			foreach ($states as $key => $value) {
+				$sheet1->setCellValue('O' . $j, $value['state_name']);
+				$sheet1->setCellValue('P' . $j, $value['id']);
 
-		$cellY2 = $sheet->getCell('Y2')->getDataValidation();
-		$cellY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-		$cellY2->setAllowBlank(false);
-		$cellY2->setShowInputMessage(true);
-		$cellY2->setShowErrorMessage(true);
-		$cellY2->setShowDropDown(true);
-		$cellY2->setFormula1('list1!$Y:$Y');
+				$j += 1;
+			}
 
-        $writer = new Xlsx($spreadsheet);
-        $filename = 'DOC_DOWNLOAD_FORMAT';
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output'); // download file 
-			
-		}
-		else
-		{
+
+			$sheet1->setCellValue('S2', 'Male');
+			$sheet1->setCellValue('S3', 'Female');
+			$sheet1->setCellValue('T2', '1');
+			$sheet1->setCellValue('T3', '2');
+
+			$sheet1->setCellValue('Y2', 'Single');
+			$sheet1->setCellValue('Y3', 'Married');
+
+			$sheet1->setCellValue('AC2', 'O+');
+			$sheet1->setCellValue('AC3', 'O-');
+			$sheet1->setCellValue('AC4', 'A+');
+			$sheet1->setCellValue('AC5', 'A-');
+			$sheet1->setCellValue('AC6', 'B+');
+			$sheet1->setCellValue('AC7', 'B-');
+			$sheet1->setCellValue('AC8', 'AB+');
+			$sheet1->setCellValue('AC9', 'AB-');
+
+
+			$sheet1->setCellValue('AZ2', 'Active');
+			$sheet1->setCellValue('AZ3', 'Inactive');
+			$sheet1->setCellValue('BA2', '0');
+			$sheet1->setCellValue('BA3', '1');
+
+			$sheet1->setCellValue('BZ2', 'Active');
+			$sheet1->setCellValue('BZ3', 'Deactive');
+			$sheet1->setCellValue('CA2', '0');
+			$sheet1->setCellValue('CA3', '1');
+
+
+			$spreadsheet->setActiveSheetIndex(0);
+			$spreadsheet->getActiveSheet()->setTitle('Back_end');
+			$sheet = $spreadsheet->getActiveSheet();
+
+			$cellB2 = $sheet->getCell('B2')->getDataValidation();
+			$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellB2->setAllowBlank(false);
+			$cellB2->setShowInputMessage(true);
+			$cellB2->setShowErrorMessage(true);
+			$cellB2->setShowDropDown(true);
+			// $rowCount = $sheet1->getHighestRow();
+			$cellB2->setFormula1('list1!$B:$B');
+			$sheet->setCellValue('CA2', '=vlookup(B2,list1!B:C,2,false)');
+
+			$cellO2 = $sheet->getCell('O2')->getDataValidation();
+			$cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellO2->setAllowBlank(false);
+			$cellO2->setShowInputMessage(true);
+			$cellO2->setShowErrorMessage(true);
+			$cellO2->setShowDropDown(true);
+			// $rowCount = $sheet1->getHighestRow();
+			$cellO2->setFormula1('list1!$O:$O');
+			$sheet->setCellValue('CB2', '=vlookup(O2,list1!O:P,2,false)');
+
+			$cellS2 = $sheet->getCell('S2')->getDataValidation();
+			$cellS2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellS2->setAllowBlank(false);
+			$cellS2->setShowInputMessage(true);
+			$cellS2->setShowErrorMessage(true);
+			$cellS2->setShowDropDown(true);
+			$cellS2->setFormula1('list1!$S$2:$S$40');
+			$sheet->setCellValue('CC2', '=vlookup(S2,list1!S:T,2,false)');
+
+			$cellAY2 = $sheet->getCell('AY2')->getDataValidation();
+			$cellAY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellAY2->setAllowBlank(false);
+			$cellAY2->setShowInputMessage(true);
+			$cellAY2->setShowErrorMessage(true);
+			$cellAY2->setShowDropDown(true);
+			$cellAY2->setFormula1('list1!$AZ:$AZ');
+			$sheet->setCellValue('CD2', '=vlookup(AY2,list1!AZ:BA,2,false)');
+
+			$cellBY2 = $sheet->getCell('BY2')->getDataValidation();
+			$cellBY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellBY2->setAllowBlank(false);
+			$cellBY2->setShowInputMessage(true);
+			$cellBY2->setShowErrorMessage(true);
+			$cellBY2->setShowDropDown(true);
+			$cellBY2->setFormula1('list1!$BZ:$BZ');
+			$sheet->setCellValue('CE2', '=vlookup(BY2,list1!BZ:CA,2,false)');
+
+			$cellAC2 = $sheet->getCell('AC2')->getDataValidation();
+			$cellAC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellAC2->setAllowBlank(false);
+			$cellAC2->setShowInputMessage(true);
+			$cellAC2->setShowErrorMessage(true);
+			$cellAC2->setShowDropDown(true);
+			$cellAC2->setFormula1('list1!$AC:$AC');
+
+
+			$cellY2 = $sheet->getCell('Y2')->getDataValidation();
+			$cellY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellY2->setAllowBlank(false);
+			$cellY2->setShowInputMessage(true);
+			$cellY2->setShowErrorMessage(true);
+			$cellY2->setShowDropDown(true);
+			$cellY2->setFormula1('list1!$Y:$Y');
+
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'DOC_DOWNLOAD_FORMAT';
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output'); // download file 
+
+		} else {
 			redirect('home/index');
 		}
 	}
-	
-
 }

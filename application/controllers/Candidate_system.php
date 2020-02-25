@@ -11,7 +11,7 @@ class Candidate_system extends CI_Controller
 		$this->load->library("pagination");
 	}
 	public function index()
-	{ 
+	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
 			//$data['candidate_info'] = $this->candidate->get_all_candidate_info();
@@ -47,7 +47,7 @@ class Candidate_system extends CI_Controller
 				} else if ($row->data_status == 0) {
 					$status = '<span class="badge bg-danger">Pending</span>';
 				}
-				
+
 				$sub_array[] = $approval;
 				$sub_array[] = $status;
 				$sub_array[] = '
@@ -73,7 +73,7 @@ class Candidate_system extends CI_Controller
 				"recordsFiltered"     =>     $this->candidate->get_filtered_data(),
 				"data" => $data
 			);
-			echo json_encode($output);  
+			echo json_encode($output);
 		} else {
 			redirect('home/index');
 		}
@@ -321,9 +321,9 @@ class Candidate_system extends CI_Controller
 
 	function delete_backend_team()
 	{
-		if($this->candidate->delete_backend_team()){
-			echo "deleted"; 
-		} 
+		if ($this->candidate->delete_backend_team()) {
+			echo "deleted";
+		}
 	}
 	// function delete_candidate()
 	// {

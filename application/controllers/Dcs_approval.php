@@ -70,7 +70,7 @@ class Dcs_approval extends CI_Controller
 				 </td>
 					 ';
 				$data[] = $sub_array;
-				$i = ++$i;
+				$i = $i++;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
