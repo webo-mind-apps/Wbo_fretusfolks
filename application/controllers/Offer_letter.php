@@ -181,8 +181,8 @@ class Offer_letter extends CI_Controller
 				$mpdf->WriteHTML($html);
 				$file = $data['letter_details'][0]['employee_id'];
 				$date = date('Ymdhis') . $key;
-				$file = $file . '-' . $data['letter_details'][0]['emp_name'];
-				$pdfData = $mpdf->Output($path . '/' . $file . $date . '.pdf', 'F');
+				$file = $file . '_' . $data['letter_details'][0]['emp_name'];
+				$pdfData = $mpdf->Output($path . '/' . $file .'_'. $date . '.pdf', 'F');
 			}
 			$this->zip->read_dir($path, false); //5.make it as zip 
 			$download = $this->zip->download($path . '.zip');
