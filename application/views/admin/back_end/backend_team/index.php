@@ -18,7 +18,7 @@
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
-	
+
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/jquery.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/main/bootstrap.bundle.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/loaders/blockui.min.js"></script>
@@ -30,25 +30,29 @@
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.structure.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo base_url(); ?>admin_assets/assets/css/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
 
-	<!-- <script src="<?php //echo base_url(); ?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
+	<!-- <script src="<?php //echo base_url(); 
+						?>admin_assets/global_assets/js/demo_pages/picker_date.js"></script> -->
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/plugins/forms/selects/select2.min.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<!-- <script src="<?php //echo base_url(); 
 						?>admin_assets/global_assets/js/demo_pages/datatables_basic.js"></script> -->
-						<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-						<!-- <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" > -->
-						
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<!-- <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" > -->
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- /theme JS files -->
+	
 	<style>
 		#divLoading {
 			display: none;
 		}
+
 		.down {
 			float: left;
 		}
+
 		#divLoading.show {
 			display: block;
 			position: fixed;
@@ -104,19 +108,22 @@
 		.right {
 			float: right;
 		}
+
 		.dataTables_length {
-    float: right;
-    display: inline-block;
-    margin: 0 1.5rem 1.25rem 1.25rem;
-}
-.table-bordered {
-    border-top: 1px solid #b7b7b7 !important;
-    border-bottom: 1px solid #b7b7b7 !important;
-    margin-bottom: 10px;
-}
-#dynamic_table_info {
-    margin-left: 20px;
-}
+			float: right;
+			display: inline-block;
+			margin: 0 1.5rem 1.25rem 1.25rem;
+		}
+
+		.table-bordered {
+			border-top: 1px solid #b7b7b7 !important;
+			border-bottom: 1px solid #b7b7b7 !important;
+			margin-bottom: 10px;
+		}
+
+		#dynamic_table_info {
+			margin-left: 20px;
+		}
 	</style>
 	<script>
 		function view_backend_team_details(id) {
@@ -162,37 +169,35 @@
 		}
 	</script>
 	<script>
-	
+		$(function() {
+			$("#From").datepicker({
+				dateFormat: 'dd-mm-yy',
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				yearRange: '1947:2100',
+				onClose: function(selectedDate) {
+					$("#To").datepicker("option", "minDate", selectedDate);
+				}
+			});
+			$("#To").datepicker({
+				dateFormat: 'dd-mm-yy',
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				yearRange: '1947:2100',
+				onClose: function(selectedDate) {
+					$("#From").datepicker("option", "maxDate", selectedDate);
+				}
+			});
 
-	$(function() {
-		$("#From").datepicker({
-			dateFormat: 'dd-mm-yy',
-			changeMonth: true,
-			changeYear: true,
-			showOtherMonths: true,
-			yearRange: '1947:2100', 
-			onClose: function(selectedDate) {
-				$("#To").datepicker("option", "minDate", selectedDate);
-			}
-		});
-		$("#To").datepicker({
-			dateFormat: 'dd-mm-yy',
-			changeMonth: true,
-			changeYear: true,
-			showOtherMonths: true,
-			yearRange: '1947:2100', 
-			onClose: function(selectedDate) {
-				$("#From").datepicker("option", "maxDate", selectedDate);
-			}
-		});
+			$('#button').click(function() {
+				//e.preventDefault();
+				$('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide');
 
-		$('#button').click(function() {
-			//e.preventDefault();
-			 $('#fetchData').modal('toggle'); //or  $('#IDModal').modal('hide');
-			
+			});
 		});
-	});
-</script>
+	</script>
 </head>
 
 <body>
@@ -230,87 +235,90 @@
 											?>" class="btn btn-labeled btn-labeled-right bg-primary">New Back End <b><i class="fa fa-plus" aria-hidden="true"></i></b></a>-->
 					</div>
 					<div class="right text-center">
-					<div class="row">
-					<div class="col-md-5">
-					<!-- <a href="<?php //echo base_url(); ?>backend_team/download_backend_details" > -->
-					<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" data-toggle="modal"  data-target="#fetchData">&nbsp;&nbsp;Download&nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
-					<!-- </a> -->
-					<div class="modal fade" role="dialog" id="fetchData" >
-								<div class="modal-dialog modal-sm">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal">&times;</button>
-										</div>
-										<div class="content">
-											<div class="modal-body">
-												<form enctype="multipart/form-data" method="post" action="<?php echo base_url(); ?>backend_team/download_backend_details" name="certform">
-													<label class="down"><b>Clinent Name</b></label>
-													<div class="form-group">
+						<div class="row">
+							<div class="col-md-5">
+								<!-- <a href="<?php //echo base_url(); 
+												?>backend_team/download_backend_details" > -->
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" data-toggle="modal" data-target="#fetchData">&nbsp;&nbsp;Download&nbsp;<b> <i class="fa fa-download" aria-hidden="true"></i></b></button>
+								<!-- </a> -->
+								<div class="modal fade" role="dialog" id="fetchData">
+									<div class="modal-dialog modal-sm">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+											<div class="content">
+												<div class="modal-body">
+													<form enctype="multipart/form-data" method="post" action="<?php echo base_url(); ?>backend_team/download_backend_details" name="certform">
+														<label class="down"><b>Clinent Name</b></label>
+														<div class="form-group">
 
-														<select name="backend_download_client" class="form-control">
-															<option value=""><b>Select Name</b></option>
-															<?php
-															foreach ($client_management as $row) {
-																echo '<option value="' . $row['id'] . '">' . $row['client_name'] . '</option>';
-															}
-															?>
-														</select>
-													</div>
-													<label class="down"><b>Active Status</b></label>
-													<div class="form-group">
-
-														<select name="emp_status" class="form-control">
-															<option value=""><b>Select</b></option>
-															<option value="0"><b>Active</b></option>
-															<option value="1"><b>Deactive</b></option>
-															
-														</select>
-													</div>
-													<div class="form-group">
-														<label class="down"><b>Employee Joining Date</b>
-															</label><br>
-														<div style="display: flex;width:100%">
-															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input id="From" type="text" name="backend_download_date" class="form-control" autocomplete="off"><br>
-														</div><br>
-														<div style="display:flex;">
-															<span style="margin-right:21px;padding-top:9px">To: </span>
-															<input id="To" type="text" name="backend_download_date2" class="form-control" autocomplete="off"><br>
+															<select name="backend_download_client" class="form-control">
+																<option value=""><b>Select Name</b></option>
+																<?php
+																foreach ($client_management as $row) {
+																	echo '<option value="' . $row['id'] . '">' . $row['client_name'] . '</option>';
+																}
+																?>
+															</select>
 														</div>
-													</div>
+														<label class="down"><b>Active Status</b></label>
+														<div class="form-group">
 
+															<select name="emp_status" class="form-control">
+																<option value=""><b>Select</b></option>
+																<option value="0"><b>Active</b></option>
+																<option value="1"><b>Deactive</b></option>
+
+															</select>
+														</div>
+														<div class="form-group">
+															<label class="down"><b>Employee Joining Date</b>
+															</label><br>
+															<div style="display: flex;width:100%">
+																<span style="margin-right:5px;padding-top:9px;">From:</span>
+																<input id="From" type="text" name="backend_download_date" class="form-control" autocomplete="off"><br>
+															</div><br>
+															<div style="display:flex;">
+																<span style="margin-right:21px;padding-top:9px">To: </span>
+																<input id="To" type="text" name="backend_download_date2" class="form-control" autocomplete="off"><br>
+															</div>
+														</div>
+
+												</div>
+												<div class="modal-footer down">
+													<button type="submit" name="download" id="button" class="btn btn-success ">Download</button>
+												</div>
 											</div>
-											<div class="modal-footer down">
-												<button type="submit" name="download" id="button"  class="btn btn-success ">Download</button>
-											</div>
+											</form>
 										</div>
-										</form>
 									</div>
 								</div>
 							</div>
-					</div><div class="col-md-1"></div>
-					<div class="col-md-5">
-						<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b><i class="fa fa-reply" aria-hidden="true"></i></b></button>
-					</div>
-					</div>
-						<!-- <a href="<?php //echo base_url() ?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->
+							<div class="col-md-1"></div>
+							<div class="col-md-5">
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b><i class="fa fa-reply" aria-hidden="true"></i></b></button>
+							</div>
+						</div>
+						<!-- <a href="<?php //echo base_url() 
+										?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->
 						<!-- <a href="<?php echo base_url() ?>doc-formate" >Download Format</a> -->
 						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-doc-import" id="import_form" style="display:none">
 							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 						</form>
 					</div>
 				</div>
-				 <?php
+				<?php
 
-					if ($this->session->flashdata('no_data', 'No datas founded')) {
-						?>
-							<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
-								<button type="button" class="close" data-dismiss="alert">&times;</button>
-								<span class="text-semibold">No datas found..!</span>
-							</div>
-						<?php
-						}
-						?>
+				if ($this->session->flashdata('no_data', 'No datas founded')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold">No datas found..!</span>
+					</div>
+				<?php
+				}
+				?>
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -320,8 +328,8 @@
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-					</div> 
-					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate" >Download Sample Format</a></span>
+					</div>
+					<span style="float:right"><a href="<?php echo base_url() ?>doc-formate">Download Sample Format</a></span>
 				</div>
 			</div>
 			<!-- /page header -->
@@ -330,28 +338,28 @@
 			<!-- Content area -->
 			<div class="content">
 
-			<?php
+				<?php
 
-			if ($this->session->flashdata('success')) {
-			?>
-				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
-				</div>
-			<?php
-			}
-			?>
-			<?php
+				if ($this->session->flashdata('success')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+					</div>
+				<?php
+				}
+				?>
+				<?php
 
-			if ($this->session->flashdata('no_file')) {
-			?>
-				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Please Choose Valid file formate</span>
-				</div>
-			<?php
-			}
-			?>
+				if ($this->session->flashdata('no_file')) {
+				?>
+					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<span class="text-semibold">Please Choose Valid file formate</span>
+					</div>
+				<?php
+				}
+				?>
 
 				<!-- Floating labels -->
 				<div class="row">
@@ -362,10 +370,10 @@
 						<div class="card">
 							<div class="card-header header-elements-inline">
 								<h5 class="card-title">Back End Details</h5>
-								
+
 							</div>
 
-							<table id="dynamic_table" class="table datatable-basic table-bordered table-striped table-hover cell-border compact stripe" >
+							<table id="dynamic_table" class="table datatable-basic table-bordered table-striped table-hover cell-border compact stripe datatable-row-basic">
 								<thead>
 									<tr>
 										<th>Si No</th>
@@ -397,10 +405,10 @@
 					</div>
 				</div>
 
-				
+
 
 				<script>
-					$(document).ready(function() { 
+					$(document).ready(function() {
 						$('#import_file').click(function(e) {
 							e.preventDefault();
 							$('#import').trigger('click');
@@ -408,10 +416,10 @@
 
 						$('#import').change(function(e) {
 							$('#import_form').submit()
-						}); 
+						});
 
 					});
-			
+
 					var DatatableAdvanced = function() {
 
 						// Basic Datatable examples
@@ -434,7 +442,7 @@
 									search: '<span>Filter:</span> _INPUT_',
 									searchPlaceholder: 'Type to filter...',
 									lengthMenu: '<span>Show:</span> _MENU_',
-									
+
 									paginate: {
 										'first': 'First',
 										'last': 'Last',
@@ -447,7 +455,7 @@
 							var dataTable = $('#dynamic_table').DataTable({
 								'processing': true,
 								'serverSide': true,
-								'order': [], 
+								'order': [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'Backend_team/get_all_data' ?>",
 									'type': 'POST'
@@ -458,7 +466,7 @@
 								}],
 
 							})
-                           
+
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [
@@ -519,18 +527,16 @@
 					document.addEventListener('DOMContentLoaded', function() {
 						DatatableAdvanced.init()
 					});
-// $(function(){
-// 	$(window).bind('beforeunload',function(){
-// });
-// // $(document).on('load',function(){
-// // 	alert('hi')
-// // });
-// if(document.readyState=="loading")
-// 	$('body').css('background-color','red');
-// 	alert("test")
-// })
-
-					
+					// $(function(){
+					// 	$(window).bind('beforeunload',function(){
+					// });
+					// // $(document).on('load',function(){
+					// // 	alert('hi')
+					// // });
+					// if(document.readyState=="loading")
+					// 	$('body').css('background-color','red');
+					// 	alert("test")
+					// })
 				</script>
 				<!-- ----- -->
 </body>
