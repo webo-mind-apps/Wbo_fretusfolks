@@ -164,27 +164,23 @@
 								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
-									'type': 'POST',
-									beforeSend: function(){	
-								$('#selectAll').prop('checked', false);
-									},
-									},
+									'type': 'POST'
+								},
 								'columnDefs': [{
 									"targets": [0],
 									"orderable": false
 								}],
 							});
-							 //For Select
+							
+							//For select all  
 							$(document).on('change', '#selectAll', function(){
-									if($(this).prop('checked')){
-									$('.checkbox').prop('checked', true);
-									}else{
-									$('.checkbox').prop('checked', false);
-									}	
+								if($(this).prop('checked')){
+								$('.checkbox').prop('checked', true);
+								}else{
+								$('.checkbox').prop('checked', false);
+								}
 								});
 							
-							
-								
 							// Datatable 'length' options
 							$('.datatable-show-all').DataTable({
 								lengthMenu: [

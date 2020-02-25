@@ -9,22 +9,22 @@ class Backend_db extends CI_Model
 		$this->load->database();
 		$this->load->library("session");
     }
-	public function get_all_backend_team()
-	{
-		$this->db->select('a.*,b.client_name,c.state_name');
-		$this->db->from('backend_management a');
-		$this->db->join('client_management b','a.client_id=b.id','left');
-		$this->db->join('states c','a.state=c.id','left');
-		$this->db->where('emp_name!=','');
-		$this->db->where("a.status","0");
-		$this->db->where("a.dcs_approval","1");
-		$this->db->where('a.active_status',0); 
-		$this->db->order_by('a.id','DESC');
-		$query=$this->db->get();
-		$q=$query->result_array();
+	// public function get_all_backend_team()
+	// {
+	// 	$this->db->select('a.*,b.client_name,c.state_name');
+	// 	$this->db->from('backend_management a');
+	// 	$this->db->join('client_management b','a.client_id=b.id','left');
+	// 	$this->db->join('states c','a.state=c.id','left');
+	// 	$this->db->where('emp_name!=','');
+	// 	$this->db->where("a.status","0");
+	// 	$this->db->where("a.dcs_approval","1");
+	// 	$this->db->where('a.active_status',0); 
+	// 	$this->db->order_by('a.id','DESC');
+	// 	$query=$this->db->get();
+	// 	$q=$query->result_array();
 	
-		return $q;
-	}
+	// 	return $q;
+	// }
 	public function get_all_backend_team_for_download()
 	{
 		$client=$this->input->post('backend_download_client'); 
@@ -67,8 +67,6 @@ class Backend_db extends CI_Model
 		$this->db->join('client_management b','a.client_id=b.id','left');
 		$this->db->join('states c','a.state=c.id','left');
 		$this->db->where('emp_name!=','');
-		$this->db->where("a.dcs_approval","1");
-		$this->db->where('a.active_status',0);
 		if(isset($_POST["search"]["value"])){
             $this->db->group_start();
                 $this->db->like("a.id", $_POST["search"]["value"]);  
@@ -92,9 +90,9 @@ class Backend_db extends CI_Model
 
 	function get_all_data()  
     {  
-           $this->db->select("*");
-           $this->db->from('backend_management');  
-           return $this->db->count_all_results();  
+    	$this->db->select("*");
+    	$this->db->from('backend_management');  
+    	return $this->db->count_all_results();  
 	}
 	
 	function get_filtered_data(){  
