@@ -57,7 +57,7 @@ ob_start();
 
 	<!-- /theme JS files -->
 	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-   
+
 	<style>
 		#divLoading {
 			display: none;
@@ -218,9 +218,21 @@ ob_start();
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 										</div>
 										<div class="content">
+
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
+													<label class="down"><b>Clinent Name</b> </label>
+													<div class="form-group">
 
+														<select id="client_values" name="offer_letter_download_client" class="form-control">
+															<option value=""><b>Select Name</b></option>
+															<?php
+															foreach ($client_management as $row) {
+																echo '<option value="' . $row['id'] . '">' . $row['client_name'] . '</option>';
+															}
+															?>
+														</select>
+													</div>
 													<div class="form-group">
 														<label class="down"><b>Offer Letter Created Date</b>
 														</label><br><br>

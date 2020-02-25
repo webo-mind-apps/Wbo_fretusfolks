@@ -18,6 +18,7 @@ class Offer_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "backend";
+			$data['client_management'] = $this->letter->get_all_clients();
 			//$data['offer_letter'] = $this->letter->get_all_offer_letters();
 			$this->load->view('admin/back_end/offer_letter/index', $data);
 		} else {
@@ -31,7 +32,7 @@ class Offer_letter extends CI_Controller
 			$fetch_data = $this->letter->make_datatables();
 			$data = array();
 			// $status = '<span class="badge bg-blue">Completed</span>';
-			 
+
 			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
@@ -136,7 +137,15 @@ class Offer_letter extends CI_Controller
 		$this->load->library('zip');
 		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); //2.select records in model 
 		if (!empty($data['letter_details'])) {
-			$path = 'offer_letters/offer_letter_' . date('Ymdhis');
+			//  echo "<pre>";
+			// 		print_r($data['letter_details']);
+			// 		exit;
+			if (empty($_POST['offer_letter_download_client'])) {
+				$path = 'offer_letters/offer_letter_' . date('Y-m-d-his');
+			} else {
+				$path = 'offer_letters/offer_letter_' . $data['letter_details'][0]['client_name'] . '_' . date('Y-m-d-his');
+			}
+
 			if (!is_dir($path)) mkdir($path, 0777, TRUE);
 			foreach ($data['letter_details'] as $key => $value) {
 				$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
@@ -265,7 +274,7 @@ class Offer_letter extends CI_Controller
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 			if ($this->email->send()) {
 				redirect('Offer_letter/');
-			} 
+			}
 			// else {
 			// 	echo "<script>alert('Mail not sent')</script>";
 			// }
@@ -503,7 +512,7 @@ class Offer_letter extends CI_Controller
 								$this->email->subject($subject);
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-								$this->email->send());
+								$this->email->send();
 								//  {
 								// 	echo "<script>alert('not sent(import)')</script>";
 								// }
@@ -558,7 +567,7 @@ class Offer_letter extends CI_Controller
 			$sheet1->setCellValue('E3', "Format 2");
 			$sheet1->setCellValue('E4', "Format 3");
 			$sheet1->setCellValue('E5', "Format 4");
-	 
+
 
 			$sheet1->setCellValue('F2', 1);
 			$sheet1->setCellValue('F3', 2);
