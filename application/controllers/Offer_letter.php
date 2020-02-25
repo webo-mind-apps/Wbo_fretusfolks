@@ -265,9 +265,10 @@ class Offer_letter extends CI_Controller
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 			if ($this->email->send()) {
 				redirect('Offer_letter/');
-			} else {
-				echo "<script>alert('Mail not sent')</script>";
-			}
+			} 
+			// else {
+			// 	echo "<script>alert('Mail not sent')</script>";
+			// }
 		}
 	}
 
@@ -502,9 +503,10 @@ class Offer_letter extends CI_Controller
 								$this->email->subject($subject);
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-								if (!$this->email->send()) {
-									echo "<script>alert('not sent(import)')</script>";
-								}
+								$this->email->send());
+								//  {
+								// 	echo "<script>alert('not sent(import)')</script>";
+								// }
 							} else if ($import_status == "not_exist") {
 								$not_exist = $not_exist + 1;
 							}
