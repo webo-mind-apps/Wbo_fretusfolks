@@ -171,19 +171,35 @@ class Termination_db extends CI_Model
 public function importEmployee_termination_letter($data = null)
 {
 
-	$this->db->where('emp_id',$data['employee_id']);
-	
-	$query=$this->db->get("termination_letter");
-	if(!$query->num_rows())
-	{
-		$this->db->insert('termination_letter',$data);
-	}
-	else
-	{
-		$this->db->where('emp_id',$data['employee_id']);
-		$this->db->update('termination_letter',$data);
-	}
-
+	$this->db->where('ffi_emp_id', $data['backend']['ffi_emp_id']);
+		$query = $this->db->get("backend_management");
+		if ($query->num_rows() <= 0)
+		{
+			$this->db->where('emp_id',$data['emp_id']);
+			
+			$query=$this->db->get("termination_letter");
+			if(!$query->num_rows())
+			{
+				$this->db->insert('termination_letter',$data);
+				if ($this->db->affected_rows() > 0)
+				{
+					return "insert";
+				}
+			}
+			else
+			{
+				$this->db->where('emp_id',$data['employee_id']);
+				$this->db->update('termination_letter',$data);
+				if ($this->db->affected_rows() > 0)
+				{
+					return "update";
+				}
+			}
+		}
+		else
+			{
+				return "not_exist";
+			}
 	
 }
 

@@ -30,7 +30,7 @@ class Candidate_system extends CI_Controller
 			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i;
 				$sub_array[] = $row->client_name; 
 				$sub_array[] = $row->emp_name;
 				$sub_array[] = date('d M, Y', strtotime($row->joining_date));
@@ -65,7 +65,7 @@ class Candidate_system extends CI_Controller
 				 </div>
 					 ';
 				$data[] = $sub_array;
-				$i = ++$i;
+				$i = $i++;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),

@@ -31,10 +31,10 @@ class Client_management extends CI_Controller
 			$fetch_data = $this->client->make_datatables();
 			$data = array();
 			// $status = '<span class="badge bg-blue">Completed</span>';
-			
+			$i=1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i;
 				$sub_array[] = $row->client_name; 
 				$sub_array[] = $row->contact_person;
 				$sub_array[] = $row->contact_person_phone;
@@ -55,7 +55,7 @@ class Client_management extends CI_Controller
 				 </div>
 					 ';
 				$data[] = $sub_array;
-				
+				$i++;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),

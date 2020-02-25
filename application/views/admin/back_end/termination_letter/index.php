@@ -121,9 +121,6 @@
 								<button type="button" class="btn btn-primary" id="import_file">Import Excel &nbsp;&nbsp; <i class="fa fa-download" aria-hidden="true"></i></button>
 								</br>
 
-								<a href="<?php echo base_url() ?>admin_assets/exel-formate/ADMS_TERMINATION_LETTER.xlsx" download>Download Format</a>
-
-
 								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-termination-letter-import'); ?>" id="import_form" style="display:none">
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 								</form>
@@ -148,33 +145,32 @@
 						</div>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
+					<a href="<?php echo base_url() ?>termination_letter/doc_formate" class="breadcrumb-item" download>Download Sample Format</a>
 				</div>
 			</div>
 			<!-- /page header -->
 			<?php
 
-			if ($this->session->flashdata('success', 'Import successfully')) {
+			if ($this->session->flashdata('success')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Import successfully..!</span>
+					<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
 				</div>
 			<?php
 			}
 			?>
-
 			<?php
 
-			if ($this->session->flashdata('error', 'Please Choose Valid file formate ')) {
+			if ($this->session->flashdata('no_file')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Please Choose Valid file formate ..!</span>
+					<span class="text-semibold">Please Choose Valid file formate</span>
 				</div>
 			<?php
 			}
 			?>
-
 			<!-- Content area -->
 			<div class="content">
 
@@ -189,7 +185,7 @@
 								<h5 class="card-title">Termination Letter Details</h5>
 								<div class="header-elements">
 									<div class="list-icons">
-										<a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_TERMINATION_LETTER.xlsx">Sample excel file</a>
+										<!-- <a href="<?php echo base_url() ?>admin_assets/exel-formate/SAMPLE_TERMINATION_LETTER.xlsx">Sample excel file</a> -->
 										<a class="list-icons-item" data-action="reload"></a>
 									</div>
 								</div>

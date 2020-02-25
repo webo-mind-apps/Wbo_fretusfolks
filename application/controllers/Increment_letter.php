@@ -320,14 +320,16 @@ class Increment_letter extends CI_Controller
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
 			// get file extension
-			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+			$content_type = mime_content_type($_FILES['import']['tmp_name']);
 			$valid = false;
 			foreach ($valid_extentions as $key => $value) {
-				if ($extension == $value) {
+				if ($content_type == $value) {
 					$valid = true;
 				}
 			}
+
 
 			if ($valid) {
 				if ($extension == 'csv') :
