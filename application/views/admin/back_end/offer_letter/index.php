@@ -57,6 +57,7 @@ ob_start();
 
 	<!-- /theme JS files -->
 	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+   
 	<style>
 		#divLoading {
 			display: none;
@@ -366,7 +367,7 @@ ob_start();
 								</div> -->
 							</div>
 
-							<table id="offer_letter_tables" class="table datatable-basic table-bordered table-striped table-hover">
+							<table id="offer_letter_tables" class="table datatable-basic table-bordered table-striped table-hover ">
 								<thead>
 									<tr>
 										<th>Si No</th>

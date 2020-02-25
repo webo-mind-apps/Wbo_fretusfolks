@@ -556,6 +556,7 @@ class Offer_letter extends CI_Controller
 			$sheet1->setCellValue('E3', "Format 2");
 			$sheet1->setCellValue('E4', "Format 3");
 			$sheet1->setCellValue('E5', "Format 4");
+	 
 
 			$sheet1->setCellValue('F2', 1);
 			$sheet1->setCellValue('F3', 2);
