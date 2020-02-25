@@ -1106,7 +1106,7 @@ class Backend_team extends CI_Controller
 			$cellS2->setShowInputMessage(true);
 			$cellS2->setShowErrorMessage(true);
 			$cellS2->setShowDropDown(true);
-			$cellS2->setFormula1('list1!$S$2:$S$40');
+			$cellS2->setFormula1('list1!$S$2:$S$3');
 			$sheet->setCellValue('CC2', '=vlookup(S2,list1!S:T,2,false)');
 
 			$cellAY2 = $sheet->getCell('AY2')->getDataValidation();
@@ -1133,7 +1133,7 @@ class Backend_team extends CI_Controller
 			$cellAC2->setShowInputMessage(true);
 			$cellAC2->setShowErrorMessage(true);
 			$cellAC2->setShowDropDown(true);
-			$cellAC2->setFormula1('list1!$AC:$AC');
+			$cellAC2->setFormula1('list1!$AC:$AC9');
 
 
 			$cellY2 = $sheet->getCell('Y2')->getDataValidation();

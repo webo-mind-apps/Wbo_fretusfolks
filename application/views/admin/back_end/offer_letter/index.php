@@ -131,8 +131,8 @@ ob_start();
 			margin-bottom: 10px;
 		}
 
-		#dynamic_table_info {
-			margin-left: 20px;
+		.dataTables_info {
+   			 margin-left: 20px;
 		}
 	</style>
 	<script>

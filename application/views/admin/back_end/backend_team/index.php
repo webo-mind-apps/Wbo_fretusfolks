@@ -63,6 +63,27 @@
 			right: 0;
 			top: 0;
 		}
+		.ui-datepicker-prev {
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
+
+		.ui-datepicker-next {
+			position: absolute;
+			top: 50% !important;
+			margin-top: -.9375rem;
+			line-height: 1;
+			color: #333;
+			padding: .4375rem;
+			cursor: pointer;
+			border-radius: .1875rem;
+		}
 
 		#loadinggif.show {
 			left: 50%;
