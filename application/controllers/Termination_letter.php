@@ -30,10 +30,10 @@ class Termination_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->termination->make_datatables();
 			$data = array();
-			$i = 1;
+			$i=1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $i++;
+				$sub_array[] = $i;
 				$sub_array[] = $row->emp_id;
 				$sub_array[] = $row->emp_name;
 				$sub_array[] = $row->date;
@@ -55,7 +55,8 @@ class Termination_letter extends CI_Controller
 				</div>
 			</td>
 					 ';
-				$data[] = $sub_array;
+				$data[] = $sub_array; 
+				$i++;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
@@ -180,11 +181,12 @@ class Termination_letter extends CI_Controller
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
 			// get file extension
-			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+			$content_type = mime_content_type($_FILES['import']['tmp_name']);
 			$valid = false;
 			foreach ($valid_extentions as $key => $value) {
-				if ($extension == $value) {
+				if ($content_type == $value) {
 					$valid = true;
 				}
 			}
@@ -204,7 +206,9 @@ class Termination_letter extends CI_Controller
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-
+				$insert = 0;
+				$update = 0;
+				$not_exist = 0;
 
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 
@@ -214,21 +218,56 @@ class Termination_letter extends CI_Controller
 						"absent_date"			=> (empty($allDataInSheet[$i]['C']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['C']))),
 						"show_cause_date"		=> (empty($allDataInSheet[$i]['D']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['D']))),
 						"termination_date"		=> (empty($allDataInSheet[$i]['E']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['E']))),
-						"content"				=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
+						// "content"				=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
 						"date_of_update"		=>   $date,
 					);
+					
+					if ($data['emp_id'] != '' || !empty($data['emp_id'])) 
+					{
+					if($import_status=$this->termination->importEmployee_termination_letter($data))
+					{
+						
+						if ($import_status == "insert") {
+							$insert = $insert + 1;
+							
+						} else if ($import_status == "update") {
+							$update = $update + 1;
+						}else if ($import_status == "not_exist") {
+							$not_exist = $not_exist + 1;
+						}
 
-
-
-					$this->termination->importEmployee_termination_letter($data);
+					}
 				}
-
-				$this->session->set_flashdata('success', 'Import successfully');
+				}
+				$msg = $insert . ' rows inserted <br>'. $not_exist . ' employee not founded <br>';
+				$this->session->set_flashdata('success', $msg);
 				redirect('termination_letter', 'refresh');
 			} else {
 
-				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
+				redirect('termination_letter', 'refresh');
 			}
+		}
+	}
+	public function doc_formate()
+	{
+		if ($this->session->userdata('admin_login')) {
+			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_TERMINATION_LETTER.xlsx");
+
+			$spreadsheet->setActiveSheetIndex(0);
+			$spreadsheet->getActiveSheet()->setTitle('Termination');
+
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'ADMS_TERMINATION_LETTER_DOWNLOAD_FORMAT';
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output'); // download file 
+
+		} else {
+			redirect('home/index');
 		}
 	}
 }

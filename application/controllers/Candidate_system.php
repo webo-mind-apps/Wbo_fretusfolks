@@ -31,7 +31,7 @@ class Candidate_system extends CI_Controller
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $i++;
-				$sub_array[] = $row->client_name;
+				$sub_array[] = $row->client_name; 
 				$sub_array[] = $row->emp_name;
 				$sub_array[] = date('d M, Y', strtotime($row->joining_date));
 				$sub_array[] = $row->phone1;
