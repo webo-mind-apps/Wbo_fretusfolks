@@ -31,6 +31,7 @@ class Offer_letter extends CI_Controller
 			$fetch_data = $this->letter->make_datatables();
 			$data = array();
 			// $status = '<span class="badge bg-blue">Completed</span>';
+			 
 			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
@@ -199,7 +200,7 @@ class Offer_letter extends CI_Controller
 			// exit();
 
 			if ($data[0]['data_status'] == 1) {
-				 
+
 				echo $data[0]['client_id'] . "****" . $data[0]['emp_name'] . "****" . $joining_date . "****" . $contract_date . "****" . $data[0]['designation'] . "****" . $data[0]['location'] . "****" . $data[0]['department'] . "****" . $data[0]['basic_salary'] . "****" . $data[0]['hra'] . "****" . $data[0]['conveyance'] . "****" . $data[0]['medical_reimbursement'] . "****" . $data[0]['special_allowance'] . "****" . $data[0]['other_allowance'] . "****" . $data[0]['st_bonus'] . "****" . $data[0]['gross_salary'] . "****" . $data[0]['emp_pf'] . "****" . $data[0]['emp_esic'] . "****" . $data[0]['pt'] . "****" . $data[0]['total_deduction'] . "****" . $data[0]['take_home'] . "****" . $data[0]['employer_pf'] . "****" . $data[0]['employer_esic'] . "****" . $data[0]['mediclaim'] . "****" . $data[0]['ctc'];
 			} else {
 				echo "0";
@@ -262,7 +263,7 @@ class Offer_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			if ($this->email->send()) { 
+			if ($this->email->send()) {
 				redirect('Offer_letter/');
 			} else {
 				echo "<script>alert('Mail not sent')</script>";

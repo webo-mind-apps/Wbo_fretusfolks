@@ -26,9 +26,10 @@ class User_master extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->user_master->make_datatables();
 			$data = array();
+			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i++;
 				$sub_array[] = $row->name;
 				$sub_array[] = $row->username;
 				$sub_array[] = $row->password;

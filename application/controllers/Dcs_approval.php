@@ -28,9 +28,10 @@ class Dcs_approval extends CI_Controller
 			$data = array();
 			// $status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
+			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i++;
 				$sub_array[] = $row->client_name;
 				$sub_array[] = $row->emp_name;
 				$sub_array[] = $row->phone1;

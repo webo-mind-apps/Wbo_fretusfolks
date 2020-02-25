@@ -26,9 +26,10 @@ class Payments extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->payments->make_datatables();
 			$data = array();
+			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i++;
 				$sub_array[] = $row->client_name;
 				$sub_array[] = $row->invoice_no;
 				$sub_array[] = $row->total_amt_gst;

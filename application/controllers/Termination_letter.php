@@ -30,9 +30,10 @@ class Termination_letter extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->termination->make_datatables();
 			$data = array();
+			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				$sub_array[] = $i++;
 				$sub_array[] = $row->emp_id;
 				$sub_array[] = $row->emp_name;
 				$sub_array[] = $row->date;
@@ -54,7 +55,7 @@ class Termination_letter extends CI_Controller
 				</div>
 			</td>
 					 ';
-				$data[] = $sub_array; 
+				$data[] = $sub_array;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
