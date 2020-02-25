@@ -28,7 +28,6 @@ class Dcs_approval extends CI_Controller
 			$data = array();
 			// $status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
-			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $i++;
@@ -71,7 +70,6 @@ class Dcs_approval extends CI_Controller
 				 </td>
 					 ';
 				$data[] = $sub_array;
-				$i = ++$i;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),

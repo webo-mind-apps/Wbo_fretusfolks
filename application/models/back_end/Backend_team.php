@@ -34,7 +34,6 @@ class Backend_team extends CI_Controller
 			$data = array();
 			$status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
-			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
 				$sub_array[] = $row->id;

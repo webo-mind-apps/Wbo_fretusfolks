@@ -46,7 +46,6 @@ class Bulk_update extends CI_Controller
 			$fetch_data = $this->bulk_update->make_datatables();
 			$data = array();
 			$i = 1;
-			$i = 1;
 			foreach ($fetch_data as $row) {
 				$checkbox = '<center><input type="checkbox" style="height: 25px; width: 20px; " class="checkbox" name="checkbox[]" id="' . $row->id . '" value="' . $row->id . '"></center>';
 				$sub_array = array();
@@ -62,7 +61,6 @@ class Bulk_update extends CI_Controller
 				}
 				$sub_array[] = $status;
 				$data[] = $sub_array;
-				$i = ++$i;
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
