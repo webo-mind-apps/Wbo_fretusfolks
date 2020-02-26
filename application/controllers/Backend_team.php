@@ -866,7 +866,7 @@ class Backend_team extends CI_Controller
 
 						"designation"			=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
 						"department"			=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
-						"state"					=> (empty($allDataInSheet[$i]['CD']) ? 'null' : $allDataInSheet[$i]['CD']),
+						"state"					=> (empty($allDataInSheet[$i]['CB']) ? 'null' : $allDataInSheet[$i]['CB']),
 						"location"				=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
 						"branch"				=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
 						"dob"					=> (empty($allDataInSheet[$i]['R']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['R']))),
