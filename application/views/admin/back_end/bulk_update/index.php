@@ -157,10 +157,6 @@
 								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
-<<<<<<< HEAD
-									'type': 'POST'
-								},
-=======
 									'type': 'POST',
 									beforeSend: function(){
 								/* $(document).on('change', '#selectAll', function(){
@@ -174,18 +170,12 @@
 									},
 									},
 									
->>>>>>> 44ea2cdabbb41718407e40079a7d3e615470db6c
 								'columnDefs': [{
 									"targets": [0],
 									"orderable": false
 								}],
 							});
-<<<<<<< HEAD
-							
-							//For select all  
-=======
 							 //For Select 
->>>>>>> 44ea2cdabbb41718407e40079a7d3e615470db6c
 							$(document).on('change', '#selectAll', function(){
 								if($(this).prop('checked')){
 								$('.checkbox').prop('checked', true);

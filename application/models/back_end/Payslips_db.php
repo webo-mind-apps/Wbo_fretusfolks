@@ -72,21 +72,20 @@ class Payslips_db extends CI_Model
 		$this->db->select('a.*,b.client_name');
 		$this->db->from('payslips a');
 		$this->db->join('client_management b', 'a.client_id=b.id', 'left');
-		$query=$this->db->get();
-		
-		if($emp_id !="")
+		if($emp_id !="" || !empty($emp_id))
 		{
 			$this->db->where('emp_id',$emp_id);
 		}
-		if($month !="")
+		if($month !="" || !empty($month))
 		{
 			$this->db->where('month',$month);
 		}
-		if($year !="")
+		if($year !="" || !empty($year))
 		{
 			$this->db->where('year',$year);
 		}
 		$this->db->order_by('id','ASC');
+		$query=$this->db->get();
 		
 		$q=$query->result_array();
 		return $q;
