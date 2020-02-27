@@ -227,10 +227,10 @@ ob_start();
 
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
-													<label class="down"><b>Clinent Name</b> </label>
+													<label class="down"><b>Clinent Name</b><span style="color:red"> *</span> </label>
 													<div class="form-group">
 
-														<select id="client_values" name="offer_letter_download_client" class="form-control">
+														<select id="client_values" name="offer_letter_download_client" class="form-control" required>
 															<option value=""><b>Select Name</b></option>
 															<?php
 															foreach ($client_management as $row) {
@@ -240,15 +240,15 @@ ob_start();
 														</select>
 													</div>
 													<div class="form-group">
-														<label class="down"><b>Offer Letter Created Date</b>
+														<label class="down"><b>Offer Letter Created Date</b><span style="color:red"> *</span>
 														</label><br><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off"><br>
+															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off" required><br>
 														</div><br>
 														<div style="display:flex;">
 															<span style="margin-right:21px;padding-top:9px">To: </span>
-															<input id="To" type="text" name="offer_download_date2" class="form-control" autocomplete="off">
+															<input id="To" type="text" name="offer_download_date2" class="form-control" autocomplete="off" required>
 														</div>
 													</div>
 											</div>

@@ -28,7 +28,7 @@
       </p>
       <h1 style="font-size:20px;text-decoration:underline;text-align:center;font-weight:bold">Appointment letter</h1><br><br>
       <p style="font-size:14px;line-height:2;font-weight:bold; ">
-         To,<br /> Mr. /Mrs. /Ms. <?php echo $letter_details[0]['emp_name']; ?></br>
+         To,<br /> Mr. /Mrs. /Ms. <?php echo $letter_details[0]['emp_name']; ?><br>
          Emp : <?php echo $letter_details[0]['ffi_emp_id']; ?> <br>
          Address : <?php echo $letter_details[0]['branch']; ?> <br>
          Location : <?php echo $letter_details[0]['location']; ?> <br>
