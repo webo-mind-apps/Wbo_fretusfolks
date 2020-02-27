@@ -135,6 +135,12 @@ ob_start();
 		.dataTables_info {
 			margin-left: 20px;
 		}
+
+		.dataTables_wrapper {
+			position: relative;
+			clear: both;
+			overflow-x: auto;
+		}
 	</style>
 	<script>
 		function delete_offer_letter(id) {
