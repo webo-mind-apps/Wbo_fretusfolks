@@ -687,7 +687,7 @@ class Backend_team extends CI_Controller
 
 				$this->load->library('zip');
 				$log_file='';
-				$correct_path=0;
+				
 				$wrong_path=0;
 				foreach ($data as $key => $row) {
 					$zip_data = array(
@@ -716,8 +716,14 @@ class Backend_team extends CI_Controller
 
 						array_push($zip_data,$r1['path']);
 				}
+				// if($row['ffi_emp_id']=="FFI006")
+				// {
+				// 	echo"<pre>";
+				// 	print_r($zip_data);
+				// 	exit;
+				// }
 				
-					
+					$correct_path=0;
 					foreach ($zip_data as $key => $row1) {
 						
 						if (file_exists($row1)) {
@@ -748,7 +754,7 @@ class Backend_team extends CI_Controller
 				fwrite($myfile, $log_file);
 				fclose($myfile);
 				}
-				$this->zip->clear_data();
+				// $this->zip->clear_data();
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
 			
