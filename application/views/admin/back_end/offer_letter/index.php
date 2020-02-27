@@ -133,7 +133,7 @@ ob_start();
 		}
 
 		.dataTables_info {
-   			 margin-left: 20px;
+			margin-left: 20px;
 		}
 	</style>
 	<script>
@@ -292,27 +292,27 @@ ob_start();
 				</div>
 			</div>
 			<!-- /page header -->
-			<!-- <?php
-					//if ($this->session->flashdata('success', 'Import successfully')) {
-					?>
+			<?php
+			if ($this->session->flashdata('offer_added', 'New Offer Letter Added')) {
+			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Import successfully..!</span>
+					<span class="text-semibold">New Offer Letter Added..!</span>
 				</div>
 			<?php
-			//	}
+			}
 			?>
 			<?php
 
-			//if ($this->session->flashdata('nochange', 'No changes')) {
+			if ($this->session->flashdata('offer_updated', 'Existing Offer Letter updated')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">No changes..!</span>
+					<span class="text-semibold">Existing Offer Letter updated..!</span>
 				</div>
 			<?php
-			//}
-			?> -->
+			}
+			?>
 
 			<?php
 			if ($this->session->flashdata('success')) {

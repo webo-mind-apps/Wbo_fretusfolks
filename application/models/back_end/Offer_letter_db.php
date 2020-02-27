@@ -134,10 +134,11 @@ class Offer_letter_db extends CI_Model
 		// exit;
 		if (!$query->num_rows()) {
 			$this->db->insert('offer_letter', $data);
+			$this->session->set_flashdata('offer_added',"New Offer Letter Added"); 
 		} else {
 			$this->db->where('employee_id', $data['employee_id']);
 			$this->db->update('offer_letter', $data);
-			// return true;
+			$this->session->set_flashdata('offer_updated',"Existing Offer Letter updated"); 
 		}
 		/*$this->db->select('a.*,b.client_name');
 		$this->db->from('backend_management a');
