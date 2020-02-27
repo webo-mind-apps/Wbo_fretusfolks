@@ -180,9 +180,9 @@ class Offer_letter extends CI_Controller
 
 				$mpdf->WriteHTML($html);
 				$file = $data['letter_details'][0]['employee_id'];
-				$date = date('Ymdhis') . $key;
+				$date = date('Y-m-d-his') . $key;
 				$file = $file . '_' . $data['letter_details'][0]['emp_name'];
-				$pdfData = $mpdf->Output($path . '/' . $file .'_'. $date . '.pdf', 'F');
+				$pdfData = $mpdf->Output($path . '/' . $file . '_' . $date . '.pdf', 'F');
 			}
 			$this->zip->read_dir($path, false); //5.make it as zip 
 			$download = $this->zip->download($path . '.zip');
@@ -272,7 +272,7 @@ class Offer_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			if ($this->email->send()) {
+			if ($this->email->send()) { 
 				redirect('Offer_letter/');
 			}
 			// else {
@@ -316,8 +316,8 @@ class Offer_letter extends CI_Controller
 					0
 				); // margin footer  
 				$mpdf->WriteHTML($html);
-				$date = date('Ymdhis');
-				$mpdf->Output($data[0]['ffi_emp_id'] . "_" . $data[0]['emp_name'] . $date . ".pdf", 'D');
+				$date = date('Y-m-d_his');
+				$mpdf->Output($data[0]['ffi_emp_id'] . "_" . $data[0]['emp_name'] . "_" . $date . ".pdf", 'D');
 				redirect('increment_letter');
 			}
 		}

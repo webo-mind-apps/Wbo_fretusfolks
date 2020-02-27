@@ -133,7 +133,13 @@ ob_start();
 		}
 
 		.dataTables_info {
-   			 margin-left: 20px;
+			margin-left: 20px;
+		}
+
+		.dataTables_wrapper {
+			position: relative;
+			clear: both;
+			overflow-x: auto;
 		}
 	</style>
 	<script>
@@ -221,10 +227,10 @@ ob_start();
 
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
-													<label class="down"><b>Clinent Name</b> </label>
+													<label class="down"><b>Clinent Name</b><span style="color:red"> *</span> </label>
 													<div class="form-group">
 
-														<select id="client_values" name="offer_letter_download_client" class="form-control">
+														<select id="client_values" name="offer_letter_download_client" class="form-control" required>
 															<option value=""><b>Select Name</b></option>
 															<?php
 															foreach ($client_management as $row) {
@@ -234,15 +240,15 @@ ob_start();
 														</select>
 													</div>
 													<div class="form-group">
-														<label class="down"><b>Offer Letter Created Date</b>
+														<label class="down"><b>Offer Letter Created Date</b><span style="color:red"> *</span>
 														</label><br><br>
 														<div style="display: flex;width:100%">
 															<span style="margin-right:5px;padding-top:9px;">From:</span>
-															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off"><br>
+															<input id="From" type="text" name="offer_download_date" class="form-control" autocomplete="off" required><br>
 														</div><br>
 														<div style="display:flex;">
 															<span style="margin-right:21px;padding-top:9px">To: </span>
-															<input id="To" type="text" name="offer_download_date2" class="form-control" autocomplete="off">
+															<input id="To" type="text" name="offer_download_date2" class="form-control" autocomplete="off" required>
 														</div>
 													</div>
 											</div>
@@ -292,27 +298,27 @@ ob_start();
 				</div>
 			</div>
 			<!-- /page header -->
-			<!-- <?php
-					//if ($this->session->flashdata('success', 'Import successfully')) {
-					?>
+			<?php
+			if ($this->session->flashdata('offer_added', 'New Offer Letter Added')) {
+			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">Import successfully..!</span>
+					<span class="text-semibold">New Offer Letter Added..!</span>
 				</div>
 			<?php
-			//	}
+			}
 			?>
 			<?php
 
-			//if ($this->session->flashdata('nochange', 'No changes')) {
+			if ($this->session->flashdata('offer_updated', 'Existing Offer Letter updated')) {
 			?>
 				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<span class="text-semibold">No changes..!</span>
+					<span class="text-semibold">Existing Offer Letter updated..!</span>
 				</div>
 			<?php
-			//}
-			?> -->
+			}
+			?>
 
 			<?php
 			if ($this->session->flashdata('success')) {
