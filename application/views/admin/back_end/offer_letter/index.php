@@ -57,6 +57,7 @@ ob_start();
 
 	<!-- /theme JS files -->
 	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
 	<style>
 		#divLoading {
 			display: none;
@@ -131,8 +132,8 @@ ob_start();
 			margin-bottom: 10px;
 		}
 
-		#dynamic_table_info {
-			margin-left: 20px;
+		.dataTables_info {
+   			 margin-left: 20px;
 		}
 	</style>
 	<script>
@@ -217,9 +218,21 @@ ob_start();
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 										</div>
 										<div class="content">
+
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
+													<label class="down"><b>Clinent Name</b> </label>
+													<div class="form-group">
 
+														<select id="client_values" name="offer_letter_download_client" class="form-control">
+															<option value=""><b>Select Name</b></option>
+															<?php
+															foreach ($client_management as $row) {
+																echo '<option value="' . $row['id'] . '">' . $row['client_name'] . '</option>';
+															}
+															?>
+														</select>
+													</div>
 													<div class="form-group">
 														<label class="down"><b>Offer Letter Created Date</b>
 														</label><br><br>
@@ -250,7 +263,7 @@ ob_start();
 												?>offer_letter/doc_formate">Sample Format</a> -->
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('offer_letter/adms_offer_letter_import'); ?>" id="import_form" style="display:none">
-									<input id="import" type="file" name="import">
+									<input id="import" type="file" name="import" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 								</form>
 
 							</div>
@@ -366,7 +379,7 @@ ob_start();
 								</div> -->
 							</div>
 
-							<table id="offer_letter_tables" class="table datatable-basic table-bordered table-striped table-hover">
+							<table id="offer_letter_tables" class="table datatable-basic table-bordered table-striped table-hover ">
 								<thead>
 									<tr>
 										<th>Si No</th>

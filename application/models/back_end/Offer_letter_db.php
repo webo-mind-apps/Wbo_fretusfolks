@@ -88,7 +88,7 @@ class Offer_letter_db extends CI_Model
 	{
 		$emp_id = $this->input->post('emp_id');
 		$this->db->where('ffi_emp_id', $emp_id);
-		// $this->db->where("status", "0");
+		$this->db->where("status", "0");
 		$query = $this->db->get('backend_management');
 		$q = $query->result_array();
 		return $q;
@@ -184,12 +184,16 @@ class Offer_letter_db extends CI_Model
 	function get_offer_letter_pdf()
 	{
 		// $id=$this->uri->segment(3);
+		$client = $this->input->post('offer_letter_download_client');
 		$input_date = $this->input->post('offer_download_date');
 		$input_date2 = $this->input->post('offer_download_date2');
 		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.branch,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,c.client_code');
 		$this->db->from('offer_letter a');
 		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
+		if (!empty($client)) {
+			$this->db->where('a.company_id', $client);
+		}
 		if (!empty($input_date)) {
 			$date = date("Y-m-d", strtotime($input_date));
 			$this->db->where('a.date >=', $date);
@@ -262,7 +266,7 @@ class Offer_letter_db extends CI_Model
 					return "insert";
 				} else {
 					$this->db->where('employee_id', $data['employee_id']);
-					$this->db->update('offer_letter', $data); 
+					$this->db->update('offer_letter', $data);
 				}
 			} else {
 				return "not_exist";

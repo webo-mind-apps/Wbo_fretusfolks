@@ -18,6 +18,7 @@ class Offer_letter extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "backend";
+			$data['client_management'] = $this->letter->get_all_clients();
 			//$data['offer_letter'] = $this->letter->get_all_offer_letters();
 			$this->load->view('admin/back_end/offer_letter/index', $data);
 		} else {
@@ -31,10 +32,12 @@ class Offer_letter extends CI_Controller
 			$fetch_data = $this->letter->make_datatables();
 			$data = array();
 			// $status = '<span class="badge bg-blue">Completed</span>';
+
 			$i = 1;
 			foreach ($fetch_data as $row) {
 				$sub_array   = array();
-				$sub_array[] = $row->id;
+				// $sub_array[] = $row->id;
+				$sub_array[] = $i++;
 				$sub_array[] = $row->employee_id;
 				$sub_array[] = $row->client_name;
 				$sub_array[] = $row->emp_name;
@@ -134,7 +137,15 @@ class Offer_letter extends CI_Controller
 		$this->load->library('zip');
 		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); //2.select records in model 
 		if (!empty($data['letter_details'])) {
-			$path = 'offer_letters/offer_letter_' . date('Ymdhis');
+			//  echo "<pre>";
+			// 		print_r($data['letter_details']);
+			// 		exit;
+			if (empty($_POST['offer_letter_download_client'])) {
+				$path = 'offer_letters/offer_letter_' . date('Y-m-d-his');
+			} else {
+				$path = 'offer_letters/offer_letter_' . $data['letter_details'][0]['client_name'] . '_' . date('Y-m-d-his');
+			}
+
 			if (!is_dir($path)) mkdir($path, 0777, TRUE);
 			foreach ($data['letter_details'] as $key => $value) {
 				$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
@@ -170,8 +181,8 @@ class Offer_letter extends CI_Controller
 				$mpdf->WriteHTML($html);
 				$file = $data['letter_details'][0]['employee_id'];
 				$date = date('Ymdhis') . $key;
-				$file = $file . '-' . $data['letter_details'][0]['emp_name'];
-				$pdfData = $mpdf->Output($path . '/' . $file . $date . '.pdf', 'F');
+				$file = $file . '_' . $data['letter_details'][0]['emp_name'];
+				$pdfData = $mpdf->Output($path . '/' . $file .'_'. $date . '.pdf', 'F');
 			}
 			$this->zip->read_dir($path, false); //5.make it as zip 
 			$download = $this->zip->download($path . '.zip');
@@ -186,18 +197,19 @@ class Offer_letter extends CI_Controller
 		$data = $this->letter->get_employee_detail();
 		$joining_date = "";
 		$contract_date = "";
-		if ($data) {
+		if ($data != '') {
 			if ($data[0]['joining_date'] != "0000-00-00") {
 				$joining_date = date("d-m-Y", strtotime($data[0]['joining_date']));
 			}
 			if ($data[0]['contract_date'] != "0000-00-00") {
 				$contract_date = date("d-m-Y", strtotime($data[0]['contract_date']));
 			}
-			echo "<pre>";
-			print_r($data);
-			exit();
+			// echo "<pre>";
+			// print_r($data);
+			// exit();
 
 			if ($data[0]['data_status'] == 1) {
+
 				echo $data[0]['client_id'] . "****" . $data[0]['emp_name'] . "****" . $joining_date . "****" . $contract_date . "****" . $data[0]['designation'] . "****" . $data[0]['location'] . "****" . $data[0]['department'] . "****" . $data[0]['basic_salary'] . "****" . $data[0]['hra'] . "****" . $data[0]['conveyance'] . "****" . $data[0]['medical_reimbursement'] . "****" . $data[0]['special_allowance'] . "****" . $data[0]['other_allowance'] . "****" . $data[0]['st_bonus'] . "****" . $data[0]['gross_salary'] . "****" . $data[0]['emp_pf'] . "****" . $data[0]['emp_esic'] . "****" . $data[0]['pt'] . "****" . $data[0]['total_deduction'] . "****" . $data[0]['take_home'] . "****" . $data[0]['employer_pf'] . "****" . $data[0]['employer_esic'] . "****" . $data[0]['mediclaim'] . "****" . $data[0]['ctc'];
 			} else {
 				echo "0";
@@ -260,11 +272,12 @@ class Offer_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			if ($this->email->send()) { 
+			if ($this->email->send()) {
 				redirect('Offer_letter/');
-			} else {
-				echo "<script>alert('Mail not sent')</script>";
 			}
+			// else {
+			// 	echo "<script>alert('Mail not sent')</script>";
+			// }
 		}
 	}
 
@@ -499,9 +512,10 @@ class Offer_letter extends CI_Controller
 								$this->email->subject($subject);
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-								if (!$this->email->send()) {
-									echo "<script>alert('not sent(import)')</script>";
-								}
+								$this->email->send();
+								//  {
+								// 	echo "<script>alert('not sent(import)')</script>";
+								// }
 							} else if ($import_status == "not_exist") {
 								$not_exist = $not_exist + 1;
 							}
@@ -553,6 +567,7 @@ class Offer_letter extends CI_Controller
 			$sheet1->setCellValue('E3', "Format 2");
 			$sheet1->setCellValue('E4', "Format 3");
 			$sheet1->setCellValue('E5', "Format 4");
+
 
 			$sheet1->setCellValue('F2', 1);
 			$sheet1->setCellValue('F3', 2);

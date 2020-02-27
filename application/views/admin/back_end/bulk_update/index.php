@@ -66,17 +66,14 @@
 	// For making Active
 	function status_active_checks(id){
 
-	  $("#inactive_btn").attr('disabled','disabled');
-	  $("#active_btn").removeAttr('disabled'); 
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
 	  $.each(checked, function (index, value) { 
-	  id[index] = $(value).val();
-		
+	  id[index] = $(value).val();	
 	  });
 	  console.log(id);
 	  
-      if(confirm("Are you sure to Active")){
+      if(confirm("Are you sure to Active ?")){
         $.ajax({
           type:"POST",
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
@@ -84,10 +81,9 @@
 			  id:id,
 			  status:1
 			},
-          success: function(data)
-          {  
-            $("#dtable").DataTable().ajax.reload();
-          },
+          success: function(data)  {
+			$("#dtable").DataTable().ajax.reload();
+		   },
 		  error: function(xhr, ajaxOptions, thrownError) {}
         });
       }     
@@ -97,8 +93,6 @@
 	// For making Inactive
 	function status_inactive_checks(id){
 
-	  $("#active_btn").attr('disabled','disabled');
-	  $("#inactive_btn").removeAttr('disabled'); 
 	  var checked = $('input[name="checkbox[]"]:checked'); 
 	  var id = [];
 	  $.each(checked, function (index, value) { 
@@ -107,7 +101,7 @@
 	  });
 	  console.log(id);
 	  
-      if(confirm("Are you sure to Inactive")){
+      if(confirm("Are you sure to Inactive ?")){
         $.ajax({
           type:"POST",
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
@@ -115,10 +109,9 @@
 			  id:id,
 			  status:0
 			},
-          success: function(data)
-          {  
-            $("#dtable").DataTable().ajax.reload();
-          },
+          success: function(data){
+			$("#dtable").DataTable().ajax.reload();
+		  },
 		  error: function(xhr, ajaxOptions, thrownError) {}
         });
       }     
@@ -164,15 +157,35 @@
 								'order' : [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
+<<<<<<< HEAD
 									'type': 'POST'
 								},
+=======
+									'type': 'POST',
+									beforeSend: function(){
+								/* $(document).on('change', '#selectAll', function(){
+									if($(this).prop('checked')){
+									$('.checkbox').prop('checked', true);
+									}else{
+									$('.checkbox').prop('checked', false);
+									}	
+								}); */
+								$('#selectAll').prop('checked', false);
+									},
+									},
+									
+>>>>>>> 44ea2cdabbb41718407e40079a7d3e615470db6c
 								'columnDefs': [{
 									"targets": [0],
 									"orderable": false
 								}],
 							});
+<<<<<<< HEAD
 							
-							//For selecting all the datas
+							//For select all  
+=======
+							 //For Select 
+>>>>>>> 44ea2cdabbb41718407e40079a7d3e615470db6c
 							$(document).on('change', '#selectAll', function(){
 								if($(this).prop('checked')){
 								$('.checkbox').prop('checked', true);
@@ -315,7 +328,7 @@
 						<thead>
 							<tr>
 							<th style="width: 30px;"><center><input type="checkbox" id="selectAll" style="width:20px !important; height:20px !important;" /></th></center>
-								<th>Si No</th>
+								<th>SI No</th>
 								<th>Emp ID</th>
 								<th>Emp Name</th>
 								<th class="text-center">Status</th>
