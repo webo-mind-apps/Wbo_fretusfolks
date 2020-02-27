@@ -19,7 +19,7 @@ class Home extends CI_Controller
 	public function forgot_password()
 	{
 		//Load forgot password form
-		$this->load->view('admin/forgot_password_form');
+		$this->load->view('admin/forgot_password/forgot_password_form');
 	}
 
 
@@ -45,7 +45,7 @@ class Home extends CI_Controller
 
 					//$this->load->view('mail_format', $data);
 					// exit();
-					$mail_message = $this->load->view('mail_format', $data, TRUE);
+					$mail_message = $this->load->view('admin/forgot_password/mail_format', $data, TRUE);
 					$this->email->set_newline("\r\n");
 					$this->email->from($from);
 					$this->email->to($my_mail);
@@ -55,11 +55,11 @@ class Home extends CI_Controller
 					//Send email
 
 					if ($this->email->send()) {
-						$this->load->view('admin/forgot_password_form');
+						$this->load->view('admin/forgot_password/forgot_password_form');
 						$this->session->set_flashdata('mail_sent', 'sent');
 						redirect('home/forgot_password');
 					} else {
-						$this->load->view('admin/forgot_password_form');
+						$this->load->view('admin/forgot_password/forgot_password_form');
 						$this->session->set_flashdata('mail_not_sent', 'not_sent');
 						redirect('home/forgot_password');
 					}
@@ -71,7 +71,7 @@ class Home extends CI_Controller
 				$this->session->set_flashdata('emp_id_err', 'error');
 				redirect('home/forgot_password');
 			}
-		}else{
+		} else {
 			redirect('home/forgot_password');
 		}
 	}
@@ -83,7 +83,7 @@ class Home extends CI_Controller
 			$confirm_password = $this->input->post('abc_confirm_password');
 			if ($new_password != $confirm_password) {
 				$this->session->set_flashdata('password_not_modifed', 'not_updated');
-				$this->load->view('create_new_password_form');
+				$this->load->view('admin/forgot_password/create_new_password_form');
 				// redirect('home/create_new_password_form');
 			} else {
 				if ($this->admin->update_emp_password()) {
@@ -92,22 +92,22 @@ class Home extends CI_Controller
 					redirect('home/');
 				}
 			}
-		}else{
+		} else {
 			redirect('home/forgot_password');
 		}
 	}
 
 	function create_new_password()
 	{
-		if (isset($_POST['mail_link_submit'])) {//from mail format form submit
+		if (isset($_POST['mail_link_submit'])) { //from mail format form submit
 
 			if ($this->admin->check_refresh_id()) {
-				$this->load->view('create_new_password_form');
+				$this->load->view('admin/forgot_password/create_new_password_form');
 			} else {
 				$this->session->set_flashdata('link_expired', 'expired');
 				redirect('home/forgot_password');
 			}
-		}else{
+		} else {
 			redirect('home/forgot_password');
 		}
 	}
