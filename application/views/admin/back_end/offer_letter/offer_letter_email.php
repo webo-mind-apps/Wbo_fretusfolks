@@ -351,7 +351,7 @@
                     <tr>
                       <td>
                         <center>
-                          <img src="admin_assets/assets/images/logo.png" style="max-width:100%; height:70px"  alt="">
+                          <img src="<?php echo base_url();?>admin_assets\assets\main_logo.png" style="max-width:100%; height:70px"  alt="">
                         </center>
                         
                       </td>
