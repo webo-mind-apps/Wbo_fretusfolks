@@ -163,6 +163,7 @@ class Payslips extends CI_Controller
 								// echo "<pre>";
 								// print_r($data);
 								// exit;
+								if($result['payslip']['email']!='' || !empty($result['payslip']['email'])){
 								$message = $this->load->view('admin/back_end/payslips/payslips_email', $result, true);
 								$mpdf = new \Mpdf\Mpdf();
 								$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
@@ -198,13 +199,12 @@ class Payslips extends CI_Controller
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 								$this->email->send();
-							} else if ($import_status == "not_exist") {
-								$not_exist = $not_exist + 1;
 							}
 						}
+					}
 					endif;
 				}
-				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee not founded <br>';
+				$msg = $insert . ' rows inserted <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('payslips', 'refresh');
 			} else {
@@ -241,7 +241,7 @@ class Payslips extends CI_Controller
 			}
 			else
 			{
-				exit;
+				
 				$this->session->set_flashdata('error', 'No datas found');
 				redirect('payslips/');
 			}

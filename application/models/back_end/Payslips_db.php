@@ -100,14 +100,9 @@ class Payslips_db extends CI_Model
 	{
 		if ($data['emp_id'] != 'null' || $data['emp_id'] != '' || !empty($data['emp_id'])) {
 
-			$this->db->where('ffi_emp_id', $data['emp_id']);
-			$query = $this->db->get("backend_management");
-			if ($query->num_rows() > 0) {
 				$this->db->insert('payslips', $data);
 				return "insert";
-			} else {
-				return "not_exist";
-			}
+		
 		} else {
 			return false;
 		}
