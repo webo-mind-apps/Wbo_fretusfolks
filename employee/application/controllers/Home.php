@@ -43,7 +43,7 @@ class Home extends CI_Controller
 					$data['last_name']  = $data[0]['last_name'];
 					$my_mail = $data[0]['email'];
 
-					//$this->load->view('mail_format', $data);
+					//echo $my_mail;
 					// exit();
 					$mail_message = $this->load->view('admin/forgot_password/mail_format', $data, TRUE);
 					$this->email->set_newline("\r\n");
