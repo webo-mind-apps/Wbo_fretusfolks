@@ -49,11 +49,10 @@ class Payslips_db extends CI_Model
 	function get_payslip_details()
 	{
 		$id=$this->uri->segment(3);
-		$this->db->select('a.*,b.client_name');
-		$this->db->from('payslips a');
-		$this->db->join('client_management b', 'a.client_id=b.id', 'left');
+		$this->db->select('*');
+		$this->db->from('payslips');
 		$query=$this->db->get();
-		$this->db->where('a.id',$id);
+		$this->db->where('id',$id);
 		$q=$query->result_array();
 		return $q;
 	}
