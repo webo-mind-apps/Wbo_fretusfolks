@@ -396,7 +396,8 @@ class Backend_team extends CI_Controller
 	{
 
 		if ($this->session->userdata('admin_login')) {
-
+			try{
+			
 			$date = date('y-m-d-his');
 			$spreadsheet = new Spreadsheet();
 			$spreadsheet->createSheet();
@@ -686,7 +687,9 @@ class Backend_team extends CI_Controller
 				$objWriter->save($path . "/" . $filename);
 
 				$this->load->library('zip');
-
+				$log_file='';
+				
+				$wrong_path=0;
 				foreach ($data as $key => $row) {
 					$zip_data = array(
 						$row['bank_document'],
@@ -702,39 +705,77 @@ class Backend_team extends CI_Controller
 
 					);
 
-					foreach ($zip_data as $key => $row1) {
-
-						$this->zip->read_file($row1);
-					}
-
 					$education_certificate = $this->back_end->get_education_details($row['ffi_emp_id']);
-					foreach ($education_certificate as $key => $r) {
-
-						$this->zip->read_file($r['path']);
+					foreach ($education_certificate as $key => $r)
+					 {
+						array_push($zip_data,$r['path']);
 					}
+
 					$other_certificate = $this->back_end->get_other_certificate_details($row['ffi_emp_id']);
+					
 					foreach ($other_certificate as $key => $r1) {
 
-						$this->zip->read_file($r1['path']);
+						array_push($zip_data,$r1['path']);
+				}
+				// if($row['ffi_emp_id']=="FFI006")
+				// {
+				// 	echo"<pre>";
+				// 	print_r($zip_data);
+				// 	exit;
+				// }
+				
+					$correct_path=0;
+					foreach ($zip_data as $key => $row1) {
+						
+						if (file_exists($row1)) {
+							
+							$size    = filesize($row1)/1024;
+							if($size<=50)
+							{
+								$this->zip->read_file($row1);
+								$correct_path++;
+							}
+							else{
+								$arr=explode('/',$row1);
+								$file_name=end($arr);
+								$txt = "[Emp_id=>".$row['ffi_emp_id']."]-[File name=>".$file_name."]-[File path=>".$row1."]\r\n\n";
+								$log_file .= $txt;
+								$wrong_path++;
+							}
+						}
 					}
-
-
+					if($correct_path>0){
 					$this->zip->archive($path . '/' . $row['ffi_emp_id'] . '_' . $row['emp_name'] . '.zip');
 					$this->zip->clear_data();
+					}
+					
 				}
-
-				$this->zip->clear_data();
+				if($wrong_path>0){
+				$myfile = fopen($path."/dcs_log_file.txt", "w");
+				fwrite($myfile, $log_file);
+				fclose($myfile);
+				}
+				// $this->zip->clear_data();
 				$this->zip->read_dir($path, false);
 				$download = $this->zip->download($path . '.zip');
+			
 				redirect('backend_team/');
 			} else {
 				$this->session->set_flashdata('no_data', 'No datas founded');
 				redirect('backend_team/', 'refresh');
 			}
+		}
+		catch(Exception $e) {
+			$this->session->set_flashdata('take_time', 'Large size');
+				redirect('backend_team/', 'refresh');
+
+		}
 		} else {
 			redirect('home/index');
 		}
 	}
+
+	
 	function delete_backend_team()
 	{
 		if ($this->back_end->delete_backend_team()) {
