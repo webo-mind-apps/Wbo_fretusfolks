@@ -100,8 +100,27 @@ class Payslips_db extends CI_Model
 	{
 		if ($data['emp_id'] != 'null' || $data['emp_id'] != '' || !empty($data['emp_id'])) {
 
+				$this->db->where("month",$data['month']);
+				$this->db->where("year",$data['year']);
+				$this->db->where("emp_id",$data['emp_id']);
+				$query=$this->db->get("payslips");
+				if($query->num_rows()<=0){
+
 				$this->db->insert('payslips', $data);
-				return "insert";
+				if ($this->db->affected_rows() > 0)
+				{
+					return "insert";
+				}
+				}
+				else{
+					$this->db->where("emp_id",$data['emp_id']);
+					$this->db->update('payslips', $data);
+					if ($this->db->affected_rows() > 0)
+					{
+						return "update";
+					}
+				}
+			
 		
 		} else {
 			return false;

@@ -73,7 +73,7 @@ class Payslips extends CI_Controller
 				// print_r($allDataInSheet[2]); 
 				// exit;
 				$insert = 0; 
-				$not_exist = 0; 
+				$update = 0; 
 				$month=$this->input->post('payslip_month');;
 				$year=$this->input->post('payslip_year');;
 				$date = date("Y-m-d");
@@ -201,10 +201,13 @@ class Payslips extends CI_Controller
 								$this->email->send();
 							}
 						}
+						else if($import_status == "update"){
+							$update = $update+1;
+						}
 					}
 					endif;
 				}
-				$msg = $insert . ' rows inserted <br>';
+				$msg = $insert . ' rows inserted <br>'.$update.'rows updated <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('payslips', 'refresh');
 			} else {
