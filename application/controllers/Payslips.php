@@ -207,7 +207,7 @@ class Payslips extends CI_Controller
 					}
 					endif;
 				}
-				$msg = $insert . ' rows inserted <br>'.$update.'rows updated <br>';
+				$msg = $insert . ' rows inserted <br>'.$update.' rows updated <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('payslips', 'refresh');
 			} else {
