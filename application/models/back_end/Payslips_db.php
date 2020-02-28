@@ -35,13 +35,12 @@ class Payslips_db extends CI_Model
 	{
 		$month=$this->input->post('payslip_download_month');
 		$year=$this->input->post('payslip_download_year');
-		$client_id=$this->input->post('payslip_download_client');
-		$this->db->select('a.*,b.client_name');
-		$this->db->from('payslips a');
-		$this->db->join('client_management b', 'a.client_id=b.id', 'left');
-		$this->db->where("a.month", $month);
-		$this->db->where("a.year", $year);
-		$this->db->where("a.client_id", $client_id);
+		$client_name=$this->input->post('payslip_download_client');
+		$this->db->select('*');
+		$this->db->from('payslips');
+		$this->db->where("month", $month);
+		$this->db->where("year", $year);
+		$this->db->where("client_name", $client_name);
 		$query=$this->db->get();
 		$q=$query->result_array();
 		return $q;
@@ -69,9 +68,8 @@ class Payslips_db extends CI_Model
 		$emp_id=$this->input->post('emp_id');
 		$month=$this->input->post('month');
 		$year=$this->input->post('year');
-		$this->db->select('a.*,b.client_name');
-		$this->db->from('payslips a');
-		$this->db->join('client_management b', 'a.client_id=b.id', 'left');
+		$this->db->select('*');
+		$this->db->from('payslips');
 		if($emp_id !="" || !empty($emp_id))
 		{
 			$this->db->where('emp_id',$emp_id);

@@ -86,7 +86,7 @@ class Payslips extends CI_Controller
 							"doj"							=>(empty($allDataInSheet[$i]['D']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['D']))),
 							"department"					=>(empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
 							"location"						=>(empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
-							"client_id"					=>(empty($allDataInSheet[$i]['BL']) ? 'null' : $allDataInSheet[$i]['BL']),
+							"client_name"					=>(empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
 							"uan_no"						=>(empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
 							"pf_no"							=>(empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
 							"esi_no"						=>(empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
@@ -197,9 +197,7 @@ class Payslips extends CI_Controller
 								$this->email->subject($subject);
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-								if (!$this->email->send()) {
-									echo "<script>alert('not sended');</script>";
-								}
+								$this->email->send();
 							} else if ($import_status == "not_exist") {
 								$not_exist = $not_exist + 1;
 							}
@@ -243,6 +241,7 @@ class Payslips extends CI_Controller
 			}
 			else
 			{
+				exit;
 				$this->session->set_flashdata('error', 'No datas found');
 				redirect('payslips/');
 			}

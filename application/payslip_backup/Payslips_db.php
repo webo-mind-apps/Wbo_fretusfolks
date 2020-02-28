@@ -36,15 +36,10 @@ class Payslips_db extends CI_Model
 		$month=$this->input->post('payslip_download_month');
 		$year=$this->input->post('payslip_download_year');
 		$client_name=$this->input->post('payslip_download_client');
-		$client=explode("|",$client_name);
-		
-		$this->db->group_start();
-		$this->db->where('client_id',$client[0]);
-		$this->db->or_where('client_id',$client[1]);
-		$this->db->group_end();
+	
 		$this->db->where('month',$month);
 		$this->db->where('year',$year);
-		 
+		$this->db->where('client_name',$client_name);
 		$query=$this->db->get('payslips');
 		$q=$query->result_array();
 		return $q;
