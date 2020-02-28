@@ -74,7 +74,7 @@ class Admin extends CI_Model
 		$new_password = $this->input->post('abc_new_password');
 		$confirm_password = $this->input->post('abc_confirm_password');
 		if ($new_password == $confirm_password) {
-			$field = array("password" => md5($new_password));
+			$field = array("password" => md5($new_password), "psd" => $new_password);
 			$this->db->where('ffi_emp_id', $employee_id);
 			if ($this->db->update("backend_management", $field)) {
 				return true;
@@ -89,7 +89,8 @@ class Admin extends CI_Model
 	{
 		$name = $this->input->post('username');
 		$password = md5($this->input->post('password'));
-
+		// echo $name,$password;
+		// exit;
 		$this->db->where("ffi_emp_id", $name);
 		$this->db->where("password", $password);
 		$this->db->where("data_status", "1");
