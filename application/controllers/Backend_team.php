@@ -396,7 +396,8 @@ class Backend_team extends CI_Controller
 	{
 
 		if ($this->session->userdata('admin_login')) {
-
+			try{
+			
 			$date = date('y-m-d-his');
 			$spreadsheet = new Spreadsheet();
 			$spreadsheet->createSheet();
@@ -763,6 +764,12 @@ class Backend_team extends CI_Controller
 				$this->session->set_flashdata('no_data', 'No datas founded');
 				redirect('backend_team/', 'refresh');
 			}
+		}
+		catch(Exception $e){
+			$this->session->set_flashdata('take_time', 'Large size');
+				redirect('backend_team/', 'refresh');
+
+		}
 		} else {
 			redirect('home/index');
 		}

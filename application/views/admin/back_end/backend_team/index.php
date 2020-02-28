@@ -319,6 +319,17 @@
 				<?php
 				}
 				?>
+				<?php
+
+					if ($this->session->flashdata('take_time', 'Large size')) {
+					?>
+						<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<span class="text-semibold">The selected file is too large and is causing the form to exceed the amount allowable resources...!!</span>
+						</div>
+					<?php
+					}
+					?>
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
