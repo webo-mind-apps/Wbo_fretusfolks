@@ -218,8 +218,6 @@ class Payslips extends CI_Controller
 	}
 	public function download_payslips()
 	{
-	
-		
 		if($this->session->userdata('admin_login'))
 		{
 			

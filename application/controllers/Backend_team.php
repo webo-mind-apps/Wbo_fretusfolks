@@ -765,7 +765,7 @@ class Backend_team extends CI_Controller
 				redirect('backend_team/', 'refresh');
 			}
 		}
-		catch(Exception $e){
+		catch(Exception $e) {
 			$this->session->set_flashdata('take_time', 'Large size');
 				redirect('backend_team/', 'refresh');
 
