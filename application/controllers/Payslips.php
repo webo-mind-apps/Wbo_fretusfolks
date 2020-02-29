@@ -27,19 +27,40 @@ class Payslips extends CI_Controller
 			redirect('home/index');
 		}
 	}
-	
-	public function print_payslip()
-	{
-		if($this->session->userdata('admin_login'))
-		{
-			$data['payslip']=$this->payslips->get_payslip_details();
-			$this->load->view('admin/back_end/payslips/print_payslip',$data);
-		}
-		else
-		{
-			redirect('home/index');
+	function print_payslip()
+	{ //single pdf file download FUNC USE
+		if ($this->session->userdata('admin_login')) {
+			if ($data['data']=$this->payslips->get_payslip_details()) {
+				$mpdf = new \Mpdf\Mpdf();
+				// echo "<pre>";
+				// print_r($data['data']);
+				// exit;
+				$html = $this->load->view('admin/back_end/payslips/pdf_payslips', $data, true);
+				
+				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+				$mpdf->AddPage(
+					'', // L - landscape, P - portrait 
+					'',
+					'',
+					'',
+					'',
+					5, // margin_left
+					5, // margin right
+					35, // margin top
+					35, // margin bottom
+					0, // margin header
+					0
+				); // margin footer  
+				$mpdf->WriteHTML($html);
+				$date = date('Y-m-d_his');
+				$mpdf->Output($data['data']['emp_id'] . "_" . $data['data']['emp_name'] . "_" . $date . ".pdf", 'D');
+				redirect('payslips');
+			}
 		}
 	}
+
+
 	public function upload_payslips()
 	{
 
@@ -281,7 +302,7 @@ class Payslips extends CI_Controller
 										<i class="icon-menu9"></i>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right">
-										<a href="'.site_url('payslips/print_payslip/'.$row['id']).'" id="'.$row['id'].'" class="dropdown-item" target="_blank"><i class="fa fa-print"></i> Print</a>
+										<a href="'.site_url('payslips/print_payslip/'.$row['id']).'" id="'.$row['id'].'" class="dropdown-item" target="_blank"><i class="fa fa-print"></i> Download Payslip</a>
 										<a href="javascript:void(0)" id="'.$row['id'].'" class="dropdown-item" onclick="delete_payslip(this.id);"><i class="fa fa-trash"></i> Delete</a>
 									</div>
 								</div>
@@ -315,7 +336,7 @@ class Payslips extends CI_Controller
 										<i class="icon-menu9"></i>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right">
-										<a href="'.site_url('payslips/print_payslip/'.$row['id']).'" id="'.$row['id'].'" class="dropdown-item" target="_blank"><i class="fa fa-print"></i> Print</a>
+										<a href="'.site_url('payslips/print_payslip/'.$row['id']).'" id="'.$row['id'].'" class="dropdown-item" target="_blank"><i class="fa fa-print"></i> Download Payslip</a>
 										<a href="javascript:void(0)" id="'.$row['id'].'" class="dropdown-item" onclick="delete_payslip(this.id);"><i class="fa fa-trash"></i> Delete</a>
 									</div>
 								</div>

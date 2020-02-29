@@ -53,7 +53,7 @@ class Payslips_db extends CI_Model
 		$this->db->from('payslips');
 		$query=$this->db->get();
 		$this->db->where('id',$id);
-		$q=$query->result_array();
+		$q=$query->row_array();
 		return $q;
 	}
 	function delete_payslip()
