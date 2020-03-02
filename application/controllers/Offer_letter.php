@@ -272,7 +272,7 @@ class Offer_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			if ($this->email->send()) { 
+			if ($this->email->send()) {
 				redirect('Offer_letter/');
 			}
 			// else {
