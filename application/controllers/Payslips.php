@@ -90,7 +90,7 @@ class Payslips extends CI_Controller
 				//2.fetch stru and datas row wise
 				// echo "<pre>"; 
 				// print_r($allDataInSheet[2]); 
-				// exit;
+				
 				$insert = 0; 
 				$update = 0; 
 				$month=$this->input->post('payslip_month');;
@@ -287,11 +287,12 @@ class Payslips extends CI_Controller
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 								$this->email->send();
 							}
+							else if($import_status == "update"){
+								$update = $update+1;
 						}
-						else if($import_status == "update"){
-							$update = $update+1;
+						
 						}
-					}
+					
 					endif;
 				}
 				$msg = $insert . ' rows inserted <br>'.$update.' rows updated <br>';
