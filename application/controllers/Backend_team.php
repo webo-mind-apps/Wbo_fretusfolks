@@ -701,6 +701,7 @@ class Backend_team extends CI_Controller
 						$row['photo'],
 						$row['resume'],
 						$row['voter_id'],
+						$row['aadhar_path'],
 
 					);
 
@@ -729,7 +730,7 @@ class Backend_team extends CI_Controller
 						if (file_exists($row1)) {
 							
 							$size    = filesize($row1)/1024;
-							if($size<=50)
+							if($size<=500)
 							{
 								$this->zip->read_file($row1);
 								$correct_path++;
@@ -895,8 +896,8 @@ class Backend_team extends CI_Controller
 						"client_emp_id"			=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
 						"grade"					=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
 						"emp_name"				=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
-						"middle_name"			=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
-						"last_name"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
+						"middle_name"			=> (empty($allDataInSheet[$i]['H']) ? '' : $allDataInSheet[$i]['H']),
+						"last_name"				=> (empty($allDataInSheet[$i]['I']) ? '' : $allDataInSheet[$i]['I']),
 						"interview_date"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['J']))),
 						"joining_date"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['K']))),
 						"contract_date"			=> (empty($allDataInSheet[$i]['L']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['L']))),
@@ -964,6 +965,8 @@ class Backend_team extends CI_Controller
 						"password"				=> md5(empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
 						"psd"					=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
 						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? 'null' : $allDataInSheet[$i]['CE']),
+						"data_status"			=> (empty($allDataInSheet[$i]['CF']) ? 'null' : $allDataInSheet[$i]['CF']),
+
 						// 'modified_date'			=>	date('Y-m-d H:i:s')
 					);
 					$data['education_certificate'] = array(
@@ -1055,6 +1058,9 @@ class Backend_team extends CI_Controller
 			$sheet1->setCellValue('BZ1', 'ACTIVE STATUS');
 			$sheet1->setCellValue('CA1', 'VALUE');
 
+			$sheet1->setCellValue('CC1', 'DATA STATUS');
+			$sheet1->setCellValue('CD1', 'DATA STATUS VALUE');
+
 
 			$sheet1->getStyle("A1:CA1")->applyFromArray(array("font" => array("bold" => true)));
 			foreach (range('A', 'CA') as $columnID) {
@@ -1107,6 +1113,11 @@ class Backend_team extends CI_Controller
 			$sheet1->setCellValue('CA2', '0');
 			$sheet1->setCellValue('CA3', '1');
 
+			$sheet1->setCellValue('CC2', 'Complete');
+			$sheet1->setCellValue('CC3', 'Pending');
+			$sheet1->setCellValue('CD2', '1');
+			$sheet1->setCellValue('CD3', '0');
+
 
 			$spreadsheet->setActiveSheetIndex(0);
 			$spreadsheet->getActiveSheet()->setTitle('Back_end');
@@ -1158,6 +1169,15 @@ class Backend_team extends CI_Controller
 			$cellBY2->setShowDropDown(true);
 			$cellBY2->setFormula1('list1!$BZ:$BZ');
 			$sheet->setCellValue('CE2', '=vlookup(BY2,list1!BZ:CA,2,false)');
+
+			$cellBY2 = $sheet->getCell('BZ2')->getDataValidation();
+			$cellBY2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellBY2->setAllowBlank(false);
+			$cellBY2->setShowInputMessage(true);
+			$cellBY2->setShowErrorMessage(true);
+			$cellBY2->setShowDropDown(true);
+			$cellBY2->setFormula1('list1!$CC:$CC');
+			$sheet->setCellValue('CF2', '=vlookup(BZ2,list1!CC:CD,2,false)');
 
 			$cellAC2 = $sheet->getCell('AC2')->getDataValidation();
 			$cellAC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);

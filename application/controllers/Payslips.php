@@ -170,7 +170,7 @@ class Payslips extends CI_Controller
 
 						);
 								
-					if ($data['emp_id'] != '' || !empty($data['emp_id'])) :
+					if ($data['emp_id'] != '' || !empty($data['emp_id'])) {
 						if ($import_status = $this->payslips->importEmployee_payslips_letter($data)) {
 
 							if ($import_status == "insert") {
@@ -221,18 +221,20 @@ class Payslips extends CI_Controller
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 								$this->email->send();
 							}
-							else if($import_status == "update"){
-								$update = $update+1;
+							
 						}
-						
+						else if($import_status == "update"){
+							$update = $update+1;
 						}
 					
-					endif;
+					}
 				}
-				$msg = $insert . ' rows inserted <br>'.$update.' rows updated <br>';
+			}
+
+			$msg = $insert . ' rows inserted <br>'.$update.' rows updated <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('payslips', 'refresh');
-			} else {
+		 } else {
 				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
 				redirect('payslips', 'refresh');
 			}

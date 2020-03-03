@@ -114,14 +114,58 @@ class Backend_db extends CI_Model
 	function delete_backend_team()
 	{
 		$id=$this->input->post('id'); 
+		$this->backend_file_delete($id);  //delete the all file by emp_id
+		$this->education_file_delete($id);
+		$this->other_file_delete($id);
+		
 		$this->db->where("ffi_emp_id",$id);
 		if($this->db->delete("backend_management")){
 			$this->db->where("emp_id",$id);
 			$this->db->delete("education_certificate");
-
 			$this->db->where("emp_id",$id);
 			$this->db->delete("other_certificate");
 			return true; 
+		}
+	}
+
+	function backend_file_delete($id)
+	{
+		$this->db->where("ffi_emp_id",$id);
+		$query=$this->db->get('backend_management');
+		$data=$query->row_array();
+		unlink($data['bank_document']);
+		unlink($data['emp_form']);
+		unlink($data['exp_letter']);
+		unlink($data['driving_license_path']);
+		unlink($data['pan_path']);
+		unlink($data['payslip']);
+		unlink($data['pf_esic_form']);
+		unlink($data['photo']);
+		unlink($data['resume']);
+		unlink($data['voter_id']);
+		unlink($data['aadhar_path']);
+	}
+
+	function education_file_delete($id)
+	{
+		$this->db->where("emp_id",$id);
+		$query=$this->db->get('education_certificate');
+		$data=$query->result_array();
+		foreach ($data as $key => $r)
+		{
+			unlink($r['path']);
+		}
+		
+	}
+
+	function other_file_delete($id)
+	{
+		$this->db->where("emp_id",$id);
+		$query=$this->db->get('other_certificate');
+		$data=$query->result_array();
+		foreach ($data as $key => $r)
+		{
+			unlink($r['path']);
 		}
 	}
 
