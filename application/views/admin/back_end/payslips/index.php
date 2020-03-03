@@ -326,7 +326,7 @@ $active_menu="index";
 														<?php
 															foreach($client_management as $row)
 															{
-																echo '<option value="'.$row['id'].'|'.$row['client_name'].'">'.$row['client_name'].'</option>';
+																echo '<option value="'.$row['client_name'].'">'.$row['client_name'].'</option>';
 															}
 														?>
 												</select>

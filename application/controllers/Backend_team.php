@@ -962,8 +962,8 @@ class Backend_team extends CI_Controller
 
 						"payslip"				=> (empty($allDataInSheet[$i]['BV']) ? 'null' : $allDataInSheet[$i]['BV']),
 						"exp_letter"			=> (empty($allDataInSheet[$i]['BW']) ? 'null' : $allDataInSheet[$i]['BW']),
-						"password"				=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
-						"psd"					=>	md5($allDataInSheet[$i]['BX']),
+						"password"				=> md5(empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
+						"psd"					=> (empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),
 						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? 'null' : $allDataInSheet[$i]['CE']),
 						// 'modified_date'			=>	date('Y-m-d H:i:s')
 					);
