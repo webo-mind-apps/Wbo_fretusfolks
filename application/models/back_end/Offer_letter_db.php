@@ -132,7 +132,7 @@ class Offer_letter_db extends CI_Model
 		$query = $this->db->get("offer_letter");
 		// echo $query->num_rows();
 		// exit;
-		if (!$query->num_rows()) {
+		if ($query->num_rows() <= 0) {
 			$this->db->insert('offer_letter', $data);
 			$this->session->set_flashdata('offer_added', "New Offer Letter Added");
 		}
