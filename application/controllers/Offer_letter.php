@@ -223,9 +223,7 @@ class Offer_letter extends CI_Controller
 		$letter_type = $this->input->post('letter_format');
 
 		$data['letter_details'] = $this->letter->save_offer_letter();
-		// echo '<pre>';
-		// print_r($data['letter_details']);
-		// exit;
+
 
 		if (!empty($data)) {
 			$mpdf = new \Mpdf\Mpdf();
@@ -272,9 +270,10 @@ class Offer_letter extends CI_Controller
 			$this->email->subject($subject);
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-			if ($this->email->send()) { 
+			if ($this->email->send()) {
 				redirect('Offer_letter/');
 			}
+			redirect('Offer_letter/');
 			// else {
 			// 	echo "<script>alert('Mail not sent')</script>";
 			// }

@@ -134,12 +134,13 @@ class Offer_letter_db extends CI_Model
 		// exit;
 		if (!$query->num_rows()) {
 			$this->db->insert('offer_letter', $data);
-			$this->session->set_flashdata('offer_added',"New Offer Letter Added"); 
-		} else {
-			$this->db->where('employee_id', $data['employee_id']);
-			$this->db->update('offer_letter', $data);
-			$this->session->set_flashdata('offer_updated',"Existing Offer Letter updated"); 
+			$this->session->set_flashdata('offer_added', "New Offer Letter Added");
 		}
+		// else {
+		// 	$this->db->where('employee_id', $data['employee_id']);
+		// 	$this->db->update('offer_letter', $data);
+		// 	$this->session->set_flashdata('offer_updated', "Existing Offer Letter updated");
+		// }
 		/*$this->db->select('a.*,b.client_name');
 		$this->db->from('backend_management a');
 		$this->db->join('client_management b','a.client_id=b.id','left');
@@ -261,14 +262,18 @@ class Offer_letter_db extends CI_Model
 			$this->db->where('employee_id', $data['employee_id']);
 			$query = $this->db->get("offer_letter");
 			$offer_count = $query->num_rows();
+			// echo "<pre>";
+			// print_r($data);
+			// exit;
 			if ($backend_count > 0) {
-				if ($backend_count > 0 && !$offer_count > 0) {
+				if ($offer_count <= 0) {
 					$this->db->insert('offer_letter', $data);
 					return "insert";
-				} else {
-					$this->db->where('employee_id', $data['employee_id']);
-					$this->db->update('offer_letter', $data);
 				}
+				//  else {
+				// 	$this->db->where('employee_id', $data['employee_id']);
+				// 	$this->db->update('offer_letter', $data);
+				// }
 			} else {
 				return "not_exist";
 			}
