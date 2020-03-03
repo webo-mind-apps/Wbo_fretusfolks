@@ -58,7 +58,7 @@ class Backend_team extends CI_Controller
 						 <div class="dropdown-menu dropdown-menu-right">
 							 <a href="javascript:void(0)" id=' . $row->id . ' onclick="view_backend_team_details(this.id);" class="dropdown-item"><i class="fa fa-eye"></i> View Details</a>
 							 <a href="' . site_url('backend_team/edit_backend/' . $row->id) . '" class="dropdown-item"><i class="fa fa-pencil"></i> Edit Details</a>
-							 <a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_backend_team(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+							 <a href="javascript:void(0);" id="' . $row->ffi_emp_id . '" onclick="delete_backend_team(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 						 </div>
 					 </div>
 				 </div>
@@ -234,15 +234,17 @@ class Backend_team extends CI_Controller
 							<div class="col-md-4 col-sm-6">
 								<p><b>Phone 1:</b> <span>' . ucwords($data[0]['phone1']) . '</span></p>
 								<p><b>Official Email :</b> <span>' . ucwords($data[0]['official_mail_id']) . '</span></p>						
-								<p><b>Permanent Address:</b> <span>' . ucwords($data[0]['permanent_address']) . '</span></p>
+								
 								
 							</div>
 							<div class="col-md-4 col-sm-6">
 								<p><b>Phone 2 :</b> <span>' . ucwords($data[0]['phone2']) . '</span></p>
 								<p><b>Present Address :</b> <span>' . ucwords($data[0]['present_address']) . '</span></p>
+								
 							</div>
 							<div class="col-md-4 col-sm-6">
-								<p><b>Email :</b> <span>' . ucwords($data[0]['email']) . '</span></p>		
+								<p><b>Email :</b> <span>' . ucwords($data[0]['email']) . '</span></p>	
+								<p><b>Permanent Address:</b> <span>' . ucwords($data[0]['permanent_address']) . '</span></p>	
 							</div>
 						</div>
 						<hr>
@@ -295,35 +297,32 @@ class Backend_team extends CI_Controller
 						
 						<hr>
 						<div class="row">
-							<div class="col-md-3 col-sm-6">
-								<p><b>Basic Salary :</b> Rs.<span>' . ucwords($data[0]['basic_salary']) . '</span></p>
-								<p><b>Special Allowance :</b> Rs.<span>' . ucwords($data[0]['special_allowance']) . '</span></p>
-								<p><b>Employee PF (12%) :</b> Rs.<span>' . ucwords($data[0]['emp_pf']) . '</span></p>
-								<p><b>Employer PF :</b> Rs.<span>' . ucwords($data[0]['employer_pf']) . '</span></p>
-								<p><b>Grand Total : Rs.<span>' . ucwords($data[0]['ctc']) . ' </b></span></p>
-							</div>
-							<div class="col-md-3 col-sm-6">
-								<p><b>HRA :</b> Rs.<span>' . ucwords($data[0]['hra']) . '</span></p>
-								<p><b>ST Bonus :</b> Rs.<span>' . ucwords($data[0]['st_bonus']) . '</span></p>
-								<p><b>Employee ESIC  (1.75%) :</b> Rs.<span>' . ucwords($data[0]['emp_esic']) . '</span></p>
-								<p><b>Employer ESIC  :</b> Rs.<span>' . ucwords($data[0]['employer_esic']) . '</span></p>
-								
-								
-							</div>
-							<div class="col-md-3 col-sm-6">
-								<p><b>Conveyance :</b> Rs.<span>' . ucwords($data[0]['conveyance']) . '</span></p>
-								<p><b>Other Allowance :</b> Rs.<span>' . ucwords($data[0]['other_allowance']) . '</span></p>
-								<p><b>PT :</b> Rs.<span>' . ucwords($data[0]['pt']) . '</span></p>
-								<p><b>Mediclaim Insurance :</b> Rs.<span>' . ucwords($data[0]['mediclaim']) . '</span></p>
-								
-								
-							</div>
-							<div class="col-md-3 col-sm-6">
-								<p><b>Medical Reimbursement :</b> Rs.<span>' . ucwords($data[0]['medical_reimbursement']) . '</span></p>
-								<p><b>Gross Salary : Rs.<span>' . ucwords($data[0]['gross_salary']) . ' </b></span></p>
-								<p><b>Total Deduction : Rs.<span>' . ucwords($data[0]['total_deduction']) . ' </b></span></p>
-								<p><b>Take Home Salary : Rs.<span>' . ucwords($data[0]['take_home']) . ' </b></span></p>
-							</div>
+						<div class="col-md-4 col-sm-6">
+							<p><b>Basic Salary :</b> Rs.<span>' . ucwords($data[0]['basic_salary']) . '</span></p>
+							<p><b>Medical Reimbursement :</b> Rs.<span>' . ucwords($data[0]['medical_reimbursement']) . '</span></p> 
+							<p><b>Special Allowance :</b> Rs.<span>' . ucwords($data[0]['special_allowance']) . '</span></p>
+							<p><b>Employee PF (12%) :</b> Rs.<span>' . ucwords($data[0]['emp_pf']) . '</span></p>
+							<p><b>Employer PF :</b> Rs.<span>' . ucwords($data[0]['employer_pf']) . '</span></p>
+							<p><b>Grand Total :</b> Rs.<span>' . ucwords($data[0]['ctc']) . ' </span></p>
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<p><b>HRA :</b> Rs.<span>' . ucwords($data[0]['hra']) . '</span></p>
+							<p><b>Gross Salary :</b> Rs.<span>' . ucwords($data[0]['gross_salary']) . ' </span></p>
+							<p><b>ST Bonus :</b> Rs.<span>' . ucwords($data[0]['st_bonus']) . '</span></p>
+							<p><b>Employee ESIC  (1.75%) :</b> Rs.<span>' . ucwords($data[0]['emp_esic']) . '</span></p>
+							<p><b>Employer ESIC  :</b> Rs.<span>' . ucwords($data[0]['employer_esic']) . '</span></p>
+							<p><b>Take Home Salary :</b> Rs.<span>' . ucwords($data[0]['take_home']) . ' </span></p>
+							
+						</div>
+						<div class="col-md-4 col-sm-6">
+							<p><b>Conveyance :</b> Rs.<span>' . ucwords($data[0]['conveyance']) . '</span></p>
+							<p><b>Total Deduction :</b> Rs.<span>' . ucwords($data[0]['total_deduction']) . ' </span></p>
+							<p><b>Other Allowance :</b> Rs.<span>' . ucwords($data[0]['other_allowance']) . '</span></p>
+							<p><b>PT :</b> Rs.<span>' . ucwords($data[0]['pt']) . '</span></p>
+							<p><b>Mediclaim Insurance :</b> Rs.<span>' . ucwords($data[0]['mediclaim']) . '</span></p>
+							
+							
+						</div>
 						</div>
 						<hr>
 						<div class="row">
@@ -900,11 +899,7 @@ class Backend_team extends CI_Controller
 						"last_name"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
 						"interview_date"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['J']))),
 						"joining_date"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['K']))),
-
-						//DOL
 						"contract_date"			=> (empty($allDataInSheet[$i]['L']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['L']))),
-
-
 						"designation"			=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
 						"department"			=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
 						"state"					=> (empty($allDataInSheet[$i]['CB']) ? 'null' : $allDataInSheet[$i]['CB']),
@@ -960,14 +955,10 @@ class Backend_team extends CI_Controller
 						"employer_pf"			=> (empty($allDataInSheet[$i]['BM']) ? 'null' : $allDataInSheet[$i]['BM']),
 						"employer_esic"			=> (empty($allDataInSheet[$i]['BN']) ? 'null' : $allDataInSheet[$i]['BN']),
 						"mediclaim"				=> (empty($allDataInSheet[$i]['BO']) ? 'null' : $allDataInSheet[$i]['BO']),
-
 						"ctc"					=> (empty($allDataInSheet[$i]['BO']) ? 'null' : $allDataInSheet[$i]['BO']),
-
 						"voter_id"				=> (empty($allDataInSheet[$i]['BQ']) ? 'null' : $allDataInSheet[$i]['BQ']),
 						"emp_form"				=> (empty($allDataInSheet[$i]['BR']) ? 'null' : $allDataInSheet[$i]['BR']),
-
 						"pf_esic_form"			=> (empty($allDataInSheet[$i]['BT']) ? 'null' : $allDataInSheet[$i]['BT']),
-
 						"payslip"				=> (empty($allDataInSheet[$i]['BV']) ? 'null' : $allDataInSheet[$i]['BV']),
 						"exp_letter"			=> (empty($allDataInSheet[$i]['BW']) ? 'null' : $allDataInSheet[$i]['BW']),
 						"password"				=> md5(empty($allDataInSheet[$i]['BX']) ? 'null' : $allDataInSheet[$i]['BX']),

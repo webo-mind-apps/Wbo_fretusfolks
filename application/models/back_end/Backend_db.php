@@ -114,14 +114,15 @@ class Backend_db extends CI_Model
 	function delete_backend_team()
 	{
 		$id=$this->input->post('id'); 
-		// $data=array("status"=>"1");
-		$this->db->where("id",$id);
+		$this->db->where("ffi_emp_id",$id);
 		if($this->db->delete("backend_management")){
+			$this->db->where("emp_id",$id);
+			$this->db->delete("education_certificate");
+
+			$this->db->where("emp_id",$id);
+			$this->db->delete("other_certificate");
 			return true; 
 		}
-		// redirect("Backend_team/get_all_data");
-		// redirect("Backend_team/");
-		// $this->db->update("backend_management",$data); 
 	}
 
 	function get_backend_team_details($id)
@@ -886,17 +887,27 @@ class Backend_db extends CI_Model
 	}
 	function get_edu_certificate($id)
 	{
-		$this->db->where('emp_id',$id);
-		$query=$this->db->get('education_certificate');
+		$this->db->select('a.id,b.path');
+		$this->db->from('backend_management a');
+		$this->db->join('education_certificate b','b.emp_id=a.ffi_emp_id','left');
+		$this->db->where('a.id',$id);
+		$query=$this->db->get();
 		$q=$query->result_array();
 		return $q;
+
+		
 	}
 	function get_other_certificate($id)
 	{
-		$this->db->where('emp_id',$id);
-		$query=$this->db->get('other_certificate');
+
+		$this->db->select('a.id,b.path');
+		$this->db->from('backend_management a');
+		$this->db->join('other_certificate b','b.emp_id=a.ffi_emp_id','left');
+		$this->db->where('a.id',$id);
+		$query=$this->db->get();
 		$q=$query->result_array();
 		return $q;
+
 	}
 	function delete_education_certificate()
 	{
@@ -979,101 +990,83 @@ class Backend_db extends CI_Model
 		$query = $this->db->get("backend_management");
 		if ($query->num_rows() <= 0)
 		{
-			$backendData=$data['backend'];
-			$inM=$this->insertMangment($backendData);
-
-				$explode=explode("|",$data['education_certificate']['path']);
-				$length=sizeof($explode);
-				
-				for($i=0;$i<$length;$i++)
-				{
-					 
-					$row=trim($explode[$i]);
-					$insertData=array(
-						"emp_id"	=>	 $data['education_certificate']['emp_id'],
-						"path"		=>	 $row,
-					);	
-					$inE=$this->insertEducation($insertData);
-			
-				}
-				
-			$explode1=explode("|",$data['other_certificate']['path']);
-				$length1=sizeof($explode1);
-				for($i=0;$i<$length1;$i++)
-				{
-					$row1=trim($explode1[$i]);
-					$insertData1=array(
-						"emp_id"	=>	 $data['other_certificate']['emp_id'],
-						"path"		=>	 $row1,
-					);	
-					$inO=$this->insertOther($insertData1);
-				}
-
-				if($inM && $inE && $inO)
-				{
-					return "insert";
-				}
-			
+			$backendData 	= $data['backend'];
+			$eduData 		= $data['education_certificate'];
+			$othData 		= $data['other_certificate'];
+			$insertData 	= $this->insertMangment($backendData); // Insert employee info
+			$insertEdCer 	= $this->insertEducationCertificates($eduData); // Insert education Certificate
+			$insertoth 		= $this->insertOtherCertificates($othData); // Insert other Certificate
+			if($insertData && $insertoth && $insertEdCer)
+			{
+				return "insert";
 			}
+		}
 		else 
 		{
-			$upM=$this->updateMangment($data);
-			// $upE=$this->updateEducation($data);
-			// $upO=$this->updateOther($data);
-			$this->db->where("emp_id",$data['education_certificate']['emp_id']);
-			$this->db->delete("education_certificate");
-			$explode=explode("|",$data['education_certificate']['path']);
-				$length=sizeof($explode);
-				for($i=0;$i<$length;$i++)
-				{
-					 
-					$row=trim($explode[$i]);
-					$insertData=array(
-						"emp_id"	=>	 $data['education_certificate']['emp_id'],
-						"path"		=>	 $row,
-					);	
-					$upE=$this->insertEducation($insertData);
-				
-				}
-
-
-				$this->db->where("emp_id",$data['other_certificate']['emp_id']);
-				$this->db->delete("other_certificate");
-			$explode1=explode("|",$data['other_certificate']['path']);
-				$length1=sizeof($explode1);
-				for($i=0;$i<$length1;$i++)
-				{
-					$row1=trim($explode1[$i]);
-					$insertData1=array(
-						"emp_id"	=>	 $data['other_certificate']['emp_id'],
-						"path"		=>	 $row1,
-					);	
-					$upO=$this->insertOther($insertData1);
-				}
-			if($upM || $upE || $upO)
+			$backendData 	= $data['backend'];
+			$eduData 		= $data['education_certificate'];
+			$othData 		= $data['other_certificate'];
+			$upM 			= $this->updateMangment($backendData);
+			$insertEdCer 	= $this->insertEducationCertificates($eduData); // Insert education Certificate
+			$insertoth 		= $this->insertOtherCertificates($othData); // Insert other Certificate
+			if($upM || $insertEdCer || $insertoth)
 			{
 				return "update";
 			}	
 			
 		}
-		
-	
 	return "nochanges";
 }
 
-public function insertMangment($data)
-{
-	$this->db->insert('backend_management', $data);
-	if ($this->db->affected_rows() > 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
+// education Certificte
+	function insertEducationCertificates($data){
+		
+		$this->db->where("emp_id",$data['emp_id']);
+		$this->db->delete("education_certificate");
+		$explode=explode("|",$data['path']);
+		$length=sizeof($explode);
+		for($i=0;$i<$length;$i++)
+		{
+			$row=trim($explode[$i]);
+			$insertData=array(
+				"emp_id"	=>	 $data['emp_id'],
+				"path"		=>	 $row,
+			);	
+			$inE=$this->insertEducation($insertData);
+		}
+		return $inE;
 	}
 
-}
+// Other Certificate
+	function insertOtherCertificates($data){
+		$this->db->where("emp_id",$data['emp_id']);
+		$this->db->delete("other_certificate");
+		$explode1=explode("|",$data['path']);
+		$length1=sizeof($explode1);
+		for($i=0;$i<$length1;$i++)
+		{
+			$row1=trim($explode1[$i]);
+			$insertData1=array(
+				"emp_id"	=>	 $data['emp_id'],
+				"path"		=>	 $row1,
+			);	
+			$inO =$this->insertOther($insertData1);
+		}
+		return $inO ;
+	}
+ 
+	public function insertMangment($data)
+	{
+		$this->db->insert('backend_management', $data);
+		if ($this->db->affected_rows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	public function insertEducation($insertData)
 	{
 		$this->db->insert('education_certificate',$insertData);
@@ -1087,7 +1080,6 @@ public function insertMangment($data)
 		}
 
 	}
-
 	public function insertOther($insertData1)
 	{
 		$this->db->insert('other_certificate',$insertData1);
@@ -1105,8 +1097,8 @@ public function insertMangment($data)
 
 	public function updateMangment($data)
 	{
-		$this->db->where('ffi_emp_id', $data['backend']['ffi_emp_id']);
-		$this->db->update('backend_management', $data['backend']);
+		$this->db->where('ffi_emp_id', $data['ffi_emp_id']);
+		$this->db->update('backend_management', $data);
 		if ($this->db->affected_rows() > 0)
 		{
 			return true;
@@ -1117,32 +1109,7 @@ public function insertMangment($data)
 		}
 
 	}
-	public function updateOther($data)
-	{
-		$this->db->where("emp_id",$data['other_certificate']['emp_id']);
-		$this->db->delete("other_certificate");
 
-		$explode=explode("|",$data['other_certificate']['path']);
-		$length=sizeof($explode);
-		for($i=0;$i<$length;$i++)
-		{
-			$row=trim($explode[$i]);
-			$updateData=array(
-				"emp_id"	=>	 $data['other_certificate']['emp_id'],
-				"path"		=>	 $row,
-			);	
-		$this->db->insert('other_certificate', $updateData);
-		if ($this->db->affected_rows() > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	}
 	public function get_education_details($emp_id)
 	{
 		$this->db->select("*");
