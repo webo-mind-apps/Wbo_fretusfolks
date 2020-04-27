@@ -13,13 +13,16 @@ class Dcs_report_db extends CI_Model
 	 
 	function custom_filter_search_details()
 	{
-		$search=$this->input->post('search_val');
-		$client=$this->input->post('client');
-		$from_date=$this->input->post('from_date');
-		$to_date=$this->input->post('to_date');
-		$state=$this->input->post('state');
-		$location=$this->input->post('emp_location');
-		$active_status=$this->input->post('active_status');
+		$search=$this->input->post('search_val', true);
+		$client=$this->input->post('client', true);
+		$from_date=$this->input->post('from_date', true);
+		$to_date=$this->input->post('to_date', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('emp_location', true);
+		$active_status=$this->input->post('active_status', true);
+
+		$db_from_date=date("Y-m-d",strtotime($from_date));
+		$db_to_date=date("Y-m-d",strtotime($to_date));
 		
 		$joining_date=date("Y-m-d",strtotime($search));
 		$this->db->select('a.*,b.client_name,c.state_name');
@@ -78,12 +81,12 @@ class Dcs_report_db extends CI_Model
 	
 	function search_dcs_details()
 	{
-		$client=$this->input->post('client');
-		$from_date=$this->input->post('from_date');
-		$to_date=$this->input->post('to_date');
-		$state=$this->input->post('state');
-		$location=$this->input->post('emp_location');
-		$active_status=$this->input->post('active_status');
+		$client=$this->input->post('client', true);
+		$from_date=$this->input->post('from_date', true);
+		$to_date=$this->input->post('to_date', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('emp_location', true);
+		$active_status=$this->input->post('active_status', true);
 		
 		$db_from_date=date("Y-m-d",strtotime($from_date));
 		$db_to_date=date("Y-m-d",strtotime($to_date));

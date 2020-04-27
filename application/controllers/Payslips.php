@@ -93,8 +93,8 @@ class Payslips extends CI_Controller
 
 				$insert = 0;
 				$update = 0;
-				$month = $this->input->post('payslip_month');;
-				$year = $this->input->post('payslip_year');;
+				$month = $this->input->post('payslip_month', true);
+				$year = $this->input->post('payslip_year', true);
 				$date = date("Y-m-d");
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
 

@@ -137,7 +137,7 @@ class Backend_team extends CI_Controller
 	}
 	function view_backend_team_details()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$data = $this->back_end->get_backend_team_details($id);
 		$data1 = $this->back_end->get_edu_certificate($id);
 		$data2 = $this->back_end->get_other_certificate($id);
@@ -563,7 +563,7 @@ class Backend_team extends CI_Controller
 			$i = 1;
 			$data = $this->back_end->get_all_backend_team_for_download();
 			if (!empty($data)) {
-				$client = $this->input->post('backend_download_client');
+				$client = $this->input->post('backend_download_client', true);
 
 				foreach ($data as $key => $row) {
 					if (!empty($client)) {

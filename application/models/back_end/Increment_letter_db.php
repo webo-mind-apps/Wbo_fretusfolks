@@ -76,27 +76,27 @@ class Increment_letter_db extends CI_Model
 
 	function save_increment_letter()
 	{
-		$emp_id = $this->input->post('ffi_emp_id');
-		$client = $this->input->post('client');
-		$department = $this->input->post('departments');
-		$designation = $this->input->post('designation');
+		$emp_id = $this->input->post('ffi_emp_id', true);
+		$client = $this->input->post('client', true);
+		$department = $this->input->post('departments', true);
+		$designation = $this->input->post('designation', true);
 
-		$basic_salary = $this->input->post('basic_salary');
-		$hra = $this->input->post('hra');
-		$conveyance = $this->input->post('conveyance');
-		$medical = $this->input->post('medical');
-		$special_allowance = $this->input->post('special_allowance');
-		$other_allowance = $this->input->post('other_allowance');
-		$gross_salary = $this->input->post('gross_salary');
-		$emp_pf = $this->input->post('emp_pf');
-		$emp_esic = $this->input->post('emp_esic');
-		$pt = $this->input->post('pt');
-		$total_deduction = $this->input->post('total_deduction');
-		$take_home = $this->input->post('take_home');
-		$employer_pf = $this->input->post('employer_pf');
-		$employer_esic = $this->input->post('employer_esic');
-		$mediclaim = $this->input->post('mediclaim');
-		$ctc = $this->input->post('ctc');
+		$basic_salary = $this->input->post('basic_salary', true);
+		$hra = $this->input->post('hra', true);
+		$conveyance = $this->input->post('conveyance', true);
+		$medical = $this->input->post('medical', true);
+		$special_allowance = $this->input->post('special_allowance', true);
+		$other_allowance = $this->input->post('other_allowance', true);
+		$gross_salary = $this->input->post('gross_salary', true);
+		$emp_pf = $this->input->post('emp_pf', true);
+		$emp_esic = $this->input->post('emp_esic', true);
+		$pt = $this->input->post('pt', true);
+		$total_deduction = $this->input->post('total_deduction', true);
+		$take_home = $this->input->post('take_home', true);
+		$employer_pf = $this->input->post('employer_pf', true);
+		$employer_esic = $this->input->post('employer_esic', true);
+		$mediclaim = $this->input->post('mediclaim', true);
+		$ctc = $this->input->post('ctc', true);
 		 
 
 		$data = array(
@@ -137,9 +137,9 @@ class Increment_letter_db extends CI_Model
 	public function download_increment()
 	{
 		$input_date = "";
-		$client = $this->input->post('increment_download_client');
-		$input_date = $this->input->post('increment_download_date');
-		$input_date2 = $this->input->post('increment_download_date2');
+		$client = $this->input->post('increment_download_client', true);
+		$input_date = $this->input->post('increment_download_date', true);
+		$input_date2 = $this->input->post('increment_download_date2', true);
 
 
 
@@ -172,7 +172,7 @@ class Increment_letter_db extends CI_Model
 
 	function get_employee_detail()
 	{
-		$emp_id = $this->input->post('emp_id');
+		$emp_id = $this->input->post('emp_id', true);
 		$this->db->where('ffi_emp_id', $emp_id);
 		$this->db->where("status", 0);
 		$query = $this->db->get('backend_management');
@@ -204,7 +204,7 @@ class Increment_letter_db extends CI_Model
 	}
 	function delete_increment_letter()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$this->db->where('id', $id);
 		$this->db->delete('increment_letter');
 	}

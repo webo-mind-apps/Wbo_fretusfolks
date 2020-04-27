@@ -122,7 +122,7 @@ public function custom_filter_search_details()
 	
 	public function search_dcs_details()
 	{
-		$require_data=$this->input->post('data');
+		$require_data=$this->input->post('data', true);
 		$data=$this->dcs_report->search_dcs_details();
 		
 		
@@ -218,7 +218,7 @@ public function custom_filter_search_details()
 	{
 		if($this->session->userdata('admin_login'))
 		{
-			$require_data=$this->input->post('data');
+			$require_data=$this->input->post('data', true);
 			$data=$this->dcs_report->search_dcs_details();
 			
 			$start="B";

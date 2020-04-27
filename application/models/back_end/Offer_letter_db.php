@@ -86,7 +86,7 @@ class Offer_letter_db extends CI_Model
 	}
 	function get_employee_detail()
 	{
-		$emp_id = $this->input->post('emp_id');
+		$emp_id = $this->input->post('emp_id', true);
 		$this->db->where('ffi_emp_id', $emp_id);
 		$this->db->where("status", "0");
 		$query = $this->db->get('backend_management');
@@ -95,9 +95,9 @@ class Offer_letter_db extends CI_Model
 	}
 	function save_offer_letter()
 	{
-		$emp_id = $this->input->post('ffi_emp_id');
-		$client = $this->input->post('client');
-		$letter_format = $this->input->post('letter_format');
+		$emp_id = $this->input->post('ffi_emp_id', true);
+		$client = $this->input->post('client', true);
+		$letter_format = $this->input->post('letter_format', true);
 		// $tenure_date = $this->input->post('tenure_date');
 
 		// $tenure_date_db = "";
@@ -105,23 +105,23 @@ class Offer_letter_db extends CI_Model
 		// 	$tenure_date_db = date("Y-m-d", strtotime($tenure_date));
 		// }
 
-		$basic_salary = $this->input->post('basic_salary');
-		$hra = $this->input->post('hra');
-		$conveyance = $this->input->post('conveyance');
-		$medical = $this->input->post('medical');
+		$basic_salary = $this->input->post('basic_salary', true);
+		$hra = $this->input->post('hra', true);
+		$conveyance = $this->input->post('conveyance', true);
+		$medical = $this->input->post('medical', true);
 		$special_allowance = $this->input->post('special_allowance');
 		$other_allowance = $this->input->post('other_allowance');
-		$gross_salary = $this->input->post('gross_salary');
+		$gross_salary = $this->input->post('gross_salary', true);
 
-		$emp_pf = $this->input->post('emp_pf');
-		$emp_esic = $this->input->post('emp_esic');
-		$pt = $this->input->post('pt');
-		$total_deduction = $this->input->post('total_deduction');
-		$take_home = $this->input->post('take_home');
-		$employer_pf = $this->input->post('employer_pf');
-		$employer_esic = $this->input->post('employer_esic');
-		$mediclaim = $this->input->post('mediclaim');
-		$ctc = $this->input->post('ctc');
+		$emp_pf = $this->input->post('emp_pf', true);
+		$emp_esic = $this->input->post('emp_esic', true);
+		$pt = $this->input->post('pt', true);
+		$total_deduction = $this->input->post('total_deduction', true);
+		$take_home = $this->input->post('take_home', true);
+		$employer_pf = $this->input->post('employer_pf', true);
+		$employer_esic = $this->input->post('employer_esic', true);
+		$mediclaim = $this->input->post('mediclaim', true);
+		$ctc = $this->input->post('ctc', true);
 
 		$date = date("Y-m-d");
 		$data = array("company_id" => $client, "employee_id" => $emp_id, "date" => $date, "offer_letter_type" => $letter_format, "basic_salary" => $basic_salary, "hra" => $hra, "conveyance" => $conveyance, "medical_reimbursement" => $medical, "special_allowance" => $special_allowance, "other_allowance" => $other_allowance, "gross_salary" => $gross_salary, "emp_pf" => $emp_pf, "emp_esic" => $emp_esic, "pt" => $pt, "total_deduction" => $total_deduction, "take_home" => $take_home, "employer_pf" => $employer_pf, "employer_esic" => $employer_esic, "mediclaim" => $mediclaim, "ctc" => $ctc);
@@ -186,9 +186,9 @@ class Offer_letter_db extends CI_Model
 	function get_offer_letter_pdf()
 	{
 		// $id=$this->uri->segment(3);
-		$client = $this->input->post('offer_letter_download_client');
-		$input_date = $this->input->post('offer_download_date');
-		$input_date2 = $this->input->post('offer_download_date2');
+		$client = $this->input->post('offer_letter_download_client', true);
+		$input_date = $this->input->post('offer_download_date', true);
+		$input_date2 = $this->input->post('offer_download_date2', true);
 		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.branch,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,c.client_code');
 		$this->db->from('offer_letter a');
 		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
@@ -233,7 +233,7 @@ class Offer_letter_db extends CI_Model
 	}
 	function delete_offer_letter()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$this->db->where('id', $id);
 		$this->db->delete('offer_letter');
 	}

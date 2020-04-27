@@ -188,7 +188,7 @@ class Dcs_approval extends CI_Controller
 	// }
 	function view_candidate_details()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$data = $this->candidate->get_candidate_details($id);
 
 		$joining_date = "";

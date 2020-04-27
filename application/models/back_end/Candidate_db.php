@@ -106,19 +106,19 @@ class Candidate_db extends CI_Model
 	}
 	public function save_candidate()
 	{
-		$client=$this->input->post('client');
-		$emp_name=$this->input->post('emp_name');
-		$state=$this->input->post('state');
-		$location=$this->input->post('location');
-		$phone=$this->input->post('phone');
-		$email=$this->input->post('email');
-		$interview_date=$this->input->post('interview_date');
-		$joining_date=$this->input->post('joining_date');
-		$aadhar_no=$this->input->post('aadhar_no');
-		$driving_license=$this->input->post('driving_license');
+		$client=$this->input->post('client', true);
+		$emp_name=$this->input->post('emp_name', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('location', true);
+		$phone=$this->input->post('phone', true);
+		$email=$this->input->post('email', true);
+		$interview_date=$this->input->post('interview_date', true);
+		$joining_date=$this->input->post('joining_date', true);
+		$aadhar_no=$this->input->post('aadhar_no', true);
+		$driving_license=$this->input->post('driving_license', true);
 		
-		$designation=$this->input->post('designation');
-		$department=$this->input->post('department');
+		$designation=$this->input->post('designation', true);
+		$department=$this->input->post('department', true);
 		
 		$user=$this->session->userdata('admin_id');
 		$db_create=date("Y-m-d H:i:s");
@@ -216,20 +216,20 @@ class Candidate_db extends CI_Model
 		$photo=$q[0]['photo'];
 		$resume=$q[0]['resume'];
 		
-		$client=$this->input->post('client');
-		$emp_name=$this->input->post('emp_name');
-		$state=$this->input->post('state');
-		$location=$this->input->post('location');
-		$phone=$this->input->post('phone');
-		$email=$this->input->post('email');
-		$interview_date=$this->input->post('interview_date');
-		$joining_date=$this->input->post('joining_date');
+		$client=$this->input->post('client', true);
+		$emp_name=$this->input->post('emp_name', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('location', true);
+		$phone=$this->input->post('phone', true);
+		$email=$this->input->post('email', true);
+		$interview_date=$this->input->post('interview_date', true);
+		$joining_date=$this->input->post('joining_date', true);
 		
-		$aadhar_no=$this->input->post('aadhar_no');
-		$driving_license=$this->input->post('driving_license');
+		$aadhar_no=$this->input->post('aadhar_no', true);
+		$driving_license=$this->input->post('driving_license', true);
 		
-		$designation=$this->input->post('designation');
-		$department=$this->input->post('department');
+		$designation=$this->input->post('designation', true);
+		$department=$this->input->post('department', true);
 		
 		$user=$this->session->userdata('admin_id');
 		$db_create=date("Y-m-d H:i:s");
@@ -312,7 +312,7 @@ class Candidate_db extends CI_Model
 	}
 	function delete_candidate()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id',  true);
 		$data=array("status"=>"2");
 		$this->db->where("id",$id);
 		$this->db->update("backend_management",$data);

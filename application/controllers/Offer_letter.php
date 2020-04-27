@@ -220,7 +220,7 @@ class Offer_letter extends CI_Controller
 	}
 	function save_offer_letter()
 	{
-		$letter_type = $this->input->post('letter_format');
+		$letter_type = $this->input->post('letter_format', true);
 
 		$data['letter_details'] = $this->letter->save_offer_letter();
 

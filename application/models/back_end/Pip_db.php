@@ -82,14 +82,14 @@ class Pip_db extends CI_Model
 	}
 	function save_letter()
 	{
-		$from_name=$this->input->post('from_name');
-		$employee=$this->input->post('employee');
-		$date=$this->input->post('date');
-		$content=$this->input->post('content');
-		$observation=$this->input->post('observation');
-		$goals=$this->input->post('goals');
-		$updates=$this->input->post('updates');
-		$timeline=$this->input->post('timeline');
+		$from_name=$this->input->post('from_name', true);
+		$employee=$this->input->post('employee', true);
+		$date=$this->input->post('date', true);
+		$content=$this->input->post('content', true);
+		$observation=$this->input->post('observation', true);
+		$goals=$this->input->post('goals', true);
+		$updates=$this->input->post('updates', true);
+		$timeline=$this->input->post('timeline', true);
 		
 		$db_date=date("Y-m-d",strtotime($date));
 		
@@ -102,14 +102,14 @@ class Pip_db extends CI_Model
 	function update_letter()
 	{
 		$id=$this->uri->segment(3);
-		$from_name=$this->input->post('from_name');
-		$employee=$this->input->post('employee');
-		$date=$this->input->post('date');
-		$content=$this->input->post('content');
-		$observation=$this->input->post('observation');
-		$goals=$this->input->post('goals');
-		$updates=$this->input->post('updates');
-		$timeline=$this->input->post('timeline');
+		$from_name=$this->input->post('from_name', true);
+		$employee=$this->input->post('employee', true);
+		$date=$this->input->post('date', true);
+		$content=$this->input->post('content', true);
+		$observation=$this->input->post('observation', true);
+		$goals=$this->input->post('goals', true);
+		$updates=$this->input->post('updates', true);
+		$timeline=$this->input->post('timeline', true);
 		
 		$db_date=date("Y-m-d",strtotime($date));	
 		
@@ -121,13 +121,13 @@ class Pip_db extends CI_Model
 	}
 	function delete_pip_letter()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('pip_letter');
 	}
 	function get_emp_details()
 	{
-		$emp_id=$this->input->post('emp_id');
+		$emp_id=$this->input->post('emp_id', true);
 		$this->db->where('ffi_emp_id',$emp_id);
 		$this->db->where("status","0");
 		$query=$this->db->get('backend_management');

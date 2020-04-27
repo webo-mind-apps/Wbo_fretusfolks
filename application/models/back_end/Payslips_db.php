@@ -33,9 +33,9 @@ class Payslips_db extends CI_Model
 
 	public function download_payslips()
 	{
-		$month=$this->input->post('payslip_download_month');
-		$year=$this->input->post('payslip_download_year');
-		$client_name=$this->input->post('payslip_download_client');
+		$month=$this->input->post('payslip_download_month', true);
+		$year=$this->input->post('payslip_download_year', true);
+		$client_name=$this->input->post('payslip_download_client', true);
 		$this->db->select('*');
 		$this->db->from('payslips');
 		$this->db->where("month", $month);
@@ -58,15 +58,15 @@ class Payslips_db extends CI_Model
 	}
 	function delete_payslip()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('payslips');
 	}
 	function search_payslip()
 	{
-		$emp_id=$this->input->post('emp_id');
-		$month=$this->input->post('month');
-		$year=$this->input->post('year');
+		$emp_id=$this->input->post('emp_id', true);
+		$month=$this->input->post('month', true);
+		$year=$this->input->post('year', true);
 		$this->db->select('*');
 		$this->db->from('payslips');
 		if($emp_id !="" || !empty($emp_id))

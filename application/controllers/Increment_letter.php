@@ -126,7 +126,7 @@ class Increment_letter extends CI_Controller
 
 	function save_increment_letter()
 	{
-		$emp_id = $this->input->post('ffi_emp_id');
+		$emp_id = $this->input->post('ffi_emp_id', true);
 		// echo "<script>alert('inside')</script>";
 		if ($data = $this->increment->save_increment_letter()) {
 			$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email');

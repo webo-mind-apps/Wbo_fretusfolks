@@ -187,7 +187,7 @@ class Fhrms extends CI_Controller
 	}
 	function save_offer_letter()
 	{
-		$letter_type = $this->input->post('letter_format');
+		$letter_type = $this->input->post('letter_format', true);
 
 		$data['letter_details'] = $this->fhrms->save_offer_letter();
 		if ($letter_type == 1) {
@@ -202,7 +202,7 @@ class Fhrms extends CI_Controller
 	}
 	function view_employee_details()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$data = $this->fhrms->get_employee_details($id);
 		$data1 = $this->fhrms->get_edu_certificate($id);
 		$data2 = $this->fhrms->get_other_certificate($id);
@@ -705,7 +705,7 @@ class Fhrms extends CI_Controller
 												<td>' . $row['joining_date'] . '</td>
 												<td>' . $row['phone1'] . '</td>
 												<td>' . $row['email'] . '</td>
-												<td>' . $status . '</td>
+												<td>' . $row['status'] . '</td>
 												<td class="text-center">
 												<div class="list-icons">
 												<div class="dropdown">

@@ -74,7 +74,7 @@ class Dcs_approval_db extends CI_Model
 
 	function delete_candidates()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$this->db->where("id", $id);
 		if ($this->db->delete("backend_management")) {
 			return True;
@@ -103,8 +103,8 @@ class Dcs_approval_db extends CI_Model
 	}
 	function update_approval()
 	{
-		$id = $this->input->post('id');
-		$value = $this->input->post('value');
+		$id = $this->input->post('id', true);
+		$value = $this->input->post('value', true);
 
 		$data = array("dcs_approval" => $value);
 		$this->db->where('id', $id);

@@ -23,8 +23,8 @@ class Bulk_update extends CI_Controller
 	function active_update()
 	{ //For making active
 		if (($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type') == 0 || $this->session->userdata('admin_type') == 1)) {
-			$id = $this->input->post('id');
-			$status = $this->input->post('status');
+			$id = $this->input->post('id', true);
+			$status = $this->input->post('status', true);
 			foreach ($id as $key => $value) {
 				$this->bulk_update->active_update($value, $status);
 			}
@@ -33,8 +33,8 @@ class Bulk_update extends CI_Controller
 	function inactive_update()
 	{ //For making inactive
 		if (($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type') == 0 || $this->session->userdata('admin_type') == 1)) {
-			$id = $this->input->post('id');
-			$status = $this->input->post('status');
+			$id = $this->input->post('id', true);
+			$status = $this->input->post('status', true);
 			foreach ($id as $key => $value) {
 				$this->bulk_update->inactive_update($value, $status);
 			}

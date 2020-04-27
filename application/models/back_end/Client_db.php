@@ -69,44 +69,44 @@ class Client_db extends CI_Model
 	}
 	public function save_client()
 	{
-		$client=$this->input->post('client');
-		$land_line=$this->input->post('land_line');
-		$client_email=$this->input->post('client_email');
-		$contact_person=$this->input->post('contact_person');
-		$contact_person_mobile=$this->input->post('contact_person_mobile');
-		$contact_person_email=$this->input->post('contact_person_email');
-		$registered_address=$this->input->post('registered_address');
-		$communication_address=$this->input->post('communication_address');
-		$pan_no=$this->input->post('pan_no');
-		$tan_no=$this->input->post('tan_no');
+		$client=$this->input->post('client', true);
+		$land_line=$this->input->post('land_line', true);
+		$client_email=$this->input->post('client_email', true);
+		$contact_person=$this->input->post('contact_person', true);
+		$contact_person_mobile=$this->input->post('contact_person_mobile', true);
+		$contact_person_email=$this->input->post('contact_person_email', true);
+		$registered_address=$this->input->post('registered_address', true);
+		$communication_address=$this->input->post('communication_address', true);
+		$pan_no=$this->input->post('pan_no', true);
+		$tan_no=$this->input->post('tan_no', true);
 		
-		$website=$this->input->post('website');
-		$agreement_mode=$this->input->post('agreement_mode');
-		$agreement_type=$this->input->post('agreement_type');
-		$other_agreement=$this->input->post('other_agreement');
-		$region=$this->input->post('region');
-		$start_date=$this->input->post('start_date');
-		$end_date=$this->input->post('end_date');
-		$rate=$this->input->post('rate');
-		$commercial_type=$this->input->post('commercial_type');
-		$remark=$this->input->post('remark');
+		$website=$this->input->post('website', true);
+		$agreement_mode=$this->input->post('agreement_mode', true);
+		$agreement_type=$this->input->post('agreement_type', true);
+		$other_agreement=$this->input->post('other_agreement', true);
+		$region=$this->input->post('region', true);
+		$start_date=$this->input->post('start_date', true);
+		$end_date=$this->input->post('end_date', true);
+		$rate=$this->input->post('rate', true);
+		$commercial_type=$this->input->post('commercial_type', true);
+		$remark=$this->input->post('remark', true);
 		
-		$state_service=$this->input->post('state_service');
+		$state_service=$this->input->post('state_service', true);
 		
-		$client_code=$this->input->post('client_code');
-		$contact_person_comm=$this->input->post('contact_person_comm');
-		$contact_person_phone_comm=$this->input->post('contact_person_phone_comm');
-		$contact_person_email_comm=$this->input->post('contact_person_email_comm');
+		$client_code=$this->input->post('client_code', true);
+		$contact_person_comm=$this->input->post('contact_person_comm', true);
+		$contact_person_phone_comm=$this->input->post('contact_person_phone_comm', true);
+		$contact_person_email_comm=$this->input->post('contact_person_email_comm', true);
 		
-		$user=$this->session->userdata('admin_id');
+		$user=$this->session->userdata('admin_id', true);
 		$db_create=date("Y-m-d H:i:s");
 		
 		$db_start_date="";
 		$db_end_date="";
 		$path="";
 		
-		$gstn=$this->input->post('gstn');
-		$state=$this->input->post('state');
+		$gstn=$this->input->post('gstn', true);
+		$state=$this->input->post('state', true);
 		
 		if($start_date !="")
 		{
@@ -176,38 +176,38 @@ class Client_db extends CI_Model
 	{
 		$id=$this->uri->segment(3);
 		
-		$client=$this->input->post('client');
-		$land_line=$this->input->post('land_line');
-		$client_email=$this->input->post('client_email');
-		$contact_person=$this->input->post('contact_person');
-		$contact_person_mobile=$this->input->post('contact_person_mobile');
-		$contact_person_email=$this->input->post('contact_person_email');
-		$registered_address=$this->input->post('registered_address');
-		$communication_address=$this->input->post('communication_address');
-		$pan_no=$this->input->post('pan_no');
-		$tan_no=$this->input->post('tan_no');
+		$client=$this->input->post('client', true);
+		$land_line=$this->input->post('land_line', true);
+		$client_email=$this->input->post('client_email', true);
+		$contact_person=$this->input->post('contact_person', true);
+		$contact_person_mobile=$this->input->post('contact_person_mobile', true);
+		$contact_person_email=$this->input->post('contact_person_email', true);
+		$registered_address=$this->input->post('registered_address', true);
+		$communication_address=$this->input->post('communication_address', true);
+		$pan_no=$this->input->post('pan_no', true);
+		$tan_no=$this->input->post('tan_no', true);
 		
-		$website=$this->input->post('website');
-		$agreement_mode=$this->input->post('agreement_mode');
-		$agreement_type=$this->input->post('agreement_type');
-		$other_agreement=$this->input->post('other_agreement');
-		$region=$this->input->post('region');
-		$start_date=$this->input->post('start_date');
-		$end_date=$this->input->post('end_date');
-		$rate=$this->input->post('rate');
-		$commercial_type=$this->input->post('commercial_type');
-		$remark=$this->input->post('remark');
+		$website=$this->input->post('website', true);
+		$agreement_mode=$this->input->post('agreement_mode', true);
+		$agreement_type=$this->input->post('agreement_type', true);
+		$other_agreement=$this->input->post('other_agreement', true);
+		$region=$this->input->post('region', true);
+		$start_date=$this->input->post('start_date', true);
+		$end_date=$this->input->post('end_date', true);
+		$rate=$this->input->post('rate', true);
+		$commercial_type=$this->input->post('commercial_type', true);
+		$remark=$this->input->post('remark', true);
 		
-		$active_status=$this->input->post('active');
+		$active_status=$this->input->post('active', true);
 		
-		$state_service=$this->input->post('state_service');
+		$state_service=$this->input->post('state_service', true);
 		
-		$client_code=$this->input->post('client_code');
-		$contact_person_comm=$this->input->post('contact_person_comm');
-		$contact_person_phone_comm=$this->input->post('contact_person_phone_comm');
-		$contact_person_email_comm=$this->input->post('contact_person_email_comm');
+		$client_code=$this->input->post('client_code', true);
+		$contact_person_comm=$this->input->post('contact_person_comm', true);
+		$contact_person_phone_comm=$this->input->post('contact_person_phone_comm', true);
+		$contact_person_email_comm=$this->input->post('contact_person_email_comm', true);
 		
-		$user=$this->session->userdata('admin_id');
+		$user=$this->session->userdata('admin_id', true);
 		$db_create=date("Y-m-d H:i:s");
 		$db_start_date="";
 		$db_end_date="";
@@ -348,17 +348,17 @@ class Client_db extends CI_Model
 	function add_client_gst()
 	{
 		$id=$this->uri->segment(3);
-		$state=$this->input->post('state');
-		$gstn=$this->input->post('gstn');
+		$state=$this->input->post('state', true);
+		$gstn=$this->input->post('gstn', true);
 		
 		$data1=array("client_id"=>$id,"state"=>$state,"gstn_no"=>$gstn);
 		$this->db->insert("client_gstn",$data1);
 	}
 	function update_client_gst_details()
 	{
-		$id=$this->input->post('id');
-		$gst_no=$this->input->post('gst_no');
-		$state=$this->input->post('state');
+		$id=$this->input->post('id', true);
+		$gst_no=$this->input->post('gst_no', true);
+		$state=$this->input->post('state', true);
 		
 		$data1=array("state"=>$state,"gstn_no"=>$gst_no);
 		$this->db->where('id',$id);
@@ -366,7 +366,7 @@ class Client_db extends CI_Model
 	}
 	function delete_client_gst_no()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('client_gstn');
 	}
@@ -390,8 +390,8 @@ class Client_db extends CI_Model
 	}
 	function save_client_description()
 	{
-		$client_id=$this->input->post('client');
-		$description=$this->input->post('description');
+		$client_id=$this->input->post('client', true);
+		$description=$this->input->post('description', true);
 		
 		$data=array("client_id"=>$client_id,"description"=>$description);
 		
@@ -402,8 +402,8 @@ class Client_db extends CI_Model
 	{
 		$id=$this->uri->segment(3);
 		
-		$client_id=$this->input->post('client');
-		$description=$this->input->post('description');
+		$client_id=$this->input->post('client', true);
+		$description=$this->input->post('description', true);
 		
 		$data=array("client_id"=>$client_id,"description"=>$description);
 		
@@ -412,13 +412,13 @@ class Client_db extends CI_Model
 	}
 	function delete_descriptions()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('client_content');
 	}
 	function delete_clients()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("status"=>"2");
 		$this->db->where('id',$id);
 		$this->db->update('client_management',$data);

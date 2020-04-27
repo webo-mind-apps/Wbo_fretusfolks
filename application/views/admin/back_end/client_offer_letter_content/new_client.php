@@ -169,7 +169,7 @@ $active_menu="index";
 					<div class="col-md-12">
 
 					 <form class="form-horizontal" action="<?php echo site_url("client_management/save_client_description");?>" method="POST" enctype="multipart/form-data">
-                        
+					 <?php echo validation_errors(); ?>
 						<!-- Other inputs -->
 						<div class="card">
 							<div class="card-header header-elements-inline">

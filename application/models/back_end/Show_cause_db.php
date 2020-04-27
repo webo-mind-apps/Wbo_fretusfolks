@@ -84,9 +84,9 @@ class Show_cause_db extends CI_Model
 	}
 	function save_letter()
 	{
-		$employee=$this->input->post('employee');
-		$date=$this->input->post('date');
-		$content=$this->input->post('content');
+		$employee=$this->input->post('employee', true);
+		$date=$this->input->post('date', true);
+		$content=$this->input->post('content', true);
 		
 		$db_date=date("Y-m-d",strtotime($date));
 		$today=date("Y-m-d");
@@ -96,9 +96,9 @@ class Show_cause_db extends CI_Model
 	function update_letter()
 	{
 		$id=$this->uri->segment(3);
-		$employee=$this->input->post('employee');
-		$date=$this->input->post('date');
-		$content=$this->input->post('content');
+		$employee=$this->input->post('employee', true);
+		$date=$this->input->post('date', true);
+		$content=$this->input->post('content', true);
 		
 		$db_date=date("Y-m-d",strtotime($date));
 		$today=date("Y-m-d");
@@ -109,7 +109,7 @@ class Show_cause_db extends CI_Model
 	}
 	function get_emp_details()
 	{
-		$emp_id=$this->input->post('emp_id');
+		$emp_id=$this->input->post('emp_id', true);
 		$this->db->where('ffi_emp_id',$emp_id);
 		$this->db->where("status","0");
 		$query=$this->db->get('backend_management');

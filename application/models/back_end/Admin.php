@@ -11,9 +11,9 @@ class Admin extends CI_Model {
     }
 	function check_login()
 	{
-		$user_type=$this->input->post('user_type');
-		$name=$this->input->post('username');
-		$password=md5($this->input->post('password'));
+		$user_type=$this->input->post('user_type', true);
+		$name=$this->input->post('username', true);
+		$password=md5($this->input->post('password', true));
 		
 		$this->db->where("username",$name);
 		$this->db->where("enc_pass",$password);

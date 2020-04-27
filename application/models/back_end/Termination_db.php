@@ -81,18 +81,18 @@ class Termination_db extends CI_Model
 	}
 	function save_letter()
 	{
-		$employee=$this->input->post('employee');
-		$date=$this->input->post('date');
+		$employee=$this->input->post('employee', true);
+		$date=$this->input->post('date', true);
 		
-		$date2=$this->input->post('absent_date');
-		$date3=$this->input->post('show_cause_date');
-		$date4=$this->input->post('termination_date');
+		$date2=$this->input->post('absent_date', true);
+		$date3=$this->input->post('show_cause_date', true);
+		$date4=$this->input->post('termination_date', true);
 		
 		$absent_date=date("Y-m-d",strtotime($date2));
 		$show_cause_date=date("Y-m-d",strtotime($date3));
 		$termination_date=date("Y-m-d",strtotime($date4));
 			
-		$content=$this->input->post('content');
+		$content=$this->input->post('content', true);
 		
 		$db_date=date("Y-m-d",strtotime($date));
 		$today=date("Y-m-d");
@@ -103,18 +103,18 @@ class Termination_db extends CI_Model
 	function update_letter()
 	{
 		$id=$this->uri->segment(3);
-		$employee=$this->input->post('employee');
-		$date=$this->input->post('date');
+		$employee=$this->input->post('employee', true);
+		$date=$this->input->post('date', true);
 		
-		$date2=$this->input->post('absent_date');
-		$date3=$this->input->post('show_cause_date');
-		$date4=$this->input->post('termination_date');
+		$date2=$this->input->post('absent_date', true);
+		$date3=$this->input->post('show_cause_date', true);
+		$date4=$this->input->post('termination_date', true);
 		
 		$absent_date=date("Y-m-d",strtotime($date2));
 		$show_cause_date=date("Y-m-d",strtotime($date3));
 		$termination_date=date("Y-m-d",strtotime($date4));
 		
-		$content=$this->input->post('content');
+		$content=$this->input->post('content', true);
 		
 		$db_date=date("Y-m-d",strtotime($date));
 		$today=date("Y-m-d");
@@ -126,13 +126,13 @@ class Termination_db extends CI_Model
 	
 	function delete_termination_letter()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('termination_letter');
 	}
 	function get_emp_details()
 	{
-		$emp_id=$this->input->post('emp_id');
+		$emp_id=$this->input->post('emp_id', true);
 		$this->db->where('ffi_emp_id',$emp_id);
 		$this->db->where("status","0");
 		$query=$this->db->get('backend_management');

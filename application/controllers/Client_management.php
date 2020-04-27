@@ -92,9 +92,40 @@ class Client_management extends CI_Controller
 	function save_client()
 	{
 		if ($this->session->userdata('admin_login')) {
-			$data = $this->client->save_client();
 
-			redirect('client_management/');
+			$this->form_validation->set_rules('client', 'Client', 'trim|required');
+			$this->form_validation->set_rules('land_line', 'Land Line', 'trim|required');
+			$this->form_validation->set_rules('client_email', 'Email Id', 'trim|required');
+			$this->form_validation->set_rules('contact_person', 'Contact Person', 'trim|required');
+			$this->form_validation->set_rules('contact_person_mobile', 'Contact person mobile', 'trim|required');
+			$this->form_validation->set_rules('contact_person_email', 'Contact person email', 'trim|required');
+			$this->form_validation->set_rules('registered_address', 'Registered Address', 'trim|required');
+			$this->form_validation->set_rules('communication_address', 'Communication address', 'trim|required');
+			$this->form_validation->set_rules('pan_no', 'Pan No', 'trim|required');
+			$this->form_validation->set_rules('tan_no', 'TAN No', 'trim|required');
+			$this->form_validation->set_rules('website', 'Website', 'trim|required');
+			$this->form_validation->set_rules('agreement_mode', 'Agreement Mode', 'trim|required');
+			$this->form_validation->set_rules('agreement_type', 'Agreement Type', 'trim');
+			$this->form_validation->set_rules('other_agreement', 'Other Agreement', 'trim|required');
+			$this->form_validation->set_rules('region', 'Region', 'trim');
+			$this->form_validation->set_rules('start_date', 'Start Date', 'trim');
+			$this->form_validation->set_rules('end_date', 'End date', 'trim');
+			$this->form_validation->set_rules('rate', 'Rate', 'trim');
+			$this->form_validation->set_rules('commercial_type', 'Commercial Type', 'trim');
+			$this->form_validation->set_rules('remark', 'Remark', 'trim');
+			$this->form_validation->set_rules('state_service', 'State Service', 'trim');
+			$this->form_validation->set_rules('client_code', 'Client Code', 'trim|required');
+			$this->form_validation->set_rules('contact_person_comm', 'Contact Person Comm', 'trim|required');
+			$this->form_validation->set_rules('contact_person_phone_comm', 'Contact Person Phone Comm', 'trim|required');
+			$this->form_validation->set_rules('contact_person_email_comm', 'Contact Person Email Comm', 'trim|required');
+			if ($this->form_validation->run() ==  TRUE):
+				$data = $this->client->save_client();
+				redirect('client_management/');
+			else:
+				$data['active_menu'] = "client";
+				$data['states'] = $this->client->get_all_states();
+				$this->load->view('admin/back_end/client_management/new_client', $data);
+			endif;
 		} else {
 			redirect('home/index');
 		}
@@ -111,7 +142,7 @@ class Client_management extends CI_Controller
 	}
 	function view_client_details()
 	{
-		$id = $this->input->post('id');
+		$id = $this->input->post('id', true);
 		$data = $this->client->get_client_details($id);
 		$gst = $this->client->get_client_gst($id);
 		$agree_mode = "";
@@ -407,7 +438,7 @@ class Client_management extends CI_Controller
 	}
 	function add_gstn_row()
 	{
-		$counter = $this->input->post('counter');
+		$counter = $this->input->post('counter', true);
 		$states = $this->client->get_all_states();
 		$counter++;
 

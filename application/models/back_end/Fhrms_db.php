@@ -46,7 +46,7 @@ class Fhrms_db extends CI_Model
 	}
 	function get_emp_details()
 	{
-		$emp_id=$this->input->post('emp_id');
+		$emp_id=$this->input->post('emp_id', true);
 		
 		$this->db->where('ffi_emp_id',$emp_id);
 		$query=$this->db->get('fhrms');
@@ -67,61 +67,61 @@ class Fhrms_db extends CI_Model
 		$payslip_doc="";
 		$exp_doc="";
 		
-		$ffi_emp_id=$this->input->post('ffi_emp_id');
-		$emp_name=$this->input->post('emp_name');
-		$designation=$this->input->post('designation');
-		$department=$this->input->post('department');
-		$state=$this->input->post('state');
-		$location=$this->input->post('location');
-		$gender=$this->input->post('gender');
-		$fname=$this->input->post('fname');
-		$blood_grp=$this->input->post('blood_grp');
-		$qualification=$this->input->post('qualification');
-		$phone1=$this->input->post('phone1');
-		$phone2=$this->input->post('phone2');
-		$email=$this->input->post('email');
-		$permanent_address=$this->input->post('permanent_address');
-		$present_address=$this->input->post('present_address');
-		$pan_no=$this->input->post('pan_no');
-		$aadhar_no=$this->input->post('aadhar_no');
-		$driving_license=$this->input->post('driving_license');
-		$bank_name=$this->input->post('bank_name');
-		$bank_account_no=$this->input->post('bank_account_no');
-		$ifsc_code=$this->input->post('ifsc_code');
-		$uan=$this->input->post('uan');
-		$uan_type=$this->input->post('uan_type');
-		$uan_no=$this->input->post('uan_no');
-		$status=$this->input->post('status');
-		$basic_salary=$this->input->post('basic_salary');
-		$hra=$this->input->post('hra');
-		$conveyance=$this->input->post('conveyance');
-		$medical=$this->input->post('medical');
-		$special_allowance=$this->input->post('special_allowance');
-		$st_bonus=$this->input->post('st_bonus');
-		$other_allowance=$this->input->post('other_allowance');
-		$gross_salary=$this->input->post('gross_salary');
-		$pf_percentage=$this->input->post('pf_percentage');
-		$emp_pf=$this->input->post('emp_pf');
-		$esic_percentage=$this->input->post('esic_percentage');
-		$emp_esic=$this->input->post('emp_esic');
-		$pt=$this->input->post('pt');
-		$total_deduction=$this->input->post('total_deduction');
-		$employer_pf_percentage=$this->input->post('employer_pf_percentage');
-		$employer_pf=$this->input->post('employer_pf');
-		$employer_esic_percentage=$this->input->post('employer_esic_percentage');
-		$employer_esic=$this->input->post('employer_esic');
-		$mediclaim=$this->input->post('mediclaim');
-		$ctc=$this->input->post('ctc');
+		$ffi_emp_id=$this->input->post('ffi_emp_id', true);
+		$emp_name=$this->input->post('emp_name', true);
+		$designation=$this->input->post('designation', true);
+		$department=$this->input->post('department', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('location', true);
+		$gender=$this->input->post('gender', true);
+		$fname=$this->input->post('fname', true);
+		$blood_grp=$this->input->post('blood_grp', true);
+		$qualification=$this->input->post('qualification', true);
+		$phone1=$this->input->post('phone1', true);
+		$phone2=$this->input->post('phone2', true);
+		$email=$this->input->post('email', true);
+		$permanent_address=$this->input->post('permanent_address', true);
+		$present_address=$this->input->post('present_address', true);
+		$pan_no=$this->input->post('pan_no', true);
+		$aadhar_no=$this->input->post('aadhar_no', true);
+		$driving_license=$this->input->post('driving_license', true);
+		$bank_name=$this->input->post('bank_name', true);
+		$bank_account_no=$this->input->post('bank_account_no', true);
+		$ifsc_code=$this->input->post('ifsc_code', true);
+		$uan=$this->input->post('uan', true);
+		$uan_type=$this->input->post('uan_type', true);
+		$uan_no=$this->input->post('uan_no', true);
+		$status=$this->input->post('status', true);
+		$basic_salary=$this->input->post('basic_salary', true);
+		$hra=$this->input->post('hra', true);
+		$conveyance=$this->input->post('conveyance', true);
+		$medical=$this->input->post('medical', true);
+		$special_allowance=$this->input->post('special_allowance', true);
+		$st_bonus=$this->input->post('st_bonus', true);
+		$other_allowance=$this->input->post('other_allowance', true);
+		$gross_salary=$this->input->post('gross_salary', true);
+		$pf_percentage=$this->input->post('pf_percentage', true);
+		$emp_pf=$this->input->post('emp_pf', true);
+		$esic_percentage=$this->input->post('esic_percentage', true);
+		$emp_esic=$this->input->post('emp_esic', true);
+		$pt=$this->input->post('pt', true);
+		$total_deduction=$this->input->post('total_deduction', true);
+		$employer_pf_percentage=$this->input->post('employer_pf_percentage', true);
+		$employer_pf=$this->input->post('employer_pf', true);
+		$employer_esic_percentage=$this->input->post('employer_esic_percentage', true);
+		$employer_esic=$this->input->post('employer_esic', true);
+		$mediclaim=$this->input->post('mediclaim', true);
+		$ctc=$this->input->post('ctc', true);
 		
-		$take_home=$this->input->post('take_home');
+		$take_home=$this->input->post('take_home', true);
 		
-		$interview_date=$this->input->post('interview_date');
-		$joining_date=$this->input->post('joining_date');
-		$contact_end_date=$this->input->post('contact_end_date');
-		$dob=$this->input->post('dob');
+		$interview_date=$this->input->post('interview_date', true);
+		$joining_date=$this->input->post('joining_date', true);
+		$contact_end_date=$this->input->post('contact_end_date', true);
+		$dob=$this->input->post('dob', true);
 		
 		
-		$psd=$this->input->post('password');
+		$psd=$this->input->post('password', true);
 		$password=md5($psd);
 		
 		$user=$this->session->userdata('admin_id');
@@ -354,61 +354,61 @@ class Fhrms_db extends CI_Model
 		$payslip_doc="";
 		$exp_doc="";
 		
-		$ffi_emp_id=$this->input->post('ffi_emp_id');
-		$emp_name=$this->input->post('emp_name');
-		$designation=$this->input->post('designation');
-		$department=$this->input->post('department');
-		$state=$this->input->post('state');
-		$location=$this->input->post('location');
-		$gender=$this->input->post('gender');
-		$fname=$this->input->post('fname');
-		$blood_grp=$this->input->post('blood_grp');
-		$qualification=$this->input->post('qualification');
-		$phone1=$this->input->post('phone1');
-		$phone2=$this->input->post('phone2');
-		$email=$this->input->post('email');
-		$permanent_address=$this->input->post('permanent_address');
-		$present_address=$this->input->post('present_address');
-		$pan_no=$this->input->post('pan_no');
-		$aadhar_no=$this->input->post('aadhar_no');
-		$driving_license=$this->input->post('driving_license');
-		$bank_name=$this->input->post('bank_name');
-		$bank_account_no=$this->input->post('bank_account_no');
-		$ifsc_code=$this->input->post('ifsc_code');
-		$uan=$this->input->post('uan');
-		$uan_type=$this->input->post('uan_type');
-		$uan_no=$this->input->post('uan_no');
-		$status=$this->input->post('status');
-		$basic_salary=$this->input->post('basic_salary');
-		$hra=$this->input->post('hra');
-		$conveyance=$this->input->post('conveyance');
-		$medical=$this->input->post('medical');
-		$special_allowance=$this->input->post('special_allowance');
-		$st_bonus=$this->input->post('st_bonus');
-		$other_allowance=$this->input->post('other_allowance');
-		$gross_salary=$this->input->post('gross_salary');
-		$pf_percentage=$this->input->post('pf_percentage');
-		$emp_pf=$this->input->post('emp_pf');
-		$esic_percentage=$this->input->post('esic_percentage');
-		$emp_esic=$this->input->post('emp_esic');
-		$pt=$this->input->post('pt');
-		$total_deduction=$this->input->post('total_deduction');
-		$employer_pf_percentage=$this->input->post('employer_pf_percentage');
-		$employer_pf=$this->input->post('employer_pf');
-		$employer_esic_percentage=$this->input->post('employer_esic_percentage');
-		$employer_esic=$this->input->post('employer_esic');
-		$mediclaim=$this->input->post('mediclaim');
-		$ctc=$this->input->post('ctc');
+		$ffi_emp_id=$this->input->post('ffi_emp_id', true);
+		$emp_name=$this->input->post('emp_name', true);
+		$designation=$this->input->post('designation', true);
+		$department=$this->input->post('department', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('location', true);
+		$gender=$this->input->post('gender', true);
+		$fname=$this->input->post('fname', true);
+		$blood_grp=$this->input->post('blood_grp', true);
+		$qualification=$this->input->post('qualification', true);
+		$phone1=$this->input->post('phone1', true);
+		$phone2=$this->input->post('phone2', true);
+		$email=$this->input->post('email', true);
+		$permanent_address=$this->input->post('permanent_address', true);
+		$present_address=$this->input->post('present_address', true);
+		$pan_no=$this->input->post('pan_no', true);
+		$aadhar_no=$this->input->post('aadhar_no', true);
+		$driving_license=$this->input->post('driving_license', true);
+		$bank_name=$this->input->post('bank_name', true);
+		$bank_account_no=$this->input->post('bank_account_no', true);
+		$ifsc_code=$this->input->post('ifsc_code', true);
+		$uan=$this->input->post('uan', true);
+		$uan_type=$this->input->post('uan_type', true);
+		$uan_no=$this->input->post('uan_no', true);
+		$status=$this->input->post('status', true);
+		$basic_salary=$this->input->post('basic_salary', true);
+		$hra=$this->input->post('hra', true);
+		$conveyance=$this->input->post('conveyance', true);
+		$medical=$this->input->post('medical', true);
+		$special_allowance=$this->input->post('special_allowance', true);
+		$st_bonus=$this->input->post('st_bonus', true);
+		$other_allowance=$this->input->post('other_allowance', true);
+		$gross_salary=$this->input->post('gross_salary', true);
+		$pf_percentage=$this->input->post('pf_percentage', true);
+		$emp_pf=$this->input->post('emp_pf', true);
+		$esic_percentage=$this->input->post('esic_percentage', true);
+		$emp_esic=$this->input->post('emp_esic', true);
+		$pt=$this->input->post('pt', true);
+		$total_deduction=$this->input->post('total_deduction', true);
+		$employer_pf_percentage=$this->input->post('employer_pf_percentage', true);
+		$employer_pf=$this->input->post('employer_pf', true);
+		$employer_esic_percentage=$this->input->post('employer_esic_percentage', true);
+		$employer_esic=$this->input->post('employer_esic', true);
+		$mediclaim=$this->input->post('mediclaim', true);
+		$ctc=$this->input->post('ctc', true);
 		
-		$take_home=$this->input->post('take_home');
+		$take_home=$this->input->post('take_home', true);
 			
 		
-		$interview_date=$this->input->post('interview_date');
-		$joining_date=$this->input->post('joining_date');
-		$contact_end_date=$this->input->post('contact_end_date');
-		$dob=$this->input->post('dob');
+		$interview_date=$this->input->post('interview_date', true);
+		$joining_date=$this->input->post('joining_date', true);
+		$contact_end_date=$this->input->post('contact_end_date', true);
+		$dob=$this->input->post('dob', true);
 		
-		$psd=$this->input->post('password');
+		$psd=$this->input->post('password', true);
 		$password=md5($psd);
 		
 		$user=$this->session->userdata('admin_id');
@@ -646,64 +646,64 @@ class Fhrms_db extends CI_Model
 		$payslip_doc=$q[0]['payslip'];
 		$exp_doc=$q[0]['exp_letter'];
 		
-		$ffi_emp_id=$this->input->post('ffi_emp_id');
-		$emp_name=$this->input->post('emp_name');
-		$designation=$this->input->post('designation');
-		$department=$this->input->post('department');
-		$state=$this->input->post('state');
-		$location=$this->input->post('location');
-		$gender=$this->input->post('gender');
-		$fname=$this->input->post('fname');
-		$blood_grp=$this->input->post('blood_grp');
-		$qualification=$this->input->post('qualification');
-		$phone1=$this->input->post('phone1');
-		$phone2=$this->input->post('phone2');
-		$email=$this->input->post('email');
-		$permanent_address=$this->input->post('permanent_address');
-		$present_address=$this->input->post('present_address');
-		$pan_no=$this->input->post('pan_no');
-		$aadhar_no=$this->input->post('aadhar_no');
-		$driving_license=$this->input->post('driving_license');
-		$bank_name=$this->input->post('bank_name');
-		$bank_account_no=$this->input->post('bank_account_no');
-		$ifsc_code=$this->input->post('ifsc_code');
-		$uan=$this->input->post('uan');
-		$uan_type=$this->input->post('uan_type');
-		$uan_no=$this->input->post('uan_no');
-		$status=$this->input->post('status');
+		$ffi_emp_id=$this->input->post('ffi_emp_id', true);
+		$emp_name=$this->input->post('emp_name', true);
+		$designation=$this->input->post('designation', true);
+		$department=$this->input->post('department', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('location', true);
+		$gender=$this->input->post('gender', true);
+		$fname=$this->input->post('fname', true);
+		$blood_grp=$this->input->post('blood_grp', true);
+		$qualification=$this->input->post('qualification', true);
+		$phone1=$this->input->post('phone1', true);
+		$phone2=$this->input->post('phone2', true);
+		$email=$this->input->post('email', true);
+		$permanent_address=$this->input->post('permanent_address', true);
+		$present_address=$this->input->post('present_address', true);
+		$pan_no=$this->input->post('pan_no', true);
+		$aadhar_no=$this->input->post('aadhar_no', true);
+		$driving_license=$this->input->post('driving_license', true);
+		$bank_name=$this->input->post('bank_name', true);
+		$bank_account_no=$this->input->post('bank_account_no', true);
+		$ifsc_code=$this->input->post('ifsc_code', true);
+		$uan=$this->input->post('uan', true);
+		$uan_type=$this->input->post('uan_type', true);
+		$uan_no=$this->input->post('uan_no', true);
+		$status=$this->input->post('status', true);
 		
-		$basic_salary=$this->input->post('basic_salary');
-		$hra=$this->input->post('hra');
-		$conveyance=$this->input->post('conveyance');
-		$medical=$this->input->post('medical');
-		$special_allowance=$this->input->post('special_allowance');
-		$st_bonus=$this->input->post('st_bonus');
-		$other_allowance=$this->input->post('other_allowance');
-		$gross_salary=$this->input->post('gross_salary');
-		$pf_percentage=$this->input->post('pf_percentage');
-		$emp_pf=$this->input->post('emp_pf');
-		$esic_percentage=$this->input->post('esic_percentage');
-		$emp_esic=$this->input->post('emp_esic');
-		$pt=$this->input->post('pt');
-		$total_deduction=$this->input->post('total_deduction');
+		$basic_salary=$this->input->post('basic_salary', true);
+		$hra=$this->input->post('hra', true);
+		$conveyance=$this->input->post('conveyance', true);
+		$medical=$this->input->post('medical', true);
+		$special_allowance=$this->input->post('special_allowance', true);
+		$st_bonus=$this->input->post('st_bonus', true);
+		$other_allowance=$this->input->post('other_allowance', true);
+		$gross_salary=$this->input->post('gross_salary', true);
+		$pf_percentage=$this->input->post('pf_percentage', true);
+		$emp_pf=$this->input->post('emp_pf', true);
+		$esic_percentage=$this->input->post('esic_percentage', true);
+		$emp_esic=$this->input->post('emp_esic', true);
+		$pt=$this->input->post('pt', true);
+		$total_deduction=$this->input->post('total_deduction', true);
 		
-		$take_home=$this->input->post('take_home');
+		$take_home=$this->input->post('take_home', true);
 		
-		$employer_pf_percentage=$this->input->post('employer_pf_percentage');
-		$employer_pf=$this->input->post('employer_pf');
-		$employer_esic_percentage=$this->input->post('employer_esic_percentage');
-		$employer_esic=$this->input->post('employer_esic');
-		$mediclaim=$this->input->post('mediclaim');
-		$ctc=$this->input->post('ctc');
+		$employer_pf_percentage=$this->input->post('employer_pf_percentage', true);
+		$employer_pf=$this->input->post('employer_pf', true);
+		$employer_esic_percentage=$this->input->post('employer_esic_percentage', true);
+		$employer_esic=$this->input->post('employer_esic', true);
+		$mediclaim=$this->input->post('mediclaim', true);
+		$ctc=$this->input->post('ctc', true);
 		
-		$interview_date=$this->input->post('interview_date');
-		$joining_date=$this->input->post('joining_date');
-		$contact_end_date=$this->input->post('contact_end_date');
-		$dob=$this->input->post('dob');
+		$interview_date=$this->input->post('interview_date', true);
+		$joining_date=$this->input->post('joining_date', true);
+		$contact_end_date=$this->input->post('contact_end_date', true);
+		$dob=$this->input->post('dob', true);
 		
-		$active_status=$this->input->post('active');
+		$active_status=$this->input->post('active', true);
 		
-		$psd=$this->input->post('password');
+		$psd=$this->input->post('password', true);
 		$password=md5($psd);
 		
 		$user=$this->session->userdata('admin_id');
@@ -947,66 +947,66 @@ class Fhrms_db extends CI_Model
 		$payslip_doc=$q[0]['payslip'];
 		$exp_doc=$q[0]['exp_letter'];
 		
-		$client=$this->input->post('client');
-		$ffi_emp_id=$this->input->post('ffi_emp_id');
-		$client_emp_id=$this->input->post('client_emp_id');
-		$emp_name=$this->input->post('emp_name');
-		$designation=$this->input->post('designation');
-		$department=$this->input->post('department');
-		$state=$this->input->post('state');
-		$location=$this->input->post('location');
-		$gender=$this->input->post('gender');
-		$fname=$this->input->post('fname');
-		$blood_grp=$this->input->post('blood_grp');
-		$qualification=$this->input->post('qualification');
-		$phone1=$this->input->post('phone1');
-		$phone2=$this->input->post('phone2');
-		$email=$this->input->post('email');
-		$permanent_address=$this->input->post('permanent_address');
-		$present_address=$this->input->post('present_address');
-		$pan_no=$this->input->post('pan_no');
-		$aadhar_no=$this->input->post('aadhar_no');
-		$driving_license=$this->input->post('driving_license');
-		$bank_name=$this->input->post('bank_name');
-		$bank_account_no=$this->input->post('bank_account_no');
-		$ifsc_code=$this->input->post('ifsc_code');
-		$uan=$this->input->post('uan');
-		$uan_type=$this->input->post('uan_type');
-		$uan_no=$this->input->post('uan_no');
-		$status=$this->input->post('status');
+		$client=$this->input->post('client', true);
+		$ffi_emp_id=$this->input->post('ffi_emp_id', true);
+		$client_emp_id=$this->input->post('client_emp_id', true);
+		$emp_name=$this->input->post('emp_name', true);
+		$designation=$this->input->post('designation', true);
+		$department=$this->input->post('department', true);
+		$state=$this->input->post('state', true);
+		$location=$this->input->post('location', true);
+		$gender=$this->input->post('gender', true);
+		$fname=$this->input->post('fname', true);
+		$blood_grp=$this->input->post('blood_grp', true);
+		$qualification=$this->input->post('qualification', true);
+		$phone1=$this->input->post('phone1', true);
+		$phone2=$this->input->post('phone2', true);
+		$email=$this->input->post('email', true);
+		$permanent_address=$this->input->post('permanent_address', true);
+		$present_address=$this->input->post('present_address', true);
+		$pan_no=$this->input->post('pan_no', true);
+		$aadhar_no=$this->input->post('aadhar_no', true);
+		$driving_license=$this->input->post('driving_license', true);
+		$bank_name=$this->input->post('bank_name', true);
+		$bank_account_no=$this->input->post('bank_account_no', true);
+		$ifsc_code=$this->input->post('ifsc_code', true);
+		$uan=$this->input->post('uan', true);
+		$uan_type=$this->input->post('uan_type', true);
+		$uan_no=$this->input->post('uan_no', true);
+		$status=$this->input->post('status', true);
 		
-		$basic_salary=$this->input->post('basic_salary');
-		$hra=$this->input->post('hra');
-		$conveyance=$this->input->post('conveyance');
-		$medical=$this->input->post('medical');
-		$special_allowance=$this->input->post('special_allowance');
-		$st_bonus=$this->input->post('st_bonus');
-		$other_allowance=$this->input->post('other_allowance');
-		$gross_salary=$this->input->post('gross_salary');
-		$pf_percentage=$this->input->post('pf_percentage');
-		$emp_pf=$this->input->post('emp_pf');
-		$esic_percentage=$this->input->post('esic_percentage');
-		$emp_esic=$this->input->post('emp_esic');
-		$pt=$this->input->post('pt');
-		$total_deduction=$this->input->post('total_deduction');
+		$basic_salary=$this->input->post('basic_salary', true);
+		$hra=$this->input->post('hra', true);
+		$conveyance=$this->input->post('conveyance', true);
+		$medical=$this->input->post('medical', true);
+		$special_allowance=$this->input->post('special_allowance', true);
+		$st_bonus=$this->input->post('st_bonus', true);
+		$other_allowance=$this->input->post('other_allowance', true);
+		$gross_salary=$this->input->post('gross_salary', true);
+		$pf_percentage=$this->input->post('pf_percentage', true);
+		$emp_pf=$this->input->post('emp_pf', true);
+		$esic_percentage=$this->input->post('esic_percentage', true);
+		$emp_esic=$this->input->post('emp_esic', true);
+		$pt=$this->input->post('pt', true);
+		$total_deduction=$this->input->post('total_deduction', true);
 		
-		$take_home=$this->input->post('take_home');
+		$take_home=$this->input->post('take_home', true);
 		
-		$employer_pf_percentage=$this->input->post('employer_pf_percentage');
-		$employer_pf=$this->input->post('employer_pf');
-		$employer_esic_percentage=$this->input->post('employer_esic_percentage');
-		$employer_esic=$this->input->post('employer_esic');
-		$mediclaim=$this->input->post('mediclaim');
-		$ctc=$this->input->post('ctc');
+		$employer_pf_percentage=$this->input->post('employer_pf_percentage', true);
+		$employer_pf=$this->input->post('employer_pf', true);
+		$employer_esic_percentage=$this->input->post('employer_esic_percentage', true);
+		$employer_esic=$this->input->post('employer_esic', true);
+		$mediclaim=$this->input->post('mediclaim', true);
+		$ctc=$this->input->post('ctc', true);
 		
-		$interview_date=$this->input->post('interview_date');
-		$joining_date=$this->input->post('joining_date');
-		$contact_end_date=$this->input->post('contact_end_date');
-		$dob=$this->input->post('dob');
+		$interview_date=$this->input->post('interview_date', true);
+		$joining_date=$this->input->post('joining_date', true);
+		$contact_end_date=$this->input->post('contact_end_date', true);
+		$dob=$this->input->post('dob', true);
 		
-		$active_status=$this->input->post('active');
+		$active_status=$this->input->post('active', true);
 		
-		$psd=$this->input->post('password');
+		$psd=$this->input->post('password', true);
 		$password=md5($psd);
 		
 		$user=$this->session->userdata('admin_id');
@@ -1243,13 +1243,13 @@ class Fhrms_db extends CI_Model
 	}
 	function delete_education_certificate()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('ffi_education_certificate');
 	}
 	function delete_other_certificate()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('ffi_other_certificate');
 	}
@@ -1266,27 +1266,27 @@ class Fhrms_db extends CI_Model
 	}
 	function save_offer_letter()
 	{
-		$emp_id=$this->input->post('ffi_emp_id');
-		$letter_format=$this->input->post('letter_format');
-		$basic_salary=$this->input->post('basic_salary');
-		$hra=$this->input->post('hra');
-		$conveyance=$this->input->post('conveyance');
-		$medical=$this->input->post('medical');
-		$special_allowance=$this->input->post('special_allowance');
-		$other_allowance=$this->input->post('other_allowance');
-		$gross_salary=$this->input->post('gross_salary');
-		$pf_percentage=$this->input->post('pf_percentage');
-		$emp_pf=$this->input->post('emp_pf');
-		$esic_percentage=$this->input->post('esic_percentage');
-		$emp_esic=$this->input->post('emp_esic');
-		$pt=$this->input->post('pt');
-		$total_deduction=$this->input->post('total_deduction');
-		$employer_pf_percentage=$this->input->post('employer_pf_percentage');
-		$employer_pf=$this->input->post('employer_pf');
-		$employer_esic_percentage=$this->input->post('employer_esic_percentage');
-		$employer_esic=$this->input->post('employer_esic');
-		$mediclaim=$this->input->post('mediclaim');
-		$ctc=$this->input->post('ctc');
+		$emp_id=$this->input->post('ffi_emp_id', true);
+		$letter_format=$this->input->post('letter_format', true);
+		$basic_salary=$this->input->post('basic_salary', true);
+		$hra=$this->input->post('hra', true);
+		$conveyance=$this->input->post('conveyance', true);
+		$medical=$this->input->post('medical', true);
+		$special_allowance=$this->input->post('special_allowance', true);
+		$other_allowance=$this->input->post('other_allowance', true);
+		$gross_salary=$this->input->post('gross_salary', true);
+		$pf_percentage=$this->input->post('pf_percentage', true);
+		$emp_pf=$this->input->post('emp_pf', true);
+		$esic_percentage=$this->input->post('esic_percentage', true);
+		$emp_esic=$this->input->post('emp_esic', true);
+		$pt=$this->input->post('pt', true);
+		$total_deduction=$this->input->post('total_deduction', true);
+		$employer_pf_percentage=$this->input->post('employer_pf_percentage', true);
+		$employer_pf=$this->input->post('employer_pf', true);
+		$employer_esic_percentage=$this->input->post('employer_esic_percentage', true);
+		$employer_esic=$this->input->post('employer_esic', true);
+		$mediclaim=$this->input->post('mediclaim', true);
+		$ctc=$this->input->post('ctc', true);
 		
 		$date=date("Y-m-d");
 		$data=array("employee_id"=>$emp_id,"date"=>$date,"offer_letter_type"=>$letter_format,"basic_salary"=>$basic_salary,"hra"=>$hra,"conveyance"=>$conveyance,"medical_reimbursement"=>$medical,"special_allowance"=>$special_allowance,"other_allowance"=>$other_allowance,"gross_salary"=>$gross_salary,"pf_percentage"=>$pf_percentage,"emp_pf"=>$emp_pf,"esic_percentage"=>$esic_percentage,"emp_esic"=>$emp_esic,"pt"=>$pt,"total_deduction"=>$total_deduction,"employer_pf_percentage"=>$employer_pf_percentage,"employer_pf"=>$employer_pf,"employer_esic_percentage"=>$employer_esic_percentage,"employer_esic"=>$employer_esic,"mediclaim"=>$mediclaim,"ctc"=>$ctc);
@@ -1335,41 +1335,41 @@ class Fhrms_db extends CI_Model
 	}
 	function delete_offer_letter()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$this->db->where('id',$id);
 		$this->db->delete('ffi_offer_letter');
 	}
 	function remove_voter_id()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("voter_id"=>"");
 		$this->db->where('id',$id);
 		$this->db->update('fhrms',$data);
 	}
 	function remove_emp_form()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("emp_form"=>"");
 		$this->db->where('id',$id);
 		$this->db->update('fhrms',$data);
 	}
 	function remove_pf_esic()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("pf_esic_form"=>"");
 		$this->db->where('id',$id);
 		$this->db->update('fhrms',$data);
 	}
 	function remove_payslip()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("payslip"=>"");
 		$this->db->where('id',$id);
 		$this->db->update('fhrms',$data);
 	}
 	function remove_exp_letter()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("exp_letter"=>"");
 		$this->db->where('id',$id);
 		$this->db->update('fhrms',$data);
@@ -1391,14 +1391,14 @@ class Fhrms_db extends CI_Model
 	}
 	function validate_ffi()
 	{
-		$emp_id=$this->input->post('emp_id');
+		$emp_id=$this->input->post('emp_id', true);
 		$this->db->where('ffi_emp_id',$emp_id);
 		$count=$this->db->count_all_results('fhrms');
 		return $count;
 	}
 	function delete_fhrms()
 	{
-		$id=$this->input->post('id');
+		$id=$this->input->post('id', true);
 		$data=array("status"=>"2");
 		$this->db->where('id',$id);
 		$this->db->update("fhrms",$data);
