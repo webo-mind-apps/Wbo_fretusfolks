@@ -345,9 +345,9 @@ class Increment_letter extends CI_Controller
 				$spreadsheet = $reader->load($_FILES['import']['tmp_name']); //1.location
 				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 				//2.fetch stru and datas row wise
-				echo "<pre>";
-				print_r($allDataInSheet[2]);
-				exit;
+				// echo "<pre>";
+				// print_r($allDataInSheet[2]);
+				// exit;
 				$insert = 0;
 				$not_exist = 0;
 

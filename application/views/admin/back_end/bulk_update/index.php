@@ -79,7 +79,7 @@
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/active_update",
           data: {
 			  id:id,
-			  status:1
+			  status:0
 			},
           success: function(data)  {
 			$("#dtable").DataTable().ajax.reload();
@@ -107,7 +107,7 @@
           url: "<?php echo base_url(); ?>" + "index.php/bulk_update/inactive_update",
           data: {
 			  id:id,
-			  status:0
+			  status:1
 			},
           success: function(data){
 			$("#dtable").DataTable().ajax.reload();

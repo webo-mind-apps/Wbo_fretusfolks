@@ -54,9 +54,9 @@ class Bulk_update extends CI_Controller
 				$sub_array[] = $row->ffi_emp_id;
 				$sub_array[] = $row->emp_name;
 				$status = "";
-				if ($row->status == 1) {
+				if ($row->status == 0) {
 					$status = '<center><span class="badge bg-blue">Active</span></center>';
-				} else if ($row->status == 0) {
+				} else if ($row->status == 1) {
 					$status = '<center><span class="badge bg-danger">Inactive</span></center>';
 				}
 				$sub_array[] = $status;
