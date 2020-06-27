@@ -135,55 +135,64 @@ class Offer_letter extends CI_Controller
 	function pdf_offer_letter($id = NULL) //1/limit records use null
 	{
 		$this->load->library('zip');
-		$data['letter_details'] = $this->letter->get_offer_letter_pdf(); //2.select records in model 
-		if (!empty($data['letter_details'])) {
-			//  echo "<pre>";
-			// 		print_r($data['letter_details']);
-			// 		exit;
-			if (empty($_POST['offer_letter_download_client'])) {
+		$client = $this->letter->get_offer_letter_pdf_client();
+		$row_count = $this->letter->get_offer_letter_pdf(); //2.select records in model 
+		if ($row_count!=0) {
+			if (empty($client)) {
 				$path = 'offer_letters/offer_letter_' . date('Y-m-d-his');
 			} else {
-				$path = 'offer_letters/offer_letter_' . $data['letter_details'][0]['client_name'] . '_' . date('Y-m-d-his');
+				$path = 'offer_letters/offer_letter_' .$client[0]['client_name'] . '_' . date('Y-m-d-his');
 			}
 
 			if (!is_dir($path)) mkdir($path, 0777, TRUE);
-			foreach ($data['letter_details'] as $key => $value) {
-				$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
-				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-				$mpdf->AddPage(
-					'', // L - landscape, P - portrait 
-					'',
-					'',
-					'',
-					'',
-					5, // margin_left
-					5, // margin right
-					35, // margin top
-					35, // margin bottom
-					0, // margin header
-					0
-				); // margin footer
-				$data['letter_details'][0] = $value; //4.using record id fetch html pages 
-				// echo "<pre>";
-				// print_r($data['letter_details'][0]);
-				// exit;
-				if ($value['offer_letter_type'] == 1) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
-				} else if ($value['offer_letter_type'] == 2) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-				} else if ($value['offer_letter_type'] == 3) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
-				} else if ($value['offer_letter_type'] == 4) {
-					$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
-				}
 
-				$mpdf->WriteHTML($html);
-				$file = $data['letter_details'][0]['employee_id'];
-				$date = date('Y-m-d-his') . $key;
-				$file = $file . '_' . $data['letter_details'][0]['emp_name'];
-				$pdfData = $mpdf->Output($path . '/' . $file . '_' . $date . '.pdf', 'F');
-			}
+				$row_count=$row_count/1000;
+				$row_count=round($row_count);
+				for($i=0;$i<=$row_count;$i++)
+				{
+					$a=$i*1000;
+					if($data['letter_details']= $this->letter->get_offer_letter_pdf_partial(1000,$a))
+					{
+						foreach ($data['letter_details'] as $key => $value) 
+						{
+							$mpdf = new \Mpdf\Mpdf(); //3.check documentation avail
+							$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+							$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+							$mpdf->AddPage(
+								'', // L - landscape, P - portrait 
+								'',
+								'',
+								'',
+								'',
+								10, // margin_left
+								10, // margin right
+								35, // margin top
+								40, // margin bottom
+								0, // margin header
+								0
+							); // margin footer
+							$data['letter_details'][0] = $value; //4.using record id fetch html pages 
+							// echo "<pre>";
+							// print_r($data['letter_details'][0]);
+							// exit;
+							if ($value['offer_letter_type'] == 1) {
+								$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
+							} else if ($value['offer_letter_type'] == 2) {
+								$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
+							} else if ($value['offer_letter_type'] == 3) {
+								$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
+							} else if ($value['offer_letter_type'] == 4) {
+								$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+							}
+
+							$mpdf->WriteHTML($html);
+							$file = $data['letter_details'][0]['employee_id'];
+							$date = date('Y-m-d-his') . $key;
+							$file = $file . '_' . $data['letter_details'][0]['emp_name'];
+							$pdfData = $mpdf->Output($path . '/' . $file . '_' . $date . '.pdf', 'F');
+						}
+					}
+				}
 			$this->zip->read_dir($path, false); //5.make it as zip 
 			$download = $this->zip->download($path . '.zip');
 		} else {
@@ -235,13 +244,13 @@ class Offer_letter extends CI_Controller
 				'',
 				'',
 				'',
-				5, // margin_left
-				5, // margin right
+				10, // margin_left
+				10, // margin right
 				35, // margin top
-				30, // margin bottom
+				40, // margin bottom
 				0, // margin header
 				0
-			); // margin footer
+			); // margin footer  
 			if ($letter_type == 1) {
 
 				$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
@@ -307,16 +316,16 @@ class Offer_letter extends CI_Controller
 					'',
 					'',
 					'',
-					5, // margin_left
-					5, // margin right
+					10, // margin_left
+					10, // margin right
 					35, // margin top
-					35, // margin bottom
+					40, // margin bottom
 					0, // margin header
 					0
 				); // margin footer  
 				$mpdf->WriteHTML($html);
 				$date = date('Y-m-d_his');
-				$mpdf->Output($data[0]['ffi_emp_id'] . "_" . $data[0]['emp_name'] . "_" . $date . ".pdf", 'D');
+				$mpdf->Output($data[0]['employee_id'] . "_" . $data[0]['emp_name'] . "_" . $date . ".pdf", 'D');
 				redirect('increment_letter');
 			}
 		}
@@ -403,62 +412,55 @@ class Offer_letter extends CI_Controller
 				$insert = 0;
 				$not_exist = 0;
 				for ($i = 2; $i <= count($allDataInSheet); $i++) {
-
-					$client = empty($allDataInSheet[$i]['B']) ? 'null' : $allDataInSheet[$i]['B'];
-					$this->db->where("client_name", $client); //selecting clint id for usage
-					$query = $this->db->get("client_management");
-					$q = $query->row_array();
-					$client_id = $q['id'];
-
 					$date = date("Y-m-d");
-					$offer_letter = empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C'];
 					// echo "<pre>";
 					// print_r($offer_letter);
 					// exit;
-					$offer_letter_type = "";
-					if ($offer_letter == "Format 1") {
-						$offer_letter_type = 1;
-					} elseif ($offer_letter == "Format 2") {
-						$offer_letter_type = 2;
-					} elseif ($offer_letter == "Format 3") {
-						$offer_letter_type = 3;
-					} elseif ($offer_letter == "Format 4") {
-						$offer_letter_type = 4;
-					}
+					
 
-					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
+					$emp_id = (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']);
 
 					$data = array(
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
-						"company_id"			=>  $client_id,
+						"company_id"			=>  (empty($allDataInSheet[$i]['AI']) ? '' : $allDataInSheet[$i]['AI']),
 						"date"					=>	$date,
-						"offer_letter_type"		=>	$offer_letter_type,
-						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
-						"hra"					=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
-						"conveyance"			=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
-						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
-						"special_allowance"		=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
-						"st_bonus"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
-						"other_allowance"		=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
-						"gross_salary"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
-						"emp_pf"				=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
-						"emp_esic"				=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
-						"pt"					=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
-						"total_deduction"		=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
-						"take_home"				=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
-						"employer_pf"			=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
-						"employer_esic"			=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
-						"mediclaim"				=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
-						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? 'null' : $allDataInSheet[$i]['T']),
+						"offer_letter_type"		=>	(empty($allDataInSheet[$i]['AJ']) ? '' : $allDataInSheet[$i]['AJ']),
+						"basic_salary"			=> (empty($allDataInSheet[$i]['D']) ? '' : $allDataInSheet[$i]['D']),
+						"hra"					=> (empty($allDataInSheet[$i]['E']) ? '' : $allDataInSheet[$i]['E']),
+						"conveyance"			=> (empty($allDataInSheet[$i]['F']) ? '' : $allDataInSheet[$i]['F']),
+						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['G']) ? '' : $allDataInSheet[$i]['G']),
+						"special_allowance"		=> (empty($allDataInSheet[$i]['H']) ? '' : $allDataInSheet[$i]['H']),
+						"st_bonus"				=> (empty($allDataInSheet[$i]['I']) ? '' : $allDataInSheet[$i]['I']),
+						"other_allowance"		=> (empty($allDataInSheet[$i]['J']) ? '' : $allDataInSheet[$i]['J']),
+						"gross_salary"			=> (empty($allDataInSheet[$i]['K']) ? '' : $allDataInSheet[$i]['K']),
+						"emp_pf"				=> (empty($allDataInSheet[$i]['L']) ? '' : $allDataInSheet[$i]['L']),
+						"emp_esic"				=> (empty($allDataInSheet[$i]['M']) ? '' : $allDataInSheet[$i]['M']),
+						"pt"					=> (empty($allDataInSheet[$i]['N']) ? '' : $allDataInSheet[$i]['N']),
+						"total_deduction"		=> (empty($allDataInSheet[$i]['O']) ? '' : $allDataInSheet[$i]['O']),
+						"take_home"				=> (empty($allDataInSheet[$i]['P']) ? '' : $allDataInSheet[$i]['P']),
+						"employer_pf"			=> (empty($allDataInSheet[$i]['Q']) ? '' : $allDataInSheet[$i]['Q']),
+						"employer_esic"			=> (empty($allDataInSheet[$i]['R']) ? '' : $allDataInSheet[$i]['R']),
+						"mediclaim"				=> (empty($allDataInSheet[$i]['S']) ? '' : $allDataInSheet[$i]['S']),
+						"ctc"					=> (empty($allDataInSheet[$i]['T']) ? '' : $allDataInSheet[$i]['T']),
+						"leave_wage"			=> (empty($allDataInSheet[$i]['U']) ? '' : $allDataInSheet[$i]['U']),
+						"emp_name"				=> (empty($allDataInSheet[$i]['V']) ? '' : $allDataInSheet[$i]['V']),
+						"phone1"				=> (empty($allDataInSheet[$i]['X']) ? '' : $allDataInSheet[$i]['X']),
+						"entity_name"			=> (empty($allDataInSheet[$i]['AC']) ? '' : $allDataInSheet[$i]['AC']),
+						"joining_date"		    => (empty($allDataInSheet[$i]['Y']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['Y']))),
+						"location"				=> (empty($allDataInSheet[$i]['AD']) ? '' : $allDataInSheet[$i]['AD']),
+						"department"			=> (empty($allDataInSheet[$i]['Z']) ? '' : $allDataInSheet[$i]['Z']),
+						"father_name"			=> (empty($allDataInSheet[$i]['W']) ? '' : $allDataInSheet[$i]['W']),
+						"tenure_month"			=> (empty($allDataInSheet[$i]['AB']) ? '' : $allDataInSheet[$i]['AB']),
+						"designation"			=> (empty($allDataInSheet[$i]['AA']) ? '' : $allDataInSheet[$i]['AA']),
+						"email"			        => (empty($allDataInSheet[$i]['AE']) ? '' : $allDataInSheet[$i]['AE']),
 
 					);
 					if ($data['employee_id'] != '' || !empty($data['employee_id'])) :
 						if ($import_status = $this->letter->importEmployee_offer_letter($data)) {
 							if ($import_status == "insert") {
 								$insert = $insert + 1;
-								$this->db->select('a.*,b.branch,b.emp_name,b.last_name,b.middle_name,b.ffi_emp_id,b.email,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+								$this->db->select('a.*,c.client_name');
 								$this->db->from('offer_letter a');
-								$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 								$this->db->join('client_management c', 'a.company_id=c.id', 'left');
 								$this->db->where('a.employee_id', $data['employee_id']);
 								$query = $this->db->get();
@@ -473,23 +475,23 @@ class Offer_letter extends CI_Controller
 									'',
 									'',
 									'',
-									5, // margin_left
-									5, // margin right
+									10, // margin_left
+									10, // margin right
 									35, // margin top
-									30, // margin bottom
+									40, // margin bottom
 									0, // margin header
 									0
 								); // margin footer
-								if ($offer_letter_type == 1) {
+								if ($data['offer_letter_type'] == 1) {
 
 									$html = $this->load->view('admin/back_end/offer_letter/pdf-format1', $data, true);
-								} else if ($offer_letter_type == 2) {
+								} else if ($data['offer_letter_type'] == 2) {
 
 									$html = $this->load->view('admin/back_end/offer_letter/pdf-format2', $data, true);
-								} else if ($offer_letter_type == 3) {
+								} else if ($data['offer_letter_type'] == 3) {
 
 									$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
-								} else if ($offer_letter_type == 4) {
+								} else if ($data['offer_letter_type'] == 4) {
 
 									$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
 								}
@@ -503,7 +505,7 @@ class Offer_letter extends CI_Controller
 								$message = $this->load->view('admin/back_end/offer_letter/offer_letter_email', $data, true);
 								$subject = "welcome";
 								$from = $this->config->item('smtp_user');
-								$to = $data['letter_details'][0]['email'];
+								$to = $data['email'];
 
 								$this->email->set_newline("\r\n");
 								$this->email->from($from, 'Fretus folks india');
@@ -521,7 +523,7 @@ class Offer_letter extends CI_Controller
 						}
 					endif;
 				}
-				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee not founded <br>';
+				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee id not given <br>';
 				$this->session->set_flashdata('success', $msg);
 				redirect('offer_letter', 'refresh');
 			} else {
@@ -562,16 +564,14 @@ class Offer_letter extends CI_Controller
 				$sheet1->setCellValue('C' . $i, $value['id']);
 				$i += 1;
 			}
-			$sheet1->setCellValue('E2', "Format 1");
-			$sheet1->setCellValue('E3', "Format 2");
-			$sheet1->setCellValue('E4', "Format 3");
-			$sheet1->setCellValue('E5', "Format 4");
+			$sheet1->setCellValue('E2', "Udaan");
+			$sheet1->setCellValue('E3', "Grofers");
+			$sheet1->setCellValue('E4', "Others");
 
 
-			$sheet1->setCellValue('F2', 1);
+			$sheet1->setCellValue('F2', 4);
 			$sheet1->setCellValue('F3', 2);
 			$sheet1->setCellValue('F4', 3);
-			$sheet1->setCellValue('F5', 4);
 
 			$spreadsheet->setActiveSheetIndex(0);
 			$spreadsheet->getActiveSheet()->setTitle('Offer_letter');
@@ -584,7 +584,7 @@ class Offer_letter extends CI_Controller
 			$cellB2->setShowDropDown(true);
 			// $rowCount = $sheet1->getHighestRow();
 			$cellB2->setFormula1('list1!$B:$B');
-			$sheet->setCellValue('V2', '=vlookup(B2,list1!B:C,2,false)');
+			$sheet->setCellValue('AI2', '=vlookup(B2,list1!B:C,2,false)');
 
 			$cellC2 = $sheet->getCell('C2')->getDataValidation();
 			$cellC2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
@@ -594,7 +594,7 @@ class Offer_letter extends CI_Controller
 			$cellC2->setShowDropDown(true);
 			// $rowCount = $sheet1->getHighestRow();
 			$cellC2->setFormula1('list1!$E:$E');
-			$sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
+			$sheet->setCellValue('AJ2', '=vlookup(C2,list1!E:F,2,false)');
 
 			$writer = new Xlsx($spreadsheet);
 			$filename = 'ADMS_OFFER_LETTER_DOWNLOAD_FORMAT';

@@ -9,9 +9,14 @@ $route['adms-increment-letter-import']   =  'increment_letter/adms_increment_let
 $route['adms-termination-letter-import']   =  'termination_letter/adms_termination_letter_import';
 
 $route['adms-doc-import']   =   'Backend_team/adms_doc_import';
+$route['adms-inactive-import']   =   'Bulk_update/adms_inactive_import';
 $route['doc-formate']   =   'Backend_team/doc_formate';
+$route['doc-formate-inactive']   =   'Bulk_update/doc_formate';
 
 $route['pdf_offer_letter/(:any)'] = 'Offer_letter/pdf_offer_letter/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+

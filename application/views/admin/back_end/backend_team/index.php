@@ -268,7 +268,7 @@
 															<select name="emp_status" class="form-control">
 																<option value=""><b>Select</b></option>
 																<option value="0"><b>Active</b></option>
-																<option value="1"><b>Deactive</b></option>
+																<option value="1"><b>Inactive</b></option>
 
 															</select>
 														</div>
@@ -394,6 +394,7 @@
 										<th>Joining Date</th>
 										<th style="width:15%">Phone</th>
 										<th>Status</th>
+										<th>Active Status</th>
 										<th class="text-center">Actions</th>
 									</tr>
 								</thead>
@@ -446,7 +447,7 @@
 								columnDefs: [{
 									orderable: false,
 									width: 100,
-									targets: [5]
+									targets: [6]
 								}],
 								// dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
 								language: {

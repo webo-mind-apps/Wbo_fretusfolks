@@ -103,10 +103,7 @@ $active_menu="Backendteam";
 		{
 			var basic = isNaN(parseInt($("#basic_salary").val())) ? 0 : parseInt($("#basic_salary").val());
 			var hra = isNaN(parseInt($("#hra").val())) ? 0 : parseInt($("#hra").val());
-			// var conveyance = isNaN(parseInt($("#conveyance").val())) ? 0 : parseInt($("#conveyance").val());
-			// var medical = isNaN(parseInt($("#medical").val())) ? 0 : parseInt($("#medical").val());
 			var special = isNaN(parseInt($("#special_allowance").val())) ? 0 : parseInt($("#special_allowance").val());
-			// var other = isNaN(parseInt($("#other_allowance").val())) ? 0 : parseInt($("#other_allowance").val());
 			var st_bonus = isNaN(parseInt($("#st_bonus").val())) ? 0 : parseInt($("#st_bonus").val());
 			
 			gross_salary=parseInt(basic)+parseInt(hra)+parseInt(special)+parseInt(st_bonus);
@@ -119,23 +116,21 @@ $active_menu="Backendteam";
 			var emp_esic = isNaN(parseInt($("#emp_esic").val())) ? 0 : parseInt($("#emp_esic").val());
 			var emp_pf = isNaN(parseInt($("#emp_pf").val())) ? 0 : parseInt($("#emp_pf").val());
 			
-			total_deduction=parseInt(emp_esic)+parseInt(emp_pf);
-			$("#total_deduction").val(total_deduction);
+			total_deduction=parseInt(pt)+parseInt(emp_esic)+parseInt(emp_pf);
+			$("#total_deduction").val(""+total_deduction);
 			calculate_total_ctc();
 		}
 		function calculate_total_ctc()
 		{
 			var employer_pf = isNaN(parseInt($("#employer_pf").val())) ? 0 : parseInt($("#employer_pf").val());
 			var employer_esic = isNaN(parseInt($("#employer_esic").val())) ? 0 : parseInt($("#employer_esic").val());
-		// var mediclaim = isNaN(parseInt($("#mediclaim").val())) ? 0 : parseInt($("#mediclaim").val());
 			
 			total=parseInt(employer_pf)+parseInt(employer_esic);
 			
 			gross_salary= isNaN(parseInt($("#gross_salary").val())) ? 0 : parseInt($("#gross_salary").val());
-			// total_deduction= isNaN(parseInt($("#total_deduction").val())) ? 0 : parseInt($("#total_deduction").val());
 			
 			ctc=gross_salary+total;
-			$("#new_ctc").val(""+ctc);
+			$("#ctc").val(ctc);
 			
 		}
 	</script>
@@ -148,7 +143,7 @@ $active_menu="Backendteam";
 				 $("div#divLoading").addClass('show');	
 					jQuery.ajax({
 					type:"POST",
-					url:"<?php echo base_url(); ?>" + "index.php/increment_letter/get_employee_detail",
+					url:"<?php echo base_url(); ?>" + "index.php/promotion_letter/get_employee_detail",
 					datatype:"text",
 					data:{emp_id:emp_id},
 					success:function(response)
@@ -168,30 +163,30 @@ $active_menu="Backendteam";
 							a=response.split("****");
 							
 							$("#client").val(""+a[0]);
-							// $("#emp_name").val(""+a[1]);
-							// $("#joining_date").val(""+a[2]);
+							$("#emp_name").val(""+a[1]);
+							$("#joining_date").val(""+a[2]);
 							$("#contact_end_date").val(""+a[3]);
 							$("#designation").val(""+a[4]);
 							$("#location").val(""+a[5]);
 							$("#departments").val(""+a[6]);
 							
-							// $("#basic_salary").val(""+a[7]);
-							// $("#hra").val(""+a[8]);
-							// $("#conveyance").val(""+a[9]);
-							// $("#medical").val(""+a[10]);
-							// $("#special_allowance").val(""+a[11]);
-							// $("#st_bonus").val(""+a[12]);
-							// $("#other_allowance").val(""+a[13]);
-							// $("#gross_salary").val(""+a[14]);
-							// $("#emp_pf").val(""+a[15]);
-							// $("#emp_esic").val(""+a[16]);
-							// $("#pt").val(""+a[17]);
-							// $("#total_deduction").val(""+a[18]);
-							// $("#take_home").val(""+a[19]);
-							// $("#employer_pf").val(""+a[20]);
-							// $("#employer_esic").val(""+a[21]);
-							// $("#mediclaim").val(""+a[22]);
-							// $("#new_ctc").val(""+a[23]);
+							$("#basic_salary").val(""+a[7]);
+							$("#hra").val(""+a[8]);
+							$("#conveyance").val(""+a[9]);
+							$("#medical").val(""+a[10]);
+							$("#special_allowance").val(""+a[11]);
+							$("#st_bonus").val(""+a[12]);
+							$("#other_allowance").val(""+a[13]);
+							$("#gross_salary").val(""+a[14]);
+							$("#emp_pf").val(""+a[15]);
+							$("#emp_esic").val(""+a[16]);
+							$("#pt").val(""+a[17]);
+							$("#total_deduction").val(""+a[18]);
+							$("#take_home").val(""+a[19]);
+							$("#employer_pf").val(""+a[20]);
+							$("#employer_esic").val(""+a[21]);
+							$("#mediclaim").val(""+a[22]);
+							$("#ctc").val(""+a[23]);
 							$("div#divLoading").removeClass('show');
 						}
 						
@@ -245,7 +240,7 @@ $active_menu="Backendteam";
 			<div class="page-header page-header-light">
 				<div class="page-header-content header-elements-md-inline">
 					<div class="page-title d-flex">
-						<h4><a href="<?php echo site_url('increment_letter/');?>"><i class="icon-arrow-left52 mr-2"></i></a> <span class="font-weight-semibold">New Increment Letter</span></h4>
+						<h4><a href="<?php echo site_url('promotion_letter/');?>"><i class="icon-arrow-left52 mr-2"></i></a> <span class="font-weight-semibold">New promotion Letter</span></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
 
@@ -255,8 +250,8 @@ $active_menu="Backendteam";
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
-							<a href="<?php echo site_url('increment_letter/');?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-							<span class="breadcrumb-item active">New Increment Letter</span>
+							<a href="<?php echo site_url('promotion_letter/');?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+							<span class="breadcrumb-item active">New promotion Letter</span>
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -276,12 +271,12 @@ $active_menu="Backendteam";
 				
 					<div class="col-md-12">
 
-					 <form class="form-horizontal" action="<?php echo site_url('increment_letter/save_increment_letter');?>" method="POST" enctype="multipart/form-data">
+					 <form class="form-horizontal" action="<?php echo site_url('promotion_letter/save_promotion_letter');?>" method="POST" enctype="multipart/form-data">
                         
 						<!-- Other inputs -->
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h5 class="card-title">Increment Letter Details</h5>
+								<h5 class="card-title">promotion Letter Details</h5>
 								<div class="header-elements">
 									<div class="list-icons">
 				                		<a class="list-icons-item" data-action="collapse"></a>
@@ -294,63 +289,34 @@ $active_menu="Backendteam";
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Enter FFI Employee ID: <span class="text-danger">*</span></label>
-											<input type="text" name="ffi_emp_id" id="ffi_emp_id" required class="form-control" onchange="get_employee_detail();" autocomplete="off" >
+											<input type="text" name="ffi_emp_id" id="ffi_emp_id" required class="form-control"  autocomplete="off" >
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Client Company Name: <span class="text-danger">*</span></label>
-												<select class="form-control" name="client" id="client" required readonly>
-													<option value="">Select Client</option>
-													<?php
-															$i=1;
-															foreach($clients as $res)
-															{
-																echo '<option value="'.$res['id'].'">'.$res['client_name'].'</option> ';
-															}
-													?>
-												</select>
+											<label>Enter Employee Name: <span class="text-danger">*</span></label>
+											<input type="text" name="emp_name" id="emp_name" required class="form-control"  autocomplete="off" >
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									
-									<div class="col-md-6">
-										<div class="form-group">
-											<label>Employee Name: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="emp_name" id="emp_name"  required autocomplete="off">
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label>Departments: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="departments" id="departments" readonly required>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									
-									
 									
 								</div>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group">
-											<label>Old Designation: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="old_designation" id="old_designation"  required>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<label class="d-block">New Designation: <span class="text-danger">*</span></label>
 
-										<div class="input-group">
-											<input type="text" class="form-control" name="new_designation" id="new_designation"  required>
-											<input type="hidden" class="form-control" name="location" id="location" readonly required>
-										</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Old Designation <span class="text-danger">*</span></label>
+											<input type="text" name="old_designation" id="old_designation" required class="form-control"  autocomplete="off" >
 										</div>
 									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>New Designation: <span class="text-danger">*</span></label>
+											<input type="text" name="new_designation" id="new_designation" required class="form-control"  autocomplete="off" >
+										</div>
+									</div>
+									
 								</div>
+								
 								<!-- <div class="row">
 										<div class="col-md-12">
 											<div class="form-group">
@@ -369,24 +335,31 @@ $active_menu="Backendteam";
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="basic_salary" id="basic_salary" required autocomplete="off" onchange="calculate_gross_salary();">
 												</div>
 											</div>
-											<div class="col-md-2">
+											<div class="col-md-3">
 												<div class="form-group">
 													<label>HRA: <span class="text-danger">*</span></label>
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="hra" id="hra" required onchange="calculate_gross_salary();">
 												</div>
 											</div>
-											<div class="col-md-2">
+											<div class="col-md-3">
 												<div class="form-group">
 													<label>Special Allowance: <span class="text-danger">*</span></label>
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="special_allowance" id="special_allowance" required autocomplete="off" onchange="calculate_gross_salary();">
 												</div>
 											</div>
-											<div class="col-md-2">
+											
+											<div class="col-md-3">
 												<div class="form-group">
 													<label>ST Bonus: <span class="text-danger">*</span></label>
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="st_bonus" id="st_bonus" autocomplete="off" required onchange="calculate_gross_salary();">
 												</div>
 											</div>
+											
+											
+										</div>
+
+										
+										<div class="row">
 											<div class="col-md-3">
 												<div class="form-group">
 													<div class="form-group">
@@ -395,32 +368,6 @@ $active_menu="Backendteam";
 													</div>
 												</div>
 											</div>
-											<!-- <div class="col-md-3">
-												<div class="form-group">
-													<div class="form-group">
-														<label>Conveyance: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="conveyance" id="conveyance" autocomplete="off" required onchange="calculate_gross_salary();">
-													</div>
-												</div>
-											</div>
-											<div class="col-md-3">
-												<div class="form-group">
-													<div class="form-group">
-														<label>Medical Reimbursement: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="medical" id="medical" autocomplete="off" required onchange="calculate_gross_salary();">
-													</div>
-												</div>
-											</div> -->
-										</div>
-										<div class="row">
-											
-											<!-- <div class="col-md-2">
-												<div class="form-group">
-													<label>Other Allowance: <span class="text-danger">*</span></label>
-													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="other_allowance" id="other_allowance" autocomplete="off" required onchange="calculate_gross_salary();">
-												</div>
-											</div> -->
-											
 											<div class="col-md-2">
 												<label>Employee PF : <span class="text-danger">*</span></label>
 												<div class="form-group">
@@ -441,26 +388,12 @@ $active_menu="Backendteam";
 													</div>
 												</div>
 											</div>
-											<!-- <div class="col-md-2">
-												<div class="form-group">
-													<div class="form-group">
-														<label>PT: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="pt" id="pt" autocomplete="off" required onchange="calculate_total_deduction();">
-													</div>
-												</div>
-											</div> -->
-											<!-- <div class="col-md-3">
-												<div class="form-group">
-													<div class="form-group">
-														<label>Total Deduction: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="total_deduction" id="total_deduction" autocomplete="off" required>
-													</div>
-												</div>
-											</div> -->
+											
+											
 											<div class="col-md-3">
 												<div class="form-group">
 													<div class="form-group">
-														<label>Take Home Salary: <span class="text-danger">*</span></label>
+														<label>Net Take Home: <span class="text-danger">*</span></label>
 														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="take_home" id="take_home" autocomplete="off" required>
 													</div>
 												</div>
@@ -475,6 +408,9 @@ $active_menu="Backendteam";
 													</div>
 													</div>
 											</div>
+										</div>
+										
+										<div class="row">
 											<div class="col-md-3">
 												<label>Employer ESIC : <span class="text-danger">*</span></label>
 													<div class="form-group">
@@ -486,33 +422,11 @@ $active_menu="Backendteam";
 													</div>
 											</div>
 											
-										</div>
-										<div class="row">
-											
-										</div>
-										<div class="row">
-											
-											<!-- <div class="col-md-2">
-												<div class="form-group">
-													<div class="form-group">
-														<label>Mediclaim Insurance: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="mediclaim" id="mediclaim" autocomplete="off" required onchange="calculate_total_ctc();">
-													</div>
-												</div>
-											</div> -->
 											<div class="col-md-3">
 												<div class="form-group">
 													<div class="form-group">
-														<label>Old CTC: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="old_ctc" id="old_ctc" autocomplete="off" required>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-3">
-												<div class="form-group">
-													<div class="form-group">
-														<label>New CTC: <span class="text-danger">*</span></label>
-														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="new_ctc" id="new_ctc" autocomplete="off" required>
+														<label>CTC: <span class="text-danger">*</span></label>
+														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="ctc" id="ctc" autocomplete="off" required>
 													</div>
 												</div>
 											</div>
@@ -525,14 +439,12 @@ $active_menu="Backendteam";
 												</div>
 											</div>
 											<div class="col-md-3">
-												<label>Increment Percentage(%): <span class="text-danger">*</span></label>
+												<div class="form-group">
 													<div class="form-group">
-														<div class="row">
-															<div class="col-md-12">
-																<input type="text" class="form-control" onkeypress="return isNumber(event)" name="increment_per" id="increment_per" required autocomplete="off" >
-															</div>
-														</div>
+														<label>Date of joining<span class="text-danger">*</span></label>
+														<input type="date" class="form-control"  name="joining_date" id="joining_date" autocomplete="off" required>
 													</div>
+												</div>
 											</div>
 										</div>
 								</div>

@@ -145,31 +145,31 @@ $active_menu = "Backendteam";
 						} else {
 							a = response.split("****");
 
-							$("#client").val("" + a[0]);
-							$("#emp_name").val("" + a[1]);
-							$("#joining_date").val("" + a[2]);
-							$("#contact_end_date").val("" + a[3]);
-							$("#designation").val("" + a[4]);
-							$("#location").val("" + a[5]);
-							$("#departments").val("" + a[6]);
+							// $("#client").val("" + a[0]);
+							// $("#emp_name").val("" + a[1]);
+							// $("#joining_date").val("" + a[2]);
+							// $("#contact_end_date").val("" + a[3]);
+							// $("#designation").val("" + a[4]);
+							// $("#location").val("" + a[5]);
+							// $("#departments").val("" + a[6]);
 
-							$("#basic_salary").val("" + a[7]);
-							$("#hra").val("" + a[8]);
-							$("#conveyance").val("" + a[9]);
-							$("#medical").val("" + a[10]);
-							$("#special_allowance").val("" + a[11]);
-							$("#st_bonus").val("" + a[12]);
-							$("#other_allowance").val("" + a[13]);
-							$("#gross_salary").val("" + a[14]);
-							$("#emp_pf").val("" + a[15]);
-							$("#emp_esic").val("" + a[16]);
-							$("#pt").val("" + a[17]);
-							$("#total_deduction").val("" + a[18]);
-							$("#take_home").val("" + a[19]);
-							$("#employer_pf").val("" + a[20]);
-							$("#employer_esic").val("" + a[21]);
-							$("#mediclaim").val("" + a[22]);
-							$("#ctc").val("" + a[23]);
+							// $("#basic_salary").val("" + a[7]);
+							// $("#hra").val("" + a[8]);
+							// $("#conveyance").val("" + a[9]);
+							// $("#medical").val("" + a[10]);
+							// $("#special_allowance").val("" + a[11]);
+							// $("#st_bonus").val("" + a[12]);
+							// $("#other_allowance").val("" + a[13]);
+							// $("#gross_salary").val("" + a[14]);
+							// $("#emp_pf").val("" + a[15]);
+							// $("#emp_esic").val("" + a[16]);
+							// $("#pt").val("" + a[17]);
+							// $("#total_deduction").val("" + a[18]);
+							// $("#take_home").val("" + a[19]);
+							// $("#employer_pf").val("" + a[20]);
+							// $("#employer_esic").val("" + a[21]);
+							// $("#mediclaim").val("" + a[22]);
+							// $("#ctc").val("" + a[23]);
 
 							$("div#divLoading").removeClass('show');
 						}
@@ -273,13 +273,13 @@ $active_menu = "Backendteam";
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Enter FFI Employee ID: <span class="text-danger">*</span></label>
-												<input type="text" name="ffi_emp_id" id="ffi_emp_id" required class="form-control" onchange="get_employee_detail();" autocomplete="off">
+												<input type="text" name="ffi_emp_id" id="ffi_emp_id" required class="form-control"  autocomplete="off">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Client Company Name: <span class="text-danger">*</span></label>
-												<select class="form-control" name="client" id="client" required readonly>
+												<select class="form-control" name="client" id="client" required >
 													<option value="">Select Client</option>
 													<?php
 													$i = 1;
@@ -296,7 +296,7 @@ $active_menu = "Backendteam";
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Employee Name: <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="emp_name" id="emp_name" readonly required autocomplete="off">
+												<input type="text" class="form-control" name="emp_name" id="emp_name"  required autocomplete="off">
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -306,7 +306,7 @@ $active_menu = "Backendteam";
 													<span class="input-group-prepend">
 														<span class="input-group-text"><i class="icon-calendar5"></i></span>
 													</span>
-													<input type="text" class="form-control" name="joining_date" id="joining_date" readonly autocomplete="off" required placeholder="Joining Date">
+													<input type="text" class="form-control datepicker" name="joining_date" id="joining_date"  autocomplete="off" required placeholder="Joining Date">
 												</div>
 											</div>
 										</div>
@@ -320,14 +320,14 @@ $active_menu = "Backendteam";
 													<span class="input-group-prepend">
 														<span class="input-group-text"><i class="icon-calendar5"></i></span>
 													</span>
-													<input type="text" class="form-control" name="contact_end_date" id="contact_end_date" readonly autocomplete="off" required placeholder="Contract End Date">
+													<input type="text" class="form-control datepicker" name="contact_end_date" id="contact_end_date"  autocomplete="off" required placeholder="Contract End Date">
 												</div>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Departments: <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="departments" id="departments" readonly required>
+												<label>Department: <span class="text-danger">*</span></label>
+												<input type="text" class="form-control" name="department" id="department"  required>
 											</div>
 										</div>
 									</div>
@@ -335,7 +335,7 @@ $active_menu = "Backendteam";
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Designation: <span class="text-danger">*</span></label>
-												<input type="text" class="form-control" name="designation" id="designation" readonly required>
+												<input type="text" class="form-control" name="designation" id="designation"  required>
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -343,7 +343,7 @@ $active_menu = "Backendteam";
 												<label class="d-block">Location: <span class="text-danger">*</span></label>
 
 												<div class="input-group">
-													<input type="text" class="form-control" name="location" id="location" readonly required>
+													<input type="text" class="form-control" name="location" id="location"  required>
 												</div>
 											</div>
 										</div>
@@ -354,26 +354,60 @@ $active_menu = "Backendteam";
 												<label>Offer Letter For: <span class="text-danger">*</span></label>
 												<select class="form-control" name="letter_format" id="letter_format" required>
 													<option value="">Select</option>
-													<option value="1">Format 1</option>
-													<option value="2">Format 2</option>
-													<option value="3">Format 3</option>
 													<option value="4">Udaan</option>
+													<option value="2">Grofers</option>
+													<option value="3">Other</option>
 												</select>
 											</div>
 										</div>
 
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Tenure Date: <span class="text-danger"></span></label>
+												<label>Tenure Month(Integer): <span class="text-danger"></span></label>
 												<div class="input-group">
 													<span class="input-group-prepend">
-														<span class="input-group-text"><i class="icon-calendar5"></i></span>
+														<!-- <span class="input-group-text"><i class="icon-calendar5"></i></span> -->
 													</span>
-													<input type="text" class="form-control datepicker" name="tenure_date" id="tenure_date" autocomplete="off" placeholder="Tenure Date">
+													<input type="text" class="form-control" name="tenure_month" id="tenure_month" autocomplete="off" onkeypress="return isNumber(event)" placeholder="Tenure Date">
 												</div>
 											</div>
 										</div>
 
+									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Email Id: <span class="text-danger">*</span></label>
+												<input type="email" class="form-control" name="email" id="email"  required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="d-block">Phone No.: <span class="text-danger">*</span></label>
+
+												<div class="input-group">
+													<input type="text" class="form-control" name="phone" id="phone" onkeypress="return isNumber(event)" required>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Father Name <span class="text-danger">*</span></label>
+												<input type="text" name="father_name" id="father_name" required class="form-control" autocomplete="off">
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Entity Name <span class="text-danger">*</span></label>
+												<input type="text" name="entity_name" id="entity_name" required class="form-control" autocomplete="off">
+											</div>
+										</div>
+									
 									</div>
 									<label><strong>Salary Details</strong></label>
 									<div style="border: 1px solid #d6c8c8;padding: 2%;margin-bottom: 1%;">
@@ -390,7 +424,7 @@ $active_menu = "Backendteam";
 													<input type="text" class="form-control" onkeypress="return isNumber(event)" name="hra" id="hra" required onchange="calculate_gross_salary();">
 												</div>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<div class="form-group">
 													<div class="form-group">
 														<label>Conveyance: <span class="text-danger">*</span></label>
@@ -398,11 +432,19 @@ $active_menu = "Backendteam";
 													</div>
 												</div>
 											</div>
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<div class="form-group">
 													<div class="form-group">
 														<label>Medical Reimbursement: <span class="text-danger">*</span></label>
 														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="medical" id="medical" autocomplete="off" required onchange="calculate_gross_salary();">
+													</div>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="form-group">
+													<div class="form-group">
+														<label>Leave Wage<span class="text-danger">*</span></label>
+														<input type="text" class="form-control" onkeypress="return isNumber(event)" name="leave_wage" id="leave_wage" autocomplete="off" required onchange="calculate_gross_salary();">
 													</div>
 												</div>
 											</div>

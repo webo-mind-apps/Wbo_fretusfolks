@@ -140,6 +140,7 @@
 									</li>
 									<li class="nav-item"><a href="<?php echo site_url('offer_letter/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Offer Letter</a></li>
 									<li class="nav-item"><a href="<?php echo site_url('increment_letter/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Increment Letter</a></li>
+									<li class="nav-item"><a href="<?php echo site_url('promotion_letter/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Promotion Letter</a></li>
 									<li class="nav-item"><a href="<?php echo site_url('payslips/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Payslips</a></li>
 									<li class="nav-item"><a href="<?php echo site_url('pip_letter/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>PIP Letter</a></li>
 									<li class="nav-item">

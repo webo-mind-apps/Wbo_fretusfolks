@@ -28,9 +28,6 @@ class Home extends CI_Controller
 		if (isset($_POST['forgot_password_form_submit'])) {
 			$data = $this->admin->check_employee_data();
 			if ($data) {
-				// echo "<pre>";
-				// print_r($data);
-				// exit;
 				if ($code = $this->admin->add_refresh_id()) {
 					$this->load->config('email');
 					$this->load->library('email');

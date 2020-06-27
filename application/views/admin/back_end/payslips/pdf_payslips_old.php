@@ -142,7 +142,7 @@
 				if(empty($data['fixed_other_wages']) || $data['fixed_other_wages']=='null'){$data['fixed_other_wages']='0';}
 				if(empty($data['earn_other_wages']) || $data['earn_other_wages']=='null'){$data['earn_other_wages']='0';}
 				if(empty($data['fixed_total_earnings']) || $data['fixed_total_earnings']=='null'){$data['fixed_total_earnings']='0';}
-				if(empty($data['earn_total_gross']) || $data['earn_total_gross']=='null'){$data['earn_total_gross']='0';}
+				if(empty($data['earn_total_gross']) || $data['earn_total_gross']=='null'){$data['last_naearn_total_grossme']='0';}
 				if(empty($data['total_deduction']) || $data['total_deduction']=='null'){$data['total_deduction']='0';}
 				if(empty($data['net_salary']) || $data['net_salary']=='null'){$data['net_salary']='0';}
 				if(empty($data['in_words']) || $data['in_words']=='null'){$data['in_words']='0';}
@@ -157,7 +157,7 @@
 		<div class="col-md-12" style="border:2px solid #333;">
 			<div class="col-md-12">
 				<img src="admin_assets\assets\main_logo.png" width="200" style="padding: 3px;"/>
-				<span><h4 style="float:right;text-decoration:none;font-size:12px">Payslip <?php	echo substr(date("F", mktime(0, 0, 0, $data['month'], 3)),0,3).' - '.$data['year']; ?></h4></span>
+				<span><h4 style="float:right;text-decoration:none;font-size:12px">Payslip <?php	echo substr(date("F", mktime(0, 0, 0, (empty($data['month']) ? '0' : $data['month']), 3)),0,3).' - '.$data['year']; ?></h4></span>
 			</div>
 			<div class="col-md-6">
 				
@@ -180,35 +180,35 @@
 		</thead>
 		<tbody>
 		<tr>
-			<td style="width: 50%;">Employee Name : <?php echo $data['emp_name'];?></td>
-			<td>UAN No. : <?php echo $data['uan_no'];?></td>
+			<td style="width: 50%;">Employee Name : <?php echo (empty($data['emp_name']) ? '0' : $data['emp_name']);?></td>
+			<td>UAN No. : <?php echo (empty($data['uan_no']) ? '0' : $data['uan_no']);?></td>
 			
 		</tr>
 		<tr>
-		  <td>Emp. ID : <?php echo $data['emp_id'];?></td>
-		  <td>PF No : <?php echo $data['pf_no'];?></td>
+		  <td>Emp. ID : <?php echo (empty($data['emp_id']) ? '0' : $data['emp_id']);?></td>
+		  <td>PF No : <?php echo (empty($data['pf_no']) ? '0' : $data['pf_no']);?></td>
 	
 		</tr>
 		<tr>
-		  <td>Designation : <?php echo $data['designation'];?></td>
-		  <td>ESI No. : <?php echo $data['esi_no'];?></td>
+		  <td>Designation : <?php echo (empty($data['designation']) ? '0' : $data['designation']);?></td>
+		  <td>ESI No. : <?php echo (empty($data['esi_no']) ? '0' : $data['esi_no']);?></td>
 	
 		</tr>
 		<tr>
-		  <td>Date of Joining : <?php if($data['doj'] !="0000-00-00"){ echo date("d-m-Y",strtotime($data['doj']));}?></td>
-		  <td>Bank Name : <?php echo $data['bank_name'];?></td>
+		  <td>Date of Joining : <?php if((empty($data['doj']) ? '0' : $data['doj']) !="0000-00-00"){ echo date("d-m-Y",strtotime($data['doj']));}?></td>
+		  <td>Bank Name : <?php echo (empty($data['bank_name']) ? '0' : $data['bank_name']);?></td>
 		
 		</tr>
 		<tr> 
-		  <td>Department : <?php echo $data['department'];?></td>
-		  <td>Account No. : <?php echo $data['account_no'];?></td>
+		  <td>Department : <?php echo (empty($data['department']) ? '0' : $data['department']);?></td>
+		  <td>Account No. : <?php echo (empty($data['account_no']) ? '0' : $data['account_no']);?></td>
 		</tr>
 		<tr> 
-		  <td>Location : <?php echo $data['location'];?></td> 
-		  <td>IFSC Code : <?php echo $data['ifsc_code'];?></td>
+		  <td>Location : <?php echo (empty($data['location']) ? '0' : $data['location']);?></td> 
+		  <td>IFSC Code : <?php echo (empty($data['ifsc_code']) ? '0' : $data['ifsc_code']);?></td>
 		</tr>
 		<tr> 
-		  <td>Client Name : <?php echo $data['client_name'];?></td> 
+		  <td>Client Name : <?php echo (empty($data['client_name']) ? '0' : $data['client_name']);?></td> 
 		  <td></td>
 		</tr>
 		</tbody>
@@ -219,16 +219,16 @@
 		
 		<tbody>
 		<tr>
-			<td style="width: 38%;">Month Days : <?php echo $data['month_days'];?></td>
-			<td>Leave Taken : <?php echo $data['leave_days'];?></td>
-			 <td>Arrears Days : <?php echo $data['arrears_days'];?></td> 
-			 <td>Leave Balance : <?php echo $data['leave_balance'];?></td> 
+			<td style="width: 38%;">Month Days : <?php echo (empty($data['month_days']) ? '0' : $data['month_days']);?></td>
+			<td>Leave Taken : <?php echo (empty($data['leave_days']) ? '0' : $data['leave_days']);?></td>
+			 <td>Arrears Days : <?php echo (empty($data['arrears_days']) ? '0' : $data['arrears_days']);?></td> 
+			 <td>Leave Balance : <?php echo (empty($data['leave_balance']) ? '0' : $data['leave_balance']);?></td> 
 		
 		</tr>
 		<tr>
-		  <td>Payable Days : <?php echo $data['payable_days'];?></td>
-		  <td>LOP Days : <?php echo $data['lop_days'];?></td> 
-		  <td>OT Hours : <?php echo $data['ot_hours'];?></td>  
+		  <td>Payable Days : <?php echo (empty($data['payable_days']) ? '0' : $data['payable_days']);?></td>
+		  <td>LOP Days : <?php echo (empty($data['lop_days']) ? '0' : $data['lop_days']);?></td> 
+		  <td>OT Hours : <?php echo (empty($data['ot_hours']) ? '0' : $data['ot_hours']);?></td>  
 		  <td></td>  
 		</tr>
 		
@@ -249,63 +249,63 @@
 		<tbody>
 		<tr>
 			<td>Basic + DA</td>
-			<td><?php echo $data['fixed_basic_da'];?></td>
-			<td><?php echo $data['earn_basic'];?></td>  
+			<td><?php echo (empty($data['fixed_basic_da']) ? '0' : $data['fixed_basic_da']);?></td>
+			<td><?php echo (empty($data['earn_basic']) ? '0' : $data['earn_basic']);?></td>  
 			<td>EPF </td>
-			<td><?php echo $data['epf'];?></td>
+			<td><?php echo (empty($data['epf']) ? '0' : $data['epf']);?></td>
 			
 		</tr>
 		<tr>
 		  <td>HRA</td>
-		  <td><?php echo $data['fixed_hra'];?></td>
-		  <td><?php echo $data['earn_hr'];?></td>  
+		  <td><?php echo (empty($data['fixed_hra']) ? '0' : $data['fixed_hra']);?></td>
+		  <td><?php echo (empty($data['earn_hr']) ? '0' : $data['earn_hr']);?></td>  
 		  <td>ESIC</td>
-		  <td><?php echo $data['esic'];?></td>
+		  <td><?php echo (empty($data['esic']) ? '0' : $data['esic']);?></td>
 		
 		</tr>
 		<tr>
 		  <td>Conveyance Allowance</td>
-		  <td><?php echo $data['fixed_conveyance'];?></td>
-		  <td><?php echo $data['earn_conveyance'];?></td>  
+		  <td><?php echo (empty($data['fixed_conveyance']) ? '0' : $data['fixed_conveyance']);?></td>
+		  <td><?php echo (empty($data['earn_conveyance']) ? '0' : $data['earn_conveyance']);?></td>  
 		  <td>PT</td>
-		  <td><?php echo $data['pt'];?></td>
+		  <td><?php echo (empty($data['pt']) ? '0' : $data['pt']);?></td>
 		</tr>
 		
 		<tr>
 		  <td>Education Allowance</td>
-		  <td><?php echo $data['fix_education_allowance'];?></td>
-		  <td><?php echo $data['earn_education_allowance'];?></td>  
+		  <td><?php echo (empty($data['fix_education_allowance']) ? '0' : $data['fix_education_allowance']);?></td>
+		  <td><?php echo (empty($data['earn_education_allowance']) ? '0' : $data['earn_education_allowance']);?></td>  
 		  <td>IT</td>
-		  <td><?php echo $data['it'];?></td>
+		  <td><?php echo (empty($data['it']) ? '0' : $data['it']);?></td>
 		</tr>
 		
 		<tr>
 		  <td>Medical Reimbursement</td>
-		  <td><?php echo $data['fixed_medical_reimbursement'];?></td>
-		  <td><?php echo $data['earn_medical_allowance'];?></td>  
+		  <td><?php echo (empty($data['fixed_medical_reimbursement']) ? '0' : $data['fixed_medical_reimbursement']);?></td>
+		  <td><?php echo (empty($data['earn_medical_allowance']) ? '0' : $data['earn_medical_allowance']);?></td>  
 		   <td>LWF</td>
-		  <td><?php echo $data['lwf'];?></td> 
+		  <td><?php echo (empty($data['lwf']) ? '0' : $data['lwf'])?></td>
 		</tr>
 		<tr>
 		  <td>Special Allowance</td>
-		  <td><?php echo $data['fixed_special_allowance'];?></td>
-		  <td><?php echo $data['earn_special_allowance'];?></td>  
+		  <td><?php echo (empty($data['fixed_special_allowance']) ? '0' : $data['fixed_special_allowance']);?></td>
+		  <td><?php echo (empty($data['earn_special_allowance']) ? '0' : $data['earn_special_allowance']);?></td>  
 		  <td>Salary Advance</td>
-		  <td><?php echo $data['salary_advance'];?></td>
+		  <td><?php echo (empty($data['salary_advance']) ? '0' : $data['salary_advance']);?></td>
 		</tr>
 		
 		<tr>
 		  <td>Other Allowance</td>
-		  <td><?php echo $data['fixed_other_allowance'];?></td>
-		  <td><?php echo $data['earn_other_allowance'];?></td>  
+		  <td><?php echo (empty($data['fixed_other_allowance']) ? '0' : $data['fixed_other_allowance']);?></td>
+		  <td><?php echo (empty($data['earn_other_allowance']) ? '0' : $data['earn_other_allowance']);?></td>  
 		 <td>Other Deduction</td>
-		  <td><?php echo $data['other_deduction'];?></td>
+		  <td><?php echo (empty($data['other_deduction']) ? '0' : $data['other_deduction']);?></td>
 		</tr>
 		
 		<tr>
 		  <td>St.Bonus</td>
-		  <td><?php echo $data['fixed_st_bonus'];?></td>
-		  <td><?php echo $data['earn_st_bonus'];?></td>  
+		  <td><?php echo (empty($data['fixed_st_bonus']) ? '0' : $data['fixed_st_bonus']);?></td>
+		  <td><?php echo (empty($data['earn_st_bonus']) ? '0' : $data['earn_st_bonus']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -313,8 +313,8 @@
 		
 		<tr>
 		  <td>Leave Wages</td>
-		  <td><?php echo $data['fix_leave_wages'];?></td>
-		  <td><?php echo $data['earn_leave_wages'];?></td>  
+		  <td><?php echo (empty($data['fix_leave_wages']) ? '0' : $data['fix_leave_wages']);?></td>
+		  <td><?php echo (empty($data['earn_leave_wages']) ? '0' : $data['earn_leave_wages']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -322,8 +322,8 @@
 		
 		<tr>
 		  <td>Holiday Wages</td>
-		  <td><?php echo $data['fixed_holiday_wages'];?></td>
-		  <td><?php echo $data['earn_holiday_wages'];?></td>  
+		  <td><?php echo (empty($data['fixed_holiday_wages']) ? '0' : $data['fixed_holiday_wages']);?></td>
+		  <td><?php echo (empty($data['earn_holiday_wages']) ? '0' : $data['earn_holiday_wages']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -332,24 +332,24 @@
 			
 		<tr>
 		  <td>Attendance Bonus</td>
-		  <td><?php echo $data['fixed_attendance_bonus'];?></td>
-		  <td><?php echo $data['earn_attendance_bonus'];?></td>  
+		  <td><?php echo (empty($data['fixed_attendance_bonus']) ? '0' : $data['fixed_attendance_bonus']);?></td>
+		  <td><?php echo (empty($data['earn_attendance_bonus']) ? '0' : $data['earn_attendance_bonus']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
 		</tr>
 		<tr>
 		  <td>OT Wage </td>
-		  <td><?php echo $data['fixed_ot_wages'];?></td>
-		  <td><?php echo $data['earn_ot_wages'];?></td>  
+		  <td><?php echo (empty($data['fixed_ot_wages']) ? '0' : $data['fixed_ot_wages']);?></td>
+		  <td><?php echo (empty($data['earn_ot_wages']) ? '0' : $data['earn_ot_wages']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
 		</tr>
 		<tr>
 		  <td>Incentive </td>
-		  <td><?php echo $data['fix_incentive_wages'];?></td>
-		  <td><?php echo $data['earn_incentive_wages'];?></td>  
+		  <td><?php echo (empty($data['fix_incentive_wages']) ? '0' : $data['fix_incentive_wages']);?></td>
+		  <td><?php echo (empty($data['earn_incentive_wages']) ? '0' : $data['earn_incentive_wages']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -357,8 +357,8 @@
 		
 		<tr>
 		  <td>Arrear Wages </td>
-		  <td><?php echo $data['fix_arrear_wages'];?></td>
-		  <td><?php echo $data['earn_arrear_wages'];?></td>  
+		  <td><?php echo (empty($data['fix_arrear_wages']) ? '0' : $data['fix_arrear_wages']);?></td>
+		  <td><?php echo (empty($data['earn_arrear_wages']) ? '0' : $data['earn_arrear_wages']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
@@ -366,18 +366,18 @@
 	 
 		<tr>
 		  <td>Other wages</td>
-		  <td><?php echo $data['fixed_other_wages'];?></td>
-		  <td><?php echo $data['earn_other_wages'];?></td>  
+		  <td><?php echo (empty($data['fixed_other_wages']) ? '0' : $data['fixed_other_wages']);?></td>
+		  <td><?php echo (empty($data['earn_other_wages']) ? '0' : $data['earn_other_wages']);?></td>  
 		  <td></td>
 		  <td></td>
 		 
 		</tr>
 		<tr style="border-top: 2px solid;">
 			<th style="width: 20%;">Total Gross </th>
-			<th style="width: 134px;"><?php echo $data['fixed_total_earnings'];?></th>
-			<th style="width: 151px;"><?php echo $data['earn_total_gross'];?></th>  
+			<th style="width: 134px;"><?php echo (empty($data['fixed_total_earnings']) ? '0' : $data['fixed_total_earnings']);?></th>
+			<th style="width: 151px;"><?php echo (empty($data['earn_total_gross']) ? '0' : $data['earn_total_gross']);?></th>  
 			<th>Total Deduction </th>
-			<th style="width: 13%;"><?php echo $data['total_deduction'];?></th>
+			<th style="width: 13%;"><?php echo (empty($data['total_deduction']) ? '0' : $data['total_deduction']);?></th>
 		</tr>
 		</tbody>
 	</table>
@@ -387,13 +387,13 @@
 		
 		<tr>
 			<td style="border-right:none;"><b>Net Salary:</b></td>
-			<td colspan="6"><b><?php echo $data['net_salary'];?></b></td>
+			<td colspan="6"><b><?php echo (empty($data['net_salary']) ? '0' : $data['net_salary']);?></b></td>
 		
 		
 		</tr>
 		<tr style="border-top: 2px solid;">
 			<td style="border-right:none;"><b>In Words:</b></td>
-			<td colspan="6"><b><?php echo $data['in_words'];?></b></td>
+			<td colspan="6"><b><?php echo (empty($data['in_words']) ? '0' : $data['in_words']);?></b></td>
 		
 		
 		</tr>

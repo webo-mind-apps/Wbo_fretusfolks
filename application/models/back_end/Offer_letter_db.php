@@ -11,10 +11,9 @@ class Offer_letter_db extends CI_Model
 	}
 	public function get_all_offer_letters()
 	{
-		$this->db->select('a.*,b.client_name,c.emp_name,c.email,c.phone1');
+		$this->db->select('a.*,b.client_name');
 		$this->db->from('offer_letter a');
 		$this->db->join('client_management b', 'a.company_id=b.id', 'left');
-		$this->db->join('backend_management c', 'a.employee_id=c.ffi_emp_id', 'left');
 		$this->db->where("a.status", "0");
 		$this->db->order_by('a.id', 'DESC');
 		$query = $this->db->get();
@@ -24,8 +23,8 @@ class Offer_letter_db extends CI_Model
 
 	public function make_query()
 	{
-		$order_column = array("a.id", "employee_id", "b.client_name", "c.emp_name", "date", "c.phone1", "c.email");
-		$this->db->select('a.*,b.client_name,c.emp_name,c.email,c.phone1');
+		$order_column = array("a.id", "a.employee_id", "b.client_name", "a.emp_name", "a.date", "a.phone1", "a.email");
+		$this->db->select('a.*,b.client_name');
 		$this->db->from('offer_letter a');
 		$this->db->join('client_management b', 'a.company_id=b.id', 'left');
 		$this->db->join('backend_management c', 'a.employee_id=c.ffi_emp_id', 'left');
@@ -33,12 +32,12 @@ class Offer_letter_db extends CI_Model
 		if (isset($_POST["search"]["value"])) {
 			$this->db->group_start();
 			$this->db->like("a.id", $_POST["search"]["value"]);
-			$this->db->or_like("employee_id", $_POST["search"]["value"]);
+			$this->db->or_like("a.employee_id", $_POST["search"]["value"]);
 			$this->db->or_like("b.client_name", $_POST["search"]["value"]);
-			$this->db->or_like("c.emp_name", $_POST["search"]["value"]);
-			$this->db->or_like("date", $_POST["search"]["value"]);
-			$this->db->or_like("c.phone1", $_POST["search"]["value"]);
-			$this->db->or_like("c.email", $_POST["search"]["value"]);
+			$this->db->or_like("a.emp_name", $_POST["search"]["value"]);
+			$this->db->or_like("a.date", $_POST["search"]["value"]);
+			$this->db->or_like("a.phone1", $_POST["search"]["value"]);
+			$this->db->or_like("a.email", $_POST["search"]["value"]);
 			$this->db->group_end();
 		}
 		if (isset($_POST["order"])) {
@@ -123,8 +122,61 @@ class Offer_letter_db extends CI_Model
 		$mediclaim = $this->input->post('mediclaim', true);
 		$ctc = $this->input->post('ctc', true);
 
+		$st_bonus = $this->input->post('st_bonus', true);
+		$leave_wage = $this->input->post('leave_wage', true);
+		$emp_name =$this->input->post('emp_name', true);
+		$phone =$this->input->post('phone', true);
+		$entity_name =$this->input->post('entity_name', true);
+		$joining_date =$this->input->post('joining_date', true);
+		$location =$this->input->post('location', true);
+		$department =$this->input->post('department', true);
+		$father_name =$this->input->post('father_name', true);
+		$tenure_month =$this->input->post('tenure_month', true);
+		$email =$this->input->post('email', true);
+		$designation =$this->input->post('designation', true);
+		
+
 		$date = date("Y-m-d");
-		$data = array("company_id" => $client, "employee_id" => $emp_id, "date" => $date, "offer_letter_type" => $letter_format, "basic_salary" => $basic_salary, "hra" => $hra, "conveyance" => $conveyance, "medical_reimbursement" => $medical, "special_allowance" => $special_allowance, "other_allowance" => $other_allowance, "gross_salary" => $gross_salary, "emp_pf" => $emp_pf, "emp_esic" => $emp_esic, "pt" => $pt, "total_deduction" => $total_deduction, "take_home" => $take_home, "employer_pf" => $employer_pf, "employer_esic" => $employer_esic, "mediclaim" => $mediclaim, "ctc" => $ctc);
+		// $data = array("company_id" => $client, "employee_id" => $emp_id, "date" => $date, "offer_letter_type" => $letter_format, "basic_salary" => $basic_salary, "hra" => $hra, "conveyance" => $conveyance, "medical_reimbursement" => $medical, "special_allowance" => $special_allowance, "other_allowance" => $other_allowance, "gross_salary" => $gross_salary, "emp_pf" => $emp_pf, "emp_esic" => $emp_esic, "pt" => $pt, "total_deduction" => $total_deduction, "take_home" => $take_home, "employer_pf" => $employer_pf, "employer_esic" => $employer_esic, "mediclaim" => $mediclaim, "ctc" => $ctc);
+
+		$data = array(
+			"employee_id"			=> $emp_id,
+			"company_id"			=> $client,
+			"date"					=> $date,
+			"offer_letter_type"		=> $letter_format,
+			"basic_salary"			=> $basic_salary,
+			"hra"					=> $hra,
+			"conveyance"			=> $conveyance,
+			"medical_reimbursement"	=> $medical,
+			"special_allowance"		=> $special_allowance,
+			"st_bonus"				=> $st_bonus,
+			"other_allowance"		=> $other_allowance,
+			"gross_salary"			=> $gross_salary,
+			"emp_pf"				=> $emp_pf,
+			"emp_esic"				=> $emp_esic,
+			"pt"					=> $pt,
+			"total_deduction"		=> $total_deduction,
+			"take_home"				=> $take_home,
+			"employer_pf"			=> $employer_pf,
+			"employer_esic"			=> $employer_esic,
+			"mediclaim"				=> $mediclaim,
+			"ctc"					=>  $ctc,
+			"leave_wage"			=> $leave_wage,
+			"emp_name"				=> $emp_name,
+			"phone1"				=> $phone,
+			"entity_name"			=> $entity_name,
+			"joining_date	"		=>date('Y-m-d', strtotime($joining_date)),
+			"location"				=> $location,
+			"department"			=> $department,
+			"father_name"			=> $father_name ,
+			"tenure_month"			=> $tenure_month,
+			"designation"			=> $designation,
+			"email"					=> $email,
+
+		);
+
+
+
 
 
 		$this->db->where('employee_id', $emp_id);
@@ -149,9 +201,8 @@ class Offer_letter_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 		*/
-		$this->db->select('a.*,b.emp_name,b.last_name,b.middle_name,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name, b.email,b.branch');
+		$this->db->select('a.*,c.client_name');
 		$this->db->from('offer_letter a');
-		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
 		$this->db->where('a.employee_id', $emp_id);
 		$query = $this->db->get();
@@ -162,9 +213,8 @@ class Offer_letter_db extends CI_Model
 	function get_offer_letter()
 	{
 		$id = $this->uri->segment(3);
-		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.branch,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name');
+		$this->db->select('a.*,c.client_name');
 		$this->db->from('offer_letter a');
-		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
 		$this->db->where('a.id', $id);
 		$query = $this->db->get();
@@ -183,15 +233,25 @@ class Offer_letter_db extends CI_Model
 		$this->db->join('offer_letter c','a.ffi_emp_id=c.employee_id','left');
 		$this->db->where('a.ffi_emp_id',$emp_id);*/
 	}
+	function get_offer_letter_pdf_client()
+	{
+		// $id=$this->uri->segment(3);
+		$client = $this->input->post('offer_letter_download_client', true);
+		$this->db->select('*');
+		$this->db->from('client_management');
+		$this->db->where('id', $client);
+		$query = $this->db->get();
+		$q=$query->result_array();
+		return $q;
+	}
 	function get_offer_letter_pdf()
 	{
 		// $id=$this->uri->segment(3);
 		$client = $this->input->post('offer_letter_download_client', true);
 		$input_date = $this->input->post('offer_download_date', true);
 		$input_date2 = $this->input->post('offer_download_date2', true);
-		$this->db->select('a.*,b.emp_name,b.ffi_emp_id,b.joining_date,b.branch,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,c.client_code');
+		$this->db->select('a.*,c.client_name');
 		$this->db->from('offer_letter a');
-		$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
 		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
 		if (!empty($client)) {
 			$this->db->where('a.company_id', $client);
@@ -204,7 +264,31 @@ class Offer_letter_db extends CI_Model
 			$this->db->where('a.date <=', $date2);
 		}
 		$query = $this->db->get();
-		$q = $query->result_array();
+		$row_count=$query->num_rows();
+		return $row_count;
+	}
+	function get_offer_letter_pdf_partial($limit,$start)
+	{
+		// $id=$this->uri->segment(3);
+		$client = $this->input->post('offer_letter_download_client', true);
+		$input_date = $this->input->post('offer_download_date', true);
+		$input_date2 = $this->input->post('offer_download_date2', true);
+		$this->db->select('a.*,c.client_name');
+		$this->db->from('offer_letter a');
+		$this->db->join('client_management c', 'a.company_id=c.id', 'left');
+		if (!empty($client)) {
+			$this->db->where('a.company_id', $client);
+		}
+		if (!empty($input_date)) {
+			$date = date("Y-m-d", strtotime($input_date));
+			$this->db->where('a.date >=', $date);
+		} else if (!empty($input_date2)) {
+			$date2 = date("Y-m-d", strtotime($input_date2));
+			$this->db->where('a.date <=', $date2);
+		}
+		$this->db->limit($limit,$start); 
+		$query=$this->db->get();
+		$q=$query->result_array();
 		return $q;
 	}
 	function get_all_states()
@@ -241,44 +325,15 @@ class Offer_letter_db extends CI_Model
 	// excel import
 	public function importEmployee_offer_letter($data = null)
 	{
-
-		// $this->db->where('ffi_emp_id', $data['employee_id']);
-		// $query = $this->db->get("backend_management");
-		// if ($query->num_rows()) {
-		// 	$this->db->insert('offer_letter', $data);
-		// 	return true;
-		// } else {
-		// 	$this->db->where('employee_id', $data['employee_id']);
-		// 	$this->db->update('offer_letter', $data);
-		// 	return true;
-		// }
-
 		if ($data['employee_id'] != 'null' || $data['employee_id'] != '' || !empty($data['employee_id'])) {
 
-			$this->db->where('ffi_emp_id', $data['employee_id']);
-			$query = $this->db->get("backend_management");
-			$backend_count = $query->num_rows();
-
-			$this->db->where('employee_id', $data['employee_id']);
-			$query = $this->db->get("offer_letter");
-			$offer_count = $query->num_rows();
-			// echo "<pre>";
-			// print_r($data);
-			// exit;
-			if ($backend_count > 0) {
-				if ($offer_count <= 0) {
-					$this->db->insert('offer_letter', $data);
+					if($this->db->insert('offer_letter', $data))
+					{
 					return "insert";
-				}
-				//  else {
-				// 	$this->db->where('employee_id', $data['employee_id']);
-				// 	$this->db->update('offer_letter', $data);
-				// }
-			} else {
-				return "not_exist";
-			}
+					}
+			
 		} else {
-			return false;
+			return "not_exist";
 		}
 	}
 }

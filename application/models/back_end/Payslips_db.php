@@ -42,6 +42,23 @@ class Payslips_db extends CI_Model
 		$this->db->where("year", $year);
 		$this->db->where("client_name", $client_name);
 		$query=$this->db->get();
+		$row_count=$query->num_rows();
+		return $row_count;
+	}
+
+
+	public function download_payslips_partial($limit,$start)
+	{
+		$month=$this->input->post('payslip_download_month', true);
+		$year=$this->input->post('payslip_download_year', true);
+		$client_name=$this->input->post('payslip_download_client', true);
+		$this->db->select('*');
+		$this->db->from('payslips');
+		$this->db->where("month", $month);
+		$this->db->where("year", $year);
+		$this->db->where("client_name", $client_name);
+		$this->db->limit($limit,$start); 
+		$query=$this->db->get();
 		$q=$query->result_array();
 		return $q;
 	}
@@ -51,8 +68,9 @@ class Payslips_db extends CI_Model
 		$id=$this->uri->segment(3);
 		$this->db->select('*');
 		$this->db->from('payslips');
-		$query=$this->db->get();
 		$this->db->where('id',$id);
+		$query=$this->db->get();
+		
 		$q=$query->row_array();
 		return $q;
 	}

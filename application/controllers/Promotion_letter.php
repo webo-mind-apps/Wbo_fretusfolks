@@ -5,22 +5,22 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 error_reporting(0);
-class Increment_letter extends CI_Controller
+class promotion_letter extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->model('back_end/Increment_letter_db', 'increment');
+		$this->load->model('back_end/promotion_letter_db', 'promotion');
 		$this->load->library("pagination");
 	}
 	public function index()
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
-			// $data['offer_letter'] = $this->increment->get_all_increment_letters();
-			$data['client_management'] = $this->increment->get_all_client();
-			$this->load->view('admin/back_end/increment_letter/index', $data);
+			// $data['offer_letter'] = $this->promotion->get_all_promotion_letters();
+			$data['client_management'] = $this->promotion->get_all_client();
+			$this->load->view('admin/back_end/promotion_letter/index', $data);
 		} else {
 			redirect('home/index');
 		}
@@ -29,7 +29,7 @@ class Increment_letter extends CI_Controller
 	public function get_all_data($var = null) //created for implementing data tables
 	{
 		if ($this->session->userdata('admin_login')) {
-			$fetch_data = $this->increment->make_datatables();
+			$fetch_data = $this->promotion->make_datatables();
 			$data = array();
 			$i = 1;
 			foreach ($fetch_data as $row) {
@@ -49,8 +49,8 @@ class Increment_letter extends CI_Controller
 							<i class="icon-menu9"></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
-							<a href="' . site_url('increment_letter/view_increment_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-download"></i>Download Increment Letter</a>
-							<a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_increment_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+							<a href="' . site_url('promotion_letter/view_promotion_letter/' . $row->id) . '" target="_blank" class="dropdown-item"><i class="fa fa-download"></i>Download promotion Letter</a>
+							<a href="javascript:void(0);" id="' . $row->id . '" onclick="delete_promotion_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 						</div>
 					</div>
 				</div>
@@ -60,8 +60,8 @@ class Increment_letter extends CI_Controller
 			}
 			$output = array(
 				"draw"                =>     intval($_POST["draw"]),
-				"recordsTotal"        =>     $this->increment->get_all_data(),
-				"recordsFiltered"     =>     $this->increment->get_filtered_data(),
+				"recordsTotal"        =>     $this->promotion->get_all_data(),
+				"recordsFiltered"     =>     $this->promotion->get_filtered_data(),
 				"data" => $data
 			);
 			echo json_encode($output);
@@ -70,14 +70,14 @@ class Increment_letter extends CI_Controller
 		}
 	}
 
-	function new_increment()
+	function new_promotion()
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "adms";
-			$data['letter_content'] = $this->increment->get_letter_content();
-			$data['states'] = $this->increment->get_all_states();
-			$data['clients'] = $this->increment->get_all_clients();
-			$this->load->view('admin/back_end/increment_letter/new_increment_letter', $data);
+			$data['letter_content'] = $this->promotion->get_letter_content();
+			$data['states'] = $this->promotion->get_all_states();
+			$data['clients'] = $this->promotion->get_all_clients();
+			$this->load->view('admin/back_end/promotion_letter/new_promotion_letter', $data);
 		} else {
 			redirect('home/index');
 		}
@@ -87,23 +87,23 @@ class Increment_letter extends CI_Controller
 	// {
 	// 	if ($this->session->userdata('admin_login')) {
 
-	// 		$this->load->view('admin/back_end/increment_letter/increment_content', $data);
+	// 		$this->load->view('admin/back_end/promotion_letter/promotion_content', $data);
 	// 	} else {
 	// 		redirect('home/index');
 	// 	}
 	// }
 
-	// function save_increment_letter_content()
+	// function save_promotion_letter_content()
 	// {
 	// 	if ($this->session->userdata('admin_login')) {
-	// 		$data['letter_content'] = $this->increment->save_increment_letter_content();
+	// 		$data['letter_content'] = $this->promotion->save_promotion_letter_content();
 	// 	} else {
 	// 		redirect('home/index');
 	// 	}
 	// }
 	function get_employee_detail()
 	{
-		$data = $this->increment->get_employee_detail();
+		$data = $this->promotion->get_employee_detail();
 		$joining_date = "";
 		$contract_date = "";
 
@@ -124,21 +124,21 @@ class Increment_letter extends CI_Controller
 		}
 	}
 
-	function save_increment_letter()
+	function save_promotion_letter()
 	{
 		$emp_id = $this->input->post('ffi_emp_id', true);
 		// echo "<script>alert('inside')</script>";
-		if ($data = $this->increment->save_increment_letter()) {
-			$this->db->select('a.*,d.content,b.ctc,b.ffi_emp_id,b.joining_date,b.location,b.designation,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email,b.ctc as old_ctc');
-			$this->db->from('increment_letter a');
+		if ($data = $this->promotion->save_promotion_letter()) {
+			$this->db->select('a.*,d.content,c.client_name,b.last_name,b.middle_name,b.email');
+			$this->db->from('promotion_letter a');
 			$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
-			$this->db->join('client_management c', 'a.company_id=c.id', 'left');
-			$this->db->join('letter_content d', 'd.type=1', 'left');
-			$this->db->where('b.ffi_emp_id', $emp_id);
+			$this->db->join('client_management c', 'b.client_id=c.id', 'left');
+		    $this->db->join('letter_content d', 'd.type=5', 'left');
+			$this->db->where('a.employee_id', $emp_id);
 			$query = $this->db->get();
 			$result['letter_details'] = $query->result_array();
 
-			$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
+			$message = $this->load->view('admin/back_end/promotion_letter/promotion_email', $result, true);
 			$mpdf = new \Mpdf\Mpdf();
 			$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 			$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
@@ -155,10 +155,10 @@ class Increment_letter extends CI_Controller
 				0, // margin header
 				0
 			); // margin footer
-			$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $result, true);
+			$html = $this->load->view('admin/back_end/promotion_letter/pdf_promotion', $result, true);
 			$mpdf->WriteHTML($html);
 			$content = $mpdf->Output('', 'S');
-			$filename = date('d/m/Y') . "_increments.pdf";
+			$filename = date('d/m/Y') . "_promotions.pdf";
 			$subject = "welcome";
 			$this->load->config('email');
 			$this->load->library('email');
@@ -171,20 +171,20 @@ class Increment_letter extends CI_Controller
 			$this->email->message($message);
 			$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 			if ($this->email->send()) {
-				redirect('increment_letter/');
+				redirect('promotion_letter/');
 			} else {
 				echo "<script>alert('not sent')</script>";
-				exit();
+				redirect('promotion_letter/');
 			}
 		}
 	}
 
-	function delete_increment_letter()
+	function delete_promotion_letter()
 	{
-		if ($this->increment->delete_increment_letter()) {
+		if ($this->promotion->delete_promotion_letter()) {
 			echo "deleted";
 		}
-		// $data = $this->increment->get_all_increment_letters();
+		// $data = $this->promotion->get_all_promotion_letters();
 
 		// $i = 1;
 		// foreach ($data as $row) {
@@ -206,7 +206,7 @@ class Increment_letter extends CI_Controller
 		// 					</a>
 		// 					<div class="dropdown-menu dropdown-menu-right">
 		// 						<a href="' . site_url('offer_letter/view_offer_letter/' . $row['id']) . '" target="_blank" class="dropdown-item"><i class="fa fa-eye"></i> View Offer Letter</a>
-		// 						<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_increment_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
+		// 						<a href="javascript:void(0);" id="' . $row['id'] . '" onclick="delete_promotion_letter(this.id);" class="dropdown-item"><i class="fa fa-trash"></i> Delete</a>
 		// 					</div>
 		// 				</div>
 		// 			</div>
@@ -216,15 +216,15 @@ class Increment_letter extends CI_Controller
 		// }
 	}
 
-	public function download_increment()
+	public function download_promotion()
 	{
 		if ($this->session->userdata('admin_login')) {
 
-			if ($data['letter_details'] = $this->increment->download_increment()) {
+			if ($data['letter_details'] = $this->promotion->download_promotion()) {
 				if ($data['letter_details'] != "nothing_found") {
 					$this->load->library('zip');
 					$date = date('ymdhis');
-					$path = 'increment_letter/incrementLetter_' . $data['letter_details'][0]['client_name'] . $date;
+					$path = 'promotion_letter/promotionLetter_' . $data['letter_details'][0]['client_name'] . $date;
 					if (!is_dir($path)) mkdir($path, 0777, TRUE);
 
 					// echo "<script> alert('sdfsdf')</script>";
@@ -234,7 +234,7 @@ class Increment_letter extends CI_Controller
 					foreach ($data['letter_details'] as $key => $row) {
 						$mpdf = new \Mpdf\Mpdf();
 						$datas['letter_details'][0] = $row;
-						$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+						$html = $this->load->view('admin/back_end/promotion_letter/pdf_promotion', $datas, true);
 						$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 						$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
 						$mpdf->AddPage(
@@ -252,13 +252,13 @@ class Increment_letter extends CI_Controller
 						); // margin footer
 						$mpdf->WriteHTML($html);
 						$date = date('Ymdhis') . $key;
-						$mpdf->Output($path . '/' . $row['ffi_emp_id'] . "_" . $row['emp_name'] . $date . ".pdf", 'F');
+						$mpdf->Output($path . '/' . $row['employee_id'] . "_" . $row['emp_name'] . $date . ".pdf", 'F');
 					}
 					$this->zip->read_dir($path, false);
 					$download = $this->zip->download($path . '.zip');
 				} else {
 					$this->session->set_flashdata('no_data', 'No datas found');
-					redirect('increment_letter');
+					redirect('promotion_letter');
 					// redirect('home/index');
 				}
 			}
@@ -267,15 +267,15 @@ class Increment_letter extends CI_Controller
 		}
 	}
 
-	function view_increment_letter()
+	function view_promotion_letter()
 	{
-		// $data['letter_details'] = $this->increment->get_increment_letter_details();
+		// $data['letter_details'] = $this->promotion->get_promotion_letter_details();
 
-		// $this->load->view('admin/back_end/increment_letter/print_letter', $data);
+		// $this->load->view('admin/back_end/promotion_letter/print_letter', $data);
 
 		if ($this->session->userdata('admin_login')) {
 
-			if ($data = $this->increment->get_increment_letter_details()) {
+			if ($data = $this->promotion->get_promotion_letter_details()) {
 				// echo "<pre>";
 				// print_r($data);
 				// exit;
@@ -285,7 +285,7 @@ class Increment_letter extends CI_Controller
 				// echo "<pre>";
 				// print_r($datas['letter_details'][0]);
 				// exit;
-				$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $datas, true);
+				$html = $this->load->view('admin/back_end/promotion_letter/pdf_promotion', $datas, true);
 				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
 				$mpdf->AddPage(
@@ -304,7 +304,7 @@ class Increment_letter extends CI_Controller
 				$mpdf->WriteHTML($html);
 				$date = date('Ymdhis');
 				$mpdf->Output($data['ffi_emp_id'] . "_" . $data['emp_name'] . $date . ".pdf", 'D');
-				redirect('increment_letter');
+				redirect('promotion_letter');
 			}
 		} else {
 			redirect('home/index');
@@ -317,8 +317,8 @@ class Increment_letter extends CI_Controller
 		redirect('home/index');
 	}
 
-	// excel Import for ADMS increment LETTER 
-	public function adms_increment_letter_import()
+	// excel Import for ADMS promotion LETTER 
+	public function adms_promotion_letter_import()
 	{
 
 		$data = array();
@@ -361,50 +361,44 @@ class Increment_letter extends CI_Controller
 					$emp_id = (empty($allDataInSheet[$i]['A']) ? 'null' : $allDataInSheet[$i]['A']);
 					$data = array(
 						"employee_id"			=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
-						"company_id"			=> (empty($allDataInSheet[$i]['V']) ? 'null' : $allDataInSheet[$i]['V']),
+						"emp_name"				=> (empty($allDataInSheet[$i]['B']) ? '' : $allDataInSheet[$i]['B']),
 						"date"					=>	$date,
-
 						"basic_salary"			=> (empty($allDataInSheet[$i]['C']) ? 'null' : $allDataInSheet[$i]['C']),
 						"hra"					=> (empty($allDataInSheet[$i]['D']) ? 'null' : $allDataInSheet[$i]['D']),
-						"conveyance"			=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
-						"medical_reimbursement"	=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
-						"special_allowance"		=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
-						"st_bonus"				=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
-						"other_allowance"		=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
-						"gross_salary"			=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
-						"emp_pf"				=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
-						"emp_esic"				=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
-						"pt"					=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
-						"total_deduction"		=> (empty($allDataInSheet[$i]['N']) ? 'null' : $allDataInSheet[$i]['N']),
-						"take_home"				=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
-						"employer_pf"			=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
-						"employer_esic"			=> (empty($allDataInSheet[$i]['Q']) ? 'null' : $allDataInSheet[$i]['Q']),
-						"mediclaim"				=> (empty($allDataInSheet[$i]['R']) ? 'null' : $allDataInSheet[$i]['R']),
-						"ctc"					=> (empty($allDataInSheet[$i]['S']) ? 'null' : $allDataInSheet[$i]['S']),
-						"effective_date"		=> (empty($allDataInSheet[$i]['T']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['T']))),
-						"designation"			=> (empty($allDataInSheet[$i]['U']) ? 'null' : $allDataInSheet[$i]['U']),
-						"old_ctc"			    => (empty($allDataInSheet[$i]['X']) ? 'null' : $allDataInSheet[$i]['X']),
-						"old_designation"		=> (empty($allDataInSheet[$i]['Y']) ? 'null' : $allDataInSheet[$i]['Y']),
-						"Increment_Percentage"	=> (empty($allDataInSheet[$i]['W']) ? 'null' : $allDataInSheet[$i]['W']),
-						"emp_name"				=> (empty($allDataInSheet[$i]['Z']) ? 'null' : $allDataInSheet[$i]['Z']),
+						"special_allowance"		=> (empty($allDataInSheet[$i]['E']) ? 'null' : $allDataInSheet[$i]['E']),
+						"st_bonus"				=> (empty($allDataInSheet[$i]['F']) ? 'null' : $allDataInSheet[$i]['F']),
+						"gross_salary"			=> (empty($allDataInSheet[$i]['G']) ? 'null' : $allDataInSheet[$i]['G']),
+						"emp_pf"				=> (empty($allDataInSheet[$i]['H']) ? 'null' : $allDataInSheet[$i]['H']),
+						"emp_esic"				=> (empty($allDataInSheet[$i]['I']) ? 'null' : $allDataInSheet[$i]['I']),
+						"net_take_home"			=> (empty($allDataInSheet[$i]['J']) ? 'null' : $allDataInSheet[$i]['J']),
+						"employer_pf"			=> (empty($allDataInSheet[$i]['K']) ? 'null' : $allDataInSheet[$i]['K']),
+						"employer_esic"			=> (empty($allDataInSheet[$i]['L']) ? 'null' : $allDataInSheet[$i]['L']),
+						"ctc"					=> (empty($allDataInSheet[$i]['M']) ? 'null' : $allDataInSheet[$i]['M']),
+						"effective_date"		=> (empty($allDataInSheet[$i]['N']) ? 'null' : date('Y-m-d', strtotime($allDataInSheet[$i]['N']))),
+						"designation"			=> (empty($allDataInSheet[$i]['O']) ? 'null' : $allDataInSheet[$i]['O']),
+						"old_designation"		=> (empty($allDataInSheet[$i]['P']) ? 'null' : $allDataInSheet[$i]['P']),
+						"joining_date"			=> (empty($allDataInSheet[$i]['Q']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['Q']))),
+
 
 					);
 					if ($data['employee_id'] != '' || !empty($data['employee_id'])) :
-						if ($import_status = $this->increment->importEmployee_increment_letter($data)) {
+						if ($import_status = $this->promotion->importEmployee_promotion_letter($data)) {
 
 							if ($import_status == "insert") {
 								$insert = $insert + 1;
 
-								$this->db->select('a.*,d.content,b.ffi_emp_id,b.joining_date,b.location,b.department,b.father_name,b.contract_date,c.client_name,b.last_name,b.middle_name,b.email,a.effective_date');
-								$this->db->from('increment_letter a');
+								$this->db->select('a.*,d.content,c.client_name,b.last_name,b.middle_name,b.email');
+								$this->db->from('promotion_letter a');
 								$this->db->join('backend_management b', 'a.employee_id=b.ffi_emp_id', 'left');
-								$this->db->join('client_management c', 'a.company_id=c.id', 'left');
-								$this->db->join('letter_content d', 'd.type=1', 'left');
-								 $this->db->where('b.ffi_emp_id', $emp_id);
+								$this->db->join('client_management c', 'b.client_id=c.id', 'left');
+								$this->db->join('letter_content d', 'd.type=5', 'left');
+								// $this->db->where('b.ffi_emp_id', $emp_id);
 								$query = $this->db->get();
 								$result['letter_details'] = $query->result_array();
-								
-								$message = $this->load->view('admin/back_end/increment_letter/increment_email', $result, true);
+								// echo "<pre>";
+								// print_r($result);
+								// exit;
+								$message = $this->load->view('admin/back_end/promotion_letter/promotion_email', $result, true);
 								$mpdf = new \Mpdf\Mpdf();
 								$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 								$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
@@ -421,10 +415,10 @@ class Increment_letter extends CI_Controller
 									0, // margin header
 									0
 								); // margin footer
-								$html = $this->load->view('admin/back_end/increment_letter/pdf_increment', $result, true);
+								$html = $this->load->view('admin/back_end/promotion_letter/pdf_promotion', $result, true);
 								$mpdf->WriteHTML($html);
 								$content = $mpdf->Output('', 'S');
-								$filename = date('d/m/Y') . "_increment.pdf";
+								$filename = date('d/m/Y') . "_promotion.pdf";
 								$subject = "welcome";
 								$this->load->config('email');
 								$this->load->library('email');
@@ -453,69 +447,22 @@ class Increment_letter extends CI_Controller
 
 				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee not founded <br>';
 				$this->session->set_flashdata('success', $msg);
-				redirect('increment_letter', 'refresh');
+				redirect('promotion_letter', 'refresh');
 			} else {
 				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
-				redirect('increment_letter', 'refresh');
+				redirect('promotion_letter', 'refresh');
 			}
-			redirect('increment_letter', 'refresh');
+			redirect('promotion_letter', 'refresh');
 		}
 	}
 	public function doc_formate()
 	{
 		if ($this->session->userdata('admin_login')) {
-			$client = $this->increment->get_all_clients();
+			$client = $this->promotion->get_all_clients();
 			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
 
-			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_INCREMENT_LETTER.xlsx");
-
-			$spreadsheet->setActiveSheetIndex(1);
-			$spreadsheet->getActiveSheet()->setTitle('list1');
-			$sheet1 = $spreadsheet->getActiveSheet();
-			$sheet1->setCellValue('A1', 'SL No');
-			$sheet1->setCellValue('C1', 'CLIENT ID');
-			$sheet1->setCellValue('B1', 'CLIENT NAME');
-
-			// $sheet1->setCellValue('E1', 'Letter format');
-			// $sheet1->setCellValue('F1', 'Format Id');
-
-
-			$sheet1->getStyle("A1:G1")->applyFromArray(array("font" => array("bold" => true)));
-			foreach (range('A', 'G') as $columnID) {
-				$sheet1->getColumnDimension($columnID)
-					->setAutoSize(true);
-			}
-			$i = 2;
-			foreach ($client as $key => $value) {
-
-				$sheet1->setCellValue('A' . $i, $key + 1);
-				$sheet1->setCellValue('C' . $i, $value['id']);
-				$sheet1->setCellValue('B' . $i, $value['client_name']);
-				$i += 1;
-			}
-
-			// $sheet1->setCellValue('E2', 'Format 1');
-			// $sheet1->setCellValue('E3', 'Format 2');
-			// $sheet1->setCellValue('E4', 'Format 3');
-			// $sheet1->setCellValue('E5', 'Udaan');
-
-			// $sheet1->setCellValue('F2', '1');
-			// $sheet1->setCellValue('F3', '2');
-			// $sheet1->setCellValue('F4', '3');
-			// $sheet1->setCellValue('F5', '4');
-
-			$spreadsheet->setActiveSheetIndex(0);
-			$sheet = $spreadsheet->getActiveSheet();
-			$cellB2 = $sheet->getCell('B2')->getDataValidation();
-			$cellB2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
-			$cellB2->setAllowBlank(false);
-			$cellB2->setShowInputMessage(true);
-			$cellB2->setShowErrorMessage(true);
-			$cellB2->setShowDropDown(true);
-			$rowCount = $sheet1->getHighestRow();
-			$cellB2->setFormula1('list1!$B:$B');
-			$sheet->setCellValue('V2', '=vlookup(B2,list1!B:C,2,false)');
-
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/ADMS_PROMOTION_LETTER.xlsx");
+			
 			// $cellO2 = $sheet->getCell('C2')->getDataValidation();
 			// $cellO2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
 			// $cellO2->setAllowBlank(false);
@@ -526,7 +473,7 @@ class Increment_letter extends CI_Controller
 			// $sheet->setCellValue('W2', '=vlookup(C2,list1!E:F,2,false)');
 
 			$writer = new Xlsx($spreadsheet);
-			$filename = 'ADMS_INCREMENT_LETTER_DOWNLOAD_FORMAT';
+			$filename = 'ADMS_PROMOTION_LETTER_DOWNLOAD_FORMAT';
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
 			header('Cache-Control: max-age=0');
