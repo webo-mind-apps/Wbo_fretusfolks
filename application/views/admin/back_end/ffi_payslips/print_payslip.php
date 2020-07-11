@@ -87,7 +87,7 @@
        
         <div class="row">
 		<div class="col-md-12" style="border:2px solid #333;">
-			<div class="col-md-12">
+			<div class="col-md-12" style="margin-left:40px;">
 				<img src="<?php echo base_url();?>admin_assets/assets/main_logo.png" width="200" style="padding: 3px;margin-left: -3%;"/>
 				<span><h4 style="float:right;text-decoration:none;font-size:12px">Payslip <?php	echo substr(date("F", mktime(0, 0, 0, $payslip[0]['month'], 3)),0,3).' - '.$payslip[0]['year']; ?></h4></span>
 			</div>

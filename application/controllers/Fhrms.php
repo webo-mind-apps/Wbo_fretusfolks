@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 error_reporting(0);
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 class Fhrms extends CI_Controller
 {
 	public function __construct()
@@ -890,6 +893,616 @@ class Fhrms extends CI_Controller
 			echo json_encode($output);
 		} else {
 			redirect('home/index');
+		}
+	}
+	public function doc_formate()
+	{
+		if ($this->session->userdata('admin_login')) {
+			$client = $this->fhrms->get_all_clients();
+			$states = $this->fhrms->get_all_states();
+
+			// $alpha = array('A', 'B', 'C','D', 'E', 'F','G', 'H', 'I','J', 'K', 'L','M', 'N', 'O');
+
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("admin_assets/exel-formate/FHRMS_FORMAT.xlsx");
+
+			$spreadsheet->setActiveSheetIndex(1);
+			$spreadsheet->getActiveSheet()->setTitle('list1');
+			$sheet1 = $spreadsheet->getActiveSheet();
+		
+
+			// $sheet1->setCellValue('O1', 'STATES');
+			// $sheet1->setCellValue('P1', 'STATES ID');
+
+
+
+			// $sheet1->setCellValue('S1', 'GENDER');
+			// $sheet1->setCellValue('T1', 'GENDER VALUE');
+
+
+			// $sheet1->setCellValue('AC1', 'BLOOD GROUP');
+
+			// $sheet1->setCellValue('AZ1', 'STATUS');
+			// $sheet1->setCellValue('BA1', 'STATUS VALUE');
+
+
+
+			$sheet1->getStyle("A1:CA1")->applyFromArray(array("font" => array("bold" => true)));
+			foreach (range('A', 'CA') as $columnID) {
+				$sheet1->getColumnDimension($columnID)
+					->setAutoSize(true);
+			}
+			
+			$j = 2;
+			foreach ($states as $key => $value) {
+				$sheet1->setCellValue('O' . $j, $value['state_name']);
+				$sheet1->setCellValue('P' . $j, $value['id']);
+
+				$j += 1;
+			}
+
+
+			$sheet1->setCellValue('S2', 'Male');
+			$sheet1->setCellValue('S3', 'Female');
+			$sheet1->setCellValue('T2', '1');
+			$sheet1->setCellValue('T3', '2');
+
+			$sheet1->setCellValue('AC2', 'O+');
+			$sheet1->setCellValue('AC3', 'O-');
+			$sheet1->setCellValue('AC4', 'A+');
+			$sheet1->setCellValue('AC5', 'A-');
+			$sheet1->setCellValue('AC6', 'B+');
+			$sheet1->setCellValue('AC7', 'B-');
+			$sheet1->setCellValue('AC8', 'AB+');
+			$sheet1->setCellValue('AC9', 'AB-');
+
+
+			$sheet1->setCellValue('AZ2', 'Active');
+			$sheet1->setCellValue('AZ3', 'Inactive');
+			$sheet1->setCellValue('BA2', '0');
+			$sheet1->setCellValue('BA3', '1');
+
+			$spreadsheet->setActiveSheetIndex(0);
+			$spreadsheet->getActiveSheet()->setTitle('Back_end');
+			$sheet = $spreadsheet->getActiveSheet();
+
+			$cellH2 = $sheet->getCell('H2')->getDataValidation();
+			$cellH2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellH2->setAllowBlank(false);
+			$cellH2->setShowInputMessage(true);
+			$cellH2->setShowErrorMessage(true);
+			$cellH2->setShowDropDown(true);
+			// $rowCount = $sheet1->getHighestRow();
+			$cellH2->setFormula1('list1!$O:$O');
+			$sheet->setCellValue('BJ2', '=vlookup(H2,list1!O:P,2,false)');
+
+			$cellK2 = $sheet->getCell('K2')->getDataValidation();
+			$cellK2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellK2->setAllowBlank(false);
+			$cellK2->setShowInputMessage(true);
+			$cellK2->setShowErrorMessage(true);
+			$cellK2->setShowDropDown(true);
+			// $rowCount = $sheet1->getHighestRow();
+			$cellK2->setFormula1('list1!$S:$S');
+			$sheet->setCellValue('BL2', '=vlookup(K2,list1!S:T,2,false)');
+
+
+			$cellM2 = $sheet->getCell('M2')->getDataValidation();
+			$cellM2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellM2->setAllowBlank(false);
+			$cellM2->setShowInputMessage(true);
+			$cellM2->setShowErrorMessage(true);
+			$cellM2->setShowDropDown(true);
+			$cellM2->setFormula1('list1!$AC:$AC');
+
+			$cellAI2 = $sheet->getCell('AI2')->getDataValidation();
+			$cellAI2->setType(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST);
+			$cellAI2->setAllowBlank(false);
+			$cellAI2->setShowInputMessage(true);
+			$cellAI2->setShowErrorMessage(true);
+			$cellAI2->setShowDropDown(true);
+			$cellAI2->setFormula1('list1!$AZ:$AZ');
+			$sheet->setCellValue('BK2', '=vlookup(AI2,list1!AZ:BA,2,false)');
+
+
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'FHRMS_DOWNLOAD_FORMAT';
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+			header('Cache-Control: max-age=0');
+			$writer->save('php://output'); // download file 
+
+		} else {
+			redirect('home/index');
+		}
+	}
+
+	public function fhrms_doc_import()
+	{
+
+		$data = array();
+		
+		// Load form validation library
+		if (!empty($_FILES['import']['name'])) {
+			// get file extension
+			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			$extension = pathinfo($_FILES['import']['name'], PATHINFO_EXTENSION);
+			$content_type = mime_content_type($_FILES['import']['tmp_name']);
+			$valid = false;
+			foreach ($valid_extentions as $key => $value) {
+				if ($content_type == $value) {
+					$valid = true;
+				}
+			}
+
+			if ($valid) {
+				if ($extension == 'csv') :
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+				elseif ($extension == 'xlsx') :
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+				else :
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+				endif;
+
+				// file path
+				$spreadsheet = $reader->load($_FILES['import']['tmp_name']);
+				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+				$insert = 0;
+				$update = 0;
+				$nochanges = 0;
+				$not_imported =array();
+				$not_imported_count=0;
+				for ($i = 2; $i <= count($allDataInSheet); $i++) {
+
+					$data['fhrms'] = array(
+						"ffi_emp_id"					=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+						"emp_name"						=> (empty($allDataInSheet[$i]['B']) ? '' : $allDataInSheet[$i]['B']),
+						"interview_date"				=> (empty($allDataInSheet[$i]['C']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['C']))),
+						"joining_date"					=> (empty($allDataInSheet[$i]['D']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['D']))),
+						"contract_date"					=> (empty($allDataInSheet[$i]['E']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['E']))),
+						"designation"					=> (empty($allDataInSheet[$i]['F']) ? '' : $allDataInSheet[$i]['F']),
+						"department"					=> (empty($allDataInSheet[$i]['G']) ? '' : $allDataInSheet[$i]['G']),
+						"state"							=> (empty($allDataInSheet[$i]['BJ']) ? '' : $allDataInSheet[$i]['BJ']),
+						"location"						=> (empty($allDataInSheet[$i]['I']) ? '' : $allDataInSheet[$i]['I']),
+						"dob"							=> (empty($allDataInSheet[$i]['J']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['J']))),
+						"gender"						=> (empty($allDataInSheet[$i]['BL']) ? '' : $allDataInSheet[$i]['BL']),
+						"father_name"					=> (empty($allDataInSheet[$i]['L']) ? '' : $allDataInSheet[$i]['L']),
+						"blood_group"					=> (empty($allDataInSheet[$i]['M']) ? '' : $allDataInSheet[$i]['M']),
+						"qualification"					=> (empty($allDataInSheet[$i]['N']) ? '' : $allDataInSheet[$i]['N']),
+						"phone1"						=> (empty($allDataInSheet[$i]['O']) ? '' : $allDataInSheet[$i]['O']),
+						"phone2"						=> (empty($allDataInSheet[$i]['P']) ? '' : $allDataInSheet[$i]['P']),
+						"email"							=> (empty($allDataInSheet[$i]['Q']) ? '' : $allDataInSheet[$i]['Q']),
+						"permanent_address"				=> (empty($allDataInSheet[$i]['R']) ? '' : $allDataInSheet[$i]['R']),
+						"present_address"				=> (empty($allDataInSheet[$i]['S']) ? '' : $allDataInSheet[$i]['S']),
+						"pan_no"						=> (empty($allDataInSheet[$i]['T']) ? '' : $allDataInSheet[$i]['T']),
+						"pan_path"						=> (empty($allDataInSheet[$i]['U']) ? '' : $allDataInSheet[$i]['U']),
+						"aadhar_no"						=> (empty($allDataInSheet[$i]['V']) ? '' : $allDataInSheet[$i]['V']),
+						"aadhar_path"					=> (empty($allDataInSheet[$i]['W']) ? '' : $allDataInSheet[$i]['W']),
+						"driving_license_no"			=> (empty($allDataInSheet[$i]['X']) ? '' : $allDataInSheet[$i]['X']),
+						"driving_license_path"			=> (empty($allDataInSheet[$i]['Y']) ? '' : $allDataInSheet[$i]['Y']),
+						"photo"							=> (empty($allDataInSheet[$i]['Z']) ? '' : $allDataInSheet[$i]['Z']),
+						"resume"						=> (empty($allDataInSheet[$i]['AA']) ? '' : $allDataInSheet[$i]['AA']),
+						"bank_name"						=> (empty($allDataInSheet[$i]['AB']) ? '' : $allDataInSheet[$i]['AB']),
+						"bank_document"					=> (empty($allDataInSheet[$i]['AC']) ? '' : $allDataInSheet[$i]['AC']),
+						"bank_account_no"				=> (empty($allDataInSheet[$i]['AD']) ? '' : $allDataInSheet[$i]['AD']),
+						"bank_ifsc_code"				=> (empty($allDataInSheet[$i]['AE']) ? '' : $allDataInSheet[$i]['AE']),
+						"uan_generatted"				=> (empty($allDataInSheet[$i]['AF']) ? '' : $allDataInSheet[$i]['AF']),
+						"uan_type"						=> (empty($allDataInSheet[$i]['AG']) ? '' : $allDataInSheet[$i]['AG']),
+						"uan_no"						=> (empty($allDataInSheet[$i]['AH']) ? '' : $allDataInSheet[$i]['AH']),
+						"status"						=> (empty($allDataInSheet[$i]['BK']) ? '' : $allDataInSheet[$i]['BK']),
+						"basic_salary"					=> (empty($allDataInSheet[$i]['AJ']) ? '' : $allDataInSheet[$i]['AJ']),
+						"hra"							=> (empty($allDataInSheet[$i]['AK']) ? '' : $allDataInSheet[$i]['AK']),
+						"conveyance"					=> (empty($allDataInSheet[$i]['AL']) ? '' : $allDataInSheet[$i]['AL']),
+						"medical_reimbursement"			=> (empty($allDataInSheet[$i]['AM']) ? '' : $allDataInSheet[$i]['AM']),
+						"special_allowance"				=> (empty($allDataInSheet[$i]['AN']) ? '' : $allDataInSheet[$i]['AN']),
+						"st_bonus"						=> (empty($allDataInSheet[$i]['AO']) ? '' : $allDataInSheet[$i]['AO']),
+						"other_allowance"				=> (empty($allDataInSheet[$i]['AP']) ? '' : $allDataInSheet[$i]['AP']),
+						"gross_salary"					=> (empty($allDataInSheet[$i]['AQ']) ? '' : $allDataInSheet[$i]['AQ']),
+						"emp_pf"						=> (empty($allDataInSheet[$i]['AR']) ? '' : $allDataInSheet[$i]['AR']),
+						"emp_esic"						=> (empty($allDataInSheet[$i]['AS']) ? '' : $allDataInSheet[$i]['AS']),
+						"pt"							=> (empty($allDataInSheet[$i]['AT']) ? '' : $allDataInSheet[$i]['AT']),
+						"total_deduction"				=> (empty($allDataInSheet[$i]['AU']) ? '' : $allDataInSheet[$i]['AU']),
+						"take_home"						=> (empty($allDataInSheet[$i]['AV']) ? '' : $allDataInSheet[$i]['AV']),
+						"employer_pf"					=> (empty($allDataInSheet[$i]['AW']) ? '' : $allDataInSheet[$i]['AW']),
+						"employer_esic"					=> (empty($allDataInSheet[$i]['AX']) ? '' : $allDataInSheet[$i]['AX']),
+						"mediclaim"						=> (empty($allDataInSheet[$i]['AY']) ? '' : $allDataInSheet[$i]['AY']),
+						"ctc"							=> (empty($allDataInSheet[$i]['AZ']) ? '' : $allDataInSheet[$i]['AZ']),
+						"voter_id"						=> (empty($allDataInSheet[$i]['BA']) ? '' : $allDataInSheet[$i]['BA']),
+						"emp_form"						=> (empty($allDataInSheet[$i]['BB']) ? '' : $allDataInSheet[$i]['BB']),
+						"pf_esic_form"					=> (empty($allDataInSheet[$i]['BD']) ? '' : $allDataInSheet[$i]['BD']),
+						"payslip"						=> (empty($allDataInSheet[$i]['BF']) ? '' : $allDataInSheet[$i]['BF']),
+						"exp_letter"					=> (empty($allDataInSheet[$i]['BG']) ? '' : $allDataInSheet[$i]['BG']),
+						"psd"							=> (empty($allDataInSheet[$i]['BH']) ? '' : $allDataInSheet[$i]['BH']),
+						"password"						=> md5((empty($allDataInSheet[$i]['BH']) ? '' : $allDataInSheet[$i]['BH'])),
+						"data_status"					=> "1",
+
+						// 'modified_date'			=>	date('Y-m-d H:i:s')
+					);
+
+					// $data['reference_id'] = array(
+					// 	"state_name"		=> (empty($allDataInSheet[$i]['H']) ? '' : $allDataInSheet[$i]['H']),
+					// 	"gender_name"		=> (empty($allDataInSheet[$i]['K']) ? '' : $allDataInSheet[$i]['S']),
+					// 	"status_name"		=> (empty($allDataInSheet[$i]['AI']) ? '' : $allDataInSheet[$i]['AY']),
+					// 	"data_status_name"	=> (empty($allDataInSheet[$i]['BZ']) ? '' : $allDataInSheet[$i]['BZ']),
+					// 	"dcs_approval_name"	=> (empty($allDataInSheet[$i]['CI']) ? '' : $allDataInSheet[$i]['CI']),
+					// );
+
+
+					$data['education_certificate'] = array(
+						"emp_id"	=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+						"path"		=> (empty($allDataInSheet[$i]['BC']) ? '' : $allDataInSheet[$i]['BC'])
+					);
+					// $data['education_certificate_excel'] = array(
+					// 	"emp_id1"	=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+					// 	"path1"		=> (empty($allDataInSheet[$i]['BC']) ? '' : $allDataInSheet[$i]['BC'])
+					// );
+
+					$data['other_certificate'] = array(
+						"emp_id"	=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+						"path"		=> (empty($allDataInSheet[$i]['BE']) ? '' : $allDataInSheet[$i]['BE']),
+					);
+					// $data['other_certificate_excel'] = array(
+					// 	"emp_id2"	=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+					// 	"path2"		=> (empty($allDataInSheet[$i]['BE']) ? '' : $allDataInSheet[$i]['BE']),
+					// );
+
+					if ($data['fhrms']['emp_name'] != '' || !empty($data['fhrms']['emp_name'])) {
+						if ($import_status = $this->fhrms->importEmployee($data)) {
+
+							if ($import_status == "insert") {
+								$insert = $insert + 1;
+							} else if ($import_status == "update") {
+								$update = $update + 1;
+							} else if ($import_status == "nochanges") {
+								$nochanges = $nochanges + 1;
+							}
+						}
+						
+					}
+					// else{
+					
+					// 	$not_imported[]=array_merge($data['backend'],$data['education_certificate_excel'],$data['other_certificate_excel'],$data['reference_id']);
+					// 	$not_imported_count=$not_imported_count+1;
+						
+					// }
+				}
+				// echo "<pre>";
+				// print_r($not_imported_count);
+				// print_r($not_imported);
+				// exit;
+				// if($not_imported_count>0)
+				// {
+				// 	try{
+					
+				// 		// $spreadsheet1 = new Spreadsheet();
+				// 		$spreadsheet1 = new Spreadsheet();
+				// 		$spreadsheet1->createSheet();
+				// 		$spreadsheet1->setActiveSheetIndex(0);
+				// 		$sheet = $spreadsheet1->getActiveSheet();
+						
+				// 		$sheet->setTitle('BackEnd Team Details');
+				// 		$sheet->getColumnDimension('A')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('B')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('C')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('D')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('E')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('F')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('G')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('H')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('I')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('J')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('K')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('L')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('M')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('N')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('O')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('P')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('Q')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('R')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('S')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('T')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('U')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('V')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('W')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('X')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('Y')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('Z')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AA')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AB')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AC')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AD')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AE')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AF')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AG')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AH')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AI')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AJ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AK')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AL')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AM')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AN')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AO')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AP')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AQ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AR')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AS')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AT')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AU')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AV')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AW')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AX')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AY')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('AZ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BA')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BB')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BC')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BD')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BE')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BF')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BG')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BH')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BI')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BJ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BK')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BL')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BM')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BN')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BO')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BP')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BQ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BR')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BS')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BT')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BU')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BV')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BW')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BX')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BY')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('BZ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CA')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CB')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CC')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CD')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CE')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CF')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CG')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CH')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CI')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CJ')->setAutoSize(true);
+				// 		$sheet->getColumnDimension('CK')->setAutoSize(true);
+						
+						
+				// 		$sheet->getStyle("A1:CK1")->applyFromArray(array("font" => array("bold" => true)));
+				// 		$sheet->setCellValue('A1', 'Entity Name: *');
+				// 		$sheet->setCellValue('B1', 'Enter Client Name: *');
+				// 		$sheet->setCellValue('C1', 'Enter FFI Employee ID: *');
+				// 		$sheet->setCellValue('D1', 'Console ID:');
+				// 		$sheet->setCellValue('E1', 'Enter Client Employee ID:');
+				// 		$sheet->setCellValue('F1', 'Grade:');
+				// 		$sheet->setCellValue('G1', 'Enter Employee Name: *');
+				// 		$sheet->setCellValue('H1', 'Middle Name:');
+				// 		$sheet->setCellValue('I1', 'Last Name:');
+				// 		$sheet->setCellValue('J1', 'Interview Date: *');
+				// 		$sheet->setCellValue('K1', 'Joining Date: *');
+				// 		$sheet->setCellValue('L1', 'DOL');
+				// 		$sheet->setCellValue('M1', 'Enter Designation: *');
+				// 		$sheet->setCellValue('N1', 'Enter Department:');
+				// 		$sheet->setCellValue('O1', 'State: *');
+				// 		$sheet->setCellValue('P1', 'Location: *');
+				// 		$sheet->setCellValue('Q1', 'Branch:');
+				// 		$sheet->setCellValue('R1', 'DOB: *');
+				// 		$sheet->setCellValue('S1', 'Gender: *');
+				// 		$sheet->setCellValue('T1', 'Father Name: *');
+				// 		$sheet->setCellValue('U1', 'Mother Name: *');
+				// 		$sheet->setCellValue('V1', 'Religion: *');
+				// 		$sheet->setCellValue('W1', 'Languages: *');
+				// 		$sheet->setCellValue('X1', 'Mother Tongue: *');
+				// 		$sheet->setCellValue('Y1', 'Marital Status: *');
+				// 		$sheet->setCellValue('Z1', 'Emergency Contact Person: *');
+				// 		$sheet->setCellValue('AA1', 'Spouse Name:');
+				// 		$sheet->setCellValue('AB1', 'No of Children:');
+				// 		$sheet->setCellValue('AC1', 'Blood Group: *');
+				// 		$sheet->setCellValue('AD1', 'Qualification: *');
+				// 		$sheet->setCellValue('AE1', 'Phone 1: *');
+				// 		$sheet->setCellValue('AF1', 'Phone 2:');
+				// 		$sheet->setCellValue('AG1', 'Email ID:');
+				// 		$sheet->setCellValue('AH1', 'Official Email ID:');
+				// 		$sheet->setCellValue('AI1', 'Enter Permanent Address: *');
+				// 		$sheet->setCellValue('AJ1', 'Enter Present Address: *');
+				// 		$sheet->setCellValue('AK1', 'Enter PAN Card No:');
+				// 		$sheet->setCellValue('AL1', 'Attach PAN:');
+				// 		$sheet->setCellValue('AM1', 'Enter Adhar Card No: *');
+				// 		$sheet->setCellValue('AN1', 'Attach Adhaar Card:');
+				// 		$sheet->setCellValue('AO1', 'Enter Driving License No:');
+				// 		$sheet->setCellValue('AP1', 'Attach Driving License:');
+				// 		$sheet->setCellValue('AQ1', 'Photo: *');
+				// 		$sheet->setCellValue('AR1', 'Resume: *');
+				// 		$sheet->setCellValue('AS1', 'Enter Bank Name:');
+				// 		$sheet->setCellValue('AT1', 'Attach Bank Document:');
+				// 		$sheet->setCellValue('AU1', 'Enter Bank Account No:');
+				// 		//$sheet->setCellValue('AV1', 'Repeat Bank Account No:');
+				// 		$sheet->setCellValue('AV1', 'Enter Bank IFSC CODE:');
+				// 		$sheet->setCellValue('AW1', 'UAN No:');
+				// 		$sheet->setCellValue('AX1', 'ESIC No:');
+				// 		$sheet->setCellValue('AY1', 'Status:');
+				// 		$sheet->setCellValue('AZ1', 'Basic Salary: *');
+				// 		$sheet->setCellValue('BA1', 'HRA: *');
+				// 		$sheet->setCellValue('BB1', 'Conveyance: *');
+				// 		$sheet->setCellValue('BC1', 'Medical Reimbursement: *');
+				// 		$sheet->setCellValue('BD1', 'Special Allowance: *');
+				// 		$sheet->setCellValue('BE1', 'ST: *');
+				// 		$sheet->setCellValue('BF1', 'Other Allowance: *');
+				// 		$sheet->setCellValue('BG1', 'Gross Salary: *');
+				// 		$sheet->setCellValue('BH1', 'Employee PF : *');
+				// 		$sheet->setCellValue('BI1', 'Employee ESIC : *');
+				// 		$sheet->setCellValue('BJ1', 'PT: *');
+				// 		$sheet->setCellValue('BK1', 'Total Deduction: *');
+				// 		$sheet->setCellValue('BL1', 'Take Home Salary: *');
+				// 		$sheet->setCellValue('BM1', 'Employer PF : *');
+				// 		$sheet->setCellValue('BN1', 'Employer ESIC : *');
+				// 		$sheet->setCellValue('BO1', 'Mediclaim Insurance: *');
+				// 		$sheet->setCellValue('BP1', 'Ctc: *');
+				// 		$sheet->setCellValue('BQ1', 'Voter ID:');
+				// 		$sheet->setCellValue('BR1', 'Attach Employee Form:');
+				// 		$sheet->setCellValue('BS1', 'Education Certificate:');
+				// 		$sheet->setCellValue('BT1', 'PF Form / ESIC:');
+				// 		$sheet->setCellValue('BU1', 'Others:');
+				// 		$sheet->setCellValue('BV1', 'Payslip:');
+				// 		$sheet->setCellValue('BW1', 'Exp Letter:');
+				// 		$sheet->setCellValue('BX1', 'Password: *');
+				// 		$sheet->setCellValue('BY1', 'Active Status: *');
+				// 		$sheet->setCellValue('BZ1', 'Data Status: *');
+				// 		$sheet->setCellValue('CA1', 'Client Id: *');
+				// 		$sheet->setCellValue('CB1', 'State Id: *');
+				// 		$sheet->setCellValue('CC1', 'Gender Id: *');
+				// 		$sheet->setCellValue('CD1', 'Status Id: *');
+				// 		$sheet->setCellValue('CE1', 'Active Status Id: *');
+				// 		$sheet->setCellValue('CF1', 'Data Status Id:*');
+				// 		$sheet->setCellValue('CI1', 'Data Approval: *');
+				// 		$sheet->setCellValue('CJ1', 'Data Approval Id: *');
+				// 		$sheet->setCellValue('CK1', 'Declaration');
+			
+				// 		/**************************************************************************************************************************/
+						
+						
+				// 		if (!empty($not_imported)) {
+				// 			// echo "<pre>";
+				// 			// print_r($not_imported);
+				// 			// exit;
+
+				// 			$n = 2;
+				// 			$i = 1;
+				// 			foreach ($not_imported as $key => $row) {
+							
+				// 				$sheet->setCellValue('A' . $n, $row['entity_name']);
+				// 				$sheet->setCellValue('B' . $n, $row['client_name']);
+				// 				$sheet->setCellValue('C' . $n, $row['ffi_emp_id']);
+				// 				$sheet->setCellValue('D' . $n, $row['console_id']);
+				// 				$sheet->setCellValue('E' . $n, $row['client_emp_id']);
+				// 				$sheet->setCellValue('F' . $n, $row['grade']);
+				// 				$sheet->setCellValue('G' . $n, $row['emp_name']);
+				// 				$sheet->setCellValue('H' . $n, $row['middle_name']);
+				// 				$sheet->setCellValue('I' . $n, $row['last_name']);
+				// 				$sheet->setCellValue('J' . $n, $row['interview_date']);
+				// 				$sheet->setCellValue('K' . $n, $row['joining_date']);
+				// 				$sheet->setCellValue('L' . $n, $row['contract_date']);
+				// 				$sheet->setCellValue('M' . $n, $row['designation']);
+				// 				$sheet->setCellValue('N' . $n, $row['department']);
+				// 				$sheet->setCellValue('O' . $n, $row['state_name']);
+				// 				$sheet->setCellValue('P' . $n, $row['location']);
+				// 				$sheet->setCellValue('Q' . $n, $row['branch']);
+				// 				$sheet->setCellValue('R' . $n, $row['dob']);
+				// 				$sheet->setCellValue('S' . $n, $row['gender_name']);
+				// 				$sheet->setCellValue('T' . $n, $row['father_name']);
+				// 				$sheet->setCellValue('U' . $n, $row['mother_name']);
+				// 				$sheet->setCellValue('V' . $n, $row['religion']);
+				// 				$sheet->setCellValue('W' . $n, $row['languages']);
+				// 				$sheet->setCellValue('X' . $n, $row['mother_tongue']);
+				// 				$sheet->setCellValue('Y' . $n, $row['maritial_status']);
+				// 				$sheet->setCellValue('Z' . $n, $row['emer_contact_no']);
+				// 				$sheet->setCellValue('AA' . $n, $row['spouse_name']);
+				// 				$sheet->setCellValue('AB' . $n, $row['no_of_childrens']);
+				// 				$sheet->setCellValue('AC' . $n, $row['blood_group']);
+				// 				$sheet->setCellValue('AD' . $n, $row['qualification']);
+				// 				$sheet->setCellValue('AE' . $n, $row['phone1']);
+				// 				$sheet->setCellValue('AF' . $n, $row['phone2']);
+				// 				$sheet->setCellValue('AG' . $n, $row['email']);
+				// 				$sheet->setCellValue('AH' . $n, $row['official_mail_id']);
+				// 				$sheet->setCellValue('AI' . $n, $row['permanent_address']);
+				// 				$sheet->setCellValue('AJ' . $n, $row['present_address']);
+				// 				$sheet->setCellValue('AK' . $n, $row['pan_no']);
+				// 				$sheet->setCellValue('AL' . $n, $row['pan_path']);
+				// 				$sheet->setCellValue('AM' . $n, $row['aadhar_no']);
+				// 				$sheet->setCellValue('AN' . $n, $row['aadhar_path']);
+				// 				$sheet->setCellValue('AO' . $n, $row['driving_license_no']);
+				// 				$sheet->setCellValue('AP' . $n, $row['driving_license_path']);
+				// 				$sheet->setCellValue('AQ' . $n, $row['photo']);
+				// 				$sheet->setCellValue('AR' . $n, $row['resume']);
+				// 				$sheet->setCellValue('AS' . $n, $row['bank_name']);
+				// 				$sheet->setCellValue('AT' . $n, $row['bank_document']);
+				// 				$sheet->setCellValue('AU' . $n, $row['bank_account_no']);
+				// 				$sheet->setCellValue('AV' . $n, $row['bank_ifsc_code']);
+				// 				$sheet->setCellValue('AW' . $n, $row['uan_no']);
+				// 				$sheet->setCellValue('AX' . $n, $row['esic_no']);
+				// 				$sheet->setCellValue('AY' . $n, $row['status_name']);
+				// 				$sheet->setCellValue('AZ' . $n, $row['basic_salary']);
+				// 				$sheet->setCellValue('BA' . $n, $row['hra']);
+				// 				$sheet->setCellValue('BB' . $n, $row['conveyance']);
+				// 				$sheet->setCellValue('BC' . $n, $row['medical_reimbursement']);
+				// 				$sheet->setCellValue('BD' . $n, $row['special_allowance']);
+				// 				$sheet->setCellValue('BE' . $n, $row['st_bonus']);
+				// 				$sheet->setCellValue('BF' . $n, $row['other_allowance']);
+				// 				$sheet->setCellValue('BG' . $n, $row['gross_salary']);
+				// 				$sheet->setCellValue('BH' . $n, $row['emp_pf']);
+				// 				$sheet->setCellValue('BI' . $n, $row['emp_esic']);
+				// 				$sheet->setCellValue('BJ' . $n, $row['pt']);
+				// 				$sheet->setCellValue('BK' . $n, $row['total_deduction']);
+				// 				$sheet->setCellValue('BL' . $n, $row['take_home']);
+				// 				$sheet->setCellValue('BM' . $n, $row['employer_pf']);
+				// 				$sheet->setCellValue('BN' . $n, $row['employer_esic']);
+				// 				$sheet->setCellValue('BO' . $n, $row['mediclaim']);
+				// 				$sheet->setCellValue('BP' . $n, $row['ctc']);
+				// 				$sheet->setCellValue('BQ' . $n, $row['voter_id']);
+				// 				$sheet->setCellValue('BR' . $n, $row['emp_form']);
+				// 				$sheet->setCellValue('BS' . $n, $row['path1']);
+				// 				$sheet->setCellValue('BT' . $n, $row['pf_esic_form']);
+				// 				$sheet->setCellValue('BU' . $n, $row['path2']);
+				// 				$sheet->setCellValue('BV' . $n, $row['payslip']);
+				// 				$sheet->setCellValue('BW' . $n, $row['exp_letter']);
+				// 				$sheet->setCellValue('BX' . $n, $row['psd']);
+				// 				$sheet->setCellValue('BY' . $n, $row['active_status_name']);
+				// 				$sheet->setCellValue('BZ' . $n, $row['data_status_name']);
+				// 				$sheet->setCellValue('CA' . $n, $row['client_id']);
+				// 				$sheet->setCellValue('CB' . $n, $row['state']);
+				// 				$sheet->setCellValue('CC' . $n, $row['gender']);
+				// 				$sheet->setCellValue('CD' . $n, $row['status']);
+				// 				$sheet->setCellValue('CE' . $n, $row['active_status']);
+				// 				$sheet->setCellValue('CF' . $n, $row['data_status']);
+				// 				$sheet->setCellValue('CI' . $n, $row['dcs_approval_name']);
+				// 				$sheet->setCellValue('CJ' . $n, $row['dcs_approval']);
+				// 				$sheet->setCellValue('CK' . $n, 'Enter employee name');
+								
+				// 				// $sheet->setCellValue('BQ' . $n, $row['location']);
+				// 				// $sheet->setCellValue('BR' . $n, $row['branch']);
+				// 				// $sheet->setCellValue('BS' . $n, $dob);
+			
+				// 				$i++;
+				// 				$n++;
+								
+				// 			}
+				// 		// 	/**************************************************************************************************************************/
+				// 		// 	// echo "sdfds";
+				// 		// 	// 	exit;
+				// 			$date = date('y-m-d-his');
+				// 			$objWriter =  new Xlsx($spreadsheet1);
+				// 			// $filename = 'Backend_not_imported';
+				// 			$filename = 'Backend_not_imported_' . $date;
+				// 			header('Content-Type: application/vnd.ms-excel');
+				// 			header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+				// 			header('Cache-Control: max-age=0');
+				// 			$objWriter->save('php://output'); // download file 
+							
+				// 		} else {
+				// 			$this->session->set_flashdata('no_data', 'No datas founded');
+							
+				// 		}
+
+				// 	}
+				// 	catch(Exception $e) {
+				// 		$this->session->set_flashdata('take_time', 'Large size');
+				// 	}
+				// }
+				
+				if ($insert > 0 || $update > 0) {
+					$msg = "Imported successfully";
+
+					$this->session->set_flashdata('success', $msg);
+				}
+				redirect('fhrms', 'refresh');
+			} else {
+
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
+				redirect('fhrms', 'refresh');
+			}
 		}
 	}
 }

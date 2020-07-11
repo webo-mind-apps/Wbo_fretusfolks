@@ -119,6 +119,66 @@ class Ffi_payslips extends CI_Controller
 			
 		}
 	}
+	public function download_ffi_payslips()
+	{
+		if ($this->session->userdata('admin_login')) {
+
+			if ($row_count = $this->payslips->download_ffi_payslips()) {
+
+				$this->load->library('zip');
+
+				$path = 'ffi_payslip/ffi_payslip_'. date('Y-m-d-his');
+				if (!is_dir($path)) mkdir($path, 0777, TRUE);
+				$row_count=$row_count/1000;
+				$row_count=round($row_count);
+				for($i=0;$i<=$row_count;$i++)
+				{
+					$a=$i*1000;
+					if($data= $this->payslips->download_ffi_payslips_partial(1000,$a))
+					{
+						// echo "<pre>";
+						// print_r($data);
+						// exit;
+						foreach ($data as $row)
+						{
+							
+							$mpdf = new \Mpdf\Mpdf();
+							$datas['payslip'][0] = $row;
+							$html = $this->load->view('admin/back_end/ffi_payslips/print_payslip', $datas, true);
+							// $mpdf->Image('', 0, 0, 210, 297, 'png', '', true, false);
+							$mpdf->AddPage(
+								'', // L - landscape, P - portrait 
+								'',
+								'',
+								'',
+								'',
+								5, // margin_left
+								5, // margin right
+								30, // margin top
+								30, // margin bottom
+								0, // margin header
+								0
+							); // margin footer 
+							$mpdf->WriteHTML($html);
+							
+							$mpdf->Output($path . '/' . $row['emp_id'] . "_" . $row['employee_name'] . ".pdf", 'F');
+						}
+					}
+				}
+
+				$this->zip->read_dir($path, false);
+				$download = $this->zip->download($path . '.zip');
+				
+			} else {
+
+				$this->session->set_flashdata('error', 'No datas found');
+				redirect('ffi_payslips/');
+			}
+		} else {
+			redirect('home/index');
+		}
+	}
+
 	function logout()
 	{
 		$this->session->unset_userdata('admin_login');

@@ -16,6 +16,33 @@ class Ffi_payslips_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+
+	public function download_ffi_payslips()
+	{
+		$month=$this->input->post('payslip_download_month', true);
+		$year=$this->input->post('payslip_download_year', true);
+		$this->db->select('*');
+		$this->db->from('ffi_payslips');
+		$this->db->where("month", $month);
+		$this->db->where("year", $year);
+		$query=$this->db->get();
+		$row_count=$query->num_rows();
+		return $row_count;
+	}
+
+	public function download_ffi_payslips_partial($limit,$start)
+	{
+		$month=$this->input->post('payslip_download_month', true);
+		$year=$this->input->post('payslip_download_year', true);
+		$this->db->select('*');
+		$this->db->from('ffi_payslips');
+		$this->db->where("month", $month);
+		$this->db->where("year", $year);
+		$this->db->limit($limit,$start); 
+		$query=$this->db->get();
+		$q=$query->result_array();
+		return $q;
+	}
 	public function upload_payslips()
 	{
 		$month=$this->input->post('payslip_month');
@@ -24,6 +51,7 @@ class Ffi_payslips_db extends CI_Model
 		$this->load->library("excel");
 		
 		$path = 'uploads/ffi_payslips/';
+		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 			
 			$new_name = $_FILES["file"]['name'];
 			$config['upload_path'] = $path;					

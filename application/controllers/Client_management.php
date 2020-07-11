@@ -106,7 +106,7 @@ class Client_management extends CI_Controller
 			$this->form_validation->set_rules('website', 'Website', 'trim|required');
 			$this->form_validation->set_rules('agreement_mode', 'Agreement Mode', 'trim|required');
 			$this->form_validation->set_rules('agreement_type', 'Agreement Type', 'trim');
-			$this->form_validation->set_rules('other_agreement', 'Other Agreement', 'trim|required');
+			$this->form_validation->set_rules('other_agreement', 'Other Agreement', 'trim');
 			$this->form_validation->set_rules('region', 'Region', 'trim');
 			$this->form_validation->set_rules('start_date', 'Start Date', 'trim');
 			$this->form_validation->set_rules('end_date', 'End date', 'trim');
@@ -119,11 +119,20 @@ class Client_management extends CI_Controller
 			$this->form_validation->set_rules('contact_person_phone_comm', 'Contact Person Phone Comm', 'trim|required');
 			$this->form_validation->set_rules('contact_person_email_comm', 'Contact Person Email Comm', 'trim|required');
 			if ($this->form_validation->run() ==  TRUE):
-				$data = $this->client->save_client();
+				if($data = $this->client->save_client()):
+					$msg="Client details stored successfully";
+					$this->session->set_flashdata('insert-status', $msg);
+				else:
+					$msg="Something went wrong";
+					$this->session->set_flashdata('insert-status', $msg);
+				endif;
+
 				redirect('client_management/');
 			else:
 				$data['active_menu'] = "client";
 				$data['states'] = $this->client->get_all_states();
+				$msg="validation";
+				$this->session->set_flashdata('insert-status', $msg);
 				$this->load->view('admin/back_end/client_management/new_client', $data);
 			endif;
 		} else {

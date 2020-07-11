@@ -340,6 +340,134 @@ class Fhrms_db extends CI_Model
 		}
 		
 	}
+
+	public function importEmployee($data = null)
+	{
+		$this->db->where('ffi_emp_id', $data['fhrms']['ffi_emp_id']);
+		$query = $this->db->get("fhrms");
+		if ($query->num_rows() <= 0)
+		{
+			$backendData 	= $data['fhrms'];
+			$eduData 		= $data['education_certificate'];
+			$othData 		= $data['other_certificate'];
+			$insertData 	= $this->insertMangment($backendData); // Insert employee info
+			$insertEdCer 	= $this->insertEducationCertificates($eduData); // Insert education Certificate
+			$insertoth 		= $this->insertOtherCertificates($othData); // Insert other Certificate
+			if($insertData && $insertoth && $insertEdCer)
+			{
+				return "insert";
+			}
+		}
+		else 
+		{
+			$backendData 	= $data['fhrms'];
+			$eduData 		= $data['education_certificate'];
+			$othData 		= $data['other_certificate'];
+			$upM 			= $this->updateMangment($backendData);
+			$insertEdCer 	= $this->insertEducationCertificates($eduData); // Insert education Certificate
+			$insertoth 		= $this->insertOtherCertificates($othData); // Insert other Certificate
+			if($upM || $insertEdCer || $insertoth)
+			{
+				return "update";
+			}	
+			
+		}
+	return "nochanges";
+}
+
+// education Certificte
+function insertEducationCertificates($data){
+		
+	$this->db->where("emp_id",$data['emp_id']);
+	$this->db->delete("education_certificate");
+	$explode=explode("|",$data['path']);
+	$length=sizeof($explode);
+	for($i=0;$i<$length;$i++)
+	{
+		$row=trim($explode[$i]);
+		$insertData=array(
+			"emp_id"	=>	 $data['emp_id'],
+			"path"		=>	 $row,
+		);	
+		$inE=$this->insertEducation($insertData);
+	}
+	return $inE;
+}
+
+// Other Certificate
+function insertOtherCertificates($data){
+	$this->db->where("emp_id",$data['emp_id']);
+	$this->db->delete("other_certificate");
+	$explode1=explode("|",$data['path']);
+	$length1=sizeof($explode1);
+	for($i=0;$i<$length1;$i++)
+	{
+		$row1=trim($explode1[$i]);
+		$insertData1=array(
+			"emp_id"	=>	 $data['emp_id'],
+			"path"		=>	 $row1,
+		);	
+		$inO =$this->insertOther($insertData1);
+	}
+	return $inO ;
+}
+
+public function insertMangment($data)
+{
+	$this->db->insert('fhrms', $data);
+	if ($this->db->affected_rows() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+public function insertEducation($insertData)
+{
+	$this->db->insert('education_certificate',$insertData);
+	if ($this->db->affected_rows() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+public function insertOther($insertData1)
+{
+	$this->db->insert('other_certificate',$insertData1);
+
+	if ($this->db->affected_rows() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+public function updateMangment($data)
+{
+	$this->db->where('ffi_emp_id', $data['ffi_emp_id']);
+	$this->db->update('fhrms', $data);
+	if ($this->db->affected_rows() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+
 	function save_emp_pending()
 	{
 		$pan_path="";

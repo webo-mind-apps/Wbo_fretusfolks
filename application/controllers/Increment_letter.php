@@ -425,7 +425,7 @@ class Increment_letter extends CI_Controller
 								$mpdf->WriteHTML($html);
 								$content = $mpdf->Output('', 'S');
 								$filename = date('d/m/Y') . "_increment.pdf";
-								$subject = "welcome";
+								$subject = "Increment letter";
 								$this->load->config('email');
 								$this->load->library('email');
 								$from = $this->config->item('smtp_user');
@@ -437,9 +437,8 @@ class Increment_letter extends CI_Controller
 								$this->email->subject($subject);
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-								if (!$this->email->send()) {
-									echo "<script>alert('not sended');</script>";
-								}
+								$this->email->send();
+								$this->email->clear(TRUE);
 							} else if ($import_status == "not_exist") {
 								$not_exist = $not_exist + 1;
 							}

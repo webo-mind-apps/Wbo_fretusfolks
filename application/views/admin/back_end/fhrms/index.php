@@ -146,12 +146,23 @@ $active_menu="index";
 						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Fretus HR Management System</span></h4>
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
-
+					<div class="right text-center">
+						<div class="row">
+							<div class="col-md-5">
 					<div class="header-elements d-none">
 						<a href="<?php echo site_url('fhrms/new_employee');?>" class="btn btn-labeled btn-labeled-right bg-primary">New Employee<b><i class="fa fa-plus" aria-hidden="true"></i></b></a>
 					</div>
+					</div>
+					<div class="col-md-1"></div>
+							<div class="col-md-5">
+								<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">&nbsp;&nbsp;Import &nbsp;<b><i class="fa fa-reply" aria-hidden="true"></i></b></button>
+							</div>
+					</div>
+					</div>
 				</div>
-
+				<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>fhrms-doc-import" id="import_form" style="display:none">
+							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+						</form>
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
@@ -161,7 +172,7 @@ $active_menu="index";
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
-
+					<span style="float:right"><a href="<?php echo base_url() ?>fhrms-doc-format">Download Sample Format</a></span>
 					
 				</div>
 			</div>
@@ -170,7 +181,28 @@ $active_menu="index";
 
 			<!-- Content area -->
 			<div class="content">
+			<?php
 
+					if ($this->session->flashdata('success')) {
+					?>
+						<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<span class="text-semibold"><?php echo $this->session->flashdata('success'); ?></span>
+						</div>
+					<?php
+					}
+					?>
+					<?php
+
+					if ($this->session->flashdata('no_file')) {
+					?>
+						<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<span class="text-semibold">Please Choose Valid file formate</span>
+						</div>
+					<?php
+					}
+					?>
 				<!-- Floating labels -->
 				<div class="row">
 				
