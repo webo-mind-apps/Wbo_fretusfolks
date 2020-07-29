@@ -168,7 +168,7 @@ $active_menu="Backendteam";
 							a=response.split("****");
 							
 							$("#client").val(""+a[0]);
-							// $("#emp_name").val(""+a[1]);
+							$("#emp_name").val(""+a[1]);
 							// $("#joining_date").val(""+a[2]);
 							$("#contact_end_date").val(""+a[3]);
 							$("#designation").val(""+a[4]);
@@ -318,7 +318,7 @@ $active_menu="Backendteam";
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Employee Name: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="emp_name" id="emp_name"  required autocomplete="off">
+											<input type="text" class="form-control" name="emp_name" id="emp_name" readonly required autocomplete="off">
 										</div>
 									</div>
 									<div class="col-md-6">

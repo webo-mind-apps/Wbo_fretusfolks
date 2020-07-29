@@ -52,104 +52,185 @@ class Fcms_db extends CI_Model
 	}
 	function save_invoice()
 	{
-		$client=$this->input->post('client');
-		$location=$this->input->post('location');
-		$gst_no=$this->input->post('gst_no');
-		$invoice_no=$this->input->post('invoice_no');
-		$gross_value=$this->input->post('gross_value');
-		$service_fees=$this->input->post('service_fees');
-		$source_fees=$this->input->post('source_fees');
-		$cgst=$this->input->post('cgst');
-		$sgst=$this->input->post('sgst');
-		$igst=$this->input->post('igst');
-		$total_employee=$this->input->post('total_employee');
-		$inv_date=$this->input->post('inv_date');
+		$folder = 'public/uploads/';
+		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
+		$this->form_validation->set_rules('client', 'Client', 'trim|required');
+		$this->form_validation->set_rules('location', 'Location', 'trim|required');
+		$this->form_validation->set_rules('gst_no', 'GST No', 'trim|required');
+		$this->form_validation->set_rules('invoice_no', 'Invoice No', 'trim|required');
+		$this->form_validation->set_rules('gross_value', 'Gross Value', 'trim|required');
+		$this->form_validation->set_rules('service_fees', 'Service Fees', 'trim|required');
+		$this->form_validation->set_rules('source_fees', 'Sourcing Fees', 'trim|required');
+		$this->form_validation->set_rules('cgst', 'CGST', 'trim|required');
+		$this->form_validation->set_rules('sgst', 'SGST', 'trim|required');
+		$this->form_validation->set_rules('igst', 'IGST', 'trim|required');
+		$this->form_validation->set_rules('total_employee', 'Total Employees', 'trim|required');
+		$this->form_validation->set_rules('inv_date', 'Invoice Date', 'trim|required');
+		$this->form_validation->set_rules('cgst_amt', 'CGST Amount', 'trim|required');
+		$this->form_validation->set_rules('sgst_amt', 'SGST Amount', 'trim|required');
+		$this->form_validation->set_rules('igst_amt', 'IGST Amount', 'trim|required');
+		$this->form_validation->set_rules('total_tax', 'Total Tax', 'trim|required');
+		$this->form_validation->set_rules('inv_total', 'Invoice Amount', 'trim|required');
+		$this->form_validation->set_rules('credit_note', 'Credit Note', 'trim|required');
+		$this->form_validation->set_rules('debit_note', 'Debit Note', 'trim|required');
+		$this->form_validation->set_rules('grand_total', 'Grand Total', 'trim');
+		$this->form_validation->set_rules('inv_month', 'Invoice Month', 'trim|required');
 		
-		$cgst_amt=$this->input->post('cgst_amt');
-		$sgst_amt=$this->input->post('sgst_amt');
-		$igst_amt=$this->input->post('igst_amt');
-		$total_tax=$this->input->post('total_tax');
+		if ($this->form_validation->run() == FALSE)
+		{
+				$this->load->view('admin/back_end/invoice/new_invoice');
+		}
+		else
+		{
 		
-		$inv_total=$this->input->post('inv_total');
-		$credit_note=$this->input->post('credit_note');
-		$debit_note=$this->input->post('debit_note');
+		$client=$this->input->post('client',true);
+		$location=$this->input->post('location',true);
+		$gst_no=$this->input->post('gst_no',true);
+		$invoice_no=$this->input->post('invoice_no',true);
+		$gross_value=$this->input->post('gross_value',true);
+		$service_fees=$this->input->post('service_fees',true);
+		$source_fees=$this->input->post('source_fees',true);
+		$cgst=$this->input->post('cgst',true);
+		$sgst=$this->input->post('sgst',true);
+		$igst=$this->input->post('igst',true);
+		$total_employee=$this->input->post('total_employee',true);
+		$inv_date=$this->input->post('inv_date',true);
 		
-		$grand_total=$this->input->post('grand_total');
-		$inv_month=$this->input->post('inv_month');
+		$cgst_amt=$this->input->post('cgst_amt',true);
+		$sgst_amt=$this->input->post('sgst_amt',true);
+		$igst_amt=$this->input->post('igst_amt',true);
+		$total_tax=$this->input->post('total_tax',true);
+		
+		$inv_total=$this->input->post('inv_total',true);
+		$credit_note=$this->input->post('credit_note',true);
+		$debit_note=$this->input->post('debit_note',true);
+		
+		$grand_total=$this->input->post('grand_total',true);
+		$inv_month=$this->input->post('inv_month',true);
 		
 		if ($_FILES['file']['size']>1)
         {
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
             $config['upload_path'] = 'uploads/invoice_doc/';
-            $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
+            $config['allowed_types'] = 'jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
+			$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if ($this->upload->do_upload('file'))
             {
-				$pan_path="uploads/invoice_doc/".$new_name;
+				$pan_path="public/uploads/invoice_doc/".$new_name;
 			}
+		}else{
+			return "You upload file is a wrong file mime type";
+		}
 		}
 		$db_date=date("Y-m-d",strtotime($inv_date));
 		
 		$data=array("invoice_no"=>$invoice_no,"client_id"=>$client,"service_location"=>$location,"gst_no"=>$gst_no,"gross_value"=>$gross_value,"service_value"=>$service_fees,"source_value"=>$source_fees,"total_employee"=>$total_employee,"cgst"=>$cgst,"sgst"=>$sgst,"igst"=>$igst,"cgst_amount"=>$cgst_amt,"sgst_amount"=>$sgst_amt,"igst_amount"=>$igst_amt,"tax_amount"=>$total_tax,"total_value"=>$inv_total,"credit_note"=>$credit_note,"debit_note"=>$debit_note,"grand_total"=>$grand_total,"date"=>$db_date,"inv_month"=>$inv_month,"file_path"=>$pan_path,"balance_amount"=>$grand_total);
 		$this->db->insert("invoice",$data);
+		}
 	}
 	function update_invoice()
 	{
 		$id=$this->uri->segment(3);
+		$folder = 'public/uploads/';
+		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
+		$this->form_validation->set_rules('client', 'Client', 'trim|required');
+		$this->form_validation->set_rules('location', 'Location', 'trim|required');
+		$this->form_validation->set_rules('gst_no', 'GST No', 'trim|required');
+		$this->form_validation->set_rules('invoice_no', 'Invoice No', 'trim|required');
+		$this->form_validation->set_rules('gross_value', 'Gross Value', 'trim|required');
+		$this->form_validation->set_rules('service_fees', 'Service Fees', 'trim|required');
+		$this->form_validation->set_rules('source_fees', 'Sourcing Fees', 'trim|required');
+		$this->form_validation->set_rules('cgst', 'CGST', 'trim|required');
+		$this->form_validation->set_rules('sgst', 'SGST', 'trim|required');
+		$this->form_validation->set_rules('igst', 'IGST', 'trim|required');
+		$this->form_validation->set_rules('total_employee', 'Total Employees', 'trim|required');
+		$this->form_validation->set_rules('inv_date', 'Invoice Date', 'trim|required');
+		$this->form_validation->set_rules('cgst_amt', 'CGST Amount', 'trim|required');
+		$this->form_validation->set_rules('sgst_amt', 'SGST Amount', 'trim|required');
+		$this->form_validation->set_rules('igst_amt', 'IGST Amount', 'trim|required');
+		$this->form_validation->set_rules('total_tax', 'Total Tax', 'trim|required');
+		$this->form_validation->set_rules('inv_total', 'Invoice Amount', 'trim|required');
+		$this->form_validation->set_rules('credit_note', 'Credit Note', 'trim|required');
+		$this->form_validation->set_rules('debit_note', 'Debit Note', 'trim|required');
+		$this->form_validation->set_rules('grand_total', 'Grand Total', 'trim');
+		$this->form_validation->set_rules('inv_month', 'Invoice Month', 'trim|required');
 		
-		$client=$this->input->post('client');
-		$location=$this->input->post('location');
-		$gst_no=$this->input->post('gst_no');
-		$invoice_no=$this->input->post('invoice_no');
-		$gross_value=$this->input->post('gross_value');
-		$service_fees=$this->input->post('service_fees');
-		$source_fees=$this->input->post('source_fees');
-		$cgst=$this->input->post('cgst');
-		$sgst=$this->input->post('sgst');
-		$igst=$this->input->post('igst');
-		$total_employee=$this->input->post('total_employee');
-		$inv_date=$this->input->post('inv_date');
+		if ($this->form_validation->run() == FALSE)
+		{
+				$this->load->view('admin/back_end/invoice/edit_invoice');
+		}
+		else
+		{
 		
-		$cgst_amt=$this->input->post('cgst_amt');
-		$sgst_amt=$this->input->post('sgst_amt');
-		$igst_amt=$this->input->post('igst_amt');
-		$total_tax=$this->input->post('total_tax');
 		
-		$inv_total=$this->input->post('inv_total');
-		$credit_note=$this->input->post('credit_note');
-		$debit_note=$this->input->post('debit_note');
+		$client=$this->input->post('client',true);
+		$location=$this->input->post('location',true);
+		$gst_no=$this->input->post('gst_no',true);
+		$invoice_no=$this->input->post('invoice_no',true);
+		$gross_value=$this->input->post('gross_value',true);
+		$service_fees=$this->input->post('service_fees',true);
+		$source_fees=$this->input->post('source_fees',true);
+		$cgst=$this->input->post('cgst',true);
+		$sgst=$this->input->post('sgst',true);
+		$igst=$this->input->post('igst',true);
+		$total_employee=$this->input->post('total_employee',true);
+		$inv_date=$this->input->post('inv_date',true);
 		
-		$grand_total=$this->input->post('grand_total');
+		$cgst_amt=$this->input->post('cgst_amt',true);
+		$sgst_amt=$this->input->post('sgst_amt',true);
+		$igst_amt=$this->input->post('igst_amt',true);
+		$total_tax=$this->input->post('total_tax',true);
 		
-		$balance_amount=$this->input->post('balance_amount');
-		$tds_amount=$this->input->post('tds_amount');
-		$amount_received=$this->input->post('amount_received');
+		$inv_total=$this->input->post('inv_total',true);
+		$credit_note=$this->input->post('credit_note',true);
+		$debit_note=$this->input->post('debit_note',true);
+		
+		$grand_total=$this->input->post('grand_total',true);
+		
+		$balance_amount=$this->input->post('balance_amount',true);
+		$tds_amount=$this->input->post('tds_amount',true);
+		$amount_received=$this->input->post('amount_received',true);
 		
 		
 		
 		
 		$db_date=date("Y-m-d",strtotime($inv_date));
 		
-		$inv_month=$this->input->post('inv_month');
+		$inv_month=$this->input->post('inv_month',true);
 		
 		if (!empty($_FILES['file']['name']))
         {
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
             $config['upload_path'] = 'uploads/invoice_doc/';
-            $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
+            $config['allowed_types'] = 'jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
-            if ($this->upload->do_upload('file'))
-            {
-				$pan_path="uploads/invoice_doc/".$new_name;
-				
-				$data=array("invoice_no"=>$invoice_no,"client_id"=>$client,"service_location"=>$location,"gst_no"=>$gst_no,"gross_value"=>$gross_value,"service_value"=>$service_fees,"source_value"=>$source_fees,"total_employee"=>$total_employee,"cgst"=>$cgst,"sgst"=>$sgst,"igst"=>$igst,"cgst_amount"=>$cgst_amt,"sgst_amount"=>$sgst_amt,"igst_amount"=>$igst_amt,"tax_amount"=>$total_tax,"total_value"=>$inv_total,"credit_note"=>$credit_note,"debit_note"=>$debit_note,"grand_total"=>$grand_total,"date"=>$db_date,"inv_month"=>$inv_month,"file_path"=>$pan_path,"balance_amount"=>$grand_total);	
+
+			$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
+				if ($this->upload->do_upload('file'))
+				{
+					$pan_path="public/uploads/invoice_doc/".$new_name;
+					
+					$data=array("invoice_no"=>$invoice_no,"client_id"=>$client,"service_location"=>$location,"gst_no"=>$gst_no,"gross_value"=>$gross_value,"service_value"=>$service_fees,"source_value"=>$source_fees,"total_employee"=>$total_employee,"cgst"=>$cgst,"sgst"=>$sgst,"igst"=>$igst,"cgst_amount"=>$cgst_amt,"sgst_amount"=>$sgst_amt,"igst_amount"=>$igst_amt,"tax_amount"=>$total_tax,"total_value"=>$inv_total,"credit_note"=>$credit_note,"debit_note"=>$debit_note,"grand_total"=>$grand_total,"date"=>$db_date,"inv_month"=>$inv_month,"file_path"=>$pan_path,"balance_amount"=>$grand_total);	
+				}
+			}else{
+				return "You upload file is a wrong file mime type";
 			}
+            
 		}
 		else
 		{
@@ -157,6 +238,7 @@ class Fcms_db extends CI_Model
 		}
 		$this->db->where("id",$id);
 		$this->db->update("invoice",$data);
+		}
 	}
 	function get_client_location()
 	{

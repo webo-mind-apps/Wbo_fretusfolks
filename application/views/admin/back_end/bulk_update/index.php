@@ -291,7 +291,7 @@
 
 				if ($this->session->flashdata('no_data', 'No datas founded')) {
 				?>
-					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<div class="alert bg-danger alert-styled-left" style="margin: 0 20px;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<span class="text-semibold">No datas found..!</span>
 					</div>
@@ -302,7 +302,7 @@
 
 					if ($this->session->flashdata('take_time', 'Large size')) {
 					?>
-						<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+						<div class="alert bg-danger alert-styled-left" style="margin: 0 20px;">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
 							<span class="text-semibold">The selected file is too large and is causing the form to exceed the amount allowable resources...!!</span>
 						</div>
@@ -343,7 +343,7 @@
 
 				if ($this->session->flashdata('no_file')) {
 				?>
-					<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+					<div class="alert bg-danger alert-styled-left" style="margin: 0 20px;">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<span class="text-semibold">Please Choose Valid file formate</span>
 					</div>

@@ -10,6 +10,7 @@ class Payslips extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Payslips_db', 'payslips');
 		$this->load->library("pagination");
@@ -66,11 +67,12 @@ class Payslips extends CI_Controller
 		// Load form validation library
 		if (!empty($_FILES['file']['name'])) {
 			// get file extension
-			$valid_extentions = array('xls', 'xlt', 'xlm', 'xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xla', 'xlam', 'xll', 'xlw');
+			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			$extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			$content_type = mime_content_type($_FILES['file']['tmp_name']);
 			$valid = false;
 			foreach ($valid_extentions as $key => $value) {
-				if ($extension == $value) {
+				if ($content_type == $value) {
 					$valid = true;
 				}
 			}
@@ -172,9 +174,8 @@ class Payslips extends CI_Controller
 						if ($import_status = $this->payslips->importEmployee_payslips_letter($data)) {
 
 							if ($import_status == "insert") {
-								
 								$insert = $insert + 1;
-
+								$result = array();
 								$this->db->select('emp_name,last_name,middle_name,email');
 								$this->db->from('backend_management');
 								$this->db->where('ffi_emp_id', $data['emp_id']);
@@ -205,8 +206,8 @@ class Payslips extends CI_Controller
 									$html = $this->load->view('admin/back_end/payslips/pdf_payslips', $data, true);
 									$mpdf->WriteHTML($html);
 									$content = $mpdf->Output('', 'S');
-									$filename = date('d/m/Y') . "_payslip.pdf";
-									$subject = "Payslip letter";
+									$filename = date('d/m/Y') . $result['payslip']['emp_name']."_payslip.pdf";
+									$subject = "welcome";
 									$this->load->config('email');
 									$this->load->library('email');
 									$from = $this->config->item('smtp_user');
@@ -218,7 +219,11 @@ class Payslips extends CI_Controller
 									$this->email->subject($subject);
 									$this->email->message($message);
 									$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+									//echo $result['payslip']['emp_name'] ."-" ;
+									//echo $filename .'<br>';
+									
 									$this->email->send();
+									//$this->mpdf->Reset();
 									$this->email->clear(TRUE);
 								}
 							} else if ($import_status == "update") {
@@ -229,6 +234,7 @@ class Payslips extends CI_Controller
 				}
 
 				$msg = $insert . ' rows inserted <br>' . $update . ' rows updated <br>';
+				
 				$this->session->set_flashdata('success', $msg);
 				redirect('payslips', 'refresh');
 			} else {

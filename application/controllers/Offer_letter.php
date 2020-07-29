@@ -10,6 +10,7 @@ class Offer_letter extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Offer_letter_db', 'letter');
 		$this->load->library("pagination");
@@ -503,7 +504,7 @@ class Offer_letter extends CI_Controller
 								$this->load->config('email');
 								$this->load->library('email');
 								$message = $this->load->view('admin/back_end/offer_letter/offer_letter_email', $data, true);
-								$subject = "Offer letter";
+								$subject = "welcome";
 								$from = $this->config->item('smtp_user');
 								$to = $data['email'];
 
@@ -514,14 +515,11 @@ class Offer_letter extends CI_Controller
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 								$this->email->send();
+								//$this->mpdf->Reset();
 								$this->email->clear(TRUE);
-								//  {
-								// 	echo "<script>alert('not sent(import)')</script>";
-								// }
 							} else if ($import_status == "not_exist") {
 								$not_exist = $not_exist + 1;
 							}
-							
 						}
 					endif;
 				}

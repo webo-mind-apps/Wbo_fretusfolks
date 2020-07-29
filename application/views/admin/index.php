@@ -67,7 +67,7 @@
 								}
 							?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<select class="form-control" name="user_type" id="user_type" required>
+									<select class="form-control" name="vsdfsdds" required>
 			                                <option value="">Select User Type</option>
 											<option value="0">Admin</option>
 			                                <option value="1">Finance</option>
@@ -82,14 +82,14 @@
 								</div>
 											
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="Username" name="username" id="username" required>
+									<input type="email" class="form-control" placeholder="Email id" name="kldsjfoiwe" required>
 									<div class="form-control-feedback">
 										<i class="icon-user text-muted"></i>
 									</div>
 								</div>
 
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="password" class="form-control" placeholder="Password" name="password" id="password" required>
+									<input type="password" class="form-control" placeholder="Password" name="kjsflkjsfs" required>
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>

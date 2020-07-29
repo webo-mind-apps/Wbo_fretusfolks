@@ -20,7 +20,7 @@ class User_master_db extends CI_Model
 
 	public function make_query()
 	{
-		$order_column = array("id", "name", "username","password","date","user_type", "status");
+		$order_column = array("id", "name", "username","password","date","user_type", "status","email");
 		$this->db->select("*");
 		$this->db->from('muser_master');
 		if (isset($_POST["search"]["value"])) {
@@ -32,6 +32,7 @@ class User_master_db extends CI_Model
 			$this->db->or_like("date", $_POST["search"]["value"]); 
 			$this->db->or_like("user_type", $_POST["search"]["value"]);
 			$this->db->or_like("status", $_POST["search"]["value"]);
+			$this->db->or_like("email", $_POST["search"]["value"]);
 			$this->db->group_end();
 		}
 		if (isset($_POST["order"])) {
@@ -71,12 +72,21 @@ class User_master_db extends CI_Model
 		$emp_id = $this->input->post('emp_id');
 		$name = $this->input->post('name');
 		$password = $this->input->post('password');
-		$enc_pass = md5($this->input->post('password'));
+		$enc_pass = $this->bcrypt->hash_password($this->input->post('password'));
 		$user_type = $this->input->post('userType');
 		$status = $this->input->post('status');
+		$email = $this->input->post('email');
 		$db_date = date("Y-m-d");
-		$data = array("name" => $name, "emp_id" => $emp_id, "user_type" => $user_type, "username" => $username, "password" => $password, "enc_pass" => $enc_pass, "status" => $status, "date" => $db_date);
+		$number_of_rows=$this->db->where('email', $email)->select('email')->get('muser_master')->num_rows();
+		
+		if($number_of_rows<=0){
+		$data = array("name" => $name,"email"=>$email, "emp_id" => $emp_id, "user_type" => $user_type, "username" => $username, "password" => $password, "enc_pass" => $enc_pass, "status" => $status, "date" => $db_date);
 		$this->db->insert("muser_master", $data);
+		return $this->db->affected_rows() > 0 ? true : "Something Went wrong try again!";
+		}else{
+
+			return "User email id already exist!";
+		}
 	}
 	function change_status()
 	{
@@ -103,12 +113,14 @@ class User_master_db extends CI_Model
 		$name = $this->input->post('name');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$enc_pass = md5($password);
+		$enc_pass = $this->bcrypt->hash_password($this->input->post('password'));
 		$status = $this->input->post('status');
+		$email = $this->input->post('email');
 		$db_date = date("Y-m-d");
-		$data = array("name" => $name, "emp_id" => $emp_id, "user_type" => $user_type, "username" => $username, "password" => $password, "enc_pass" => $enc_pass, "status" => $status, "date" => $db_date);
+		$data = array("name" => $name,"email"=>$email, "emp_id" => $emp_id, "user_type" => $user_type, "username" => $username, "password" => $password, "enc_pass" => $enc_pass, "status" => $status, "date" => $db_date);
 		$this->db->where('id', $id);
 		$this->db->update("muser_master", $data);
+		return $this->db->affected_rows() > 0 ? true : "Something Went wrong try again!";
 	}
 	function delete_user_master()
 	{

@@ -5,7 +5,8 @@ class Reports_ffcm extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Reports_ffcm_db','ffcm_reports');
 					$this->load->library("pagination");

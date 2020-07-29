@@ -6,6 +6,7 @@ class Pip_letter extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Pip_db', 'pip');
 		$this->load->library("pagination");

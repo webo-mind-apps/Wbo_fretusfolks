@@ -10,6 +10,7 @@ class promotion_letter extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/promotion_letter_db', 'promotion');
 		$this->load->library("pagination");

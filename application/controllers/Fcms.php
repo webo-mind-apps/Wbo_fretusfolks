@@ -6,6 +6,7 @@ class Fcms extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Fcms_db', 'fcms');
 		$this->load->library("pagination");

@@ -13,26 +13,27 @@ class Admin extends CI_Model
 
 	function check_employee_data()
 	{
-		$name = $this->input->post('username');
+		$email = $this->input->post('fdsetrss');
 		$this->db->select('emp_name,middle_name,last_name,email');
-		$this->db->where("ffi_emp_id", $name);
+		$this->db->where("email", $email);
 		$query = $this->db->get('backend_management');
 		$res = $query->result_array();
 
 		if ($query->num_rows()) {
-			$this->session->set_userdata('input_emp_id', $name);
+			
+			$this->session->set_userdata('input_emp_email', $email);
 			return $res;
 		} else {
 			return 0;
-			$this->session->unset_userdata('input_emp_id');
+			$this->session->unset_userdata('input_emp_email');
 		}
 	}
 
 	function add_refresh_id()
 	{
 		$code = md5(rand());
-		$employee_id = $this->session->userdata('input_emp_id');
-		$this->db->where('ffi_emp_id', $employee_id);
+		$employee_email = $this->session->userdata('input_emp_email');
+		$this->db->where('email', $employee_email);
 		$field = array('refresh_code' => $code);
 		if ($this->db->update("backend_management", $field)) {
 			return $code;
@@ -43,9 +44,9 @@ class Admin extends CI_Model
 
 	function update_refresh_id()
 	{
-		$employee_id = $this->session->userdata('input_emp_id');
+		$employee_email = $this->session->userdata('input_emp_email');
 		$code = md5(rand());
-		$this->db->where('ffi_emp_id', $employee_id);
+		$this->db->where('email', $employee_email);
 		$field = array("refresh_code" => $code);
 		if ($this->db->update("backend_management", $field)) {
 			return $code;
@@ -55,9 +56,9 @@ class Admin extends CI_Model
 	}
 	function check_refresh_id()
 	{
-		$employee_id = $this->session->userdata('input_emp_id');
+		$employee_email = $this->session->userdata('input_emp_email');
 		$code_id = $this->input->get('code_id');
-		$this->db->where("ffi_emp_id", $employee_id);
+		$this->db->where("email", $employee_email);
 		$this->db->where("refresh_code", $code_id);
 		$query = $this->db->get('backend_management');
 		$a = $query->result_array();
@@ -70,12 +71,12 @@ class Admin extends CI_Model
 
 	function update_emp_password()
 	{
-		$employee_id = $this->session->userdata('input_emp_id');
+		$employee_email = $this->session->userdata('input_emp_email');
 		$new_password = $this->input->post('abc_new_password');
 		$confirm_password = $this->input->post('abc_confirm_password');
 		if ($new_password == $confirm_password) {
-			$field = array("password" => md5($new_password), "psd" => $new_password);
-			$this->db->where('ffi_emp_id', $employee_id);
+			$field = array("password" => $this->bcrypt->hash_password($new_password), "psd" => $new_password);
+			$this->db->where('email', $employee_email);
 			if ($this->db->update("backend_management", $field)) {
 				return true;
 			}
@@ -87,24 +88,71 @@ class Admin extends CI_Model
 
 	function check_login()
 	{
-		$name = $this->input->post('username');
-		$password = md5($this->input->post('password'));
-		// echo $name,$password;
-		// exit;
-		$this->db->where("ffi_emp_id", $name);
-		$this->db->where("password", $password);
-		$this->db->where("data_status", "1");
-		$query = $this->db->get('backend_management');
-		$res = $query->result_array();
+		$this->form_validation->set_rules('iusbkjdsbjkss', 'Email id', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('njsdhfisieejk', 'password', 'trim|required|xss_clean');		
+		if ($this->form_validation->run() == TRUE):
+			$email=$this->input->post('iusbkjdsbjkss', true);
+			$password=$this->input->post('njsdhfisieejk', true);
+			
+			$this->db->select('emp_name,email,password,id');
+			$this->db->where("email",$email);
+			$this->db->where("status","0");
+			$query=$this->db->get('backend_management');
+			$res=$query->row();
+			if($query->num_rows()==1)
+			{
+				if($this->bcrypt->check_password($password, $res->password))
+				{
+					$this->session->set_userdata('id',$res->id);	
+					$this->session->set_userdata('employee_otp',true);	
+					
+					return $res;
+				}else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		else:
+			return false;
+		endif;
+	}
 
-		if ($query->num_rows() == 1) {
-			$this->session->set_userdata('emp_id', $res[0]['ffi_emp_id']);
-			$this->session->set_userdata('employee_login', 'true');
-			$this->session->set_userdata('emp_name', $res[0]['emp_name']);
-			return "success";
-		} else {
-			return "false";
+	function ref_no_update($data=null)
+	{
+		$this->db->where("id",$this->session->userdata('id'))->update('backend_management',$data);
+		return $this->db->affected_rows() > 0 ? true : false;
+	}
+	function resend_otp($data=null)
+	{
+		$res=$this->db->where("id",$this->session->userdata('id'))->get('backend_management')->row();
+		$this->db->where("id",$this->session->userdata('id'))->update('backend_management',$data);
+		return $this->db->affected_rows() > 0 ? $res : false;
+	}
+
+	function otp()
+	{
+		
+		$tutor_otp=$this->input->post('vhyesddsds');
+		$query=$this->db->where("refresh_code",$tutor_otp)
+		->where("id",$this->session->userdata('id'))->get('backend_management');
+		$number_of_row=$query->num_rows();
+		$res=$query->row();
+		
+		if($number_of_row==1)
+		{
+			$this->session->set_userdata('employee_otp',true);	
+			$this->session->set_userdata('emp_id', $res->ffi_emp_id);
+			$this->session->set_userdata('employee_login', true);
+			$this->session->set_userdata('emp_name', $res->emp_name);
+			return true;
 		}
+		else { 
+			return false;
+		}		
 	}
 
 	function get_employee_details($emp_id)

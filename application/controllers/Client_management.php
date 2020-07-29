@@ -6,6 +6,7 @@ class Client_management extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/admin');
 		$this->load->model('back_end/Client_db', 'client');
@@ -129,9 +130,10 @@ class Client_management extends CI_Controller
 
 				redirect('client_management/');
 			else:
+				print_r(validation_errors());
 				$data['active_menu'] = "client";
 				$data['states'] = $this->client->get_all_states();
-				$msg="validation";
+				$msg=print_r(validation_errors());
 				$this->session->set_flashdata('insert-status', $msg);
 				$this->load->view('admin/back_end/client_management/new_client', $data);
 			endif;

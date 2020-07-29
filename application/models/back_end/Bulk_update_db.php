@@ -11,6 +11,7 @@ class Bulk_update_db extends CI_Model
     }
     public function make_query()
 	{
+	 
         $order_column = array("a.id", "client_name", "ffi_emp_id", "emp_name");  
         $this->db->select('a.*,b.client_name,c.state_name');
 		$this->db->from('backend_management a');

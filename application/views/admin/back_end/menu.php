@@ -177,7 +177,7 @@
 								<i class="icon-stack2"></i> <span>FHRMS</span></a>
 								<ul class="nav nav-group-sub" data-submenu-title="Layouts">
 									<li class="nav-item">
-										<a href="<?php echo site_url('fhrms/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>FHRMS</a>
+										<a href="<?php echo site_url('fhrms/index');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>FHRMS</a>
 									</li>
 									<li class="nav-item">
 										<a href="<?php echo site_url('reports_fhrms/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>FHRMS Reports</a>

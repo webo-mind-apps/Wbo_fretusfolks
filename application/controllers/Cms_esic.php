@@ -5,7 +5,8 @@ class Cms_esic extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Cms_esic_db','cms_esic');
 					$this->load->library("pagination");

@@ -243,6 +243,7 @@
 									<tr>
 										<th>Si No</th>
 										<th>Name</th>
+										<th>Email id</th>
 										<th>Username</th>
 										<th>Password</th>
 										<th> Date</th>
@@ -312,7 +313,7 @@
 									'type': 'POST'
 								},
 								'columnDefs': [{
-									"targets": [7],
+									"targets": [8],
 									"orderable": false,
 								}],
 

@@ -332,11 +332,6 @@
 
     </style>
   </head>
-  <?php
-if(empty($payslip['emp_name']) || $payslip['emp_name']=='null'){$payslip['emp_name']='0';}
-if(empty($payslip['middle_name']) || $payslip['middle_name']=='null'){$payslip['middle_name']='0';}
-if(empty($payslip['last_name']) || $payslip['last_name']=='null'){$payslip['last_name']='0';}
-  ?>
   <body class="">
     <span class="preheader">Payslips</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
@@ -344,6 +339,7 @@ if(empty($payslip['last_name']) || $payslip['last_name']=='null'){$payslip['last
         <td>&nbsp;</td>
         <td class="container">
           <div class="content">
+
             <!-- START CENTERED WHITE CONTAINER -->
             <table role="presentation" class="main">
 
@@ -361,8 +357,8 @@ if(empty($payslip['last_name']) || $payslip['last_name']=='null'){$payslip['last
                     </tr>
                     <tr>
                       <td>
-                        <br>  
-                        <p>Dear <?php echo $payslip['emp_name'].' '.$payslip['middle_name'].' '.$payslip['last_name']; ?>,</p>
+                        <br>
+                        <p>Dear <?php echo $payslip['emp_name'].' '.$payslip['middle_name'].' '.$payslip['last_name'] ?>,</p>
                         <p>Find the attachment</p>
                         
                         

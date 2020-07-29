@@ -12,6 +12,7 @@ class Backend_team extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Backend_db', 'back_end');
 		$this->load->library("pagination");
@@ -124,7 +125,17 @@ class Backend_team extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->back_end->update_team();
-			redirect('backend_team/');
+			
+			if($data == "true"){
+			exit;
+				redirect('backend_team/');
+			}else{
+				
+				$id=$this->uri->segment(3);
+				$this->session->set_tempdata('abc',$data);
+				redirect('backend_team/edit_backend/'.$id);
+			}
+			
 		} else {
 			redirect('home/index');
 		}
@@ -133,7 +144,15 @@ class Backend_team extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->back_end->update_team_pending();
-			redirect('backend_team/');
+			if($data == "true"){
+				exit;
+					redirect('backend_team/');
+				}else{
+					
+					$id=$this->uri->segment(3);
+					$this->session->set_tempdata('abc',$data);
+					redirect('backend_team/edit_backend/'.$id);
+				}
 		} else {
 			redirect('home/index');
 		}
@@ -576,10 +595,10 @@ class Backend_team extends CI_Controller
 				foreach ($data as $key => $row) {
 					if (!empty($client)) {
 
-						$path = 'dcs/dcs_' . $data[0]['client_name'] . '_' . $date;
+						$path = 'public/dcs/dcs_' . $data[0]['client_name'] . '_' . $date;
 					} else {
 
-						$path = 'dcs/dcs_' . $date;
+						$path = 'public/dcs/dcs_' . $date;
 					}
 					if (!is_dir($path)) mkdir($path, 0777, TRUE);
 					$interview_date = "";

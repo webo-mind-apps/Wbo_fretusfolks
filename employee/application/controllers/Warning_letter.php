@@ -7,6 +7,7 @@ class Warning_letter extends CI_Controller
         {
                 parent::__construct();
 					$this->load->helper('url');
+					($this->session->userdata('employee_login'))?'': redirect('home/index');
 					$this->load->model('back_end/Warning_letter_db','warning_letter');
 					$this->load->library("pagination");
         }

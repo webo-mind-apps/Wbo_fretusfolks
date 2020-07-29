@@ -53,26 +53,13 @@ $active_menu="Backendteam";
 	<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/form_layouts.js"></script>
 	<script src="<?php echo base_url();?>admin_assets/global_assets/js/plugins/date/jquery-ui.js"></script>
 		
-	<script>
-		function check_password()
-		{
-        
-			pass=$("#password").val();
-			con_pass=$("#confirm_password").val();
-			
-			if(pass !="" && con_pass !="")
-			{
-				if(pass != con_pass)
-				{
-					alert("password is Not Mismatched....!");
-					$("#password").val("");
-					$("#confirm_password").val("");
-					$("#password").focus();
-				}
-			}
-		}
-		 
-	</script>
+
+	<style>
+	.feild-error{
+		color:red;
+		display:none;
+	}
+	</style>
 
 </head>
 
@@ -132,7 +119,17 @@ $active_menu="Backendteam";
 				
 					<div class="col-md-12">
 
-						
+					<?php
+					if($this->session->tempdata('failed'))
+					{
+					?>
+					<div class="alert bg-danger alert-styled-left" >
+						<button type="button" class="close" data-dismiss="alert"></button>
+						<span class="text-semibold" class="flash" style="color:white;"><?php echo $this->session->tempdata('failed'); ?></span>
+					</div>
+					<?php 
+					}
+				?>
 						
 
 					 <form class="form-horizontal" action="<?php echo site_url('user_master/update_user_master/'.$user_master[0]['id']);?>" method="POST" enctype="multipart/form-data">
@@ -174,13 +171,13 @@ $active_menu="Backendteam";
 									<div class="col-md-6">
 										<div class="form-group">
 											<label> Name: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="name" id="name"  value="<?php echo $user_master[0]['name']?>" required autocomplete="off">
+											<input type="text" class="form-control" name="name" id="name"  value="<?php echo $user_master[0]['name']?>" required autocomplete="off" onkeypress="return isalpha();">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>User Name: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="username" id="username"  value="<?php echo $user_master[0]['username']?>" required autocomplete="off">
+											<input type="text" class="form-control" name="username" id="username"  value="<?php echo $user_master[0]['username']?>" required autocomplete="off" onkeypress="return isalpha();">
 										</div>
 									</div>
 								</div>
@@ -190,13 +187,15 @@ $active_menu="Backendteam";
                                         <label>Password: <span class="text-danger">*</span></label>
 											<input type="text" class="form-control" name="password" id="password"  value="<?php echo $user_master[0]['password']?>" onchange="check_password();"  required autocomplete="off">											
 										</div>
+										<span id="pass-err" class="feild-error">Password should contain alpha, numeric, special charecter, and minimum length 6 digits</span>
 									</div> 
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Confirm Password: <span class="text-danger">*</span></label>
-											<input type="text" class="form-control" name="confirm_password"  id="confirm_password"  onchange="check_password();" required autocomplete="off" value="<?php echo $user_master[0]['password']?>">
+											<input type="text" class="form-control" name="confirm_password"  id="confirm_password"   required autocomplete="off" value="<?php echo $user_master[0]['password']?>">
 										</div> 
 									</div>
+									<span id="conpass-err" class="feild-error">Password and conformation password is mismatched</span>
 								</div>
                                 <div class="row">
 									<div class="col-md-6">
@@ -210,8 +209,10 @@ $active_menu="Backendteam";
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											
+                                        <label>Email id: <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" name="email"  id="email"   required autocomplete="off" value="<?php echo $user_master[0]['email']?>" maxlength="50"> 										
 										</div>
+										<span id="err-email" class="feild-error">Invalid email id <span class="monetary">*</span></span>
 									</div>
 								</div>
         
@@ -222,5 +223,78 @@ $active_menu="Backendteam";
 					</form>
 					</div>
 				</div>
+
+
+				<script>
+				function isalpha(evt) {
+			evt = (evt) ? evt : window.event;
+			var charCode = (evt.which) ? evt.which : evt.keyCode;
+			if (charCode == 32) {
+				return true;
+			} else if (charCode > 31 && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) || charCode == 13) {
+				return false;
+			}
+
+		}
+				$(document).ready(function() {
+
+						$("#email").change(function(){
+								var userinput = $("#email").val();
+							var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
+
+							if(!pattern.test(userinput)){
+								$("#err-email").css("display","block");
+								$("#email").val("");
+								}else{
+									$("#err-email").css("display","none");
+								}
+
+							});
+							$("#password").change(function() {
+				var password = $("#password").val();
+				// var alpha=/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+				var strength = 0;
+
+				// If password contains both lower and uppercase characters, increase strength value.  
+				if (password.match(/([a-zA-Z])/)) strength += 1
+				// If it has numbers and characters, increase strength value.  
+				if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1
+				// If it has one special character, increase strength value.  
+				if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+				// If it has two special characters, increase strength value.  
+				if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+				// Calculated strength value, we can return messages  
+				// If value is less than 2  
+
+				if (password.length > 6) {
+					if (strength > 2) {
+
+						$("#pass-err").css("display", "none");
+					} else {
+						$("#pass-err").css("display", "block");
+						$("#password").val("");
+					}
+				} else {
+
+					$("#pass-err").css("display", "block");
+					$("#password").val("");
+
+				}
+
+			})
+			$("#confirm_password").change(function() {
+				var password = $("#password").val();
+				var con_password = $("#confirm_password").val();
+				if (password != con_password) {
+					$("#conpass-err").css("display", "block");
+					$("#confirm_password").val("");
+				} else {
+					$("#conpass-err").css("display", "none");
+
+				}
+			})
+
+						})
+				</script>
 </body>
 </html>

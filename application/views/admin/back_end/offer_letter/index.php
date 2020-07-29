@@ -334,7 +334,7 @@ ob_start();
 			<?php
 			if ($this->session->flashdata('no_file')) {
 			?>
-				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+				<div class="alert bg-danger alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">Please Choose Valid file formate</span>
 				</div>
@@ -345,7 +345,7 @@ ob_start();
 			<?php
 			if ($this->session->flashdata('error', 'Please Choose Valid file formate ')) {
 			?>
-				<div class="alert bg-success alert-styled-left" style="margin: 0 20px;">
+				<div class="alert bg-danger alert-styled-left" style="margin: 0 20px;">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<span class="text-semibold">Please Choose Valid file formate ..!</span>
 				</div>

@@ -359,7 +359,7 @@
                     <tr>
                       <td>
                         <br>
-                        <p>Dear <?php echo $letter_details[0]['emp_name']; ?>,</p>
+                        <p>Dear <?php echo $letter_details[0]['emp_name'].' '.$letter_details[0]['middle_name'].' '.$letter_details[0]['last_name'] ?>,</p>
                         <p>Find the attachment</p>
                         
                         

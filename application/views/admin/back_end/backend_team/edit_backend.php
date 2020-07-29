@@ -348,6 +348,18 @@ $active_menu="Backendteam";
 				<!-- Floating labels -->
 				<div class="row">
 					<div class="col-md-12">
+					
+								<?php
+									if($this->session->tempdata('abc'))
+									{
+									?>
+									<div class="alert bg-danger alert-styled-left" >
+										<button type="button" class="close" data-dismiss="alert"></button>
+										<span class="text-semibold" class="flash" style="color:white;"><?php echo $this->session->tempdata('abc'); ?></span>
+									</div>
+									<?php 
+									}
+								?>
 					 <form id="my_form" class="form-horizontal" action="<?php echo site_url('backend_team/update_team/'.$client[0]['id']);?>" method="POST" enctype="multipart/form-data">
 						<!-- Other inputs -->
 						<div class="card">

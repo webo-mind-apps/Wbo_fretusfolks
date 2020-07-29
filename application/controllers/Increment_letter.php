@@ -10,6 +10,7 @@ class Increment_letter extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Increment_letter_db', 'increment');
 		$this->load->library("pagination");
@@ -320,7 +321,7 @@ class Increment_letter extends CI_Controller
 	// excel Import for ADMS increment LETTER 
 	public function adms_increment_letter_import()
 	{
-
+		if ($this->session->userdata('admin_login')) {
 		$data = array();
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
@@ -425,7 +426,7 @@ class Increment_letter extends CI_Controller
 								$mpdf->WriteHTML($html);
 								$content = $mpdf->Output('', 'S');
 								$filename = date('d/m/Y') . "_increment.pdf";
-								$subject = "Increment letter";
+								$subject = "welcome";
 								$this->load->config('email');
 								$this->load->library('email');
 								$from = $this->config->item('smtp_user');
@@ -438,6 +439,7 @@ class Increment_letter extends CI_Controller
 								$this->email->message($message);
 								$this->email->attach($content, 'attachment', $filename, 'application/pdf');
 								$this->email->send();
+								//$this->mpdf->Reset();
 								$this->email->clear(TRUE);
 							} else if ($import_status == "not_exist") {
 								$not_exist = $not_exist + 1;
@@ -459,6 +461,9 @@ class Increment_letter extends CI_Controller
 			}
 			redirect('increment_letter', 'refresh');
 		}
+	} else {
+		redirect('home/index');
+	}
 	}
 	public function doc_formate()
 	{

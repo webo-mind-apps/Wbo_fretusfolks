@@ -9,6 +9,7 @@ class Bulk_update extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Bulk_update_db', 'bulk_update');
 		$this->load->library("pagination");
@@ -494,7 +495,7 @@ class Bulk_update extends CI_Controller
 	}
 	public function adms_inactive_import()
 	{
-
+		if ($this->session->userdata('admin_login')) {
 		$data = array();
 		// Load form validation library
 		if (!empty($_FILES['import']['name'])) {
@@ -552,5 +553,8 @@ class Bulk_update extends CI_Controller
 				redirect('bulk_update', 'refresh');
 			}
 		}
+	} else {
+		redirect('home/index');
+	}
 	}
 }

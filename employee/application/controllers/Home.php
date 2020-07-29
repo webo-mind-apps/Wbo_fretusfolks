@@ -27,8 +27,11 @@ class Home extends CI_Controller
 	{ //check emp id and send reset password link to emp mail
 		if (isset($_POST['forgot_password_form_submit'])) {
 			$data = $this->admin->check_employee_data();
+			
 			if ($data) {
+				
 				if ($code = $this->admin->add_refresh_id()) {
+				
 					$this->load->config('email');
 					$this->load->library('email');
 					$from = $this->config->item('smtp_user');
@@ -52,6 +55,7 @@ class Home extends CI_Controller
 					//Send email
 
 					if ($this->email->send()) {
+						
 						$this->load->view('admin/forgot_password/forgot_password_form');
 						$this->session->set_flashdata('mail_sent', 'sent');
 						redirect('home/forgot_password');
@@ -109,15 +113,120 @@ class Home extends CI_Controller
 		}
 	}
 
+	public function otp_index()
+	{
+		if($this->session->userdata('employee_otp'))
+		{
+			$this->load->view('admin/otp_index');
+		}
+		
+	}
+
 	public function process_login()
 	{
-		$data = $this->admin->check_login();
+		$data=$this->admin->check_login();
+		
+			if($data!=false)
+			{
+				$change_otp=rand(111111,999999);
+				$data1=array("refresh_code" =>$change_otp);
+				$this->admin->ref_no_update($data1);
+				
+			
+				$this->load->config('email');
+				$this->load->library('email');
 
-		if ($data == "success") {
+				$from = $this->config->item('smtp_user');
+				$to =$data->email;
+				$subject="Fretus folks | OTP Verification for login";
+				$message="Dear ".$data->emp_name.",<br/><br/>Please find your one time password ".$change_otp."<br/><br/><br/>Thanks,<br/>Fretus folks";
 
-			redirect('home/dashboard');
-		} else {
-			$this->session->set_flashdata('abc', 'error');
+				$this->email->from($from, 'Fretus folks');
+				$this->email->to($to);
+				$this->email->subject($subject);
+				$this->email->message($message);
+				
+				if ($this->email->send()) {
+					$this->session->set_tempdata('success','OTP is sent in your mail id', 5);
+					redirect('home/otp_index');
+				}
+				// return true;
+				$this->email->clear(TRUE);
+			
+				
+			}
+			else
+			{
+				$this->session->set_flashdata('abc','error');
+				redirect('home/index');
+			}
+	}
+	public function otp()
+	{
+		if($this->session->userdata('employee_otp'))
+		{
+			$this->form_validation->set_rules('vhyesddsds', 'Employee OTP', 'trim|required|xss_clean');
+			
+			if ($this->form_validation->run() ==  TRUE):
+				if($this->admin->otp()):
+					$change_otp=rand(111111,999999);
+					$data=array("refresh_code" =>$change_otp);
+					if($this->admin->ref_no_update($data)):
+						redirect('home/dashboard');
+					endif;
+				else:
+					$msg="Your OTP is wrong!";
+					// $this->session->set_flashdata('failed',$msg);
+					$this->session->set_tempdata('failed', $msg, 5);
+					redirect('home/otp_index');
+				endif;
+			else:
+				$msg="Form validation error!";
+				$this->session->set_tempdata('failed',$msg, 5);
+				redirect('home/otp_index');
+			endif;
+		}else{
+			
+			redirect('home/index');
+		}
+	}
+
+	public function resend_otp()
+	{
+		if($this->session->userdata('employee_otp'))
+		{
+			$change_otp=rand(111111,999999);
+			$data=array("refresh_code" =>$change_otp);
+			$update=$this->admin->resend_otp($data);
+				if($update != false):
+					$this->load->config('email');
+					$this->load->library('email');
+
+					$from = $this->config->item('smtp_user');
+					$to =$update->email;
+					$subject="Fretus folks | OTP Verification for login";
+					$message="Dear ".$update->emp_name.",<br/><br/>Please find your one time password ".$change_otp."<br/><br/><br/>Thanks,<br/>Fretus folks";
+
+					$this->email->from($from, 'Fretus folks');
+					$this->email->to($to);
+					$this->email->subject($subject);
+					$this->email->message($message);
+					
+					if ($this->email->send()) {
+						$this->session->set_tempdata('success','OTP is sent in your email id!', 5);
+						redirect('home/otp_index');
+					}
+					// return true;
+					$this->email->clear(TRUE);
+
+				else:
+					$msg="Somthing went wrong try again!";
+					// $this->session->set_flashdata('failed',$msg);
+					$this->session->set_tempdata('failed', $msg, 5);
+					redirect('home/otp_index');
+				endif;
+			
+		}else{
 			redirect('home/index');
 		}
 	}
@@ -156,6 +265,10 @@ class Home extends CI_Controller
 	function logout()
 	{
 		$this->session->unset_userdata('employee_login');
+		$this->session->unset_userdata('employee_otp');	
+		$this->session->unset_userdata('emp_id');
+		$this->session->unset_userdata('employee_login');
+		$this->session->unset_userdata('emp_name');
 		redirect('home/index');
 	}
 }

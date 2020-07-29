@@ -8,6 +8,7 @@ class Cms_lwf_db extends CI_Model
         parent::__construct();
 		$this->load->database();
 		$this->load->library("session");
+		$this->load->library('form_validation');
     }
 	function get_all_clients()
 	{
@@ -26,25 +27,38 @@ class Cms_lwf_db extends CI_Model
 	}
 	function save_lwf()
 	{
-		$client=$this->input->post('client');
-		$state=$this->input->post('state');
-		$month=$this->input->post('month');
-		$year=$this->input->post('year');
+		$this->form_validation->set_rules('client', 'Client', 'trim|required');
+		$this->form_validation->set_rules('state', 'State', 'trim|required');
+		$this->form_validation->set_rules('month', 'Month', 'trim|required');
+		$this->form_validation->set_rules('year', 'Year', 'trim|required');
 		
-		for($i=0;$i<count($_FILES["file"]["name"]);$i++)
+		if ($this->form_validation->run() == FALSE)
 		{
-			if($_FILES["file"]["size"][$i]>0)
+				$this->load->view('admin/back_end/cms_lwf/new_cms_lwf');
+		}
+		else
+		{
+		
+			$client=$this->input->post('client',true);
+			$state=$this->input->post('state',true);
+			$month=$this->input->post('month',true);
+			$year=$this->input->post('year',true);
+			
+			for($i=0;$i<count($_FILES["file"]["name"]);$i++)
 			{
-				$digit=rand(0,999);
-				$filen = $digit.$_FILES["file"]['name'][$i]; //file name
-				$path = "uploads/cms_lwf/".$filen;
-				$fpath="uploads/cms_lwf/".$filen;										
-				if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path)) 
+				if($_FILES["file"]["size"][$i]>0)
 				{
-					$month1=$month[$i];
-					$year1=$year[$i];
-					$data1=array("client_id"=>$client,"state_id"=>$state,"year"=>$year1,"month"=>$month1,"path"=>$fpath);	
-					$this->db->insert('cms_lwf',$data1);
+					$digit=rand(0,999);
+					$filen = $digit.$_FILES["file"]['name'][$i]; //file name
+					$path = "uploads/cms_lwf/".$filen;
+					$fpath="uploads/cms_lwf/".$filen;										
+					if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path)) 
+					{
+						$month1=$month[$i];
+						$year1=$year[$i];
+						$data1=array("client_id"=>$client,"state_id"=>$state,"year"=>$year1,"month"=>$month1,"path"=>$fpath);	
+						$this->db->insert('cms_lwf',$data1);
+					}
 				}
 			}
 		}

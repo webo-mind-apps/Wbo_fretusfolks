@@ -1,9 +1,9 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['protocol']     = 'mail';
+$config['protocol']     = 'smtp';
 $config['smtp_host']    = 'webomindapps.co.in';
-$config['smtp_port']    = 465;
+$config['smtp_port']    = 587;
 $config['smtp_user']    = 'no-reply@webomindapps.co.in';
 $config['smtp_pass']    = '0CPFFCKNGV9U';
 $config['smtp_crypto']  = 'tls';

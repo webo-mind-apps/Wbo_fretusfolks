@@ -5,7 +5,8 @@ class Cms_form_t extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Cms_form_t_db','cms_form_t');
 					$this->load->library("pagination");

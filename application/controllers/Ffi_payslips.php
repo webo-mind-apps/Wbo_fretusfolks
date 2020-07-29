@@ -5,7 +5,8 @@ class Ffi_payslips extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Ffi_payslips_db','payslips');
 					$this->load->library("pagination");
@@ -127,7 +128,7 @@ class Ffi_payslips extends CI_Controller
 
 				$this->load->library('zip');
 
-				$path = 'ffi_payslip/ffi_payslip_'. date('Y-m-d-his');
+				$path = 'public/ffi_payslip/ffi_payslip_'. date('Y-m-d-his');
 				if (!is_dir($path)) mkdir($path, 0777, TRUE);
 				$row_count=$row_count/1000;
 				$row_count=round($row_count);

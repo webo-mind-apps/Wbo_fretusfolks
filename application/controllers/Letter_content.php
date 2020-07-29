@@ -5,7 +5,8 @@ class Letter_content extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/letter_content_db','letter_content');
 					$this->load->library("pagination");

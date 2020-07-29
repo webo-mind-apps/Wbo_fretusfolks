@@ -77,14 +77,14 @@
 								}
 								?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="EMP ID" name="username" id="username" required>
+									<input type="email" class="form-control" placeholder="EMP email id" name="iusbkjdsbjkss" id="" required>
 									<div class="form-control-feedback">
 										<i class="icon-user text-muted"></i>
 									</div>
 								</div>
 
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="password" class="form-control" placeholder="Password" name="password" id="password" required>
+									<input type="password" class="form-control" placeholder="Password" name="njsdhfisieejk" id="" required>
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>

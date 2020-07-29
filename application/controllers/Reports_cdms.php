@@ -5,7 +5,8 @@ class Reports_cdms extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Reports_cdms_db','cdms_report');
 					$this->load->model('back_end/Client_db','client');

@@ -6,6 +6,7 @@ class Ffi_assets extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/Ffi_assets_db', 'ffi_assets');
 		$this->load->library("pagination");

@@ -5,7 +5,8 @@ class Dcs_report extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('admin_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Dcs_report_db','dcs_report');
 					$this->load->model('back_end/Backend_db','back_end');

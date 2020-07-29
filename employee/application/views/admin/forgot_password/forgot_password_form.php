@@ -89,7 +89,7 @@
 								} 
 								?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="EMP ID" name="username" id="username" required>
+									<input type="text" class="form-control" placeholder="EMP email id" name="fdsetrss" id="" required>
 									<div class="form-control-feedback">
 										<i class="icon-user text-muted"></i>
 									</div>

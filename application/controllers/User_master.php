@@ -6,9 +6,11 @@ class User_master extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		($this->session->userdata('admin_login'))?'': redirect('home/index');
 		$this->load->helper('url');
 		$this->load->model('back_end/User_master_db', 'user_master');
 		$this->load->library("pagination");
+		($this->session->userdata('admin_login'))?'':redirect('home/index');
 	}
 	public function index()
 	{
@@ -31,6 +33,7 @@ class User_master extends CI_Controller
 				$sub_array   = array();
 				$sub_array[] =$i;
 				$sub_array[] = $row->name;
+				$sub_array[] = $row->email;
 				$sub_array[] = $row->username;
 				$sub_array[] = $row->password;
 				$sub_array[] = date('d M, Y', strtotime($row->date));
@@ -107,11 +110,32 @@ class User_master extends CI_Controller
 	function save_user_master()
 	{
 		if ($this->session->userdata('admin_login')) {
-			$data = $this->user_master->save_user_master();
-			redirect('user_master/');
-		} else {
-			redirect('home/index');
-		}
+			$this->form_validation->set_rules('userType', 'User Type', 'trim|required|max_length[25]');
+			$this->form_validation->set_rules('emp_id', 'Emp Id', 'trim|required|max_length[20]');
+			$this->form_validation->set_rules('name', 'Emp Name', 'trim|required|max_length[25]|alpha');
+			$this->form_validation->set_rules('username', 'Emp Username', 'trim|required|max_length[15]|alpha');
+			$this->form_validation->set_rules('password', 'User Password', 'trim|required|max_length[20]|min_length[6]');
+			$this->form_validation->set_rules('confirm_password', 'User conform Password', 'trim|required|max_length[20]|min_length[6]|matches[password]');
+			$this->form_validation->set_rules('status', 'User Status', 'trim|required|max_length[10]');
+			$this->form_validation->set_rules('email', 'Email Id', 'trim|required|max_length[50]');
+		
+			if ($this->form_validation->run() ==  TRUE):
+				$data = $this->user_master->save_user_master();
+				if($data==true){
+					redirect('user_master');
+					}
+					else {
+						$this->session->set_tempdata('failed',$data, 5);
+						redirect('user_master/new_user_master');
+					}
+			else:
+				$msg=validation_errors();
+				$this->session->set_tempdata('failed',$msg, 5);
+				redirect('user_master/new_user_master');
+			endif;
+	}else {
+		redirect('home/index');
+	}
 	}
 	function change_status()
 	{
@@ -136,9 +160,30 @@ class User_master extends CI_Controller
 	function update_user_master()
 	{
 		if ($this->session->userdata('admin_login')) {
-			$data = $this->user_master->update_user_master();
-			redirect('/user_master');
-		} else {
+				$this->form_validation->set_rules('userType', 'User Type', 'trim|required|max_length[25]');
+				$this->form_validation->set_rules('emp_id', 'Emp Id', 'trim|required|max_length[20]');
+				$this->form_validation->set_rules('name', 'Emp Name', 'trim|required|max_length[25]|alpha');
+				$this->form_validation->set_rules('username', 'Emp Username', 'trim|required|max_length[15]|alpha');
+				$this->form_validation->set_rules('password', 'User Password', 'trim|required|max_length[20]|min_length[6]');
+				$this->form_validation->set_rules('confirm_password', 'User conform Password', 'trim|required|max_length[20]|min_length[6]|matches[password]');
+				$this->form_validation->set_rules('status', 'User Status', 'trim|required|max_length[10]');
+				$this->form_validation->set_rules('email', 'Email Id', 'trim|required|max_length[50]');
+			
+				if ($this->form_validation->run() ==  TRUE):
+					$data = $this->user_master->update_user_master();
+					if($data==true){
+						redirect('user_master');
+						}
+						else {
+							$this->session->set_tempdata('failed',$data, 5);
+							redirect('user_master/edit_user_master');
+						}
+				else:
+					$msg=validation_errors();
+					$this->session->set_tempdata('failed',$msg, 5);
+					redirect('user_master/edit_user_master');
+				endif;
+		}else {
 			redirect('home/index');
 		}
 	}
