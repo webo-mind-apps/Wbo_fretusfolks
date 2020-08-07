@@ -1,5 +1,9 @@
 <?php
 $active_menu = "index";
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -229,6 +233,9 @@ $active_menu = "index";
 										<div class="content">
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('increment_letter/download_increment'); ?>" name="certform">
+												    
+												    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+												    
 													<label class="down"><b>Clinent Name</b><span class="text-danger"> *</span></label>
 													<div class="form-group">
 
@@ -268,6 +275,9 @@ $active_menu = "index";
 							<div class="col-md-4" style="margin-right:-3.5%;">
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('increment_letter/adms_increment_letter_import'); ?>" id="import_form">
+								    
+								    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+								    
 									<button type="button" class="btn btn-labeled btn-labeled-right bg-primary" id="import_file">Import <b><i class="fa fa-reply" aria-hidden="true"></i></i></b> </button>
 									</br>
 
@@ -478,7 +488,10 @@ $active_menu = "index";
 								order: [],
 								ajax: {
 									url: "<?php echo site_url() . 'increment_letter/get_all_data' ?>",
-									type: 'POST'
+									type: 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								columnDefs: [{
 									targets: [7],

@@ -118,9 +118,14 @@ class Client_db extends CI_Model
 		}
 		if (!empty($_FILES['file']['name']))
         {
+            $gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
-			$upload_path='uploads/agreement_doc/';
+			$upload_path='AKJHJG7665BHJG/agreement_doc/';
 			if (!is_dir($upload_path)) mkdir($upload_path, 0777, TRUE);
             $config['upload_path'] = $upload_path;
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
@@ -129,8 +134,11 @@ class Client_db extends CI_Model
 
             if ($this->upload->do_upload('file'))
             {
-				$path="uploads/agreement_doc/".$new_name;
+				$path="AKJHJG7665BHJG/agreement_doc/".$new_name;
 			}
+			}else{
+			return "Mime error upload the correct format file!";
+		}
 		}
 		$data=array(
 					"client_code"=>$client_code,
@@ -181,10 +189,10 @@ class Client_db extends CI_Model
 			}
 		}
 		if($not_insert_count<=0){
-			return true;
+			return "true";
 		}
 		else{
-			return false;
+			return "Something went wrong try again!";
 		}
 	}
 	function update_client()
@@ -240,10 +248,14 @@ class Client_db extends CI_Model
 		
 		if (!empty($_FILES['file']['name']))
         {
-			
+			$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
-			$upload_path='uploads/agreement_doc/';
+			$upload_path='AKJHJG7665BHJG/agreement_doc/';
 			if (!is_dir($upload_path)) mkdir($upload_path, 0777, TRUE);
             $config['upload_path'] = $upload_path;
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
@@ -252,10 +264,12 @@ class Client_db extends CI_Model
 
             if ($this->upload->do_upload('file'))
             {
-				$path="uploads/agreement_doc/".$new_name;
-				
-
+				$path="AKJHJG7665BHJG/agreement_doc/".$new_name;
 			}
+			}
+			else{
+				return "Mime error upload the correct format file!";
+	    	}
 			
 			$data=array(
 					"client_code"=>$client_code,
@@ -324,6 +338,7 @@ class Client_db extends CI_Model
 		}
 		$this->db->where('id',$id);
 		$this->db->update("client_management",$data);	
+		return $this->db->affected_rows() > 0 ? "true" : "something went wrong!";
 	}
 	
 	function get_client_details($id)

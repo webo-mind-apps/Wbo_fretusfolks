@@ -16,7 +16,6 @@ class Payslips extends CI_Controller
 		if($this->session->userdata('employee_login'))
 		{
 			$data['active_menu']="payslips";
-			
 			$data['payslips']=$this->payslips->get_all_payslips();
 			$this->load->view('admin/back_end/payslips/index',$data);
 		}

@@ -67,7 +67,14 @@ class Fhrms extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->fhrms->save_employee();
-			redirect('fhrms/');
+			
+			if($data == "true"){
+				redirect('fhrms/');
+			}else{
+				
+				$this->session->set_tempdata('abc',$data);
+				redirect('fhrms/new_employee/');
+			}
 		} else {
 			redirect('home/index');
 		}
@@ -76,7 +83,13 @@ class Fhrms extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->fhrms->save_emp_pending();
-			redirect('fhrms/');
+			if($data == "true"){
+				redirect('fhrms/');
+			}else{
+				
+				$this->session->set_tempdata('abc',$data);
+				redirect('fhrms/new_employee/');
+			}
 		} else {
 			redirect('home/index');
 		}
@@ -85,7 +98,15 @@ class Fhrms extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->fhrms->update_employee();
-			redirect('fhrms/');
+
+			if($data == "true"){
+				redirect('fhrms/');
+			}else{
+				
+				$id=$this->uri->segment(3);
+				$this->session->set_tempdata('abc',$data);
+				redirect('fhrms/edit_fhrms/'.$id);
+			}
 		} else {
 			redirect('home/index');
 		}
@@ -94,7 +115,14 @@ class Fhrms extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->fhrms->update_employee_pending();
-			redirect('fhrms/');
+			if($data == "true"){
+				redirect('fhrms/');
+			}else{
+				
+				$id=$this->uri->segment(3);
+				$this->session->set_tempdata('abc',$data);
+				redirect('fhrms/edit_fhrms/'.$id);
+			}
 		} else {
 			redirect('home/index');
 		}

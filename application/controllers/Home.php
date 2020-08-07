@@ -13,7 +13,9 @@ class Home extends CI_Controller
         }
 	public function index()
 	{
-		$this->load->view('admin/index');
+		$this->load->library('recaptcha');
+		$recaptcha = $this->recaptcha->create_box();
+		$this->load->view('admin/index',['recaptcha' => $recaptcha]);
 	}
 	public function otp_index()
 	{
@@ -75,36 +77,57 @@ class Home extends CI_Controller
 	}
 	public function process_login()
 	{
-		$data=$this->admin->check_login();
-		
-			if($data!=false)
-			{
-				$change_otp=rand(111111,999999);
-				$data1=array("ref_no" =>$change_otp);
-				$this->admin->ref_no_update($data1);
-				$this->load->config('email');
-				$this->load->library('email');
-				$from = $this->config->item('smtp_user');
-				$to =$data->email;
-				$subject="Fretus folks | OTP Verification for login";
-				$message="Dear ".$data->name.",<br/><br/>Please find your one time password ".$change_otp."<br/><br/><br/>Thanks,<br/>Fretus folks";
-				$this->email->from($from, 'Fretus folks');
-				$this->email->to($to);
-				$this->email->subject($subject);
-				$this->email->message($message);
-				if ($this->email->send()) {
-					$this->session->set_tempdata('success','OTP is sent in your mail id', 5);
-					redirect('home/otp_index');
+	    
+
+		// if($this->input->post('action') === 'submit')
+		// {
+		// 	$is_valid = $this->recaptcha->is_valid();
+
+		// 	if($is_valid['success'])
+		// 	{
+			$data=$this->admin->check_login();
+			
+				if($data!=false)
+				{
+					$change_otp=rand(111111,999999);
+					$data1=array("ref_no" =>$change_otp);
+					$this->admin->ref_no_update($data1);
+					$this->load->config('email');
+					$this->load->library('email');
+					$from = $this->config->item('smtp_user');
+					$to =$data->email;
+					$subject="Fretus folks | OTP Verification for login";
+					$message="Dear ".$data->name.",<br/><br/>Please find your one time password ".$change_otp."<br/><br/><br/>Thanks,<br/>Fretus folks";
+					$this->email->from($from, 'Fretus folks');
+					$this->email->to($to);
+					$this->email->subject($subject);
+					$this->email->message($message);
+					if ($this->email->send()) {
+						$this->session->set_tempdata('success','OTP is sent in your mail id', 5);
+						redirect('home/otp_index');
+					}
+					else
+					{
+					    echo $this->email->print_debugger(array('headers'));
+					    echo "Mail not sent";
+					}
+					// return true;
+					$this->email->clear(TRUE);
+
+				}else
+				{
+					$this->session->set_flashdata('abc','User name or password is wrong!');
+					redirect('home/index');
 				}
-				// return true;
-				$this->email->clear(TRUE);
-			}
-			else
-			{
-				$this->session->set_flashdata('abc','error');
-				redirect('home/index');
-			}
-	}
+	// 		}
+	// 		else
+	// 		{
+	// 			$this->session->set_flashdata('abc','Recaptcha problem,solve recaptcha!');
+	// 			redirect('home/index');
+	// 		}
+				
+	// }
+}
 	public function otp()
 	{
 		if($this->session->userdata('admin_otp'))
@@ -207,5 +230,10 @@ class Home extends CI_Controller
 		$this->session->unset_userdata('admin_type');	
 		$this->session->unset_userdata('admin_otp');
 		redirect('home/index');
+	}
+	
+	
+	function passwordreset(){
+	    $this->admin->passwordreset();
 	}
 }

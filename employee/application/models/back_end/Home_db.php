@@ -22,7 +22,7 @@ class Home_db extends CI_Model
 	{
 		$emp_id=$this->session->userdata('emp_id');
 		$password=$this->input->post('password');
-		$en_psd=$this->bcrypt->hash_password($password);
+		$en_psd=md5($password);
 		
 		$data=array("password"=>$en_psd,"psd"=>$password);
 		$this->db->where('ffi_emp_id',$emp_id);

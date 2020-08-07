@@ -88,15 +88,15 @@ class Admin extends CI_Model
 
 	function check_login()
 	{
-		$this->form_validation->set_rules('iusbkjdsbjkss', 'Email id', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('iusbkjdsbjkss', 'Emp Id', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('njsdhfisieejk', 'password', 'trim|required|xss_clean');		
 		if ($this->form_validation->run() == TRUE):
-			$email=$this->input->post('iusbkjdsbjkss', true);
+			$emp_id=$this->input->post('iusbkjdsbjkss', true);
 			$password=$this->input->post('njsdhfisieejk', true);
 			
 			$this->db->select('emp_name,email,password,id');
-			$this->db->where("email",$email);
-			$this->db->where("status","0");
+			$this->db->where("ffi_emp_id", $emp_id);
+			$this->db->where("data_status", "1");
 			$query=$this->db->get('backend_management');
 			$res=$query->row();
 			if($query->num_rows()==1)
@@ -104,7 +104,10 @@ class Admin extends CI_Model
 				if($this->bcrypt->check_password($password, $res->password))
 				{
 					$this->session->set_userdata('id',$res->id);	
-					$this->session->set_userdata('employee_otp',true);	
+					$this->session->set_userdata('emp_id', $res->ffi_emp_id);
+					$this->session->set_userdata('employee_login', true);
+					$this->session->set_userdata('emp_name', $res->emp_name);
+					$this->session->set_userdata('emp_email', $res->email);
 					
 					return $res;
 				}else
@@ -121,39 +124,39 @@ class Admin extends CI_Model
 		endif;
 	}
 
-	function ref_no_update($data=null)
-	{
-		$this->db->where("id",$this->session->userdata('id'))->update('backend_management',$data);
-		return $this->db->affected_rows() > 0 ? true : false;
-	}
-	function resend_otp($data=null)
-	{
-		$res=$this->db->where("id",$this->session->userdata('id'))->get('backend_management')->row();
-		$this->db->where("id",$this->session->userdata('id'))->update('backend_management',$data);
-		return $this->db->affected_rows() > 0 ? $res : false;
-	}
+	// function ref_no_update($data=null)
+	// {
+	// 	$this->db->where("id",$this->session->userdata('id'))->update('backend_management',$data);
+	// 	return $this->db->affected_rows() > 0 ? true : false;
+	// }
+	// function resend_otp($data=null)
+	// {
+	// 	$res=$this->db->where("id",$this->session->userdata('id'))->get('backend_management')->row();
+	// 	$this->db->where("id",$this->session->userdata('id'))->update('backend_management',$data);
+	// 	return $this->db->affected_rows() > 0 ? $res : false;
+	// }
 
-	function otp()
-	{
+	// function otp()
+	// {
 		
-		$tutor_otp=$this->input->post('vhyesddsds');
-		$query=$this->db->where("refresh_code",$tutor_otp)
-		->where("id",$this->session->userdata('id'))->get('backend_management');
-		$number_of_row=$query->num_rows();
-		$res=$query->row();
+	// 	$tutor_otp=$this->input->post('vhyesddsds');
+	// 	$query=$this->db->where("refresh_code",$tutor_otp)
+	// 	->where("id",$this->session->userdata('id'))->get('backend_management');
+	// 	$number_of_row=$query->num_rows();
+	// 	$res=$query->row();
 		
-		if($number_of_row==1)
-		{
-			$this->session->set_userdata('employee_otp',true);	
-			$this->session->set_userdata('emp_id', $res->ffi_emp_id);
-			$this->session->set_userdata('employee_login', true);
-			$this->session->set_userdata('emp_name', $res->emp_name);
-			return true;
-		}
-		else { 
-			return false;
-		}		
-	}
+	// 	if($number_of_row==1)
+	// 	{
+	// 		$this->session->set_userdata('employee_otp',true);	
+	// 		$this->session->set_userdata('emp_id', $res->ffi_emp_id);
+	// 		$this->session->set_userdata('employee_login', true);
+	// 		$this->session->set_userdata('emp_name', $res->emp_name);
+	// 		return true;
+	// 	}
+	// 	else { 
+	// 		return false;
+	// 	}		
+	// }
 
 	function get_employee_details($emp_id)
 	{

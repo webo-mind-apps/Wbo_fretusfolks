@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,7 +235,10 @@
 								'order': [], 
 								'ajax': {
 									'url': "<?php echo base_url() . 'ffi_warning_letter/get_all_data' ?>",
-									'type': 'POST'
+									'type': 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								'columnDefs': [{
 									"targets": [6],

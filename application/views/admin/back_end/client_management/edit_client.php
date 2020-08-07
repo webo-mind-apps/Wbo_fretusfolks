@@ -1,5 +1,11 @@
 <?php
 $active_menu="index";
+
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -174,7 +180,21 @@ $active_menu="index";
 				<!-- Floating labels -->
 				<div class="row">
 					<div class="col-md-12">
+					<?php
+									if($this->session->tempdata('abc'))
+									{
+									?>
+									<div class="alert bg-danger alert-styled-left" >
+										<button type="button" class="close" data-dismiss="alert"></button>
+										<span class="text-semibold" class="flash" style="color:white;"><?php echo $this->session->tempdata('abc'); ?></span>
+									</div>
+									<?php 
+									}
+								?>
 					 <form class="form-horizontal" action="<?php echo site_url("client_management/update_client/".$client[0]['id']);?>" method="POST" enctype="multipart/form-data">
+					     
+					     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+					     
 						<!-- Other inputs -->
 						<div class="card">
 							<div class="card-header header-elements-inline">
@@ -453,6 +473,7 @@ $active_menu="index";
 							</div>
 						</div>
 						<!-- /other inputs -->
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					</div>
 					
@@ -460,6 +481,9 @@ $active_menu="index";
 				<div class="row">
 					<div class="col-md-12">
 						<form class="form-horizontal" action="<?php echo site_url("client_management/add_client_gst/".$client[0]['id']);?>" method="POST" enctype="multipart/form-data">
+						    
+						    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+						    
 							<div class="card">
 								<div class="card-header header-elements-inline">
 									<h5 class="card-title">Add GST Details</h5>
@@ -552,6 +576,7 @@ $active_menu="index";
 								
 								
 							</div>
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 					</div>
 				</div>

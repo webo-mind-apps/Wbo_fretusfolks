@@ -1,5 +1,11 @@
 <?php
 $active_menu="index";
+
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -152,7 +158,10 @@ $active_menu="index";
 								'order': [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'Ffcm/get_all_data' ?>",
-									'type': 'POST'
+									'type': 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								'columnDefs': [{
 									"targets": [5],
@@ -277,6 +286,9 @@ $active_menu="index";
 								<div class="row">
 					<div class="col-md-12">
 					 <form class="form-horizontal" id="my_form" action="<?php echo site_url('ffcm/download_expenses');?>" method="POST" enctype="multipart/form-data">
+					     
+					     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+					     
 						<div class="card">
 							<div class="card-header header-elements-inline">
 								<h5 class="card-title">Search Expenses</h5>

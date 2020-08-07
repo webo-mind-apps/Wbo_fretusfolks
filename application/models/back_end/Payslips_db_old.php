@@ -22,7 +22,7 @@ class Payslips_db extends CI_Model
 		$year=$this->input->post('payslip_year');
 		$this->load->library("excel");
 		
-		$path = 'uploads/payslips/';
+		$path = 'AKJHJG7665BHJG/payslips/';
 			
 			$new_name = $_FILES["file"]['name'];
 			$type = $_FILES["file"]['type'];
@@ -33,14 +33,19 @@ class Payslips_db extends CI_Model
 			$this->load->library('upload', $config);
             $this->upload->initialize($config);      
 			
-			if (!$this->upload->do_upload('file')) 
-			{
-                $error = array('error' => $this->upload->display_errors());
-            } else 
-			{
-                $data = array('upload_data' => $this->upload->data());
-            }
-            
+			$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+				$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name'][$i]))[1];
+				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+				if(in_array($rftype, $type))
+				{	
+					if (!$this->upload->do_upload('file')) 
+					{
+						$error = array('error' => $this->upload->display_errors());
+					} else 
+					{
+						$data = array('upload_data' => $this->upload->data());
+					}
+				}
             if (!empty($data['upload_data']['file_name'])) 
 			{
                 $import_xls_file = $data['upload_data']['file_name'];

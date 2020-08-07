@@ -1,6 +1,13 @@
 <?php
 $active_menu="Backendteam";
 ?>
+<?php
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'hash' => $this->security->get_csrf_hash()
+);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +89,12 @@ $active_menu="Backendteam";
 		}
 		
 	</script>
-	
+	<style>
+	.feild-error{
+			display:none;
+			color:red;
+		}
+	</style>
 </head>
 
 <body>
@@ -141,7 +153,17 @@ $active_menu="Backendteam";
 					<div class="col-md-12">
 
 						
-						
+					<?php
+							if($this->session->flashdata('abc'))
+								{
+						?>
+								<div class="alert bg-danger alert-styled-left">
+									<button type="button" class="close" data-dismiss="alert"></button>
+									<s class="text-semibold"><?= $this->session->flashdata('abc'); ?>
+								</div>
+							<?php	
+								}
+							?>
 
 					 <form class="form-horizontal" action="<?php echo site_url('home/change_psd');?>" method="POST" enctype="multipart/form-data">
                         
@@ -163,8 +185,9 @@ $active_menu="Backendteam";
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Password: <span class="text-danger">*</span></label>
-											<input type="password" name="password" id="password" required class="form-control" autocomplete="off" onchange="check_password();">
+											<input type="password" name="password" id="password" required class="form-control" autocomplete="off" >
 										</div>
+										<span id="pass-err" class="feild-error">Password should contain alpha, numeric, special charecter, and minimum length 6 digits</span>
 									</div>
 								</div>
 								<div class="row">
@@ -173,8 +196,9 @@ $active_menu="Backendteam";
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Retype Password: <span class="text-danger">*</span></label>
-											<input type="password" class="form-control" name="cpass" id="cpass" required autocomplete="off" onchange="check_password();">
+											<input type="password" class="form-control" name="cpass" id="cpass" required autocomplete="off" >
 										</div>
+										<span id="conpass-err" class="feild-error">Password and conformation password is mismatched</span>
 									</div>
 								</div>
 								<div class="row">
@@ -187,8 +211,62 @@ $active_menu="Backendteam";
 							</div>
 						</div>
 					</div>
+					<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 				</form>
 				</div>
 			</div>
+
+			<script>
+		$(document).ready(function() {
+			$("#password").change(function() {
+				var password = $("#password").val();
+				// var alpha=/^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+				var strength = 0;
+
+				// If password contains both lower and uppercase characters, increase strength value.  
+				if (password.match(/([a-zA-Z])/)) strength += 1
+				// If it has numbers and characters, increase strength value.  
+				if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1
+				// If it has one special character, increase strength value.  
+				if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+				// If it has two special characters, increase strength value.  
+				if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+				// Calculated strength value, we can return messages  
+				// If value is less than 2  
+
+				if (password.length > 6) {
+					if (strength > 2) {
+
+						$("#pass-err").css("display", "none");
+					} else {
+						$("#pass-err").css("display", "block");
+						$("#password").val("");
+					}
+				} else {
+
+					$("#pass-err").css("display", "block");
+					$("#password").val("");
+
+				}
+
+			})
+			$("#cpass,#password").change(function() {
+				var password = $("#password").val();
+
+				var con_password = $("#cpass").val();
+				if(con_password){
+					if (password != con_password) {
+						$("#conpass-err").css("display", "block");
+						$("#cpass").val("");
+					} else {
+						$("#conpass-err").css("display", "none");
+
+					}	
+				}
+				
+			})
+		});
+	</script>
+
 </body>
 </html>

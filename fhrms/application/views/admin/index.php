@@ -1,3 +1,10 @@
+<?php
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'hash' => $this->security->get_csrf_hash()
+);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +36,8 @@
 	<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/login.js"></script>
 	<!-- /theme JS files -->
 
+<!-- /theme JS files -->
+	<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
 </head>
 
 <body>
@@ -47,7 +56,6 @@
 				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/process_login');?>" method="POST">
 					<div class="card mb-0">
 						
-						
 						<div class="tab-content card-body">
 							<div class="tab-pane fade show active" id="login-tab1">
 								<div class="text-center mb-3">
@@ -55,31 +63,33 @@
 									<h5 class="mb-0">Login to your account</h5>
 									<span class="d-block text-muted">Your credentials</span>
 								</div>
-						<?php
-							if($this->session->flashdata('abc','error'))
+								<?php
+							if($this->session->flashdata('abc'))
 								{
 						?>
 								<div class="alert bg-danger alert-styled-left">
 									<button type="button" class="close" data-dismiss="alert"></button>
-									<span class="text-semibold">Opps!</span> Try agin!
+									<s class="text-semibold"><?= $this->session->flashdata('abc'); ?>
 								</div>
 							<?php	
 								}
 							?>		
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="EMP ID" name="username" id="username" required>
+									<input type="email" class="form-control" placeholder="EMP EMAIL ID" name="bkjdhweiosk" id="username" required>
 									<div class="form-control-feedback">
 										<i class="icon-user text-muted"></i>
 									</div>
 								</div>
 
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="password" class="form-control" placeholder="Password" name="password" id="password" required>
+									<input type="password" class="form-control" placeholder="Password" name="nfgrfdsdfsddd" id="password" required>
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>
 								</div>
-
+								<div class="form-group form-group-feedback form-group-feedback-left">
+								<?=$recaptcha?>
+								</div>
 								
 								<div class="form-group">
 									<button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>
@@ -90,6 +100,7 @@
 							</div>
 						</div>
 					</div>
+					<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 				</form>
 				<!-- /login form -->
 

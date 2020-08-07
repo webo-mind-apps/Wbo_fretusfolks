@@ -107,6 +107,13 @@ class Candidate_system extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->candidate->save_candidate();
+			if($data == "true"){
+				redirect('candidate_system/');
+			}else{
+				
+				$this->session->set_tempdata('abc',$data);
+				redirect('candidate_system/new_candidate/');
+			}
 			redirect('candidate_system/');
 		} else {
 			redirect('home/index');
@@ -116,7 +123,15 @@ class Candidate_system extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->candidate->update_candidate();
-			redirect('candidate_system/');
+
+			if($data == "true"){
+				redirect('candidate_system/');
+			}else{
+				$id=$this->uri->segment(3);
+				$this->session->set_tempdata('abc',$data);
+				redirect('candidate_system/edit_candidate/'.$id);
+			}
+			
 		} else {
 			redirect('home/index');
 		}

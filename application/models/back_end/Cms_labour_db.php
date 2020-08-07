@@ -48,22 +48,34 @@ class Cms_labour_db extends CI_Model
 			$status=0;
 			if($_FILES["file"]["size"]>0)
 			{
-				$digit=rand(0,999);
-				$filen = $digit.$_FILES["file"]['name']; //file name
-				$path = "uploads/notice_document/".$filen;
-				$fpath="uploads/notice_document/".$filen;										
-				if(move_uploaded_file($_FILES["file"]['tmp_name'],$path)) 
+				$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+				$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+				if(in_array($rftype, $type))
 				{
+					$digit=rand(0,999);
+					$filen = $digit.$_FILES["file"]['name']; //file name
+					$path = "AKJHJG7665BHJG/notice_document/".$filen;
+					$fpath="AKJHJG7665BHJG/notice_document/".$filen;										
+					if(move_uploaded_file($_FILES["file"]['tmp_name'],$path)) 
+					{
+					}
 				}
 			}
 			if($_FILES["closure_file"]["size"]>0)
 			{
-				$digit=rand(0,999);
-				$filen1 = $digit.$_FILES["closure_file"]['name']; //file name
-				$path1 = "uploads/closure_document/".$filen1;
-				$fpath1="uploads/closure_document/".$filen1;										
-				if(move_uploaded_file($_FILES["closure_file"]['tmp_name'],$path1)) 
+				$gftype=pathinfo($_FILES["closure_file"]['name'], PATHINFO_EXTENSION);
+				$rftype = explode('/',mime_content_type($_FILES["closure_file"]['tmp_name']))[1];
+				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+				if(in_array($rftype, $type))
 				{
+					$digit=rand(0,999);
+					$filen1 = $digit.$_FILES["closure_file"]['name']; //file name
+					$path1 = "AKJHJG7665BHJG/closure_document/".$filen1;
+					$fpath1="AKJHJG7665BHJG/closure_document/".$filen1;										
+					if(move_uploaded_file($_FILES["closure_file"]['tmp_name'],$path1)) 
+					{
+					}
 				}
 			}
 			$db_notice_date="";
@@ -113,22 +125,34 @@ class Cms_labour_db extends CI_Model
 			$status=0;
 			if($_FILES["file"]["size"]>0)
 				{
-					$digit=rand(0,999);
-					$filen = $digit.$_FILES["file"]['name']; //file name
-					$path = "uploads/notice_document/".$filen;
-					$notice_path="uploads/notice_document/".$filen;										
-					if(move_uploaded_file($_FILES["file"]['tmp_name'],$path)) 
+					$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+					$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+					$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+					if(in_array($rftype, $type))
 					{
+						$digit=rand(0,999);
+						$filen = $digit.$_FILES["file"]['name']; //file name
+						$path = "AKJHJG7665BHJG/notice_document/".$filen;
+						$notice_path="AKJHJG7665BHJG/notice_document/".$filen;										
+						if(move_uploaded_file($_FILES["file"]['tmp_name'],$path)) 
+						{
+						}
 					}
 				}
 				if($_FILES["closure_file"]["size"]>0)
 				{
-					$digit=rand(0,999);
-					$filen1 = $digit.$_FILES["closure_file"]['name']; //file name
-					$path1 = "uploads/closure_document/".$filen1;
-					$closure_path="uploads/closure_document/".$filen1;										
-					if(move_uploaded_file($_FILES["closure_file"]['tmp_name'],$path1)) 
+					$gftype=pathinfo($_FILES["closure_file"]['name'], PATHINFO_EXTENSION);
+					$rftype = explode('/',mime_content_type($_FILES["closure_file"]['tmp_name']))[1];
+					$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+					if(in_array($rftype, $type))
 					{
+						$digit=rand(0,999);
+						$filen1 = $digit.$_FILES["closure_file"]['name']; //file name
+						$path1 = "AKJHJG7665BHJG/closure_document/".$filen1;
+						$closure_path="AKJHJG7665BHJG/closure_document/".$filen1;										
+						if(move_uploaded_file($_FILES["closure_file"]['tmp_name'],$path1)) 
+						{
+						}
 					}
 				}
 				$db_notice_date="";

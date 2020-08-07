@@ -162,8 +162,8 @@ class User_master extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 				$this->form_validation->set_rules('userType', 'User Type', 'trim|required|max_length[25]');
 				$this->form_validation->set_rules('emp_id', 'Emp Id', 'trim|required|max_length[20]');
-				$this->form_validation->set_rules('name', 'Emp Name', 'trim|required|max_length[25]|alpha');
-				$this->form_validation->set_rules('username', 'Emp Username', 'trim|required|max_length[15]|alpha');
+				$this->form_validation->set_rules('name', 'Emp Name', 'trim|required|max_length[25]');
+				$this->form_validation->set_rules('username', 'Emp Username', 'trim|required|max_length[15]');
 				$this->form_validation->set_rules('password', 'User Password', 'trim|required|max_length[20]|min_length[6]');
 				$this->form_validation->set_rules('confirm_password', 'User conform Password', 'trim|required|max_length[20]|min_length[6]|matches[password]');
 				$this->form_validation->set_rules('status', 'User Status', 'trim|required|max_length[10]');

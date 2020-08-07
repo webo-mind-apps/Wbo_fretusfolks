@@ -1,6 +1,12 @@
 <?php
 $active_menu="Backendteam";
 ?>
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,6 +138,8 @@ $active_menu="Backendteam";
 
 					 <form class="form-horizontal" action="<?php echo site_url('user_master/save_user_master');?>" method="POST" enctype="multipart/form-data">
                         
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+                        
 						<!-- Other inputs -->
 						<div class="card">
 							<div class="card-header header-elements-inline">
@@ -220,6 +228,7 @@ $active_menu="Backendteam";
 								</div>
 							</div>
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					</div>
 				</div>

@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -283,6 +289,10 @@
 										?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->
 						<!-- <a href="<?php echo base_url() ?>doc-formate" >Download Format</a> -->
 						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-inactive-import" id="import_form" style="display:none">
+						    
+						    
+						    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+						    
 							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 						</form>
 					</div>
@@ -434,6 +444,9 @@ $(document).ready(function() {
 				'ajax': {
 					'url': "<?php echo base_url() . 'bulk_update/get_all_data' ?>",
 					'type': 'POST',
+					data: {
+                             <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                        },
 					beforeSend: function(){
 				/* $(document).on('change', '#selectAll', function(){
 					if($(this).prop('checked')){

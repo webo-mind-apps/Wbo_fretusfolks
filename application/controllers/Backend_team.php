@@ -29,6 +29,12 @@ class Backend_team extends CI_Controller
 	}
 	public function get_all_data($var = null) //created for implementing data tables
 	{
+	    
+	   // echo '<pre>';
+	   // print_r($this->input->post());
+	    
+	   // exit;
+	    
 		if ($this->session->userdata('admin_login')) {
 			$fetch_data = $this->back_end->make_datatables();
 
@@ -116,7 +122,13 @@ class Backend_team extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->back_end->save_team();
-			redirect('backend_team/');
+			if($data == "true"){
+				redirect('backend_team/');
+			}else{
+				
+				$this->session->set_tempdata('abc',$data);
+				redirect('backend_team/new_backend_team/');
+			}
 		} else {
 			redirect('home/index');
 		}
@@ -127,7 +139,6 @@ class Backend_team extends CI_Controller
 			$data = $this->back_end->update_team();
 			
 			if($data == "true"){
-			exit;
 				redirect('backend_team/');
 			}else{
 				
@@ -996,7 +1007,7 @@ class Backend_team extends CI_Controller
 						"pf_esic_form"			=> (empty($allDataInSheet[$i]['BT']) ? '' : $allDataInSheet[$i]['BT']),
 						"payslip"				=> (empty($allDataInSheet[$i]['BV']) ? '' : $allDataInSheet[$i]['BV']),
 						"exp_letter"			=> (empty($allDataInSheet[$i]['BW']) ? '' : $allDataInSheet[$i]['BW']),
-						"password"				=> md5(empty($allDataInSheet[$i]['BX']) ? '' : $allDataInSheet[$i]['BX']),
+						"password"				=> $this->bcrypt->hash_password(empty($allDataInSheet[$i]['BX']) ? '' : $allDataInSheet[$i]['BX']),
 						"psd"					=> (empty($allDataInSheet[$i]['BX']) ? '' : $allDataInSheet[$i]['BX']),
 						"active_status"			=> (empty($allDataInSheet[$i]['CE']) ? '' : $allDataInSheet[$i]['CE']),
 						"data_status"			=> (empty($allDataInSheet[$i]['CF']) ? '' : $allDataInSheet[$i]['CF']),

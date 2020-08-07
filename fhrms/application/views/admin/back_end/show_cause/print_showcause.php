@@ -67,7 +67,16 @@
 					<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 				</head>
 	<body onload="window.print()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none"> 
+<?php
+if(empty($pip)){
+	$pip[0]['date']="";
+	$pip[0]['emp_name']="";
+	$pip[0]['emp_id']="";
+	$pip[0]['location']="";
+	$pip[0]['content']="";
+}
 
+?>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tbody>
 											<tr>

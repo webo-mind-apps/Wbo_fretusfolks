@@ -1,5 +1,11 @@
 <?php
 $active_menu = "index";
+
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -246,7 +252,10 @@ $active_menu = "index";
 								'order': [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'Payments/get_all_data' ?>",
-									'type': 'POST'
+									'type': 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								'columnDefs': [{
 									"targets": [8],

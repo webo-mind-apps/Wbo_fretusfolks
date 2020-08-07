@@ -1,5 +1,11 @@
 <?php
 $active_menu="Backendteam";
+
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,9 +145,22 @@ $active_menu="Backendteam";
 					<div class="col-md-12">
 
 						
-						
+					<?php
+							if($this->session->tempdata('abc'))
+							{
+							?>
+							<div class="alert bg-danger alert-styled-left" >
+								<button type="button" class="close" data-dismiss="alert"></button>
+								<span class="text-semibold" class="flash" style="color:white;"><?php echo $this->session->tempdata('abc'); ?></span>
+							</div>
+							<?php 
+							}
+						?>
 
 					 <form class="form-horizontal" action="<?php echo site_url('backend_team/save_team');?>" method="POST" enctype="multipart/form-data">
+					     
+					     
+					     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                         
 						<!-- Other inputs -->
 						<div class="card">
@@ -488,6 +507,7 @@ $active_menu="Backendteam";
 							</div>
 						</div>
 						<!-- /other inputs -->
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					</div>
 				</div>

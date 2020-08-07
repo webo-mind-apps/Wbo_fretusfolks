@@ -211,6 +211,9 @@
                   }
                   ?>	
                 <form class="form-horizontal" id="my_form" action="<?php echo site_url('ffi_payslips/upload_payslips');?>" method="POST" enctype="multipart/form-data">
+                    
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+                    
                   <div class="card-body">
                      <div class="row">
                         <div class="col-md-5">
@@ -262,6 +265,9 @@
                   </div>
                   <div class="card-body">
                      <form class="form-horizontal" id="my_form" action="<?php  echo site_url('download-ffi-payslips');?>" method="POST" enctype="multipart/form-data">
+                         
+                         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+                         
                         <div class="row">
                            <div class="col-md-4">
                               <div class="form-group">
@@ -306,6 +312,9 @@
       <div class="row">
          <div class="col-md-12">
             <form class="form-horizontal" id="my_form" action="" method="POST" enctype="multipart/form-data">
+                
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+                
                <div class="card">
                   <div class="card-header header-elements-inline">
                      <h5 class="card-title">Search FFI Payslips</h5>

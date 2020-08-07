@@ -273,10 +273,10 @@ class Bulk_update extends CI_Controller
 				foreach ($data as $key => $row) {
 					if (!empty($client)) {
 
-						$path = 'bulk_inactive/dcs_' . $data[0]['client_name'] . '_' . $date;
+						$path = 'public/bulk_inactive/dcs_' . $data[0]['client_name'] . '_' . $date;
 					} else {
 
-						$path = 'bulk_inactive/dcs_' . $date;
+						$path = 'public/bulk_inactive/dcs_' . $date;
 					}
 					if (!is_dir($path)) mkdir($path, 0777, TRUE);
 					$interview_date = "";

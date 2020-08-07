@@ -1,5 +1,11 @@
 <?php
 $active_menu="index";
+
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -161,6 +167,9 @@ $active_menu="index";
 					</div>
 				</div>
 				<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>fhrms-doc-import" id="import_form" style="display:none">
+				    
+				        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+				    
 							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 						</form>
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
@@ -304,7 +313,10 @@ $active_menu="index";
 								'order': [], 
 								'ajax': {
 									'url': "<?php echo base_url() . 'fhrms/get_all_data' ?>",
-									'type': 'POST'
+									'type': 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								'columnDefs': [{
 									"targets": [6],

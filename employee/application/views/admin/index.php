@@ -29,6 +29,7 @@
 	<script src="<?php echo base_url(); ?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url(); ?>admin_assets/global_assets/js/demo_pages/login.js"></script>
 	<!-- /theme JS files -->
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 
@@ -77,7 +78,7 @@
 								}
 								?>
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="email" class="form-control" placeholder="EMP email id" name="iusbkjdsbjkss" id="" required>
+									<input type="text" class="form-control" placeholder="EMP id" name="iusbkjdsbjkss" id="" required>
 									<div class="form-control-feedback">
 										<i class="icon-user text-muted"></i>
 									</div>
@@ -89,7 +90,9 @@
 										<i class="icon-lock2 text-muted"></i>
 									</div>
 								</div>
-
+								<div class="form-group form-group-feedback form-group-feedback-left">
+								<?=$recaptcha?>
+								</div>
 
 								<div class="form-group">
 									<button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>

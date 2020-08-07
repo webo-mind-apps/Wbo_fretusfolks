@@ -5,7 +5,8 @@ class Offer_letter extends CI_Controller
 {
 		public function __construct()
         {
-                parent::__construct();
+				parent::__construct();
+				($this->session->userdata('employee_login'))?'': redirect('home/index');
 					$this->load->helper('url');
 					$this->load->model('back_end/Offer_letter_db','letter');
 					$this->load->library("pagination");

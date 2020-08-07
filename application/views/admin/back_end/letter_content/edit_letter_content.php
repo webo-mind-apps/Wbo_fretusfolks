@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,6 +179,9 @@
 				
 					<div class="col-md-12">
 						 <form class="form-horizontal" action="<?php echo site_url('letter_content/update_letter/'.$letter_details[0]['id']);?>" method="POST" enctype="multipart/form-data">
+						     
+						     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+						     
 							<div class="card">
 								<div class="card-header header-elements-inline">
 									<h5 class="card-title">Edit Letter Content Details</h5>
@@ -196,6 +205,7 @@
 									<button type="submit" class="btn btn-primary" name="upload_now" id="h-default-basic-start">Save</button>
 								</div>
 							</div>
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 						</div>
 					</div>

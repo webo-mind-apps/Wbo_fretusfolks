@@ -50,7 +50,7 @@ class Ffi_payslips_db extends CI_Model
 		
 		$this->load->library("excel");
 		
-		$path = 'uploads/ffi_payslips/';
+		$path = 'AKJHJG7665BHJG/ffi_payslips/';
 		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 			
 			$new_name = $_FILES["file"]['name'];
@@ -61,13 +61,19 @@ class Ffi_payslips_db extends CI_Model
 			$this->load->library('upload', $config);
             $this->upload->initialize($config);      
 			
-			if (!$this->upload->do_upload('file')) 
+			$gftype=pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name']))[1];
+			$type = array("xlsx", "xls", "csv");
+			if(in_array($rftype, $type))
 			{
-                $error = array('error' => $this->upload->display_errors());
-            } else 
-			{
-                $data = array('upload_data' => $this->upload->data());
-            }
+				if (!$this->upload->do_upload('file')) 
+				{
+					$error = array('error' => $this->upload->display_errors());
+				} else 
+				{
+					$data = array('upload_data' => $this->upload->data());
+				}
+			}
             
             if (!empty($data['upload_data']['file_name'])) 
 			{

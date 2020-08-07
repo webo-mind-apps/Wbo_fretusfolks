@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -249,7 +255,13 @@
 											</div>
 											<div class="content">
 												<div class="modal-body">
-													<form enctype="multipart/form-data" method="post" action="<?php echo base_url(); ?>backend_team/download_backend_details" name="certform">
+												<!--	<form enctype="multipart/form-data" method="post" action="<?php echo base_url(); ?>backend_team/download_backend_details" name="certform">-->
+										<?php    
+												$attributes = array('class' => 'email', 'id' => 'myform'); echo form_open('backend_team/download_backend_details', $attributes); 
+												
+												
+										?>
+													    
 														<label class="down"><b>Clinent Name</b></label>
 														<div class="form-group">
 
@@ -304,6 +316,10 @@
 										?>admin_assets/exel-formate/ADMS_DOC.xlsx" download >Download Format</a> -->
 						<!-- <a href="<?php echo base_url() ?>doc-formate" >Download Format</a> -->
 						<form enctype="multipart/form-data" method="post" action="<?php echo base_url() ?>adms-doc-import" id="import_form" style="display:none">
+						    
+						    
+						    
+						    
 							<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 						</form>
 					</div>
@@ -463,15 +479,23 @@
 									}
 								}
 							});
-
+							
+							
+                            
+                            
+							
 							var dataTable = $('#dynamic_table').DataTable({
 								'processing': true,
 								'serverSide': true,
 								'order': [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'Backend_team/get_all_data' ?>",
-									'type': 'POST'
-								},
+									'type': 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        }, 
+                                    
+                                },
 								'columnDefs': [{
 									"targets": [7],
 									"orderable": false,

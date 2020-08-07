@@ -120,15 +120,18 @@ class Client_management extends CI_Controller
 			$this->form_validation->set_rules('contact_person_phone_comm', 'Contact Person Phone Comm', 'trim|required');
 			$this->form_validation->set_rules('contact_person_email_comm', 'Contact Person Email Comm', 'trim|required');
 			if ($this->form_validation->run() ==  TRUE):
-				if($data = $this->client->save_client()):
+				$data = $this->client->save_client();
+
+				if($data == "true"){
 					$msg="Client details stored successfully";
 					$this->session->set_flashdata('insert-status', $msg);
-				else:
-					$msg="Something went wrong";
-					$this->session->set_flashdata('insert-status', $msg);
-				endif;
+					redirect('client_management/');
+				}else{
+					$this->session->set_tempdata('abc',$data);
+					redirect('client_management/new_client');
+				}
 
-				redirect('client_management/');
+				
 			else:
 				print_r(validation_errors());
 				$data['active_menu'] = "client";
@@ -145,8 +148,15 @@ class Client_management extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->client->update_client();
-
-			redirect('client_management/');
+			if($data == "true"){
+				redirect('client_management/');
+			}else{
+				
+				$id=$this->uri->segment(3);
+				$this->session->set_tempdata('abc',$data);
+				redirect('client_management/edit_clients/'.$id);
+			}
+			
 		} else {
 			redirect('home/index');
 		}

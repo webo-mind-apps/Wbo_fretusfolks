@@ -65,6 +65,24 @@
 					<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 				</head>
 	<body onload="window.prinat()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none">
+	<?php
+if(empty($pip)){
+	$pip[0]['date']="";
+	$pip[0]['emp_name']="";
+	$pip[0]['emp_id']="";
+	$pip[0]['location']="";
+	$pip[0]['content']="";
+	$pip[0]['absent_date']="";
+	$pip[0]['show_cause_date']="";
+	$pip[0]['termination_date']="";
+	$pip[0]['from_name']="";
+	$pip[0]['observation']="";
+	$pip[0]['goals']="";
+	$pip[0]['updates']="";
+	$pip[0]['timeline']="";
+}
+
+?>
 													<table width="100%" border="0" cellspacing="0" cellpadding="0">
 											<tbody>
 											<tr>

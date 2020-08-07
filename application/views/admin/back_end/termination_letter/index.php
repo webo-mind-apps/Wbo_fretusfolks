@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -122,6 +128,9 @@
 								</br>
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo site_url('adms-termination-letter-import'); ?>" id="import_form" style="display:none">
+								    
+								    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+								    
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
 								</form>
 							</div>
@@ -306,7 +315,10 @@
 								'order': [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'Termination_letter/get_all_data' ?>",
-									'type': 'POST'
+									'type': 'POST',
+										data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								'columnDefs': [{
 									"targets": [6],

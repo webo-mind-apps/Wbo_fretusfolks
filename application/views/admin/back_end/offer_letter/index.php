@@ -1,6 +1,10 @@
 <?php
 $active_menu = "index";
 ob_start();
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -227,6 +231,9 @@ ob_start();
 
 											<div class="modal-body">
 												<form enctype="multipart/form-data" method="post" action="<?php echo site_url('offer_letter/pdf_offer_letter/'); ?>">
+												    
+												    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+												    
 													<label class="down"><b>Clinent Name</b><span style="color:red"> *</span> </label>
 													<div class="form-group">
 
@@ -269,6 +276,9 @@ ob_start();
 												?>offer_letter/doc_formate">Sample Format</a> -->
 
 								<form enctype="multipart/form-data" method="post" action="<?php echo base_url('offer_letter/adms_offer_letter_import'); ?>" id="import_form" style="display:none">
+								    
+								    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+								    
 									<input id="import" type="file" name="import" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 								</form>
 
@@ -493,7 +503,10 @@ ob_start();
 								'order': [],
 								'ajax': {
 									'url': "<?php echo base_url() . 'Offer_letter/get_all_data' ?>",
-									'type': 'POST'
+									'type': 'POST',
+									data: {
+                                            <?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>',
+                                        },
 								},
 								'columnDefs': [{
 									"targets": [7],

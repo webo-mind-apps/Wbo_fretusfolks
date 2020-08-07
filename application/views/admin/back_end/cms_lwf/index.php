@@ -180,6 +180,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						 <form class="form-horizontal" id="my_form" action="<?php echo site_url('cms_pt/save_pt');?>" method="POST" enctype="multipart/form-data">
+						     
+						     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+						     
 							<div class="card">
 								<div class="card-header header-elements-inline">
 									<h5 class="card-title">CMS LWF Challan</h5>

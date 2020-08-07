@@ -80,7 +80,7 @@
 												
 											
 								<div class="form-group form-group-feedback form-group-feedback-left">
-									<input type="text" class="form-control" placeholder="Enter your OTP" name="vhyesddsds" maxlength="10" required>
+									<input type="text" class="form-control" placeholder="Enter your OTP" name="sdfsfswetyess" maxlength="10" required>
 									<div class="form-control-feedback">
 										<i class="icon-user text-muted"></i>
 									</div>

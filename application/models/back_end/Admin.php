@@ -8,12 +8,13 @@ class Admin extends CI_Model {
         parent::__construct();
 		$this->load->database();
 		$this->load->library("session");
+		$this->load->library('bcrypt');
     }
 	function check_login()
 	{
-		$this->form_validation->set_rules('vsdfsdds', 'User Type', 'trim|required');
-		$this->form_validation->set_rules('kldsjfoiwe', 'Email id', 'trim|required');
-		$this->form_validation->set_rules('kjsflkjsfs', 'password', 'trim|required');		
+		$this->form_validation->set_rules('vsdfsdds', 'User Type', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('kldsjfoiwe', 'Email id', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('kjsflkjsfs', 'password', 'trim|required|xss_clean');		
 		if ($this->form_validation->run() == TRUE):
 			$user_type=$this->input->post('vsdfsdds', true);
 			$email=$this->input->post('kldsjfoiwe', true);
@@ -25,11 +26,13 @@ class Admin extends CI_Model {
 			$this->db->where("status","0");
 			$query=$this->db->get('muser_master');
 			$res=$query->row();
+			
 		
 			if($query->num_rows()==1)
 			{
 				if($this->bcrypt->check_password($password, $res->enc_pass))
 				{
+				
 					$this->session->set_userdata('admin_id',$res->id);	
 					// $this->session->set_userdata('admin_login','true');
 					// $this->session->set_userdata('admin_name',$res[0]['username']);	
@@ -85,6 +88,15 @@ class Admin extends CI_Model {
 		else { 
 			return false;
 		}		
+	}
+	
+	function passwordreset(){
+	    
+	    $result = $this->db->select('id, psd')->get('backend_management')->result();
+	   
+	    foreach($result as $val){
+	        $this->db->where('id', $val->id)->update('backend_management', array('password' => $this->bcrypt->hash_password($val->psd)));
+	    }
 	}
 }  
 ?>

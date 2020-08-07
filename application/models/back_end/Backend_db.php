@@ -184,7 +184,7 @@ class Backend_db extends CI_Model
 	}
 	public function save_team()
 	{
-		$folder = 'public/uploads/';
+		$folder = 'AKJHJG7665BHJG/';
 		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$client=$this->input->post('client', true);
 		$ffi_emp_id=$this->input->post('ffi_emp_id', true);
@@ -265,7 +265,7 @@ class Backend_db extends CI_Model
 
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_pan"]['name']));
-            $config['upload_path'] = 'public/uploads/pan_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/pan_doc/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
@@ -279,7 +279,7 @@ class Backend_db extends CI_Model
 			{
 			if ($this->upload->do_upload('file_pan'))
             {
-				$pan_path="public/uploads/pan_doc/".$new_name;
+				$pan_path="AKJHJG7665BHJG/pan_doc/".$new_name;
 			}
 			}else{
 				return "For pan card you upload a wrong file mime type";
@@ -290,7 +290,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name1 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_aadhar"]['name']));
-            $config1['upload_path'] = 'public/uploads/aadhar_doc/';
+            $config1['upload_path'] = 'AKJHJG7665BHJG/aadhar_doc/';
             $config1['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config1['file_name'] = $new_name1;	
 			$this->load->library('upload',$config1);
@@ -303,7 +303,7 @@ class Backend_db extends CI_Model
 			{
 			if ($this->upload->do_upload('file_aadhar'))
             {
-				$aadhar_path="public/uploads/aadhar_doc/".$new_name1;
+				$aadhar_path="AKJHJG7665BHJG/aadhar_doc/".$new_name1;
 			}
 			}else{
 				return "For aadhar card you upload a wrong file mime type";
@@ -313,7 +313,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name2 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_license"]['name']));
-            $config2['upload_path'] = 'public/uploads/license_doc/';
+            $config2['upload_path'] = 'AKJHJG7665BHJG/license_doc/';
             $config2['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config2['file_name'] = $new_name2;	
 			$this->load->library('upload',$config2);
@@ -325,7 +325,7 @@ class Backend_db extends CI_Model
 			{
 			if ($this->upload->do_upload('file_license'))
             {
-				$license_path="public/uploads/license_doc/".$new_name2;
+				$license_path="AKJHJG7665BHJG/license_doc/".$new_name2;
 			}
 			}else{
 				return "For license you upload a wrong file mime type";
@@ -338,10 +338,11 @@ class Backend_db extends CI_Model
 			"basic_salary"=>$basic_salary,"hra"=>$hra,"conveyance"=>$conveyance,"medical_reimbursement"=>$medical,"special_allowance"=>$special_allowance,"other_allowance"=>$other_allowance,"gross_salary"=>$gross_salary,"pf_percentage"=>$pf_percentage,"emp_pf"=>$emp_pf,"esic_percentage"=>$esic_percentage,"emp_esic"=>$emp_esic,"pt"=>$pt,"total_deduction"=>$total_deduction,"employer_pf_percentage"=>$employer_pf_percentage,"employer_pf"=>$employer_pf,"employer_esic_percentage"=>$employer_esic_percentage,"employer_esic"=>$employer_esic,"mediclaim"=>$mediclaim,"ctc"=>$ctc);
 			
 			$this->db->insert('backend_management',$data);
+			return $this->db->affected_rows() > 0 ? "true" : "something went wrong!";
 	}
 	function update_team()
 	{
-		$folder = 'public/uploads/';
+		$folder = 'AKJHJG7665BHJG/';
 		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$id=$this->uri->segment(3);
 		
@@ -466,7 +467,7 @@ class Backend_db extends CI_Model
 			//echo "hello";
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_pan"]['name']));
-            $config['upload_path'] = 'public/uploads/pan_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/pan_doc/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
@@ -478,7 +479,7 @@ class Backend_db extends CI_Model
 			{
 			if ($this->upload->do_upload('file_pan'))
             {
-				$pan_path="public/uploads/pan_doc/".$new_name;
+				$pan_path="AKJHJG7665BHJG/pan_doc/".$new_name;
 			}
 			}else{
 				return "For pan card you upload a wrong file mime type";
@@ -489,7 +490,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name1 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_aadhar"]['name']));
-            $config1['upload_path'] = 'public/uploads/aadhar_doc/';
+            $config1['upload_path'] = 'AKJHJG7665BHJG/aadhar_doc/';
             $config1['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config1['file_name'] = $new_name1;	
 			$this->load->library('upload',$config1);
@@ -501,7 +502,7 @@ class Backend_db extends CI_Model
 			{
             if ($this->upload->do_upload('file_aadhar'))
             {
-				$aadhar_path="public/uploads/aadhar_doc/".$new_name1;
+				$aadhar_path="AKJHJG7665BHJG/aadhar_doc/".$new_name1;
 			}
 			}else{
 			return "For aadhar card you upload a wrong file mime type";
@@ -511,7 +512,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name2 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_license"]['name']));
-            $config2['upload_path'] = 'public/uploads/license_doc/';
+            $config2['upload_path'] = 'AKJHJG7665BHJG/license_doc/';
             $config2['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config2['file_name'] = $new_name2;	
 			$this->load->library('upload',$config2);
@@ -523,7 +524,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('file_license'))
             {
-				$license_path="public/uploads/license_doc/".$new_name2;
+				$license_path="AKJHJG7665BHJG/license_doc/".$new_name2;
 			}
 			}else{
 			return "For license you upload a wrong file mime type";
@@ -533,7 +534,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name3 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["resume"]['name']));
-            $config3['upload_path'] = 'public/uploads/resume/';
+            $config3['upload_path'] = 'AKJHJG7665BHJG/resume/';
             $config3['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config3['file_name'] = $new_name3;	
 			$this->load->library('upload',$config3);
@@ -545,7 +546,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('resume'))
             {
-				$resume="public/uploads/resume/".$new_name3;
+				$resume="AKJHJG7665BHJG/resume/".$new_name3;
 			}
 			}else{
 			return "For resume card you upload a wrong file mime type";
@@ -555,7 +556,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name4 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["photo"]['name']));
-            $config4['upload_path'] = 'public/uploads/photo/';
+            $config4['upload_path'] = 'AKJHJG7665BHJG/photo/';
             $config4['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config4['file_name'] = $new_name4;	
 			$this->load->library('upload',$config4);
@@ -567,7 +568,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('photo'))
             {
-				$photo="public/uploads/photo/".$new_name4;
+				$photo="AKJHJG7665BHJG/photo/".$new_name4;
 			}
 			}else{
 			return "For photo you upload a wrong file mime type";
@@ -577,7 +578,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name5 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_document"]['name']));
-            $config5['upload_path'] = 'public/uploads/bank_doc/';
+            $config5['upload_path'] = 'AKJHJG7665BHJG/bank_doc/';
             $config5['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config5['file_name'] = $new_name5;	
 			$this->load->library('upload',$config5);
@@ -589,7 +590,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('file_document'))
             {
-				$bank_document="public/uploads/bank_doc/".$new_name5;
+				$bank_document="AKJHJG7665BHJG/bank_doc/".$new_name5;
 			}
 			}else{
 			return "For file document you upload a wrong file mime type";
@@ -599,7 +600,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name6 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["voter_id"]['name']));
-            $config6['upload_path'] = 'public/uploads/voter_id/';
+            $config6['upload_path'] = 'AKJHJG7665BHJG/voter_id/';
             $config6['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config6['file_name'] = $new_name6;	
 			$this->load->library('upload',$config6);
@@ -611,7 +612,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('voter_id'))
             {
-				$voter_id="public/uploads/voter_id/".$new_name6;
+				$voter_id="AKJHJG7665BHJG/voter_id/".$new_name6;
 			}
 			}else{
 				return "For voter id you upload a wrong file mime type";
@@ -621,7 +622,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name7 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["emp_form"]['name']));
-            $config7['upload_path'] = 'public/uploads/emp_form/';
+            $config7['upload_path'] = 'AKJHJG7665BHJG/emp_form/';
             $config7['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config7['file_name'] = $new_name7;	
 			$this->load->library('upload',$config7);
@@ -633,7 +634,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('emp_form'))
             {
-				$emp_form="public/uploads/emp_form/".$new_name7;
+				$emp_form="AKJHJG7665BHJG/emp_form/".$new_name7;
 			}
 			}else{
 				return "For emp form you upload a wrong file mime type";
@@ -643,7 +644,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name8 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["pf_doc"]['name']));
-            $config8['upload_path'] = 'public/uploads/pf_doc/';
+            $config8['upload_path'] = 'AKJHJG7665BHJG/pf_doc/';
             $config8['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config8['file_name'] = $new_name8;	
 			$this->load->library('upload',$config8);
@@ -655,7 +656,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('pf_doc'))
             {
-				$pf_doc="public/uploads/pf_doc/".$new_name8;
+				$pf_doc="AKJHJG7665BHJG/pf_doc/".$new_name8;
 			}
 			}else{
 				return "For pf document you upload a wrong file mime type";
@@ -665,7 +666,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name9 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["payslip_doc"]['name']));
-            $config9['upload_path'] = 'public/uploads/payslip_doc/';
+            $config9['upload_path'] = 'AKJHJG7665BHJG/payslip_doc/';
             $config9['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config9['file_name'] = $new_name9;	
 			$this->load->library('upload',$config9);
@@ -677,7 +678,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('payslip_doc'))
             {
-				$payslip_doc="public/uploads/payslip_doc/".$new_name9;
+				$payslip_doc="AKJHJG7665BHJG/payslip_doc/".$new_name9;
 			}
 			}else{
 				return "For payslip document you upload a wrong file mime type";
@@ -687,7 +688,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name10 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["exp_doc"]['name']));
-            $config10['upload_path'] = 'public/uploads/exp_doc/';
+            $config10['upload_path'] = 'AKJHJG7665BHJG/exp_doc/';
             $config10['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config10['file_name'] = $new_name10;	
 			$this->load->library('upload',$config10);
@@ -699,7 +700,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('exp_doc'))
             {
-				$exp_doc="public/uploads/exp_doc/".$new_name10;
+				$exp_doc="AKJHJG7665BHJG/exp_doc/".$new_name10;
 			}
 			}else{
 				return "For experience document you upload a wrong file mime type";
@@ -712,8 +713,8 @@ class Backend_db extends CI_Model
 			{
 				$digit=rand(0,999);
 				$filen = $digit.$_FILES["edu_certificate"]['name'][$i]; //file name
-				$path = "public/uploads/edu_certificate/".$filen;
-				$fpath="public/uploads/edu_certificate/".$filen;	
+				$path = "AKJHJG7665BHJG/edu_certificate/".$filen;
+				$fpath="AKJHJG7665BHJG/edu_certificate/".$filen;	
 				$gftype=pathinfo($_FILES["edu_certificate"]['name'], PATHINFO_EXTENSION);
 				$rftype = explode('/',mime_content_type($_FILES["edu_certificate"]['tmp_name'][$i]))[1];
 				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
@@ -724,8 +725,6 @@ class Backend_db extends CI_Model
 					$data1=array("emp_id"=>$id,"path"=>$fpath);	
 					$this->db->insert('education_certificate',$data1);
 				}
-				}else{
-					return "For education you upload a wrong file mime type";
 				}
 			}
 			
@@ -736,8 +735,8 @@ class Backend_db extends CI_Model
 			{
 				$digit=rand(0,999);
 				$filen = $digit.$_FILES["others_doc"]['name'][$i]; //file name
-				$path = "public/uploads/others_doc/".$filen;
-				$fpath="public/uploads/others_doc/".$filen;	
+				$path = "AKJHJG7665BHJG/others_doc/".$filen;
+				$fpath="AKJHJG7665BHJG/others_doc/".$filen;	
 				$gftype=pathinfo($_FILES["others_doc"]['name'], PATHINFO_EXTENSION);
 				$rftype = explode('/',mime_content_type($_FILES["others_doc"]['tmp_name'][$i]))[1];
 				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
@@ -748,8 +747,6 @@ class Backend_db extends CI_Model
 					$data1=array("emp_id"=>$id,"path"=>$fpath);	
 					$this->db->insert('other_certificate',$data1);
 				}
-			}else{
-				return "For other certificate you upload a wrong file mime type";
 			}
 			}
 		}
@@ -762,7 +759,7 @@ class Backend_db extends CI_Model
 	}
 	function update_team_pending()
 	{
-		$folder = 'public/uploads/';
+		$folder = 'AKJHJG7665BHJG/';
 		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$id=$this->uri->segment(3);
 		
@@ -887,7 +884,7 @@ class Backend_db extends CI_Model
 			
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_pan"]['name']));
-            $config['upload_path'] = 'public/uploads/pan_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/pan_doc/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
@@ -899,7 +896,7 @@ class Backend_db extends CI_Model
 			{
 			if ($this->upload->do_upload('file_pan'))
             {
-				$pan_path="public/uploads/pan_doc/".$new_name;
+				$pan_path="AKJHJG7665BHJG/pan_doc/".$new_name;
 			}
 			}else{
 				return "For pan card you upload a wrong file mime type";
@@ -909,7 +906,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name1 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_aadhar"]['name']));
-            $config1['upload_path'] = 'public/uploads/aadhar_doc/';
+            $config1['upload_path'] = 'AKJHJG7665BHJG/aadhar_doc/';
             $config1['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config1['file_name'] = $new_name1;	
 			$this->load->library('upload',$config1);
@@ -921,7 +918,7 @@ class Backend_db extends CI_Model
 			{
             if ($this->upload->do_upload('file_aadhar'))
             {
-				$aadhar_path="public/uploads/aadhar_doc/".$new_name1;
+				$aadhar_path="AKJHJG7665BHJG/aadhar_doc/".$new_name1;
 			}
 			}else{
 			return "For aadhar card you upload a wrong file mime type";
@@ -931,7 +928,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name2 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_license"]['name']));
-            $config2['upload_path'] = 'public/uploads/license_doc/';
+            $config2['upload_path'] = 'AKJHJG7665BHJG/license_doc/';
             $config2['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config2['file_name'] = $new_name2;	
 			$this->load->library('upload',$config2);
@@ -943,7 +940,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('file_license'))
             {
-				$license_path="public/uploads/license_doc/".$new_name2;
+				$license_path="AKJHJG7665BHJG/license_doc/".$new_name2;
 			}
 			}else{
 			return "For license you upload a wrong file mime type";
@@ -953,7 +950,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name3 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["resume"]['name']));
-            $config3['upload_path'] = 'public/uploads/resume/';
+            $config3['upload_path'] = 'AKJHJG7665BHJG/resume/';
             $config3['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config3['file_name'] = $new_name3;	
 			$this->load->library('upload',$config3);
@@ -965,7 +962,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('resume'))
             {
-				$resume="public/uploads/resume/".$new_name3;
+				$resume="AKJHJG7665BHJG/resume/".$new_name3;
 			}
 			}else{
 			return "For resume card you upload a wrong file mime type";
@@ -975,7 +972,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name4 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["photo"]['name']));
-            $config4['upload_path'] = 'public/uploads/photo/';
+            $config4['upload_path'] = 'AKJHJG7665BHJG/photo/';
             $config4['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config4['file_name'] = $new_name4;	
 			$this->load->library('upload',$config4);
@@ -987,7 +984,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('photo'))
             {
-				$photo="public/uploads/photo/".$new_name4;
+				$photo="AKJHJG7665BHJG/photo/".$new_name4;
 			}
 			}else{
 			return "For photo you upload a wrong file mime type";
@@ -997,7 +994,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name5 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_document"]['name']));
-            $config5['upload_path'] = 'public/uploads/bank_doc/';
+            $config5['upload_path'] = 'AKJHJG7665BHJG/bank_doc/';
             $config5['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config5['file_name'] = $new_name5;	
 			$this->load->library('upload',$config5);
@@ -1009,7 +1006,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('file_document'))
             {
-				$bank_document="public/uploads/bank_doc/".$new_name5;
+				$bank_document="AKJHJG7665BHJG/bank_doc/".$new_name5;
 			}
 			}else{
 			return "For file document you upload a wrong file mime type";
@@ -1019,7 +1016,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name6 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["voter_id"]['name']));
-            $config6['upload_path'] = 'public/uploads/voter_id/';
+            $config6['upload_path'] = 'AKJHJG7665BHJG/voter_id/';
             $config6['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config6['file_name'] = $new_name6;	
 			$this->load->library('upload',$config6);
@@ -1031,7 +1028,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('voter_id'))
             {
-				$voter_id="public/uploads/voter_id/".$new_name6;
+				$voter_id="AKJHJG7665BHJG/voter_id/".$new_name6;
 			}
 			}else{
 				return "For voter id you upload a wrong file mime type";
@@ -1041,7 +1038,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name7 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["emp_form"]['name']));
-            $config7['upload_path'] = 'public/uploads/emp_form/';
+            $config7['upload_path'] = 'AKJHJG7665BHJG/emp_form/';
             $config7['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config7['file_name'] = $new_name7;	
 			$this->load->library('upload',$config7);
@@ -1053,7 +1050,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('emp_form'))
             {
-				$emp_form="public/uploads/emp_form/".$new_name7;
+				$emp_form="AKJHJG7665BHJG/emp_form/".$new_name7;
 			}
 			}else{
 				return "For emp form you upload a wrong file mime type";
@@ -1063,7 +1060,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name8 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["pf_doc"]['name']));
-            $config8['upload_path'] = 'public/uploads/pf_doc/';
+            $config8['upload_path'] = 'AKJHJG7665BHJG/pf_doc/';
             $config8['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config8['file_name'] = $new_name8;	
 			$this->load->library('upload',$config8);
@@ -1075,7 +1072,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('pf_doc'))
             {
-				$pf_doc="public/uploads/pf_doc/".$new_name8;
+				$pf_doc="AKJHJG7665BHJG/pf_doc/".$new_name8;
 			}
 			}else{
 				return "For pf document you upload a wrong file mime type";
@@ -1085,7 +1082,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name9 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["payslip_doc"]['name']));
-            $config9['upload_path'] = 'public/uploads/payslip_doc/';
+            $config9['upload_path'] = 'AKJHJG7665BHJG/payslip_doc/';
             $config9['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config9['file_name'] = $new_name9;	
 			$this->load->library('upload',$config9);
@@ -1097,7 +1094,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('payslip_doc'))
             {
-				$payslip_doc="public/uploads/payslip_doc/".$new_name9;
+				$payslip_doc="AKJHJG7665BHJG/payslip_doc/".$new_name9;
 			}
 			}else{
 				return "For payslip document you upload a wrong file mime type";
@@ -1107,7 +1104,7 @@ class Backend_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name10 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["exp_doc"]['name']));
-            $config10['upload_path'] = 'public/uploads/exp_doc/';
+            $config10['upload_path'] = 'AKJHJG7665BHJG/exp_doc/';
             $config10['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config10['file_name'] = $new_name10;	
 			$this->load->library('upload',$config10);
@@ -1119,7 +1116,7 @@ class Backend_db extends CI_Model
 			{
             if($this->upload->do_upload('exp_doc'))
             {
-				$exp_doc="public/uploads/exp_doc/".$new_name10;
+				$exp_doc="AKJHJG7665BHJG/exp_doc/".$new_name10;
 			}
 			}else{
 				return "For experience document you upload a wrong file mime type";
@@ -1132,8 +1129,8 @@ class Backend_db extends CI_Model
 			{
 				$digit=rand(0,999);
 				$filen = $digit.$_FILES["edu_certificate"]['name'][$i]; //file name
-				$path = "public/uploads/edu_certificate/".$filen;
-				$fpath="public/uploads/edu_certificate/".$filen;										
+				$path = "AKJHJG7665BHJG/edu_certificate/".$filen;
+				$fpath="AKJHJG7665BHJG/edu_certificate/".$filen;										
 				$gftype=pathinfo($_FILES["edu_certificate"]['name'], PATHINFO_EXTENSION);
 				$rftype = explode('/',mime_content_type($_FILES["edu_certificate"]['tmp_name'][$i]))[1];
 				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
@@ -1144,8 +1141,6 @@ class Backend_db extends CI_Model
 					$data1=array("emp_id"=>$id,"path"=>$fpath);	
 					$this->db->insert('education_certificate',$data1);
 				}
-				}else{
-					return "For education you upload a wrong file mime type";
 				}
 			}
 			
@@ -1156,8 +1151,8 @@ class Backend_db extends CI_Model
 			{
 				$digit=rand(0,999);
 				$filen = $digit.$_FILES["others_doc"]['name'][$i]; //file name
-				$path = "public/uploads/others_doc/".$filen;
-				$fpath="public/uploads/others_doc/".$filen;										
+				$path = "AKJHJG7665BHJG/others_doc/".$filen;
+				$fpath="AKJHJG7665BHJG/others_doc/".$filen;										
 				$gftype=pathinfo($_FILES["others_doc"]['name'], PATHINFO_EXTENSION);
 				$rftype = explode('/',mime_content_type($_FILES["others_doc"]['tmp_name'][$i]))[1];
 				$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
@@ -1168,8 +1163,6 @@ class Backend_db extends CI_Model
 					$data1=array("emp_id"=>$id,"path"=>$fpath);	
 					$this->db->insert('other_certificate',$data1);
 				}
-			}else{
-				return "For other certificate you upload a wrong file mime type";
 			}
 			}
 		}

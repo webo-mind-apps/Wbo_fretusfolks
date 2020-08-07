@@ -28,7 +28,7 @@
 	<script src="<?php echo base_url();?>admin_assets/assets/js/app.js"></script>
 	<script src="<?php echo base_url();?>admin_assets/global_assets/js/demo_pages/login.js"></script>
 	<!-- /theme JS files -->
-
+	<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
 </head>
 
 <body>
@@ -45,6 +45,10 @@
 
 				<!-- Login form -->
 				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/process_login');?>" method="POST">
+				    
+				    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+				    
+				    
 					<div class="card mb-0">
 						
 						
@@ -56,12 +60,12 @@
 									<span class="d-block text-muted">Your credentials</span>
 								</div>
 						<?php
-							if($this->session->flashdata('abc','error'))
+							if($this->session->flashdata('abc'))
 								{
 						?>
 								<div class="alert bg-danger alert-styled-left">
 									<button type="button" class="close" data-dismiss="alert"></button>
-									<span class="text-semibold">Opps!</span> Try agin!
+									<s class="text-semibold"><?= $this->session->flashdata('abc'); ?>
 								</div>
 							<?php	
 								}
@@ -90,14 +94,17 @@
 
 								<div class="form-group form-group-feedback form-group-feedback-left">
 									<input type="password" class="form-control" placeholder="Password" name="kjsflkjsfs" required>
+								    
 									<div class="form-control-feedback">
 										<i class="icon-lock2 text-muted"></i>
 									</div>
 								</div>
-
+								<div class="form-group form-group-feedback form-group-feedback-left">
+								<?=$recaptcha?>
+								</div>
 								
 								<div class="form-group">
-									<button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>
+									<button type="submit" name="action" value="submit" class="btn btn-primary btn-block">Sign in</button>
 								</div>
 
 								<span class="form-text text-center text-muted">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>

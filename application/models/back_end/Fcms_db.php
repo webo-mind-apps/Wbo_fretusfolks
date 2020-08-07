@@ -52,7 +52,7 @@ class Fcms_db extends CI_Model
 	}
 	function save_invoice()
 	{
-		$folder = 'public/uploads/';
+		$folder = 'AKJHJG7665BHJG/';
 		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$this->form_validation->set_rules('client', 'Client', 'trim|required');
 		$this->form_validation->set_rules('location', 'Location', 'trim|required');
@@ -112,7 +112,7 @@ class Fcms_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
-            $config['upload_path'] = 'uploads/invoice_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/invoice_doc/';
             $config['allowed_types'] = 'jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
@@ -124,7 +124,7 @@ class Fcms_db extends CI_Model
 			{
             if ($this->upload->do_upload('file'))
             {
-				$pan_path="public/uploads/invoice_doc/".$new_name;
+				$pan_path="AKJHJG7665BHJG/invoice_doc/".$new_name;
 			}
 		}else{
 			return "You upload file is a wrong file mime type";
@@ -139,7 +139,7 @@ class Fcms_db extends CI_Model
 	function update_invoice()
 	{
 		$id=$this->uri->segment(3);
-		$folder = 'public/uploads/';
+		$folder = 'AKJHJG7665BHJG/';
 		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$this->form_validation->set_rules('client', 'Client', 'trim|required');
 		$this->form_validation->set_rules('location', 'Location', 'trim|required');
@@ -210,7 +210,7 @@ class Fcms_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
-            $config['upload_path'] = 'uploads/invoice_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/invoice_doc/';
             $config['allowed_types'] = 'jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
@@ -223,7 +223,7 @@ class Fcms_db extends CI_Model
 			{
 				if ($this->upload->do_upload('file'))
 				{
-					$pan_path="public/uploads/invoice_doc/".$new_name;
+					$pan_path="AKJHJG7665BHJG/invoice_doc/".$new_name;
 					
 					$data=array("invoice_no"=>$invoice_no,"client_id"=>$client,"service_location"=>$location,"gst_no"=>$gst_no,"gross_value"=>$gross_value,"service_value"=>$service_fees,"source_value"=>$source_fees,"total_employee"=>$total_employee,"cgst"=>$cgst,"sgst"=>$sgst,"igst"=>$igst,"cgst_amount"=>$cgst_amt,"sgst_amount"=>$sgst_amt,"igst_amount"=>$igst_amt,"tax_amount"=>$total_tax,"total_value"=>$inv_total,"credit_note"=>$credit_note,"debit_note"=>$debit_note,"grand_total"=>$grand_total,"date"=>$db_date,"inv_month"=>$inv_month,"file_path"=>$pan_path,"balance_amount"=>$grand_total);	
 				}

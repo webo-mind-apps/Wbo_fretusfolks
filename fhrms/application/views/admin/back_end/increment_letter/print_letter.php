@@ -55,6 +55,47 @@
       <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
    </head>
    <body onload="window.print()" class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none">
+	<?php
+if(empty($letter_details)){
+	$letter_details[0]['date']="";
+	$letter_details[0]['emp_name']="";
+	$letter_details[0]['emp_id']="";
+	$letter_details[0]['location']="";
+	$letter_details[0]['content']="";
+	$letter_details[0]['absent_date']="";
+	$letter_details[0]['show_cause_date']="";
+	$letter_details[0]['termination_date']="";
+	$letter_details[0]['from_name']="";
+	$letter_details[0]['observation']="";
+	$letter_details[0]['goals']="";
+	$letter_details[0]['updates']="";
+	$letter_details[0]['timeline']="";
+	$letter_details[0]['ffi_emp_id']="";
+
+	$letter_details[0]['basic_salary']=0;
+	$letter_details[0]['hra']=0;
+	$letter_details[0]['conveyance']=0;
+	$letter_details[0]['medical_reimbursement']=0;
+	$letter_details[0]['special_allowance']=0;
+	$letter_details[0]['other_allowance']=0;
+	$letter_details[0]['gross_salary']=0;
+	$letter_details[0]['emp_pf']=0;
+	$letter_details[0]['pf_percentage']=0;
+	$letter_details[0]['esic_percentage']=0;
+	$letter_details[0]['emp_esic']=0;
+	$letter_details[0]['pt']=0;
+	$letter_details[0]['total_deduction']=0;
+	$letter_details[0]['employer_pf']=0;
+	$letter_details[0]['employer_pf_percentage']=0;
+	$letter_details[0]['employer_esic_percentage']=0;
+	$letter_details[0]['employer_esic']=0;
+	$letter_details[0]['ctc']=0;
+	$letter_details[0]['employer_pf_percentage']=0;
+	$letter_details[0]['employer_pf_percentage']=0;
+	$letter_details[0]['employer_pf_percentage']=0;
+}
+
+?>
 		<img src="<?php echo base_url()?>admin_assets/ffi_header.jpg" style="padding-left:5%;padding-right:5%;">	
 		<br><br>
 		<div>

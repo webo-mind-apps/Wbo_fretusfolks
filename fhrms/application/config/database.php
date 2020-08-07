@@ -76,13 +76,13 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	// 'username' => 'webo_user',
-	// 'password' => 'HG[4]Z+2;WY2',
-	// 'database' => 'webo_app',
-	
 	'username' => 'root',
 	'password' => '',
 	'database' => 'fretusfolks',
+	
+	// 'username' => 'root',
+	// 'password' => '',
+	// 'database' => 'fretusfolks',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

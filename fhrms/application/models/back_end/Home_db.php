@@ -22,11 +22,12 @@ class Home_db extends CI_Model
 	{
 		$emp_id=$this->session->userdata('emp_id');
 		$password=$this->input->post('password');
-		$en_psd=md5($password);
+		$hash_pass = $this->bcrypt->hash_password($password);
 		
-		$data=array("password"=>$en_psd,"psd"=>$password);
+		$data=array("password"=>$hash_pass,"psd"=>$password);
 		$this->db->where('ffi_emp_id',$emp_id);
 		$this->db->update('fhrms',$data);
+		return $this->db->affected_rows() > 0 ? true : false;
 	}
 }  
 ?>

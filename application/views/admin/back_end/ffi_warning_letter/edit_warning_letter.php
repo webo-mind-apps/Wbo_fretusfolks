@@ -1,6 +1,12 @@
 <?php
 $active_menu="Backendteam";
 ?>
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -176,6 +182,9 @@ $active_menu="Backendteam";
 				
 					<div class="col-md-12">
 						 <form class="form-horizontal" action="<?php echo site_url('ffi_warning_letter/update_letter/'.$pip_info[0]['id']);?>" method="POST" enctype="multipart/form-data">
+						     
+						     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+						     
 							<div class="card">
 								<div class="card-header header-elements-inline">
 									<h5 class="card-title">Edit FFI Warning Letter Details</h5>
@@ -237,6 +246,7 @@ $active_menu="Backendteam";
 									<button type="submit" class="btn btn-primary" name="upload_now" id="h-default-basic-start">Save</button>
 								</div>
 							</div>
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 						</div>
 					</div>

@@ -1,3 +1,10 @@
+<?php
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'hash' => $this->security->get_csrf_hash()
+);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +52,10 @@
 
 				<!-- Login form -->
 				<form class="login-form wmin-sm-400" action="<?php echo site_url('home/otp');?>" method="POST">
+				    
+				    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+				    
+				    
 					<div class="card mb-0">
 						
 						
@@ -97,6 +108,7 @@
 							</div>
 						</div>
 					</div>
+					<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 				</form>
 				<!-- /login form -->
 

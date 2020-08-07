@@ -49,16 +49,22 @@ class Cms_pf_db extends CI_Model
 			{
 				if($_FILES["file"]["size"][$i]>0)
 				{
-					$digit=rand(0,999);
-					$filen = $digit.$_FILES["file"]['name'][$i]; //file name
-					$path = "uploads/cms_pf/".$filen;
-					$fpath="uploads/cms_pf/".$filen;										
-					if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path)) 
+					$gftype=pathinfo($_FILES["file"]['name'][$i], PATHINFO_EXTENSION);
+					$rftype = explode('/',mime_content_type($_FILES["file"]['tmp_name'][$i]))[1];
+					$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+					if(in_array($rftype, $type))
 					{
-						$month1=$month[$i];
-						$year1=$year[$i];
-						$data1=array("client_id"=>$client,"state_id"=>$state,"year"=>$year1,"month"=>$month1,"path"=>$fpath);	
-						$this->db->insert('cms_pf',$data1);
+							$digit=rand(0,999);
+							$filen = $digit.$_FILES["file"]['name'][$i]; //file name
+							$path = "AKJHJG7665BHJG/cms_pf/".$filen;
+							$fpath="AKJHJG7665BHJG/cms_pf/".$filen;										
+							if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path)) 
+							{
+								$month1=$month[$i];
+								$year1=$year[$i];
+								$data1=array("client_id"=>$client,"state_id"=>$state,"year"=>$year1,"month"=>$month1,"path"=>$fpath);	
+								$this->db->insert('cms_pf',$data1);
+							}
 					}
 				}
 			}

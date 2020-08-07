@@ -106,6 +106,8 @@ class Candidate_db extends CI_Model
 	}
 	public function save_candidate()
 	{
+		$folder = 'AKJHJG7665BHJG/';
+		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$client=$this->input->post('client', true);
 		$emp_name=$this->input->post('emp_name', true);
 		$state=$this->input->post('state', true);
@@ -144,65 +146,102 @@ class Candidate_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_aadhar"]['name']));
-            $config['upload_path'] = 'uploads/aadhar_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/aadhar_doc/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
+
+			$gftype=pathinfo($_FILES["file_aadhar"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file_aadhar"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if ($this->upload->do_upload('file_aadhar'))
             {
-				$aadhar_path="uploads/aadhar_doc/".$new_name;
+				$aadhar_path="AKJHJG7665BHJG/aadhar_doc/".$new_name;
+			}
+			}else{
+				return "For adhar card you upload a wrong file mime type";
 			}
 		}
 		if (!empty($_FILES['file_license']['name']))
         {
 			$rand_no=date("is");
 			$new_name1 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_license"]['name']));
-            $config1['upload_path'] = 'uploads/license_doc/';
+            $config1['upload_path'] = 'AKJHJG7665BHJG/license_doc/';
             $config1['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config1['file_name'] = $new_name1;	
 			$this->load->library('upload',$config1);
 			$this->upload->initialize($config1);
+
+			$gftype=pathinfo($_FILES["file_license"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file_license"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if($this->upload->do_upload('file_license'))
             {
-				$license_path="uploads/license_doc/".$new_name1;
+				$license_path="AKJHJG7665BHJG/license_doc/".$new_name1;
+			}
+			}else{
+				return "For license you upload a wrong file mime type";
 			}
 		}
 		if (!empty($_FILES['photo']['name']))
         {
 			$rand_no=date("is");
 			$new_name2 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["photo"]['name']));
-            $config2['upload_path'] = 'uploads/photo/';
+            $config2['upload_path'] = 'AKJHJG7665BHJG/photo/';
             $config2['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config2['file_name'] = $new_name2;	
 			$this->load->library('upload',$config2);
 			$this->upload->initialize($config2);
+			$gftype=pathinfo($_FILES["photo"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["photo"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if($this->upload->do_upload('photo'))
             {
-				$photo="uploads/photo/".$new_name2;
+				$photo="AKJHJG7665BHJG/photo/".$new_name2;
+			}
+			}else{
+				return "For photo you upload a wrong file mime type";
 			}
 		}
 		if (!empty($_FILES['resume']['name']))
         {
 			$rand_no=date("is");
 			$new_name3 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["resume"]['name']));
-            $config3['upload_path'] = 'uploads/resume/';
+            $config3['upload_path'] = 'AKJHJG7665BHJG/resume/';
             $config3['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config3['file_name'] = $new_name3;	
 			$this->load->library('upload',$config3);
 			$this->upload->initialize($config3);
+			$gftype=pathinfo($_FILES["resume"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["resume"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if($this->upload->do_upload('resume'))
             {
-				$resume="uploads/resume/".$new_name3;
+				$resume="AKJHJG7665BHJG/resume/".$new_name3;
+			}
+			}else{
+				return "For resume you upload a wrong file mime type";
 			}
 		}
 		$data=array(
 			"client_id"=>$client,"emp_name"=>$emp_name,"interview_date"=>$db_interview_date,"joining_date"=>$db_joining_date,"designation"=>$designation,"department"=>$department,"state"=>$state,"location"=>$location,"phone1"=>$phone, "email"=>$email,"aadhar_no"=>$aadhar_no, "aadhar_path"=>$aadhar_path, "driving_license_no"=>$driving_license, "driving_license_path"=>$license_path,"photo"=>$photo,"resume"=>$resume,"modify_by"=>$user, "created_at"=>$db_date,"created_by"=>$user);
 			
 			$this->db->insert('backend_management',$data);
+			return $this->db->affected_rows() > 0 ? "true" : "something went wrong!";
 	}
 	function update_candidate()
 	{
+		$folder = 'AKJHJG7665BHJG/';
+		if (!is_dir($folder)) mkdir($folder, 0777, TRUE);
 		$id=$this->uri->segment(3);
 		
 		$this->db->select("aadhar_path,driving_license_path,photo,resume");
@@ -251,57 +290,89 @@ class Candidate_db extends CI_Model
         {
 			$rand_no=date("is");
 			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_aadhar"]['name']));
-            $config['upload_path'] = 'uploads/aadhar_doc/';
+            $config['upload_path'] = 'AKJHJG7665BHJG/aadhar_doc/';
             $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config['file_name'] = $new_name;	
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
+			$gftype=pathinfo($_FILES["file_aadhar"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file_aadhar"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if ($this->upload->do_upload('file_aadhar'))
             {
-				$aadhar_path="uploads/aadhar_doc/".$new_name;
+				$aadhar_path="AKJHJG7665BHJG/aadhar_doc/".$new_name;
 				
+			}
+			}else{
+				return "For aadhar card you upload a wrong file mime type";
 			}
 		}
 		if (!empty($_FILES['file_license']['name']))
         {
 			$rand_no=date("is");
 			$new_name1 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file_license"]['name']));
-            $config1['upload_path'] = 'uploads/license_doc/';
+            $config1['upload_path'] = 'AKJHJG7665BHJG/license_doc/';
             $config1['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config1['file_name'] = $new_name1;	
 			$this->load->library('upload',$config1);
 			$this->upload->initialize($config1);
+			$gftype=pathinfo($_FILES["file_license"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["file_license"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if($this->upload->do_upload('file_license'))
             {
-				$license_path="uploads/license_doc/".$new_name1;
+				$license_path="AKJHJG7665BHJG/license_doc/".$new_name1;
+			}
+			}else{
+				return "For license you upload a wrong file mime type";
 			}
 		}
 		if (!empty($_FILES['photo']['name']))
         {
 			$rand_no=date("is");
 			$new_name2 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["photo"]['name']));
-            $config2['upload_path'] = 'uploads/photo/';
+            $config2['upload_path'] = 'AKJHJG7665BHJG/photo/';
             $config2['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
 			$config2['file_name'] = $new_name2;	
 			$this->load->library('upload',$config2);
 			$this->upload->initialize($config2);
+			$gftype=pathinfo($_FILES["photo"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["photo"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if($this->upload->do_upload('photo'))
             {
-				$photo="uploads/photo/".$new_name2;
+				$photo="AKJHJG7665BHJG/photo/".$new_name2;
+			}
+			}else{
+				return "For photo you upload a wrong file mime type";
 			}
 		}
 		if (!empty($_FILES['resume']['name']))
         {
 			$rand_no=date("is");
 			$new_name3 = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["resume"]['name']));
-            $config3['upload_path'] = 'uploads/resume/';
+            $config3['upload_path'] = 'AKJHJG7665BHJG/resume/';
             $config3['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx';  
 			$config3['file_name'] = $new_name3;	
 			$this->load->library('upload',$config3);
 			$this->upload->initialize($config3);
+			$gftype=pathinfo($_FILES["resume"]['name'], PATHINFO_EXTENSION);
+			$rftype = explode('/',mime_content_type($_FILES["resume"]['tmp_name']))[1];
+			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
+			if(in_array($rftype, $type))
+			{
             if($this->upload->do_upload('resume'))
             {
-				$resume="uploads/resume/".$new_name3;
+				$resume="AKJHJG7665BHJG/resume/".$new_name3;
+			}
+			}else{
+				return "For resume you upload a wrong file mime type";
 			}
 		}
 		$data=array(
@@ -309,6 +380,7 @@ class Candidate_db extends CI_Model
 			
 			$this->db->where('id',$id);
 			$this->db->update('backend_management',$data);
+			return $this->db->affected_rows() > 0 ? "true" : "something went wrong!";
 	}
 	function delete_candidate()
 	{
