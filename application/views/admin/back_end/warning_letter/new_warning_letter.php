@@ -96,7 +96,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/warning_letter/get_emp_details",
 					datatype:"text",
-					data:{emp_id:emp_id},
+					data:{emp_id:emp_id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						if(response =="0")

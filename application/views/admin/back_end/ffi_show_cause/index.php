@@ -76,7 +76,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/ffi_show_cause/delete_show_cause_letter",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$('#get_details').empty();

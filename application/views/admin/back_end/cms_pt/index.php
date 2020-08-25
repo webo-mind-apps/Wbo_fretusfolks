@@ -1,6 +1,12 @@
 <?php
 $active_menu="Backendteam";
 ?>
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +104,7 @@ $active_menu="Backendteam";
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/cms_pt/search_pt",
 				datatype:"text",
-				data:{client:client,month:month,year:year},
+				data:{client:client,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#payslip_table').css("display","block");
@@ -122,7 +128,7 @@ $active_menu="Backendteam";
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/cms_pt/delete_cms_pt",
 					datatype:"text",
-					data:{id:id,client:client,month:month,year:year},
+					data:{id:id,client:client,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						
@@ -275,6 +281,7 @@ $active_menu="Backendteam";
 									</table>
 								</div>
 							</div>
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 					</div>
 				</div>

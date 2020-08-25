@@ -76,7 +76,8 @@ $csrf = array(
 				url: "<?php echo base_url(); ?>" + "index.php/candidate_system/view_candidate_details",
 				datatype: "text",
 				data: {
-					id: id
+					id: id,
+					<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 				},
 				success: function(response) {
 					$('#client_details').empty();
@@ -97,7 +98,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/candidate_system/delete_backend_team",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						$('#get_details').empty();

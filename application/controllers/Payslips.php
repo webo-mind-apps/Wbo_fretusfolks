@@ -176,11 +176,8 @@ class Payslips extends CI_Controller
 							if ($import_status == "insert") {
 								$insert = $insert + 1;
 								$result = array();
-								$this->db->select('emp_name,last_name,middle_name,email');
-								$this->db->from('backend_management');
-								$this->db->where('ffi_emp_id', $data['emp_id']);
-								$query = $this->db->get();
-								$result['payslip'] = $query->row_array();
+								
+								$result['payslip'] = $this->payslips->get_employee_mail_details($data['emp_id']);
 								// echo "<pre>";
 								// print_r($data);
 								// exit;
@@ -207,7 +204,7 @@ class Payslips extends CI_Controller
 									$mpdf->WriteHTML($html);
 									$content = $mpdf->Output('', 'S');
 									$filename = date('d/m/Y') . $result['payslip']['emp_name']."_payslip.pdf";
-									$subject = "welcome";
+									$subject = "Payslips details";
 									$this->load->config('email');
 									$this->load->library('email');
 									$from = $this->config->item('smtp_user');
@@ -219,11 +216,7 @@ class Payslips extends CI_Controller
 									$this->email->subject($subject);
 									$this->email->message($message);
 									$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-									//echo $result['payslip']['emp_name'] ."-" ;
-									//echo $filename .'<br>';
-									
 									$this->email->send();
-									//$this->mpdf->Reset();
 									$this->email->clear(TRUE);
 								}
 							} else if ($import_status == "update") {

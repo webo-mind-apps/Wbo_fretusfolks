@@ -58,11 +58,11 @@
 									<span class="d-block text-muted">Your credentials</span>
 								</div>
 								<?php
-								if ($this->session->flashdata('abc', 'error')) {
+								if ($this->session->tempdata('abc')) {
 								?>
 									<div class="alert bg-danger alert-styled-left">
 										<button type="button" class="close" data-dismiss="alert"></button>
-										<span class="text-semibold">Opps!</span> Try agin!
+										<span class="text-semibold"><?= $this->session->tempdata('abc');?></span>
 									</div>
 								<?php
 								}
@@ -95,7 +95,7 @@
 								</div>
 
 								<div class="form-group">
-									<button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>
+									<button type="submit" name="action" value="submit" class="btn btn-primary btn-block">Sign in</button>
 								</div>
 								<div style="text-align:center;">
 									<a href="<?php echo site_url('home/forgot_password'); ?>">Forgot Password</a>

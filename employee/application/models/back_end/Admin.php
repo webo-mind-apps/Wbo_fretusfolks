@@ -94,7 +94,7 @@ class Admin extends CI_Model
 			$emp_id=$this->input->post('iusbkjdsbjkss', true);
 			$password=$this->input->post('njsdhfisieejk', true);
 			
-			$this->db->select('emp_name,email,password,id');
+			$this->db->select('emp_name,email,password,id,ffi_emp_id');
 			$this->db->where("ffi_emp_id", $emp_id);
 			$this->db->where("data_status", "1");
 			$query=$this->db->get('backend_management');

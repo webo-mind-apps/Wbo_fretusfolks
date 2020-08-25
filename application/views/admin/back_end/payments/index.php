@@ -79,7 +79,8 @@ $csrf = array(
 				url: "<?php echo base_url(); ?>" + "index.php/payments/view_invoice_details",
 				datatype: "text",
 				data: {
-					id: id
+					id: id,
+					<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 				},
 				success: function(response) {
 					$('#client_details').empty();
@@ -99,7 +100,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/payments/delete_payments",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						$('#get_details').empty();

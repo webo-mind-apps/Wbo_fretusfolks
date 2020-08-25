@@ -92,7 +92,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/ffi_assets/search_assets",
 				datatype:"text",
-				data:{from_date:from_date,to_date:to_date},
+				data:{from_date:from_date,to_date:to_date,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#get_details').empty();
@@ -112,7 +112,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/ffi_assets/delete_assets",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();
@@ -326,6 +326,7 @@ $csrf = array(
 							</div>
 							
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					</div>
 				</div>

@@ -79,7 +79,7 @@ $csrf = array(
 									type:"POST",
 									url:"<?php echo base_url(); ?>" + "index.php/client_management/add_gstn_row",
 									datatype:"text",
-									data:{counter:counter},
+									data:{counter:counter,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 									success:function(response)
 									{
 										$("#gstn_div").append(response);

@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,7 +156,7 @@
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/tds_code/delete_tds_code",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$("#get_details").empty();
@@ -175,7 +181,7 @@
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/tds_code/change_code_details",
 					datatype:"text",
-					data:{id:id,code:code,value:value},
+					data:{id:id,code:code,value:value,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						alert("Updated Successfully");
@@ -292,6 +298,7 @@
 							
 							</div>
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					
 				</div>

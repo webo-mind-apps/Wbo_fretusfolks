@@ -13,7 +13,8 @@
 	"require": {
 		"php": ">=5.3.7",
 		"phpoffice/phpspreadsheet": "^1.10",
-		"mpdf/mpdf": "^8.0"
+		"mpdf/mpdf": "^8.0",
+		"phpoffice/phpexcel": "^1.8"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

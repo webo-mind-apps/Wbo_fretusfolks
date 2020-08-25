@@ -141,7 +141,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/increment_letter/delete_increment_letter",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						$('#get_details').empty();
@@ -266,6 +267,7 @@ $csrf = array(
 												<button type="submit" name="download" id="button" class="btn btn-success ">Download</button>
 											</div>
 										</div>
+										<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 										</form>
 									</div>
 								</div>
@@ -284,6 +286,7 @@ $csrf = array(
 									<!-- <a href="<?php // echo base_url() 
 													?>increment_letter/doc_formate">Download Format</a> -->
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw" style="display:none">
+									<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 								</form>
 							</div>
 							<div class="col-md-4" style="margin-right:5%;">

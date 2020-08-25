@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>

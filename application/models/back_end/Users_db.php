@@ -31,7 +31,7 @@ class Users_db extends CI_Model
 		$username=$this->input->post('username');
 		$psd=$this->input->post('password');
 		$status=$this->input->post('status');
-		$password=md5($psd);
+		$password = $this->bcrypt->hash_password($psd);
 		$date=date("Y-m-d");
 		
 		$data=array(
@@ -48,7 +48,7 @@ class Users_db extends CI_Model
 		$username=$this->input->post('username');
 		$psd=$this->input->post('password');
 		$status=$this->input->post('status');
-		$password=md5($psd);
+		$password = $this->bcrypt->hash_password($psd);
 		$date=date("Y-m-d");
 		
 		$data=array("username"=>$username,"password"=>$password,"psd"=>$psd,"user_type"=>$user_type,"status"=>$status);

@@ -77,7 +77,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/warning_letter/delete_warning_letter",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();

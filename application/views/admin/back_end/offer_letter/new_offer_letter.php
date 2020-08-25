@@ -138,7 +138,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/offer_letter/get_employee_detail",
 					datatype: "text",
 					data: {
-						emp_id: emp_id
+						emp_id: emp_id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 

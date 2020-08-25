@@ -1,6 +1,12 @@
 <?php
    $active_menu="index";
-   ?>
+	?>
+	<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -88,7 +94,7 @@
          		type:"POST",
          		url:"<?php echo base_url(); ?>" + "index.php/ffi_payslips/search_payslip",
          		datatype:"text",
-         		data:{emp_id:emp_id,month:month,year:year},
+         		data:{emp_id:emp_id,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
          		success:function(response)
          		{
          			$('#payslip_table').css("display","block");
@@ -111,7 +117,7 @@
          			type:"POST",
          			url:"<?php echo base_url(); ?>" + "index.php/ffi_payslips/delete_payslip",
          			datatype:"text",
-         			data:{id:id,emp_id:emp_id,month:month,year:year},
+         			data:{id:id,emp_id:emp_id,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
          			success:function(response)
          			{
          				$('#get_details').empty();
@@ -162,23 +168,23 @@
       <!-- Content area -->
       <div class="content">
       <?php
-         if($this->session->flashdata('success','success'))
+         if($this->session->flashdata('success'))
          {
          ?>
       <div class="alert bg-success alert-styled-left">
          <button type="button" class="close" data-dismiss="alert"></button>
-         <span class="text-semibold">Payslip Uploaded Successfully</span>
+         <span class="text-semibold"><?= $this->session->flashdata('success') ;?></span>
       </div>
       <?php	
          }
          ?>
       <?php
-         if($this->session->flashdata('abc','error'))
+         if($this->session->flashdata('no_file'))
          {
          ?>
       <div class="alert bg-danger alert-styled-left">
          <button type="button" class="close" data-dismiss="alert"></button>
-         <span class="text-semibold">Opps!</span> Try agin!
+         <span class="text-semibold"><?= $this->session->flashdata('no_file') ;?>!</span> 
       </div>
       <?php	
          }
@@ -256,7 +262,8 @@
                         <button type="submit" class="btn btn-primary" name="upload_now" id="upload_now">Upload</button>
                      </div>
                   </div>
-            </div>
+				</div>
+				<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
             </form>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">

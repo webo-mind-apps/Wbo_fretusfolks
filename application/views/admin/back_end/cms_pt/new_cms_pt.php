@@ -97,7 +97,7 @@ $csrf = array(
 								type:"POST",
 								url:"<?php echo base_url(); ?>" + "index.php/cms_pt/add_doc_div",
 								datatype:"text",
-								data:{counter:counter},
+								data:{counter:counter,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 								success:function(response)
 								{
 										$("#cycles").append(response);

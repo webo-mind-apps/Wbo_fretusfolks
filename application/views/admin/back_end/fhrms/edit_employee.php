@@ -142,7 +142,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/fhrms/delete_education_certificate",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();
@@ -160,7 +160,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/fhrms/delete_other_certificate",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();
@@ -196,7 +196,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/fhrms/remove_emp_form",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();
@@ -214,7 +214,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/fhrms/remove_pf_esic",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();
@@ -250,7 +250,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/fhrms/remove_exp_letter",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						location.reload();

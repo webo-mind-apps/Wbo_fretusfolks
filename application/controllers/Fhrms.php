@@ -18,7 +18,7 @@ class Fhrms extends CI_Controller
 	{
 		if ($this->session->userdata('admin_login')) {
 			$data['active_menu'] = "fhrms";
-			//$data['backend_team']=$this->fhrms->get_all_ffi_employee();
+			$data['backend_team']=$this->fhrms->get_all_ffi_employee();
 			$this->load->view('admin/back_end/fhrms/index', $data);
 		} else {
 			redirect('home/index');

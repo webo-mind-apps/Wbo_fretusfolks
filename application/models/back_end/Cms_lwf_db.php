@@ -55,9 +55,10 @@ class Cms_lwf_db extends CI_Model
 					{
 							$digit=rand(0,999);
 							$filen = $digit.$_FILES["file"]['name'][$i]; //file name
-							$path = "AKJHJG7665BHJG/cms_lwf/".$filen;
+							$path = "AKJHJG7665BHJG/cms_lwf/";
+							if (!is_dir($path)) mkdir($path, 0777, TRUE);
 							$fpath="AKJHJG7665BHJG/cms_lwf/".$filen;										
-							if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path)) 
+							if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path.$filen)) 
 							{
 								$month1=$month[$i];
 								$year1=$year[$i];

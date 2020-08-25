@@ -94,7 +94,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/payments/get_client_invoice",
 				datatype:"text",
-				data:{client:client},
+				data:{client:client,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#invoice_no').empty();
@@ -114,7 +114,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/payments/get_tds_amount",
 				datatype:"text",
-				data:{invoice:invoice,tds_percentage:tds_percentage},
+				data:{invoice:invoice,tds_percentage:tds_percentage,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#tds_amount').val(""+response);

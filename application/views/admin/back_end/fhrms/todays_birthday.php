@@ -84,7 +84,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/fhrms/view_employee_details",
 				datatype:"text",
-				data:{id:id},
+				data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#client_details').empty();

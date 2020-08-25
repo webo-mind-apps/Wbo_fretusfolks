@@ -1,6 +1,12 @@
 <?php
 $active_menu="index";
 ?>
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +97,7 @@ $active_menu="index";
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/payslips/search_payslip",
 				datatype:"text",
-				data:{emp_id:emp_id,month:month,year:year},
+				data:{emp_id:emp_id,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#payslip_table').css("display","block");
@@ -114,7 +120,7 @@ $active_menu="index";
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/payslips/delete_payslip",
 					datatype:"text",
-					data:{id:id,emp_id:emp_id,month:month,year:year},
+					data:{id:id,emp_id:emp_id,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$('#get_details').empty();
@@ -277,6 +283,7 @@ $active_menu="index";
 									</div>
 								</div>
 									  </div>
+									  <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 									  </form>
 
 
@@ -348,6 +355,7 @@ $active_menu="index";
 								</div>
 							</div>
 							<!-- /other inputs -->
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 					</div>
 				</div>
@@ -410,6 +418,7 @@ $active_menu="index";
 							</div>
 							
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					</div>
 				</div>

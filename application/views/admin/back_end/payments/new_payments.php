@@ -91,7 +91,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/payments/get_client_invoice",
 				datatype:"text",
-				data:{client:client},
+				data:{client:client,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#invoice_no').empty();
@@ -109,7 +109,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/payments/get_invoice_amount",
 				datatype:"text",
-				data:{inv:inv},
+				data:{inv:inv,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					a=response.split("***");

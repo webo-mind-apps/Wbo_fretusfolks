@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 error_reporting(0);
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 class Ffi_payslips extends CI_Controller 
 {
 		public function __construct()
@@ -36,17 +39,155 @@ class Ffi_payslips extends CI_Controller
 			redirect('home/index');
 		}
 	}
+	// public function upload_payslips()
+	// {
+	// 	if($this->session->userdata('admin_login'))
+	// 	{
+	// 		$data=$this->payslips->upload_payslips();
+	// 		redirect('ffi_payslips/');
+	// 	}
+	// 	else
+	// 	{
+	// 		redirect('home/index');
+	// 	}
+	// }
 	public function upload_payslips()
 	{
-		if($this->session->userdata('admin_login'))
-		{
-			$data=$this->payslips->upload_payslips();
-			redirect('ffi_payslips/');
+		$data = array();
+		// Load form validation library
+		if (!empty($_FILES['file']['name'])) {
+			// get file extension
+			$valid_extentions = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			$extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+			$content_type = mime_content_type($_FILES['file']['tmp_name']);
+			$valid = false;
+			foreach ($valid_extentions as $key => $value) {
+				if ($content_type == $value) {
+					$valid = true;
+				}
+			}
+
+			if ($valid) {
+				if ($extension == 'csv') :
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+				elseif ($extension == 'xlsx') :
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+				else :
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+				endif;
+
+				$path = 'AKJHJG7665BHJG/ffi_payslips/';
+				if (!is_dir($path)) mkdir($path, 0777, TRUE);
+					
+					$new_name = $_FILES["file"]['name'];
+					$config['upload_path'] = $path;					
+					$config['allowed_types'] = 'xlsx|xls|csv';
+					$config['remove_spaces'] = TRUE;
+					$config['file_name'] = $new_name;	
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);  
+					if (!$this->upload->do_upload('file')) 
+					{
+						$error = array('error' => $this->upload->display_errors());
+					} else 
+					{
+						$data = array('upload_data' => $this->upload->data());
+					} 
+					$inputFileName = $path . $import_xls_file;
+
+				// file path
+				$spreadsheet = $reader->load($_FILES['file']['tmp_name']); //1.location
+				$allDataInSheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+				//2.fetch stru and datas row wise
+				// echo "<pre>"; 
+				// print_r($allDataInSheet[2]); 
+
+				$insert = 0;
+				$update = 0;
+				$month=$this->input->post('payslip_month');
+				$year=$this->input->post('payslip_year');
+				$date = date("Y-m-d");
+				for ($i = 2; $i <= count($allDataInSheet); $i++) {
+
+					$data=array(
+						"emp_id"						=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
+						"employee_name"     			=> (empty($allDataInSheet[$i]['B']) ? '' : $allDataInSheet[$i]['B']),
+						"designation"					=> (empty($allDataInSheet[$i]['C']) ? '' : $allDataInSheet[$i]['C']),
+						"date_of_joining"				=> (empty($allDataInSheet[$i]['D']) ? '' : $allDataInSheet[$i]['D']), 
+						"department"					=> (empty($allDataInSheet[$i]['E']) ? '' : $allDataInSheet[$i]['E']),
+						"uan_no"						=> (empty($allDataInSheet[$i]['F']) ? '' : $allDataInSheet[$i]['F']),
+						"pf_no"							=> (empty($allDataInSheet[$i]['G']) ? '' : $allDataInSheet[$i]['G']),
+						"esi_no"						=> (empty($allDataInSheet[$i]['H']) ? '' : $allDataInSheet[$i]['H']),
+						"bank_name"						=> (empty($allDataInSheet[$i]['I']) ? '' : $allDataInSheet[$i]['I']),
+						"account_no"					=> (empty($allDataInSheet[$i]['J']) ? '' : $allDataInSheet[$i]['J']),
+						"ifsc_code"						=> (empty($allDataInSheet[$i]['K']) ? '' : $allDataInSheet[$i]['K']),
+						"month_days"					=> (empty($allDataInSheet[$i]['L']) ? '' : $allDataInSheet[$i]['L']),
+						"pay_days"						=> (empty($allDataInSheet[$i]['M']) ? '' : $allDataInSheet[$i]['M']),
+						"leave_days"					=> (empty($allDataInSheet[$i]['N']) ? '' : $allDataInSheet[$i]['N']),
+						"lop_days"						=> (empty($allDataInSheet[$i]['O']) ? '' : $allDataInSheet[$i]['O']),
+						"arrear_days"					=> (empty($allDataInSheet[$i]['P']) ? '' : $allDataInSheet[$i]['P']),
+						"ot_hours"						=> (empty($allDataInSheet[$i]['Q']) ? '' : $allDataInSheet[$i]['Q']),
+						"fixed_basic"					=> (empty($allDataInSheet[$i]['R']) ? '' : $allDataInSheet[$i]['R']),
+						"fixed_hra"						=> (empty($allDataInSheet[$i]['S']) ? '' : $allDataInSheet[$i]['S']),
+						"fixed_con_allow"				=> (empty($allDataInSheet[$i]['T']) ? '' : $allDataInSheet[$i]['T']),
+						"fixed_edu_allowance"			=> (empty($allDataInSheet[$i]['U']) ? '' : $allDataInSheet[$i]['U']),
+						"fixed_med_reim"				=> (empty($allDataInSheet[$i]['V']) ? '' : $allDataInSheet[$i]['V']),
+						"fixed_spec_allow"				=> (empty($allDataInSheet[$i]['W']) ? '' : $allDataInSheet[$i]['W']), 
+						"fixed_oth_allow"				=> (empty($allDataInSheet[$i]['X']) ? '' : $allDataInSheet[$i]['X']),
+						"fixed_st_bonus"				=> (empty($allDataInSheet[$i]['Y']) ? '' : $allDataInSheet[$i]['Y']),
+						"fixed_leave_wages"				=> (empty($allDataInSheet[$i]['Z']) ? '' : $allDataInSheet[$i]['Z']),
+						"fixed_holidays_wages"			=> (empty($allDataInSheet[$i]['AA']) ? '' : $allDataInSheet[$i]['AA']),
+						"fixed_attendance_bonus"    	=> (empty($allDataInSheet[$i]['AB']) ? '' : $allDataInSheet[$i]['AB']),
+						"fixed_ot_wages"				=> (empty($allDataInSheet[$i]['AC']) ? '' : $allDataInSheet[$i]['AC']),
+						"fixed_incentive"				=> (empty($allDataInSheet[$i]['AD']) ? '' : $allDataInSheet[$i]['AD']),
+						"fixed_arrear_wages"			=> (empty($allDataInSheet[$i]['AE']) ? '' : $allDataInSheet[$i]['AE']),
+						"fixed_other_wages"				=> (empty($allDataInSheet[$i]['AF']) ? '' : $allDataInSheet[$i]['AF']),
+						"fixed_gross"					=> (empty($allDataInSheet[$i]['AG']) ? '' : $allDataInSheet[$i]['AG']),
+						"earned_basic"					=> (empty($allDataInSheet[$i]['AH']) ? '' : $allDataInSheet[$i]['AH']),
+						"earned_hra"					=> (empty($allDataInSheet[$i]['AI']) ? '' : $allDataInSheet[$i]['AI']),
+						"earned_con_allow"				=> (empty($allDataInSheet[$i]['AJ']) ? '' : $allDataInSheet[$i]['AJ']),
+						"earned_education_allowance"	=> (empty($allDataInSheet[$i]['AK']) ? '' : $allDataInSheet[$i]['AK']),
+						"earned_med_reim"				=> (empty($allDataInSheet[$i]['AL']) ? '' : $allDataInSheet[$i]['AL']),
+						"earned_spec_allow"				=> (empty($allDataInSheet[$i]['AM']) ? '' : $allDataInSheet[$i]['AM']),
+						"earned_oth_allow"				=> (empty($allDataInSheet[$i]['AN']) ? '' : $allDataInSheet[$i]['AN']),
+						"earned_st_bonus"				=> (empty($allDataInSheet[$i]['AO']) ? '' : $allDataInSheet[$i]['AO']),
+						"earned_leave_wages"			=> (empty($allDataInSheet[$i]['AP']) ? '' : $allDataInSheet[$i]['AP']),
+						"earned_holiday_wages"			=> (empty($allDataInSheet[$i]['AQ']) ? '' : $allDataInSheet[$i]['AQ']),
+						"earned_attendance_bonus"		=> (empty($allDataInSheet[$i]['AR']) ? '' : $allDataInSheet[$i]['AR']),
+						"earned_ot_wages"				=> (empty($allDataInSheet[$i]['AS']) ? '' : $allDataInSheet[$i]['AS']),
+						"earned_incentive"				=> (empty($allDataInSheet[$i]['AT']) ? '' : $allDataInSheet[$i]['AT']),
+						"earned_arrear_wages"			=> (empty($allDataInSheet[$i]['AU']) ? '' : $allDataInSheet[$i]['AU']),
+						"earned_other_wages"			=> (empty($allDataInSheet[$i]['AV']) ? '' : $allDataInSheet[$i]['AV']),
+						"earned_gross"					=> (empty($allDataInSheet[$i]['AW']) ? '' : $allDataInSheet[$i]['AW']),
+						"epf"							=> (empty($allDataInSheet[$i]['AX']) ? '' : $allDataInSheet[$i]['AX']),
+						"esic"							=> (empty($allDataInSheet[$i]['AY']) ? '' : $allDataInSheet[$i]['AY']),
+						"pt"							=> (empty($allDataInSheet[$i]['AZ']) ? '' : $allDataInSheet[$i]['AZ']),
+						"it"							=> (empty($allDataInSheet[$i]['BA']) ? '' : $allDataInSheet[$i]['BA']),	
+						"lwf"							=> (empty($allDataInSheet[$i]['BB']) ? '' : $allDataInSheet[$i]['BB']),
+						"salary_advance"				=> (empty($allDataInSheet[$i]['BC']) ? '' : $allDataInSheet[$i]['BC']),
+						"other_deduction"				=> (empty($allDataInSheet[$i]['BD']) ? '' : $allDataInSheet[$i]['BD']),
+						"total_deductions"				=> (empty($allDataInSheet[$i]['BE']) ? '' : $allDataInSheet[$i]['BE']),
+						"net_salary"					=> (empty($allDataInSheet[$i]['BF']) ? '' : $allDataInSheet[$i]['BF']),
+						"in_words"						=> (empty($allDataInSheet[$i]['BG']) ? '' : $allDataInSheet[$i]['BG']),
+						"month"							=> $month,
+						"year"							=> $year,
+					);
+
+					if ($data['emp_id'] != '' || !empty($data['emp_id'])) {
+						if ($import_status = $this->payslips->upload_payslips($data)) {
+							if ($import_status == "insert") {
+								$insert = $insert + 1;
+							} 
+						}
+					}
+				}
+				$msg = $insert . ' rows inserted successfully!';
+				$this->session->set_flashdata('success', $msg);
+			} else {
+				$this->session->set_flashdata('no_file', 'Please Choose Valid file formate ');
+			}
 		}
-		else
-		{
-			redirect('home/index');
-		}
+		redirect('ffi_payslips', 'refresh');
 	}
 	function delete_payslip()
 	{

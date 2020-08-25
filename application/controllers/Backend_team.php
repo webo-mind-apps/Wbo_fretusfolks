@@ -156,7 +156,6 @@ class Backend_team extends CI_Controller
 		if ($this->session->userdata('admin_login')) {
 			$data = $this->back_end->update_team_pending();
 			if($data == "true"){
-				exit;
 					redirect('backend_team/');
 				}else{
 					

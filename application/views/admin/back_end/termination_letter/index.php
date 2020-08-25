@@ -78,7 +78,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/termination_letter/delete_termination_letter",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						$("#get_details").empty();
@@ -132,6 +133,7 @@ $csrf = array(
 								    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 								    
 									<input id="import" type="file" name="import" accept=".xls, .xlt, .xlm, .xlsx, .xlsm, .xltx, .xltm, .xlsb, .xla, .xlam, .xll, .xlw">
+									<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 								</form>
 							</div>
 							<div class="col-md-5">

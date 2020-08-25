@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +77,7 @@
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/termination_letter/delete_termination_letter",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$("#get_details").empty();

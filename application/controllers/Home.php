@@ -102,17 +102,11 @@ class Home extends CI_Controller
 					$this->email->to($to);
 					$this->email->subject($subject);
 					$this->email->message($message);
-					if ($this->email->send()) {
-						$this->session->set_tempdata('success','OTP is sent in your mail id', 5);
-						redirect('home/otp_index');
-					}
-					else
-					{
-					    echo $this->email->print_debugger(array('headers'));
-					    echo "Mail not sent";
-					}
-					// return true;
+					$this->email->send();
+					$this->session->set_tempdata('success','OTP is sent in your mail id', 5);
 					$this->email->clear(TRUE);
+					redirect('home/otp_index');
+					
 
 				}else
 				{

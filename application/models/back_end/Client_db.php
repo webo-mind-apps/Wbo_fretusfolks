@@ -134,11 +134,11 @@ class Client_db extends CI_Model
 
             if ($this->upload->do_upload('file'))
             {
-				$path="AKJHJG7665BHJG/agreement_doc/".$new_name;
+				$path=$upload_path.$new_name;
 			}
 			}else{
-			return "Mime error upload the correct format file!";
-		}
+			return "Please upload the correct file format!";
+			}
 		}
 		$data=array(
 					"client_code"=>$client_code,
@@ -253,22 +253,22 @@ class Client_db extends CI_Model
 			$type = array("gif", "jpg", "png","gif", "jpeg", "pdf","doc");
 			if(in_array($rftype, $type))
 			{
-			$rand_no=date("is");
-			$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
-			$upload_path='AKJHJG7665BHJG/agreement_doc/';
-			if (!is_dir($upload_path)) mkdir($upload_path, 0777, TRUE);
-            $config['upload_path'] = $upload_path;
-            $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
-			$config['file_name'] = $new_name;	
-			$this->load->library('upload',$config);
+				$rand_no=date("is");
+				$new_name = $rand_no.rand(10,99).str_replace(" ","_",($_FILES["file"]['name']));
+				$upload_path='AKJHJG7665BHJG/agreement_doc/';
+				if (!is_dir($upload_path)) mkdir($upload_path, 0777, TRUE);
+				$config['upload_path'] = $upload_path;
+				$config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc';  
+				$config['file_name'] = $new_name;	
+				$this->load->library('upload',$config);
 
-            if ($this->upload->do_upload('file'))
-            {
-				$path="AKJHJG7665BHJG/agreement_doc/".$new_name;
-			}
+				if ($this->upload->do_upload('file'))
+				{
+					$path=$upload_path.$new_name;
+				}
 			}
 			else{
-				return "Mime error upload the correct format file!";
+				return "Please upload the correct file format!";
 	    	}
 			
 			$data=array(

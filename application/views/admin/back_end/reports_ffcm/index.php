@@ -1,6 +1,12 @@
 <?php
 $active_menu="index";
 ?>
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +105,7 @@ $active_menu="index";
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/reports_ffcm/search_ffcm_details",
 				datatype:"text",
-				data:{from_date:from_date,to_date:to_date,req_data:req_data},
+				data:{from_date:from_date,to_date:to_date,req_data:req_data,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#payslip_table').css("display","block");
@@ -119,7 +125,7 @@ $active_menu="index";
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/payments/view_invoice_details",
 				datatype:"text",
-				data:{id:id},
+				data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#invoice_details').empty();
@@ -240,6 +246,7 @@ $active_menu="index";
 								</div>
 							</div>
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					
 				</div>

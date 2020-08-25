@@ -23,7 +23,7 @@ class Payslips_db extends CI_Model
 		$this->load->library("excel");
 		
 		$path = 'AKJHJG7665BHJG/payslips/';
-			
+		if (!is_dir($path)) mkdir($path, 0777, TRUE);
 			$new_name = $_FILES["file"]['name'];
 			$type = $_FILES["file"]['type'];
 			$config['upload_path'] = $path;					

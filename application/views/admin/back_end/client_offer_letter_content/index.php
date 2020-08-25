@@ -1,6 +1,12 @@
 <?php
 $active_menu="index";
 ?>
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +89,7 @@ $active_menu="index";
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/client_management/delete_descriptions",
 				datatype:"text",
-				data:{id:id},
+				data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					location.reload();

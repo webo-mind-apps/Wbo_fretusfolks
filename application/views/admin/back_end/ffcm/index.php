@@ -79,7 +79,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/ffcm/search_expenses",
 				datatype:"text",
-				data:{month:month,year:year},
+				data:{month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$("#datatable-header").css("display","none");
@@ -103,7 +103,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/ffcm/delete_expenses",
 					datatype:"text",
-					data:{id:id,month:month,year:year},
+					data:{id:id,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$('#get_details').empty();
@@ -353,6 +353,7 @@ $csrf = array(
 							</div>
 							
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					</div>
 				</div>

@@ -95,7 +95,13 @@ class Cms_labour extends CI_Controller
 		if(($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type')==0 || $this->session->userdata('admin_type')==3))
 		{
 			$data=$this->cms_labour->save_labour();
-			redirect('cms_labour/');
+			if($data == "true"){
+				redirect('cms_labour/');
+			}else{
+				$this->session->set_tempdata('abc',$data);
+				redirect('cms_labour/');
+			}
+			
 		}
 		else
 		{
@@ -107,7 +113,12 @@ class Cms_labour extends CI_Controller
 		if(($this->session->userdata('admin_login')) && ($this->session->userdata('admin_type')==0 || $this->session->userdata('admin_type')==3))
 		{
 			$data=$this->cms_labour->update_labour();
-			redirect('cms_labour/');
+			if($data == "true"){
+				redirect('cms_labour/');
+			}else{
+				$this->session->set_tempdata('abc',$data);
+				redirect('cms_labour/');
+			}
 		}
 		else
 		{

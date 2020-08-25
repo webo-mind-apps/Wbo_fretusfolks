@@ -141,7 +141,8 @@ $csrf = array(
 					datatype: "text",
 					data: {
 						id: id,
-						value: value
+						value: value,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						alert("Updated Successfully");
@@ -161,7 +162,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/user_master/delete_user_master",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						// alert("Deleted Successfully");

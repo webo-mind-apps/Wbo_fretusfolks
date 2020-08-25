@@ -95,7 +95,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/fcms/get_client_location",
 				datatype:"text",
-				data:{client:client},
+				data:{client:client,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#location').empty();
@@ -118,7 +118,7 @@ $csrf = array(
 						type:"POST",
 						url:"<?php echo base_url(); ?>" + "index.php/fcms/get_client_gst",
 						datatype:"text",
-						data:{client:client,client_location:client_location},
+						data:{client:client,client_location:client_location,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 						success:function(response)
 						{
 							$('#gst_no').val(""+response);

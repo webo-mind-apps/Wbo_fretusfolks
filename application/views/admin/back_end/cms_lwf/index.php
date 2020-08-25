@@ -1,3 +1,9 @@
+<?php
+$csrf = array(
+        'name' => $this->security->get_csrf_token_name(),
+        'hash' => $this->security->get_csrf_hash()
+);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,7 +101,7 @@
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/cms_lwf/search_lwf",
 				datatype:"text",
-				data:{client:client,month:month,year:year},
+				data:{client:client,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#payslip_table').css("display","block");
@@ -119,7 +125,7 @@
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/cms_lwf/delete_cms_lwf",
 					datatype:"text",
-					data:{id:id,client:client,month:month,year:year},
+					data:{id:id,client:client,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$('#get_details').empty();
@@ -271,6 +277,7 @@
 									</table>
 								</div>
 							</div>
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 					</div>
 				</div>

@@ -1,5 +1,9 @@
 <?php
 $active_menu="Backendteam";
+$csrf = array(
+	'name' => $this->security->get_csrf_token_name(),
+	'hash' => $this->security->get_csrf_hash()
+);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +102,7 @@ $active_menu="Backendteam";
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/cms_labour/search_cms_labour",
 				datatype:"text",
-				data:{client:client,month:month,year:year},
+				data:{client:client,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#payslip_table').css("display","block");
@@ -122,7 +126,7 @@ $active_menu="Backendteam";
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/cms_labour/delete_cms_labour",
 					datatype:"text",
-					data:{id:id,client:client,month:month,year:year},
+					data:{id:id,client:client,month:month,year:year,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						$('#get_details').empty();
@@ -182,6 +186,17 @@ $active_menu="Backendteam";
 			<div class="content">
 				<div class="row">
 					<div class="col-md-12">
+					<?php
+							if($this->session->flashdata('abc'))
+								{
+						?>
+								<div class="alert bg-danger alert-styled-left">
+									<button type="button" class="close" data-dismiss="alert"></button>
+									<s class="text-semibold"><?= $this->session->flashdata('abc'); ?>
+								</div>
+							<?php	
+								}
+							?>
 						 <form class="form-horizontal" id="my_form" action="<?php echo site_url('cms_labour/save_labour');?>" method="POST" enctype="multipart/form-data">
 						     
 						     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
@@ -253,6 +268,7 @@ $active_menu="Backendteam";
 									</table>
 								</div>
 							</div>
+							<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 						</form>
 					</div>
 				</div>

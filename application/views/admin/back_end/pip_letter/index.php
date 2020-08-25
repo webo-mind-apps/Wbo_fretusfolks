@@ -79,7 +79,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/pip_letter/delete_pip_letter",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						$('#get_details').empty();

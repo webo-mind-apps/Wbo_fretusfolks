@@ -33,11 +33,10 @@ class Cms_labour_db extends CI_Model
 		$this->form_validation->set_rules('closure_date', 'Closure Date', 'trim');
 		if ($this->form_validation->run() == FALSE)
 		{
-				$this->load->view('admin/back_end/cms_labour/new_labour');
+			$this->load->view('admin/back_end/cms_labour/new_labour');
 		}
 		else
 		{
-		
 			$client=$this->input->post('client',true);
 			$state=$this->input->post('state',true);
 			$location=$this->input->post('location',true);
@@ -55,11 +54,14 @@ class Cms_labour_db extends CI_Model
 				{
 					$digit=rand(0,999);
 					$filen = $digit.$_FILES["file"]['name']; //file name
-					$path = "AKJHJG7665BHJG/notice_document/".$filen;
+					$path = "AKJHJG7665BHJG/notice_document/";
+					if (!is_dir($path)) mkdir($path, 0777, TRUE);
 					$fpath="AKJHJG7665BHJG/notice_document/".$filen;										
-					if(move_uploaded_file($_FILES["file"]['tmp_name'],$path)) 
+					if(move_uploaded_file($_FILES["file"]['tmp_name'],$path.$filen)) 
 					{
 					}
+				}else{
+					return "Please upload the correct file format";
 				}
 			}
 			if($_FILES["closure_file"]["size"]>0)
@@ -71,11 +73,14 @@ class Cms_labour_db extends CI_Model
 				{
 					$digit=rand(0,999);
 					$filen1 = $digit.$_FILES["closure_file"]['name']; //file name
-					$path1 = "AKJHJG7665BHJG/closure_document/".$filen1;
+					$path1 = "AKJHJG7665BHJG/closure_document/";
+					if (!is_dir($path1)) mkdir($path1, 0777, TRUE);
 					$fpath1="AKJHJG7665BHJG/closure_document/".$filen1;										
 					if(move_uploaded_file($_FILES["closure_file"]['tmp_name'],$path1)) 
 					{
 					}
+				}else{
+					return "Please upload the correct file format";
 				}
 			}
 			$db_notice_date="";
@@ -91,6 +96,7 @@ class Cms_labour_db extends CI_Model
 			}
 			$data=array("client_id"=>$client,"state_id"=>$state,"location"=>$location,"notice_received_date"=>$db_notice_date,"notice_document"=>$fpath,"closure_date"=>$db_closure_date,"closure_document"=>$fpath1,"status"=>$status);
 			$this->db->insert('cms_labour',$data);
+			return $this->db->affected_rows() > 0 ? "true" : "something went wrong!";
 		}
 	}
 	function update_labour()
@@ -132,11 +138,14 @@ class Cms_labour_db extends CI_Model
 					{
 						$digit=rand(0,999);
 						$filen = $digit.$_FILES["file"]['name']; //file name
-						$path = "AKJHJG7665BHJG/notice_document/".$filen;
+						$path = "AKJHJG7665BHJG/notice_document/";
+						if (!is_dir($path)) mkdir($path, 0777, TRUE);
 						$notice_path="AKJHJG7665BHJG/notice_document/".$filen;										
-						if(move_uploaded_file($_FILES["file"]['tmp_name'],$path)) 
+						if(move_uploaded_file($_FILES["file"]['tmp_name'],$path.$filen)) 
 						{
 						}
+					}else{
+						return "Please upload the correct file format";
 					}
 				}
 				if($_FILES["closure_file"]["size"]>0)
@@ -148,11 +157,14 @@ class Cms_labour_db extends CI_Model
 					{
 						$digit=rand(0,999);
 						$filen1 = $digit.$_FILES["closure_file"]['name']; //file name
-						$path1 = "AKJHJG7665BHJG/closure_document/".$filen1;
+						$path1 = "AKJHJG7665BHJG/closure_document/";
+						if (!is_dir($path1)) mkdir($path1, 0777, TRUE);
 						$closure_path="AKJHJG7665BHJG/closure_document/".$filen1;										
 						if(move_uploaded_file($_FILES["closure_file"]['tmp_name'],$path1)) 
 						{
 						}
+					}else{
+						return "Please upload the correct file format";
 					}
 				}
 				$db_notice_date="";
@@ -170,8 +182,8 @@ class Cms_labour_db extends CI_Model
 			
 			$this->db->where('id',$id);
 			$this->db->update('cms_labour',$data);
+			return $this->db->affected_rows() > 0 ? "true" : "something went wrong!";
 		}
-		
 	}
 	function search_cms_labour()
 	{

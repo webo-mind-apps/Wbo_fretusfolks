@@ -76,7 +76,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/client_management/delete_client_gst_no",
 					datatype:"text",
-					data:{id:id},
+					data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						
@@ -114,7 +114,7 @@ $csrf = array(
 					type:"POST",
 					url:"<?php echo base_url(); ?>" + "index.php/client_management/update_client_gst_details",
 					datatype:"text",
-					data:{id:id,gst_no:gst_no,state:state},
+					data:{id:id,gst_no:gst_no,state:state,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 					success:function(response)
 					{
 						alert("Updated Successfully");

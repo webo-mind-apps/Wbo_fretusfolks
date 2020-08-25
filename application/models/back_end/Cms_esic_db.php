@@ -55,7 +55,8 @@ class Cms_esic_db extends CI_Model
 					{
 						$digit=rand(0,999);
 						$filen = $digit.$_FILES["file"]['name'][$i]; //file name
-						$path = "AKJHJG7665BHJG/cms_esic/".$filen;
+						$path = "AKJHJG7665BHJG/cms_esic/";
+						if (!is_dir($path)) mkdir($path, 0777, TRUE);
 						$fpath="AKJHJG7665BHJG/cms_esic/".$filen;										
 						if(move_uploaded_file($_FILES["file"]['tmp_name'][$i],$path)) 
 						{

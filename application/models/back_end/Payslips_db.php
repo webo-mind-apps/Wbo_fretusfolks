@@ -113,6 +113,13 @@ class Payslips_db extends CI_Model
 		$q=$query->result_array();
 		return $q;
 	}
+	function get_employee_mail_details($ffi_emp_id=null)
+	{
+		$this->db->select('emp_name,last_name,middle_name,email');
+		$this->db->where('ffi_emp_id', $ffi_emp_id);
+		$query = $this->db->get('backend_management');
+		return $query->row_array();
+	}
 	public function importEmployee_payslips_letter($data = null)
 	{
 	

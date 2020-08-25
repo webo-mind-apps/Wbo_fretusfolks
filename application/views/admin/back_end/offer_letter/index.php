@@ -156,7 +156,8 @@ $csrf = array(
 					url: "<?php echo base_url(); ?>" + "index.php/offer_letter/delete_offer_letter",
 					datatype: "text",
 					data: {
-						id: id
+						id: id,
+						<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'
 					},
 					success: function(response) {
 						$('#get_details').empty();
@@ -263,6 +264,7 @@ $csrf = array(
 												<button type="submit" name="download" class="btn btn-success">Download</button>
 											</div>
 										</div>
+										<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 										</form>
 									</div>
 								</div>

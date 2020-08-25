@@ -116,7 +116,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/reports_fhrms/search_fhrms_details",
 				datatype:"text",
-				data:{from_date:from_date,to_date:to_date,data:data,state:state,emp_location:emp_location,active_status:active_status,pending_doc:pending_doc},
+				data:{from_date:from_date,to_date:to_date,data:data,state:state,emp_location:emp_location,active_status:active_status,pending_doc:pending_doc,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#payslip_table').css("display","block");
@@ -136,7 +136,7 @@ $csrf = array(
 				type:"POST",
 				url:"<?php echo base_url(); ?>" + "index.php/fhrms/view_employee_details",
 				datatype:"text",
-				data:{id:id},
+				data:{id:id,<?php echo $this->security->get_csrf_token_name();?>: '<?php echo $this->security->get_csrf_hash();?>'},
 				success:function(response)
 				{
 					$('#client_details').empty();
@@ -356,6 +356,7 @@ $csrf = array(
 								</div>
 							</div>
 						</div>
+						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					
 				</div>
