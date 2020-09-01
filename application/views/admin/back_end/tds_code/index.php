@@ -301,7 +301,7 @@ $csrf = array(
 						<input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>" />
 					</form>
 					
-				</div>
+					</div>
 				</div>
 				<div class="card" id="payslip_table" style="display:block">
 					<div class="card-header header-elements-inline">

@@ -15,7 +15,13 @@ $route['fhrms-doc-format']  					=   'fhrms/doc_formate';
 $route['fhrms']  								=   'fhrms/index';
 $route['adms-inactive-import']   				=   'Bulk_update/adms_inactive_import';
 $route['doc-formate']   						=   'Backend_team/doc_formate';
-$route['doc-formate-inactive']   				=   'Bulk_update/doc_formate';
+$route['doc-formate']   						=   'Backend_team/doc_formate';
+$route['doc-formate']   						=   'Backend_team/doc_formate';
+$route['create-folder']   						=   'Licensing/create_folder';
+$route['save-folder']   						=   'Licensing/save_folder';
+$route['upload-file']   						=   'Licensing/upload_file';
+$route['get-folder']   							=   'Licensing/get_folder';
+$route['save-upload-file']   					=   'Licensing/save_file';
 
 $route['pdf_offer_letter/(:any)'] 				= 'Offer_letter/pdf_offer_letter/$1';
 

@@ -169,19 +169,21 @@ class User_master extends CI_Controller
 				$this->form_validation->set_rules('status', 'User Status', 'trim|required|max_length[10]');
 				$this->form_validation->set_rules('email', 'Email Id', 'trim|required|max_length[50]');
 			
+				$id = $this->uri->segment(3);
 				if ($this->form_validation->run() ==  TRUE):
+					
 					$data = $this->user_master->update_user_master();
 					if($data==true){
 						redirect('user_master');
 						}
 						else {
 							$this->session->set_tempdata('failed',$data, 5);
-							redirect('user_master/edit_user_master');
+							redirect('user_master/edit_user_master/'.$id);
 						}
 				else:
 					$msg=validation_errors();
 					$this->session->set_tempdata('failed',$msg, 5);
-					redirect('user_master/edit_user_master');
+					redirect('user_master/edit_user_master/'.$id);
 				endif;
 		}else {
 			redirect('home/index');

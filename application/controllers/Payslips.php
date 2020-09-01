@@ -178,47 +178,47 @@ class Payslips extends CI_Controller
 								$result = array();
 								
 								$result['payslip'] = $this->payslips->get_employee_mail_details($data['emp_id']);
-								// echo "<pre>";
-								// print_r($data);
-								// exit;
-								if ($result['payslip']['email'] != '' || !empty($result['payslip']['email'])) {
-									$message = $this->load->view('admin/back_end/payslips/payslips_email', $result, true);
-									$mpdf = new \Mpdf\Mpdf();
-									// $mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
-									// $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
-									$mpdf->AddPage(
-										'', // L - landscape, P - portrait 
-										'',
-										'',
-										'',
-										'',
-										5, // margin_left
-										5, // margin right
-										30, // margin top
-										30, // margin bottom
-										0, // margin header
-										0
-									); // margin footer 
-									$data['data'] = $data;
-									$html = $this->load->view('admin/back_end/payslips/pdf_payslips', $data, true);
-									$mpdf->WriteHTML($html);
-									$content = $mpdf->Output('', 'S');
-									$filename = date('d/m/Y') . $result['payslip']['emp_name']."_payslip.pdf";
-									$subject = "Payslips details";
-									$this->load->config('email');
-									$this->load->library('email');
-									$from = $this->config->item('smtp_user');
+								if(!empty($result['payslip'])){
+									if ($result['payslip']['email'] != '' || !empty($result['payslip']['email'])) {
+										$message = $this->load->view('admin/back_end/payslips/payslips_email', $result, true);
+										$mpdf = new \Mpdf\Mpdf();
+										// $mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
+										// $mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
+										$mpdf->AddPage(
+											'', // L - landscape, P - portrait 
+											'',
+											'',
+											'',
+											'',
+											5, // margin_left
+											5, // margin right
+											30, // margin top
+											30, // margin bottom
+											0, // margin header
+											0
+										); // margin footer 
+										$data['data'] = $data;
+										$html = $this->load->view('admin/back_end/payslips/pdf_payslips', $data, true);
+										$mpdf->WriteHTML($html);
+										$content = $mpdf->Output('', 'S');
+										$filename = date('d/m/Y') . $result['payslip']['emp_name']."_payslip.pdf";
+										$subject = "Payslips details";
+										$this->load->config('email');
+										$this->load->library('email');
+										$from = $this->config->item('smtp_user');
 
-									$to = $result['payslip']['email'];
-									$this->email->set_newline("\r\n");
-									$this->email->from($from, 'Fretus folks india');
-									$this->email->to($to);
-									$this->email->subject($subject);
-									$this->email->message($message);
-									$this->email->attach($content, 'attachment', $filename, 'application/pdf');
-									$this->email->send();
-									$this->email->clear(TRUE);
+										$to = $result['payslip']['email'];
+										$this->email->set_newline("\r\n");
+										$this->email->from($from, 'Fretus folks india');
+										$this->email->to($to);
+										$this->email->subject($subject);
+										$this->email->message($message);
+										$this->email->attach($content, 'attachment', $filename, 'application/pdf');
+										$this->email->send();
+										$this->email->clear(TRUE);
+									}
 								}
+								
 							} else if ($import_status == "update") {
 								$update = $update + 1;
 							}

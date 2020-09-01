@@ -1341,7 +1341,7 @@ class Backend_db extends CI_Model
 			$backendData 	= $data['backend'];
 			$eduData 		= $data['education_certificate'];
 			$othData 		= $data['other_certificate'];
-			$insertData 	= $this->insertMangment($backendData); // Insert employee info
+			$insertData 	= $this->insertManagement($backendData); // Insert employee info
 			$insertEdCer 	= $this->insertEducationCertificates($eduData); // Insert education Certificate
 			$insertoth 		= $this->insertOtherCertificates($othData); // Insert other Certificate
 			if($insertData && $insertoth && $insertEdCer)
@@ -1354,7 +1354,7 @@ class Backend_db extends CI_Model
 			$backendData 	= $data['backend'];
 			$eduData 		= $data['education_certificate'];
 			$othData 		= $data['other_certificate'];
-			$upM 			= $this->updateMangment($backendData);
+			$upM 			= $this->updateManagement($backendData);
 			$insertEdCer 	= $this->insertEducationCertificates($eduData); // Insert education Certificate
 			$insertoth 		= $this->insertOtherCertificates($othData); // Insert other Certificate
 			if($upM || $insertEdCer || $insertoth)
@@ -1403,7 +1403,7 @@ class Backend_db extends CI_Model
 		return $inO ;
 	}
  
-	public function insertMangment($data)
+	public function insertManagement($data)
 	{
 		$this->db->insert('backend_management', $data);
 		if ($this->db->affected_rows() > 0)
@@ -1443,7 +1443,7 @@ class Backend_db extends CI_Model
 
 	}
 
-	public function updateMangment($data)
+	public function updateManagement($data)
 	{
 		$this->db->where('ffi_emp_id', $data['ffi_emp_id']);
 		$this->db->update('backend_management', $data);

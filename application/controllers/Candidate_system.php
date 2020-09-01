@@ -30,6 +30,7 @@ class Candidate_system extends CI_Controller
 			// $status = '<span class="badge bg-blue">Completed</span>';
 			$i = 1;
 			foreach ($fetch_data as $row) {
+				
 				$sub_array   = array();
 				$sub_array[] = $i++;
 				$sub_array[] = $row->client_name; 
@@ -38,9 +39,9 @@ class Candidate_system extends CI_Controller
 				$sub_array[] = $row->phone1;
 				$approval = "";
 				$status = "";
-				if ($row->dcs_approval == 1) {
+				if ($row->dcs_approval == 0) {
 					$approval = '<span class="badge bg-blue">Approved</span>';
-				} else if ($row->dcs_approval == 2) {
+				} else if ($row->dcs_approval == 1) {
 					$approval = '<span class="badge bg-danger">Disapproved</span>';
 				}
 				if ($row->data_status == 1) {
