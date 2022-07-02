@@ -85,10 +85,10 @@
          You will be governed by the conduct, discipline, rules and regulations as laid down by the management.
          </li>
          <li>
-         The salary will be paid to you, subject to the receipt of payment from <b><?php echo $letter_details[0]['client_name']; ?></b>  (to which you have been deputed). You will receive your salary on 7th of every month.
+         The salary will be paid to you, subject to the receipt of payment from <b><?php echo $letter_details[0]['client_name']; ?></b>  (to which you have been deputed). You will receive your salary on <?=$letter_details[0]['salary_date'];?>th of every month.
          </li>
          <li>
-         This contract shall be terminable by either party giving 15 days’ notice in writing or salary on lieu of notice, to the other.
+         This contract shall be terminable by either party giving <?=$letter_details[0]['notice_period'];?> days’ notice in writing or salary on lieu of notice, to the other.
          </li>
          <li>
          You will be provided assets (mobile phone and uniform) during your work which has to be returned at the time of leaving company and on failing to submit the assets to the client amount will be deduct against the assets. 

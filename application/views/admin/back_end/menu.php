@@ -155,7 +155,7 @@
 									<li class="nav-item">
 										<a href="<?php echo site_url('bulk_update/');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Bulk Update</a>
 									</li>
-									<li class="nav-item">
+									<!-- <li class="nav-item">
 										<a href="#" class="nav-link <?php if($active_menu=="licensing") { echo "active"; } ?>"><i class="fa fa-angle-right" aria-hidden="true"></i>Licencing</a>
 										<ul class="nav nav-group-sub" data-submenu-title="Layouts">
 											<li class="nav-item">
@@ -165,7 +165,7 @@
 												<a href="<?php echo base_url('upload-file');?>" class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i>Upload Files</a>
 											</li>
 										</ul>
-									</li>
+									</li> -->
 									<?php
 										}
 									?>

@@ -152,7 +152,6 @@ $csrf = array(
 				if(empty($data['total_deduction']) || $data['total_deduction']=='null'){$data['total_deduction']='0';}
 				if(empty($data['net_salary']) || $data['net_salary']=='null'){$data['net_salary']='0';}
 				if(empty($data['in_words']) || $data['in_words']=='null'){$data['in_words']='0';}
-
 				?>
 	<body class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none;">
 		

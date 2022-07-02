@@ -675,7 +675,7 @@ class Fhrms extends CI_Controller
 				$n++;
 			}
 			/**************************************************************************************************************************/
-			$filename = date("d-m-Y") . ' Ffi Employee Details.xls';
+			$filename = date("d-m-Y") . ' Ffi Employee Details.xlsx';
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="' . $filename . '"');
 			header('Cache-Control: max-age=0');
@@ -1069,7 +1069,7 @@ class Fhrms extends CI_Controller
 				elseif ($extension == 'xlsx') :
 					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				else :
-					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				endif;
 
 				// file path
@@ -1141,7 +1141,7 @@ class Fhrms extends CI_Controller
 						"payslip"						=> (empty($allDataInSheet[$i]['BF']) ? '' : $allDataInSheet[$i]['BF']),
 						"exp_letter"					=> (empty($allDataInSheet[$i]['BG']) ? '' : $allDataInSheet[$i]['BG']),
 						"psd"							=> (empty($allDataInSheet[$i]['BH']) ? '' : $allDataInSheet[$i]['BH']),
-						"password"						=> md5((empty($allDataInSheet[$i]['BH']) ? '' : $allDataInSheet[$i]['BH'])),
+						"password"						=> $this->bcrypt->hash_password((empty($allDataInSheet[$i]['BH']) ? '' : $allDataInSheet[$i]['BH'])),
 						"data_status"					=> "1",
 
 						// 'modified_date'			=>	date('Y-m-d H:i:s')

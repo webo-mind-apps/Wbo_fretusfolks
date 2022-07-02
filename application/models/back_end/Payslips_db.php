@@ -122,14 +122,11 @@ class Payslips_db extends CI_Model
 	}
 	public function importEmployee_payslips_letter($data = null)
 	{
-	
-	
 		if ($data['emp_id'] != 'null' || $data['emp_id'] != '' || !empty($data['emp_id'])) {
 			$this->db->where('month',$data['month']);
 			$this->db->where('year', $data['year']);
 			$this->db->where('emp_id', $data['emp_id']);
 			$q = $this->db->get('payslips')->num_rows();
-			
 			if($q > 0):
 				$this->db->where('month',$data['month']);
 				$this->db->where('year', $data['year']);
@@ -145,6 +142,7 @@ class Payslips_db extends CI_Model
 				endif;
 			endif;
 		}
+		return "nothing";
 	}
 }  
 ?>

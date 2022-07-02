@@ -4,7 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 class Offer_letter extends CI_Controller
 {
 	public function __construct()
@@ -184,6 +185,8 @@ class Offer_letter extends CI_Controller
 								$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
 							} else if ($value['offer_letter_type'] == 4) {
 								$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+							}else if ($value['offer_letter_type'] == 5) {
+								$html = $this->load->view('admin/back_end/offer_letter/pdf-format5', $data, true);
 							}
 
 							$mpdf->WriteHTML($html);
@@ -264,6 +267,8 @@ class Offer_letter extends CI_Controller
 			} else if ($letter_type == 4) {
 
 				$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+			}else if ($letter_type == 5) {
+				$html = $this->load->view('admin/back_end/offer_letter/pdf-format5', $data, true);
 			}
 			$mpdf->WriteHTML($html);
 			$content = $mpdf->Output('', 'S');
@@ -308,6 +313,8 @@ class Offer_letter extends CI_Controller
 					$html = $this->load->view('admin/back_end/offer_letter/pdf-format3', $data, true);
 				} else if ($letter_type == 4) {
 					$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+				} else if ($letter_type == 5) {
+					$html = $this->load->view('admin/back_end/offer_letter/pdf-format5', $data, true);
 				}
 				$mpdf->SetHTMLHeader('<img src="admin_assets/ffi_header.jpg"/>');
 				$mpdf->SetHTMLFooter('<img src="admin_assets/ffi_footer.jpg"/>');
@@ -326,7 +333,7 @@ class Offer_letter extends CI_Controller
 				); // margin footer  
 				$mpdf->WriteHTML($html);
 				$date = date('Y-m-d_his');
-				$mpdf->Output($data[0]['employee_id'] . "_" . $data[0]['emp_name'] . "_" . $date . ".pdf", 'D');
+				$mpdf->Output($data[0]['employee_id'] . "_" . $data[0]['emp_name'] . "_" . $date . ".pdf", 'I');
 				redirect('increment_letter');
 			}
 		}
@@ -404,7 +411,7 @@ class Offer_letter extends CI_Controller
 				elseif ($extension == 'xlsx') :
 					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				else :
-					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				endif;
 
 				// file path
@@ -454,6 +461,8 @@ class Offer_letter extends CI_Controller
 						"tenure_month"			=> (empty($allDataInSheet[$i]['AB']) ? '' : $allDataInSheet[$i]['AB']),
 						"designation"			=> (empty($allDataInSheet[$i]['AA']) ? '' : $allDataInSheet[$i]['AA']),
 						"email"			        => (empty($allDataInSheet[$i]['AE']) ? '' : $allDataInSheet[$i]['AE']),
+						"notice_period"			=> (empty($allDataInSheet[$i]['AF']) ? 7 : $allDataInSheet[$i]['AF']),
+						"salary_date"			=> (empty($allDataInSheet[$i]['AG']) ? 7 : $allDataInSheet[$i]['AG']),
 
 					);
 					if ($data['employee_id'] != '' || !empty($data['employee_id'])) :
@@ -495,6 +504,9 @@ class Offer_letter extends CI_Controller
 								} else if ($data['offer_letter_type'] == 4) {
 
 									$html = $this->load->view('admin/back_end/offer_letter/pdf-format4', $data, true);
+								}else if ($data['offer_letter_type'] == 5) {
+
+									$html = $this->load->view('admin/back_end/offer_letter/pdf-format5', $data, true);
 								}
 								$mpdf->WriteHTML($html);
 								$content = $mpdf->Output('', 'S');
@@ -525,13 +537,11 @@ class Offer_letter extends CI_Controller
 				}
 				$msg = $insert . ' rows inserted <br>'  . $not_exist . ' employee id not given <br>';
 				$this->session->set_flashdata('success', $msg);
-				redirect('offer_letter', 'refresh');
 			} else {
 				$this->session->set_flashdata('error', 'Please Choose Valid file formate ');
-				redirect('offer_letter', 'refresh');
 			}
-			redirect('offer_letter', 'refresh');
 		}
+		redirect('offer_letter', 'refresh');
 	}
 
 	public function doc_formate()
@@ -567,11 +577,13 @@ class Offer_letter extends CI_Controller
 			$sheet1->setCellValue('E2', "Udaan");
 			$sheet1->setCellValue('E3', "Grofers");
 			$sheet1->setCellValue('E4', "Others");
+			$sheet1->setCellValue('E5', "Blue Dart");
 
 
 			$sheet1->setCellValue('F2', 4);
 			$sheet1->setCellValue('F3', 2);
 			$sheet1->setCellValue('F4', 3);
+			$sheet1->setCellValue('F5', 5);
 
 			$spreadsheet->setActiveSheetIndex(0);
 			$spreadsheet->getActiveSheet()->setTitle('Offer_letter');

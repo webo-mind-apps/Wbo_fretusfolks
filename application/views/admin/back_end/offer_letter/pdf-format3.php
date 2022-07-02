@@ -70,7 +70,7 @@ $csrf = array(
          You will be entitled for leaves as per shops and establishment act and other applicable laws in India.
          </li>
          <li>
-         During the period of fixed contract of twelve months, your services could be deputed at the sole discretion of the management to any of our client’s company to do work pertaining to or incidental to the client’s business. Your service can be transferred from one location to another (within state) as per business requirement. 
+         During the period of fixed contract of <b><?php echo $letter_details[0]['tenure_month']; ?></b> months, your services could be deputed at the sole discretion of the management to any of our client’s company to do work pertaining to or incidental to the client’s business. Your service can be transferred from one location to another (within state) as per business requirement. 
          </li>
          <li>
          In case of any adverse remarks found from the reference given by you, the documents submitted by you/outcome of the police verification report then this appointment will stand withdrawn immediately.
@@ -91,10 +91,10 @@ $csrf = array(
          You will be governed by the conduct, discipline, rules and regulations as laid down by the management.
          </li>
          <li>
-         The salary will be paid to you, subject to the receipt of payment from <b><?php echo $letter_details[0]['client_name']; ?></b>  (to which you have been deputed). You will receive your salary on 7th of every month.
+         The salary will be paid to you, subject to the receipt of payment from <b><?php echo $letter_details[0]['client_name']; ?></b>  (to which you have been deputed). You will receive your salary on <?=$letter_details[0]['salary_date'];?>th of every month.
          </li>
          <li>
-         This contract shall be terminable by either party giving 15 days’ notice in writing or salary on lieu of notice, to the other.
+         This contract shall be terminable by either party giving <?=$letter_details[0]['notice_period'];?> days’ notice in writing or salary on lieu of notice, to the other.
          </li>
          <li>
          You will be provided assets (mobile phone and uniform) during your work which has to be returned at the time of leaving company and on failing to submit the assets to the client amount will be deduct against the assets. 

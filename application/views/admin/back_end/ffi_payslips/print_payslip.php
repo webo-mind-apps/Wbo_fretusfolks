@@ -87,7 +87,103 @@ $csrf = array(
 				</head>
 				
 	<body class="body" style="padding:0 !important; margin:0 !important; display:block !important; background:#ffffff; -webkit-text-size-adjust:none">
-		
+	<?php
+				if(empty($payslip[0]['emp_name']) || $payslip[0]['emp_name']==null){$payslip[0]['emp_name']='0';}
+				if(empty($payslip[0]['middle_name']) || $payslip[0]['middle_name']==null){$payslip[0]['middle_name']='0';}
+				if(empty($payslip[0]['last_name']) || $payslip[0]['last_name']==null){$payslip[0]['last_name']='0';}
+				if(empty($payslip[0]['month']) || $payslip[0]['month']==null){$payslip[0]['month']='0';}
+				if(empty($payslip[0]['year']) || $payslip[0]['year']==null){$payslip[0]['year']='0';}
+				if(empty($payslip[0]['uan_no']) || $payslip[0]['uan_no']==null){$payslip[0]['uan_no']='0';}
+				if(empty($payslip[0]['emp_id']) || $payslip[0]['emp_id']==null){$payslip[0]['emp_id']='0';}
+				if(empty($payslip[0]['pf_no']) || $payslip[0]['pf_no']==null){$payslip[0]['pf_no']='0';}
+				if(empty($payslip[0]['designation']) || $payslip[0]['designation']==null){$payslip[0]['designation']='0';}
+				if(empty($payslip[0]['esi_no']) || $payslip[0]['esi_no']==null){$payslip[0]['esi_no']='0';}
+				if(empty($payslip[0]['doj']) || $payslip[0]['doj']==null){$payslip[0]['doj']='0';}
+				if(empty($payslip[0]['bank_name']) || $payslip[0]['bank_name']==null){$payslip[0]['bank_name']='0';}
+				if(empty($payslip[0]['department']) || $payslip[0]['department']==null){$payslip[0]['department']='0';}
+				if(empty($payslip[0]['account_no']) || $payslip[0]['account_no']==null){$payslip[0]['account_no']='0';}
+				if(empty($payslip[0]['location']) || $payslip[0]['location']==null){$payslip[0]['location']='0';}
+				if(empty($payslip[0]['ifsc_code']) || $payslip[0]['ifsc_code']==null){$payslip[0]['ifsc_code']='0';}
+				if(empty($payslip[0]['client_name']) || $payslip[0]['client_name']==null){$payslip[0]['client_name']='0';}
+				if(empty($payslip[0]['month_days']) || $payslip[0]['month_days']==null){$payslip[0]['month_days']='0';}
+				if(empty($payslip[0]['leave_days']) || $payslip[0]['leave_days']==null){$payslip[0]['leave_days']='0';}
+				if(empty($payslip[0]['arrears_days']) || $payslip[0]['arrears_days']==null){$payslip[0]['arrears_days']='0';}
+				if(empty($payslip[0]['leave_balance']) || $payslip[0]['leave_balance']==null){$payslip[0]['leave_balance']='0';}
+				if(empty($payslip[0]['payable_days']) || $payslip[0]['payable_days']==null){$payslip[0]['payable_days']='0';}
+				if(empty($payslip[0]['lop_days']) || $payslip[0]['lop_days']==null){$payslip[0]['lop_days']='0';}
+				if(empty($payslip[0]['ot_hours']) || $payslip[0]['ot_hours']==null){$payslip[0]['ot_hours']='0';}
+				if(empty($payslip[0]['fixed_basic_da']) || $payslip[0]['fixed_basic_da']==null){$payslip[0]['fixed_basic_da']='0';}
+				if(empty($payslip[0]['earn_basic']) || $payslip[0]['earn_basic']==null){$payslip[0]['earn_basic']='0';}
+				if(empty($payslip[0]['epf']) || $payslip[0]['epf']==null){$payslip[0]['epf']='0';}
+				if(empty($payslip[0]['fixed_hra']) || $payslip[0]['fixed_hra']==null){$payslip[0]['fixed_hra']='0';}
+				if(empty($payslip[0]['earn_hr']) || $payslip[0]['earn_hr']==null){$payslip[0]['earn_hr']='0';}
+				if(empty($payslip[0]['esic']) || $payslip[0]['esic']==null){$payslip[0]['esic']='0';}
+				if(empty($payslip[0]['fixed_conveyance']) || $payslip[0]['fixed_conveyance']==null){$payslip[0]['fixed_conveyance']='0';}
+				if(empty($payslip[0]['earn_conveyance']) || $payslip[0]['earn_conveyance']==null){$payslip[0]['earn_conveyance']='0';}
+				if(empty($payslip[0]['pt']) || $payslip[0]['pt']==null){$payslip[0]['pt']='0';}
+				if(empty($payslip[0]['fix_education_allowance']) || $payslip[0]['fix_education_allowance']==null){$payslip[0]['fix_education_allowance']='0';}
+				if(empty($payslip[0]['earn_education_allowance']) || $payslip[0]['earn_education_allowance']==null){$payslip[0]['earn_education_allowance']='0';}
+				if(empty($payslip[0]['it']) || $payslip[0]['it']==null){$payslip[0]['it']='0';}
+				if(empty($payslip[0]['fixed_medical_reimbursement']) || $payslip[0]['fixed_medical_reimbursement']==null){$payslip[0]['fixed_medical_reimbursement']='0';}
+				if(empty($payslip[0]['earn_medical_allowance']) || $payslip[0]['earn_medical_allowance']==null){$payslip[0]['earn_medical_allowance']='0';}
+				if(empty($payslip[0]['lwf']) || $payslip[0]['lwf']==null){$payslip[0]['lwf']='0';}
+				if(empty($payslip[0]['fixed_special_allowance']) || $payslip[0]['fixed_special_allowance']==null){$payslip[0]['fixed_special_allowance']='0';}
+				if(empty($payslip[0]['earn_special_allowance']) || $payslip[0]['earn_special_allowance']==null){$payslip[0]['earn_special_allowance']='0';}
+				if(empty($payslip[0]['salary_advance']) || $payslip[0]['salary_advance']==null){$payslip[0]['salary_advance']='0';}
+				if(empty($payslip[0]['fixed_other_allowance']) || $payslip[0]['fixed_other_allowance']==null){$payslip[0]['fixed_other_allowance']='0';}
+				if(empty($payslip[0]['earn_other_allowance']) || $payslip[0]['earn_other_allowance']==null){$payslip[0]['earn_other_allowance']='0';}
+				if(empty($payslip[0]['other_deduction']) || $payslip[0]['other_deduction']==null){$payslip[0]['other_deduction']='0';}
+				if(empty($payslip[0]['fixed_st_bonus']) || $payslip[0]['fixed_st_bonus']==null){$payslip[0]['fixed_st_bonus']='0';}
+				if(empty($payslip[0]['earn_st_bonus']) || $payslip[0]['earn_st_bonus']==null){$payslip[0]['earn_st_bonus']='0';}
+				if(empty($payslip[0]['fix_leave_wages']) || $payslip[0]['fix_leave_wages']==null){$payslip[0]['fix_leave_wages']='0';}
+				if(empty($payslip[0]['earn_leave_wages']) || $payslip[0]['earn_leave_wages']==null){$payslip[0]['earn_leave_wages']='0';}
+				if(empty($payslip[0]['fixed_holiday_wages']) || $payslip[0]['fixed_holiday_wages']==null){$payslip[0]['fixed_holiday_wages']='0';}
+				if(empty($payslip[0]['earn_holiday_wages']) || $payslip[0]['earn_holiday_wages']==null){$payslip[0]['earn_holiday_wages']='0';}
+				if(empty($payslip[0]['fixed_attendance_bonus']) || $payslip[0]['fixed_attendance_bonus']==null){$payslip[0]['fixed_attendance_bonus']='0';}
+				if(empty($payslip[0]['earn_attendance_bonus']) || $payslip[0]['earn_attendance_bonus']==null){$payslip[0]['earn_attendance_bonus']='0';}
+				if(empty($payslip[0]['fixed_ot_wages']) || $payslip[0]['fixed_ot_wages']==null){$payslip[0]['fixed_ot_wages']='0';}
+				if(empty($payslip[0]['earn_ot_wages']) || $payslip[0]['earn_ot_wages']==null){$payslip[0]['earn_ot_wages']='0';}
+				if(empty($payslip[0]['fix_incentive_wages']) || $payslip[0]['fix_incentive_wages']==null){$payslip[0]['fix_incentive_wages']='0';}
+				if(empty($payslip[0]['earn_incentive_wages']) || $payslip[0]['earn_incentive_wages']==null){$payslip[0]['earn_incentive_wages']='0';}
+				if(empty($payslip[0]['fix_arrear_wages']) || $payslip[0]['fix_arrear_wages']==null){$payslip[0]['fix_arrear_wages']='0';}
+				if(empty($payslip[0]['earn_arrear_wages']) || $payslip[0]['earn_arrear_wages']==null){$payslip[0]['earn_arrear_wages']='0';}
+				if(empty($payslip[0]['fixed_other_wages']) || $payslip[0]['fixed_other_wages']==null){$payslip[0]['fixed_other_wages']='0';}
+				if(empty($payslip[0]['earn_other_wages']) || $payslip[0]['earn_other_wages']==null){$payslip[0]['earn_other_wages']='0';}
+				if(empty($payslip[0]['fixed_total_earnings']) || $payslip[0]['fixed_total_earnings']==null){$payslip[0]['fixed_total_earnings']='0';}
+				if(empty($payslip[0]['earn_total_gross']) || $payslip[0]['earn_total_gross']==null){$payslip[0]['earn_total_gross']='0';}
+				if(empty($payslip[0]['total_deduction']) || $payslip[0]['total_deduction']==null){$payslip[0]['total_deduction']='0';}
+				if(empty($payslip[0]['net_salary']) || $payslip[0]['net_salary']==null){$payslip[0]['net_salary']='0';}
+				if(empty($payslip[0]['in_words']) || $payslip[0]['in_words']==null){$payslip[0]['in_words']='0';}
+				if(empty($payslip[0]['fixed_edu_allowance']) || $payslip[0]['fixed_edu_allowance']==null){$payslip[0]['fixed_edu_allowance']='0';}
+				if(empty($payslip[0]['earned_education_allowance']) || $payslip[0]['earned_education_allowance']==null){$payslip[0]['earned_education_allowance']='0';}
+				if(empty($payslip[0]['arrear_days']) || $payslip[0]['arrear_days']==null){$payslip[0]['arrear_days']='0';}
+				if(empty($payslip[0]['fixed_basic']) || $payslip[0]['arrear_days']==null){$payslip[0]['fixed_basic']='0';}
+				if(empty($payslip[0]['earned_basic']) || $payslip[0]['earned_basic']==null){$payslip[0]['earned_basic']='0';}
+				if(empty($payslip[0]['earned_hra']) || $payslip[0]['earned_hra']==null){$payslip[0]['earned_hra']='0';}
+				if(empty($payslip[0]['fixed_con_allow']) || $payslip[0]['fixed_con_allow']==null){$payslip[0]['fixed_con_allow']='0';}
+				if(empty($payslip[0]['earned_con_allow']) || $payslip[0]['earned_con_allow']==null){$payslip[0]['earned_con_allow']='0';}
+				if(empty($payslip[0]['fixed_med_reim']) || $payslip[0]['fixed_med_reim']==null){$payslip[0]['fixed_med_reim']='0';}
+				if(empty($payslip[0]['earned_med_reim']) || $payslip[0]['earned_med_reim']==null){$payslip[0]['earned_med_reim']='0';}
+				if(empty($payslip[0]['fixed_spec_allow']) || $payslip[0]['fixed_spec_allow']==null){$payslip[0]['fixed_spec_allow']='0';}
+				if(empty($payslip[0]['earned_spec_allow']) || $payslip[0]['earned_spec_allow']==null){$payslip[0]['earned_spec_allow']='0';}
+				if(empty($payslip[0]['fixed_oth_allow']) || $payslip[0]['fixed_oth_allow']==null){$payslip[0]['fixed_oth_allow']='0';}
+				if(empty($payslip[0]['earned_oth_allow']) || $payslip[0]['earned_oth_allow']==null){$payslip[0]['earned_oth_allow']='0';}
+				if(empty($payslip[0]['earned_st_bonus']) || $payslip[0]['earned_st_bonus']==null){$payslip[0]['earned_st_bonus']='0';}
+				if(empty($payslip[0]['fixed_leave_wages']) || $payslip[0]['fixed_leave_wages']==null){$payslip[0]['fixed_leave_wages']='0';}
+				if(empty($payslip[0]['earned_leave_wages']) || $payslip[0]['earned_leave_wages']==null){$payslip[0]['earned_leave_wages']='0';}
+				if(empty($payslip[0]['fixed_holidays_wages']) || $payslip[0]['fixed_holidays_wages']==null){$payslip[0]['fixed_holidays_wages']='0';}
+				if(empty($payslip[0]['earned_holiday_wages']) || $payslip[0]['earned_holiday_wages']==null){$payslip[0]['earned_holiday_wages']='0';}
+				if(empty($payslip[0]['earned_attendance_bonus']) || $payslip[0]['earned_attendance_bonus']==null){$payslip[0]['earned_attendance_bonus']='0';}
+				if(empty($payslip[0]['earned_ot_wages']) || $payslip[0]['earned_ot_wages']==null){$payslip[0]['earned_ot_wages']='0';}
+				if(empty($payslip[0]['fixed_incentive']) || $payslip[0]['fixed_incentive']==null){$payslip[0]['fixed_incentive']='0';}
+				if(empty($payslip[0]['earned_incentive']) || $payslip[0]['earned_incentive']==null){$payslip[0]['earned_incentive']='0';}
+				if(empty($payslip[0]['fixed_arrear_wages']) || $payslip[0]['fixed_arrear_wages']==null){$payslip[0]['fixed_arrear_wages']='0';}
+				if(empty($payslip[0]['earned_arrear_wages']) || $payslip[0]['earned_arrear_wages']==null){$payslip[0]['earned_arrear_wages']='0';}
+				if(empty($payslip[0]['earned_other_wages']) || $payslip[0]['earned_other_wages']==null){$payslip[0]['earned_other_wages']='0';}
+				if(empty($payslip[0]['fixed_gross']) || $payslip[0]['fixed_gross']==null){$payslip[0]['fixed_gross']='0';}
+				if(empty($payslip[0]['earned_gross']) || $payslip[0]['earned_gross']==null){$payslip[0]['earned_gross']='0';}
+				if(empty($payslip[0]['total_deductions']) || $payslip[0]['total_deductions']==null){$payslip[0]['total_deductions']='0';}
+				?>
 		<section class="about-company-area" id="store" style="    margin-top: 4%;padding-bottom:6%;">
     <div class="container">
        

@@ -3,7 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 error_reporting(0);
 class Increment_letter extends CI_Controller
 {
@@ -343,7 +344,7 @@ class Increment_letter extends CI_Controller
 				elseif ($extension == 'xlsx') :
 					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				else :
-					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				endif;
 
 				// file path

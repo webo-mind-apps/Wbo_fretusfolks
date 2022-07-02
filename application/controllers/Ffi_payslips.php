@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 error_reporting(0);
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 class Ffi_payslips extends CI_Controller 
 {
@@ -73,7 +74,7 @@ class Ffi_payslips extends CI_Controller
 				elseif ($extension == 'xlsx') :
 					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				else :
-					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				endif;
 
 				$path = 'AKJHJG7665BHJG/ffi_payslips/';
@@ -113,7 +114,7 @@ class Ffi_payslips extends CI_Controller
 						"emp_id"						=> (empty($allDataInSheet[$i]['A']) ? '' : $allDataInSheet[$i]['A']),
 						"employee_name"     			=> (empty($allDataInSheet[$i]['B']) ? '' : $allDataInSheet[$i]['B']),
 						"designation"					=> (empty($allDataInSheet[$i]['C']) ? '' : $allDataInSheet[$i]['C']),
-						"date_of_joining"				=> (empty($allDataInSheet[$i]['D']) ? '' : $allDataInSheet[$i]['D']), 
+						"date_of_joining"				=> (empty($allDataInSheet[$i]['D']) ? '' : date('Y-m-d', strtotime($allDataInSheet[$i]['D']))), 
 						"department"					=> (empty($allDataInSheet[$i]['E']) ? '' : $allDataInSheet[$i]['E']),
 						"uan_no"						=> (empty($allDataInSheet[$i]['F']) ? '' : $allDataInSheet[$i]['F']),
 						"pf_no"							=> (empty($allDataInSheet[$i]['G']) ? '' : $allDataInSheet[$i]['G']),

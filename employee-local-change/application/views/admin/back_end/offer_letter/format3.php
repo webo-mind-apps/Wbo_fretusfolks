@@ -192,13 +192,13 @@
 							
                              <li>
 								  <p style="font-size:12px;line-height:1.5;margin-top: 1% !important;"> 
-								  The salary will be paid to you, subject to the receipt of payment from <b><?php echo $letter_details[0]['client_name'];?></b>.  (to which you have been deputed). You will receive your salary on 7th of every month.
+								  The salary will be paid to you, subject to the receipt of payment from <b><?php echo $letter_details[0]['client_name'];?></b>.  (to which you have been deputed). You will receive your salary on <?=$letter_details[0]['salary_date'];?>th of every month.
 								  </p> 
 							</li>
 							
 							<li>
 								  <p style="font-size:12px;line-height:1.5;margin-top: 1% !important;"> 
-								   This contract shall be terminable by either party giving 15 days’ notice in writing or salary on lieu of notice, to the other.
+								   This contract shall be terminable by either party giving <?=$letter_details[0]['notice_period'];?> days’ notice in writing or salary on lieu of notice, to the other.
 								  </p> 
 							</li>
 							

@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
@@ -29,8 +30,13 @@ class Backend_team extends CI_Controller
 	}
 	public function get_all_data($var = null) //created for implementing data tables
 	{
+	    
+	   // echo '<pre>';
+	   // print_r($this->input->post());
+	    
+	   // exit;
+	    
 		if ($this->session->userdata('admin_login')) {
-		
 			$fetch_data = $this->back_end->make_datatables();
 
 			$data = array();
@@ -914,7 +920,7 @@ class Backend_team extends CI_Controller
 				elseif ($extension == 'xlsx') :
 					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				else :
-					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+					$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 				endif;
 
 				// file path
@@ -1267,93 +1273,93 @@ class Backend_team extends CI_Controller
 							$i = 1;
 							foreach ($not_imported as $key => $row) {
 							
-								$sheet->setCellValue('A'.$n, $row['entity_name']);
-								$sheet->setCellValue('B'.$n, $row['client_name']);
-								$sheet->setCellValue('C'.$n, $row['ffi_emp_id']);
-								$sheet->setCellValue('D'.$n, $row['console_id']);
-								$sheet->setCellValue('E'.$n, $row['client_emp_id']);
-								$sheet->setCellValue('F'.$n, $row['grade']);
-								$sheet->setCellValue('G'.$n, $row['emp_name']);
-								$sheet->setCellValue('H'.$n, $row['middle_name']);
-								$sheet->setCellValue('I'.$n, $row['last_name']);
-								$sheet->setCellValue('J'.$n, $row['interview_date']);
-								$sheet->setCellValue('K'.$n, $row['joining_date']);
-								$sheet->setCellValue('L'.$n, $row['contract_date']);
-								$sheet->setCellValue('M'.$n, $row['designation']);
-								$sheet->setCellValue('N'.$n, $row['department']);
-								$sheet->setCellValue('O'.$n, $row['state_name']);
-								$sheet->setCellValue('P'.$n, $row['location']);
-								$sheet->setCellValue('Q'.$n, $row['branch']);
-								$sheet->setCellValue('R'.$n, $row['dob']);
-								$sheet->setCellValue('S'.$n, $row['gender_name']);
-								$sheet->setCellValue('T'.$n, $row['father_name']);
-								$sheet->setCellValue('U'.$n, $row['mother_name']);
-								$sheet->setCellValue('V'.$n, $row['religion']);
-								$sheet->setCellValue('W'.$n, $row['languages']);
-								$sheet->setCellValue('X'.$n, $row['mother_tongue']);
-								$sheet->setCellValue('Y'.$n, $row['maritial_status']);
-								$sheet->setCellValue('Z'.$n, $row['emer_contact_no']);
-								$sheet->setCellValue('AA'.$n, $row['spouse_name']);
-								$sheet->setCellValue('AB'.$n, $row['no_of_childrens']);
-								$sheet->setCellValue('AC'.$n, $row['blood_group']);
-								$sheet->setCellValue('AD'.$n, $row['qualification']);
-								$sheet->setCellValue('AE'.$n, $row['phone1']);
-								$sheet->setCellValue('AF'.$n, $row['phone2']);
-								$sheet->setCellValue('AG'.$n, $row['email']);
-								$sheet->setCellValue('AH'.$n, $row['official_mail_id']);
-								$sheet->setCellValue('AI'.$n, $row['permanent_address']);
-								$sheet->setCellValue('AJ'.$n, $row['present_address']);
-								$sheet->setCellValue('AK'.$n, $row['pan_no']);
-								$sheet->setCellValue('AL'.$n, $row['pan_path']);
-								$sheet->setCellValue('AM'.$n, $row['aadhar_no']);
-								$sheet->setCellValue('AN'.$n, $row['aadhar_path']);
-								$sheet->setCellValue('AO'.$n, $row['driving_license_no']);
-								$sheet->setCellValue('AP'.$n, $row['driving_license_path']);
-								$sheet->setCellValue('AQ'.$n, $row['photo']);
-								$sheet->setCellValue('AR'.$n, $row['resume']);
-								$sheet->setCellValue('AS'.$n, $row['bank_name']);
-								$sheet->setCellValue('AT'.$n, $row['bank_document']);
-								$sheet->setCellValue('AU'.$n, $row['bank_account_no']);
-								$sheet->setCellValue('AV'.$n, $row['bank_ifsc_code']);
-								$sheet->setCellValue('AW'.$n, $row['uan_no']);
-								$sheet->setCellValue('AX'.$n, $row['esic_no']);
-								$sheet->setCellValue('AY'.$n, $row['status_name']);
-								$sheet->setCellValue('AZ'.$n, $row['basic_salary']);
-								$sheet->setCellValue('BA'.$n, $row['hra']);
-								$sheet->setCellValue('BB'.$n, $row['conveyance']);
-								$sheet->setCellValue('BC'.$n, $row['medical_reimbursement']);
-								$sheet->setCellValue('BD'.$n, $row['special_allowance']);
-								$sheet->setCellValue('BE'.$n, $row['st_bonus']);
-								$sheet->setCellValue('BF'.$n, $row['other_allowance']);
-								$sheet->setCellValue('BG'.$n, $row['gross_salary']);
-								$sheet->setCellValue('BH'.$n, $row['emp_pf']);
-								$sheet->setCellValue('BI'.$n, $row['emp_esic']);
-								$sheet->setCellValue('BJ'.$n, $row['pt']);
-								$sheet->setCellValue('BK'.$n, $row['total_deduction']);
-								$sheet->setCellValue('BL'.$n, $row['take_home']);
-								$sheet->setCellValue('BM'.$n, $row['employer_pf']);
-								$sheet->setCellValue('BN'.$n, $row['employer_esic']);
-								$sheet->setCellValue('BO'.$n, $row['mediclaim']);
-								$sheet->setCellValue('BP'.$n, $row['ctc']);
-								$sheet->setCellValue('BQ'.$n, $row['voter_id']);
-								$sheet->setCellValue('BR'.$n, $row['emp_form']);
-								$sheet->setCellValue('BS'.$n, $row['path1']);
-								$sheet->setCellValue('BT'.$n, $row['pf_esic_form']);
-								$sheet->setCellValue('BU'.$n, $row['path2']);
-								$sheet->setCellValue('BV'.$n, $row['payslip']);
-								$sheet->setCellValue('BW'.$n, $row['exp_letter']);
-								$sheet->setCellValue('BX'.$n, $row['psd']);
-								$sheet->setCellValue('BY'.$n, $row['active_status_name']);
-								$sheet->setCellValue('BZ'.$n, $row['data_status_name']);
-								$sheet->setCellValue('CA'.$n, $row['client_id']);
-								$sheet->setCellValue('CB'.$n, $row['state']);
-								$sheet->setCellValue('CC'.$n, $row['gender']);
-								$sheet->setCellValue('CD'.$n, $row['status']);
-								$sheet->setCellValue('CE'.$n, $row['active_status']);
-								$sheet->setCellValue('CF'.$n, $row['data_status']);
-								$sheet->setCellValue('CI'.$n, $row['dcs_approval_name']);
-								$sheet->setCellValue('CJ'.$n, $row['dcs_approval']);
-								$sheet->setCellValue('CK'.$n, 'Enter employee name');
+								$sheet->setCellValue('A' . $n, $row['entity_name']);
+								$sheet->setCellValue('B' . $n, $row['client_name']);
+								$sheet->setCellValue('C' . $n, $row['ffi_emp_id']);
+								$sheet->setCellValue('D' . $n, $row['console_id']);
+								$sheet->setCellValue('E' . $n, $row['client_emp_id']);
+								$sheet->setCellValue('F' . $n, $row['grade']);
+								$sheet->setCellValue('G' . $n, $row['emp_name']);
+								$sheet->setCellValue('H' . $n, $row['middle_name']);
+								$sheet->setCellValue('I' . $n, $row['last_name']);
+								$sheet->setCellValue('J' . $n, $row['interview_date']);
+								$sheet->setCellValue('K' . $n, $row['joining_date']);
+								$sheet->setCellValue('L' . $n, $row['contract_date']);
+								$sheet->setCellValue('M' . $n, $row['designation']);
+								$sheet->setCellValue('N' . $n, $row['department']);
+								$sheet->setCellValue('O' . $n, $row['state_name']);
+								$sheet->setCellValue('P' . $n, $row['location']);
+								$sheet->setCellValue('Q' . $n, $row['branch']);
+								$sheet->setCellValue('R' . $n, $row['dob']);
+								$sheet->setCellValue('S' . $n, $row['gender_name']);
+								$sheet->setCellValue('T' . $n, $row['father_name']);
+								$sheet->setCellValue('U' . $n, $row['mother_name']);
+								$sheet->setCellValue('V' . $n, $row['religion']);
+								$sheet->setCellValue('W' . $n, $row['languages']);
+								$sheet->setCellValue('X' . $n, $row['mother_tongue']);
+								$sheet->setCellValue('Y' . $n, $row['maritial_status']);
+								$sheet->setCellValue('Z' . $n, $row['emer_contact_no']);
+								$sheet->setCellValue('AA' . $n, $row['spouse_name']);
+								$sheet->setCellValue('AB' . $n, $row['no_of_childrens']);
+								$sheet->setCellValue('AC' . $n, $row['blood_group']);
+								$sheet->setCellValue('AD' . $n, $row['qualification']);
+								$sheet->setCellValue('AE' . $n, $row['phone1']);
+								$sheet->setCellValue('AF' . $n, $row['phone2']);
+								$sheet->setCellValue('AG' . $n, $row['email']);
+								$sheet->setCellValue('AH' . $n, $row['official_mail_id']);
+								$sheet->setCellValue('AI' . $n, $row['permanent_address']);
+								$sheet->setCellValue('AJ' . $n, $row['present_address']);
+								$sheet->setCellValue('AK' . $n, $row['pan_no']);
+								$sheet->setCellValue('AL' . $n, $row['pan_path']);
+								$sheet->setCellValue('AM' . $n, $row['aadhar_no']);
+								$sheet->setCellValue('AN' . $n, $row['aadhar_path']);
+								$sheet->setCellValue('AO' . $n, $row['driving_license_no']);
+								$sheet->setCellValue('AP' . $n, $row['driving_license_path']);
+								$sheet->setCellValue('AQ' . $n, $row['photo']);
+								$sheet->setCellValue('AR' . $n, $row['resume']);
+								$sheet->setCellValue('AS' . $n, $row['bank_name']);
+								$sheet->setCellValue('AT' . $n, $row['bank_document']);
+								$sheet->setCellValue('AU' . $n, $row['bank_account_no']);
+								$sheet->setCellValue('AV' . $n, $row['bank_ifsc_code']);
+								$sheet->setCellValue('AW' . $n, $row['uan_no']);
+								$sheet->setCellValue('AX' . $n, $row['esic_no']);
+								$sheet->setCellValue('AY' . $n, $row['status_name']);
+								$sheet->setCellValue('AZ' . $n, $row['basic_salary']);
+								$sheet->setCellValue('BA' . $n, $row['hra']);
+								$sheet->setCellValue('BB' . $n, $row['conveyance']);
+								$sheet->setCellValue('BC' . $n, $row['medical_reimbursement']);
+								$sheet->setCellValue('BD' . $n, $row['special_allowance']);
+								$sheet->setCellValue('BE' . $n, $row['st_bonus']);
+								$sheet->setCellValue('BF' . $n, $row['other_allowance']);
+								$sheet->setCellValue('BG' . $n, $row['gross_salary']);
+								$sheet->setCellValue('BH' . $n, $row['emp_pf']);
+								$sheet->setCellValue('BI' . $n, $row['emp_esic']);
+								$sheet->setCellValue('BJ' . $n, $row['pt']);
+								$sheet->setCellValue('BK' . $n, $row['total_deduction']);
+								$sheet->setCellValue('BL' . $n, $row['take_home']);
+								$sheet->setCellValue('BM' . $n, $row['employer_pf']);
+								$sheet->setCellValue('BN' . $n, $row['employer_esic']);
+								$sheet->setCellValue('BO' . $n, $row['mediclaim']);
+								$sheet->setCellValue('BP' . $n, $row['ctc']);
+								$sheet->setCellValue('BQ' . $n, $row['voter_id']);
+								$sheet->setCellValue('BR' . $n, $row['emp_form']);
+								$sheet->setCellValue('BS' . $n, $row['path1']);
+								$sheet->setCellValue('BT' . $n, $row['pf_esic_form']);
+								$sheet->setCellValue('BU' . $n, $row['path2']);
+								$sheet->setCellValue('BV' . $n, $row['payslip']);
+								$sheet->setCellValue('BW' . $n, $row['exp_letter']);
+								$sheet->setCellValue('BX' . $n, $row['psd']);
+								$sheet->setCellValue('BY' . $n, $row['active_status_name']);
+								$sheet->setCellValue('BZ' . $n, $row['data_status_name']);
+								$sheet->setCellValue('CA' . $n, $row['client_id']);
+								$sheet->setCellValue('CB' . $n, $row['state']);
+								$sheet->setCellValue('CC' . $n, $row['gender']);
+								$sheet->setCellValue('CD' . $n, $row['status']);
+								$sheet->setCellValue('CE' . $n, $row['active_status']);
+								$sheet->setCellValue('CF' . $n, $row['data_status']);
+								$sheet->setCellValue('CI' . $n, $row['dcs_approval_name']);
+								$sheet->setCellValue('CJ' . $n, $row['dcs_approval']);
+								$sheet->setCellValue('CK' . $n, 'Enter employee name');
 								
 								// $sheet->setCellValue('BQ' . $n, $row['location']);
 								// $sheet->setCellValue('BR' . $n, $row['branch']);
@@ -1366,13 +1372,13 @@ class Backend_team extends CI_Controller
 						// 	/**************************************************************************************************************************/
 						// 	// echo "sdfds";
 						// 	// 	exit;
-							$date = date('y-m-d-his');
-							$filename = 'Backend_not_imported_' . $date.'.xlsx';
-							$objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-							header('Content-Type: application/vnd.ms-excel');
-							header('Content-Disposition: attachment; filename="'.$filename.'"');
-							$objWriter->save("php://output");
-							exit;
+						$date = date('y-m-d-his');
+						$filename = 'Backend_not_imported_' . $date.'.xlsx';
+						$objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+						header('Content-Type: application/vnd.ms-excel');
+						header('Content-Disposition: attachment; filename="'.$filename.'"');
+						$objWriter->save("php://output");
+						exit;
 							
 						} else {
 							$this->session->set_flashdata('no_data', 'No datas founded');
@@ -1387,6 +1393,7 @@ class Backend_team extends CI_Controller
 				
 				if ($insert > 0 || $update > 0) {
 					$msg = "Imported successfully";
+
 					$this->session->set_flashdata('success', $msg);
 				}
 				redirect('backend_team', 'refresh');

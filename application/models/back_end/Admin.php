@@ -34,13 +34,15 @@ class Admin extends CI_Model {
 				{
 				
 					$this->session->set_userdata('admin_id',$res->id);	
+					$this->session->set_userdata('admin_login',true);
 					// $this->session->set_userdata('admin_login','true');
-					// $this->session->set_userdata('admin_name',$res[0]['username']);	
-					// $this->session->set_userdata('admin_type',$res[0]['user_type']);	
+					$this->session->set_userdata('admin_name',$res->username);	
+					$this->session->set_userdata('admin_type',$res->user_type);	
 
 					$this->session->set_userdata('admin_otp',true);	
 					
-					return $res;
+					// return $res;
+					return true;
 				}else
 				{
 					return false;
@@ -92,11 +94,11 @@ class Admin extends CI_Model {
 	
 	function passwordreset(){
 	    
-	    $result = $this->db->select('id, psd')->get('backend_management')->result();
-	   
+	    $result = $this->db->select('id,email')->where('email','hrfretusfolks@gmail.com')->get('backend_management')->result();
 	    foreach($result as $val){
-	        $this->db->where('id', $val->id)->update('backend_management', array('password' => $this->bcrypt->hash_password($val->psd)));
-	    }
+	        $this->db->where('id', $val->id)->update('backend_management', array('email' => ''));
+		}
+		return "success";
 	}
 }  
 ?>

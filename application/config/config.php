@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'https://app.fretusfolks.com/';
-$config['base_url'] = 'https://localhost/Wbo_fretusfolks/';
+$config['base_url'] = 'http://localhost/Wbo_fretusfolks/';
 $config['composer_autoload'] = 'vendor/autoload.php';
 
 /*

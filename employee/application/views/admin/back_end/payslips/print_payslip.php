@@ -210,7 +210,7 @@
 		</tr>
 		<tr> 
 		  <td>Client Name : <?php echo $payslip[0]['client_name'];?></td> 
-		  
+		  <td></td> 
 		</tr>
 		</tbody>
 	</table>
@@ -221,14 +221,16 @@
 		<tbody>
 		<tr>
 			<td style="width: 38%;">Month Days : <?php echo $payslip[0]['month_days'];?></td>
-			<td>Leave Days : <?php echo $payslip[0]['leave_days'];?></td>
-			 <td>Arrears Days : <?php echo $payslip[0]['arrears_days'];?></td> 
+			<td>Leave Taken : <?php echo $payslip[0]['leave_days'];?></td>
+			<td>Arrears Days : <?php echo $payslip[0]['arrears_days'];?></td> 
+			 <td>Leave Balance : <?php echo $payslip[0]['leave_balance'];?></td> 
 		
 		</tr>
 		<tr>
 		  <td>Payable Days : <?php echo $payslip[0]['payable_days'];?></td>
 		  <td>LOP Days : <?php echo $payslip[0]['lop_days'];?></td> 
-		  <td>OT Hours : <?php echo $payslip[0]['ot_hours'];?></td>  
+		  <td>OT Hours : <?php echo $payslip[0]['ot_hours'];?></td> 
+		  <td></td> 
 		</tr>
 		
 
